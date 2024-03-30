@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:earlybuddy/shared/assets/EBFont.dart';
+import 'package:earlybuddy/shared/assets/font.dart';
 import 'package:flutter/material.dart';
 
 class TransportCard extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
 import 'package:earlybuddy/presentation/login/login.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -30,7 +31,7 @@ class LoginView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LoginInput(),
-              Padding(padding: EdgeInsets.all(12)),
+              SizedBox(height: 10),
               LoginButton(),
             ],
           ),

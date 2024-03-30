@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/assets/EBFont.dart';
+import '../../../../shared/assets/font.dart';
 
 class ScheduleCard extends StatelessWidget {
   const ScheduleCard({super.key});

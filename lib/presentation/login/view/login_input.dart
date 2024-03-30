@@ -17,7 +17,7 @@ class LoginInput extends StatelessWidget {
       child: Column(
         children: [
           _EmailInput(),
-          const Padding(padding: EdgeInsets.all(12)),
+          const SizedBox(height: 10),
           _PasswordInput(),
         ],
       ),
@@ -30,13 +30,10 @@ class _EmailInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return TextField(
+        return EBTextField(
+          labelText: '이메일을 입력해주세요',
           onChanged: (email) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(email)),
-          decoration: const InputDecoration(
-            labelText: '이메일을 입력해주세요',
-            errorText: '잘못된 이메일입니다.',
-          ),
         );
       },
     );
@@ -48,13 +45,10 @@ class _PasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return TextField(
+        return EBTextField(
+          labelText: '비밀번호를 입력해주세요',
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          decoration: const InputDecoration(
-            labelText: '비밀번호를 입력해주세요',
-            errorText: '잘못된 비밀번호입니다.',
-          ),
         );
       },
     );
