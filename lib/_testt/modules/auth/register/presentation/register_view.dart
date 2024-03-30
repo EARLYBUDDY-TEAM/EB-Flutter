@@ -1,18 +1,18 @@
-import 'package:earlybuddy/presentation/asset/EBFont.dart';
+import 'package:earlybuddy/_testt/presentation/asset/EBFont.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoginContent(),
+      body: RegisterContent(),
     );
   }
 }
 
-class LoginContent extends StatelessWidget {
+class RegisterContent extends StatelessWidget {
   final Container rect = Container(
     width: double.infinity,
     height: 200,
@@ -21,7 +21,7 @@ class LoginContent extends StatelessWidget {
     ),
   );
 
-  LoginContent({super.key});
+  RegisterContent({super.key});
 
   @override
   Widget build(BuildContext context) {
