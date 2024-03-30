@@ -1,4 +1,4 @@
-import 'package:earlybuddy/_testt/presentation/asset/EBFont.dart';
+import 'package:earlybuddy/shared/assets/EBFont.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatelessWidget {

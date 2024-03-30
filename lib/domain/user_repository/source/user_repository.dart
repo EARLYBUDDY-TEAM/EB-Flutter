@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:earlybuddy/login/model/user.dart';
 import 'package:uuid/uuid.dart';
+import 'model/model.dart';
 
 class UserRepository {
   User? _user;

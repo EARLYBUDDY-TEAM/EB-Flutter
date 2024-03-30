@@ -1,9 +1,8 @@
-import 'package:earlybuddy/login/repository/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/presentation/login/login.dart';
 import 'package:equatable/equatable.dart';
-import 'package:earlybuddy/login/login.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-
 part 'login_state.dart';
 part 'login_event.dart';
 

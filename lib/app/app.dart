@@ -1,13 +1,11 @@
-import 'package:earlybuddy/auth/auth.dart';
-// import 'package:earlybuddy/home/view/home_view.dart';
-import 'package:earlybuddy/login/repository/auth_repository/auth_repository.dart';
-import 'package:earlybuddy/login/repository/user_repository/user_repository.dart';
+import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/domain/user_repository/user_repository.dart';
+import 'package:earlybuddy/presentation/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../home/home.dart';
-import '../login/login.dart';
-import '../splash/splash.dart';
+import 'package:earlybuddy/presentation/home/home.dart';
+import 'package:earlybuddy/presentation/login/login.dart';
+import 'package:earlybuddy/presentation/splash/splash.dart';
 
 class App extends StatefulWidget {
   const App({super.key});

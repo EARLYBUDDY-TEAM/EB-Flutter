@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:earlybuddy/login/login.dart';
+import 'package:earlybuddy/presentation/login/login.dart';
 import 'package:formz/formz.dart';
 
 class LoginForm extends StatelessWidget {
