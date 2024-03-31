@@ -9,13 +9,13 @@ class LoginButton extends StatelessWidget {
       builder: (context, state) {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
-            : ElevatedButton(
+            : EBButton(
+                name: '로그인',
                 onPressed: state.isValid
                     ? () {
                         context.read<LoginBloc>().add(const LoginSubmitted());
                       }
                     : null,
-                child: const Text('Login'),
               );
       },
     );

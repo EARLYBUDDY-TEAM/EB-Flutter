@@ -25,16 +25,32 @@ class LoginView extends StatelessWidget {
                 RepositoryProvider.of<AuthRepository>(context),
           );
         },
-        child: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LoginInput(),
-              SizedBox(height: 10),
-              LoginButton(),
-            ],
-          ),
+        child: Stack(
+          children: [
+            WaveBackground(),
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 100),
+                  Text(
+                    '얼리버디',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Spacer(),
+                  LoginInput(),
+                  SizedBox(height: 40),
+                  LoginButton(),
+                  Spacer(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
