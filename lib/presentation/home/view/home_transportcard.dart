@@ -1,6 +1,4 @@
-import 'dart:ui';
-import 'package:earlybuddy/shared/assets/font.dart';
-import 'package:flutter/material.dart';
+part of 'home_view.dart';
 
 class TransportCard extends StatelessWidget {
   const TransportCard({super.key});
@@ -20,42 +18,13 @@ class TransportCard extends StatelessWidget {
           ),
         ],
       ),
-      child: const Content(),
+      child: const _Content(),
     );
   }
 }
 
-class TestCard extends StatelessWidget {
-  const TestCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRect(
-      clipBehavior: Clip.antiAlias,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: 10.0,
-          sigmaY: 10.0,
-        ),
-        child: Container(
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const Center(
-            child: Text(
-              'Frosted',
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Content extends StatelessWidget {
-  const Content({super.key});
+class _Content extends StatelessWidget {
+  const _Content({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -160,3 +129,34 @@ class Content extends StatelessWidget {
     );
   }
 }
+
+
+// class TestCard extends StatelessWidget {
+//   const TestCard({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ClipRect(
+//       clipBehavior: Clip.antiAlias,
+//       child: BackdropFilter(
+//         filter: ImageFilter.blur(
+//           sigmaX: 10.0,
+//           sigmaY: 10.0,
+//         ),
+//         child: Container(
+//           height: 150,
+//           decoration: BoxDecoration(
+//             color: Colors.grey.shade200.withOpacity(0.5),
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           child: const Center(
+//             child: Text(
+//               'Frosted',
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+

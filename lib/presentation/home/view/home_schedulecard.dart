@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../../../shared/assets/font.dart';
+part of 'home_view.dart';
 
 class ScheduleCard extends StatelessWidget {
   const ScheduleCard({super.key});
