@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:earlybuddy/shared/assets/image.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -9,9 +10,16 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(ImageRoute.splash),
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
       ),
     );
   }
