@@ -13,11 +13,8 @@ class SplashView extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(ImageRoute.splash),
-              fit: BoxFit.fill,
-            ),
+          decoration: BoxDecoration(
+            image: DecorationImage(image: EBImages.splash, fit: BoxFit.fill),
           ),
         ),
       ),

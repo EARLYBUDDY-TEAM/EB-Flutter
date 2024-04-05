@@ -1,5 +1,7 @@
 import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
 import 'package:earlybuddy/presentation/login/login.dart';
+import 'package:earlybuddy/shared/assets/font.dart';
+import 'package:earlybuddy/shared/assets/image.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,33 +27,43 @@ class LoginView extends StatelessWidget {
                 RepositoryProvider.of<AuthRepository>(context),
           );
         },
-        child: Stack(
+        child: const Stack(
           children: [
             WaveBackground(),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 100),
-                  Text(
-                    '얼리버디',
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+                  LoginTitle(),
                   Spacer(),
                   LoginInput(),
                   SizedBox(height: 40),
                   LoginButton(),
+                  SizedBox(height: 10),
+                  RegisterButton(),
                   Spacer(),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class LoginTitle extends StatelessWidget {
+  const LoginTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 50,
+      decoration: BoxDecoration(
+        image: DecorationImage(image: EBImages.loginTitle, fit: BoxFit.fill),
       ),
     );
   }

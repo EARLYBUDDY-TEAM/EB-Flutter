@@ -21,3 +21,33 @@ class LoginButton extends StatelessWidget {
     );
   }
 }
+
+class RegisterButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+
+  const RegisterButton({
+    super.key,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // return TextButton(onPressed: () )
+    return TextButton(
+      onPressed: onPressed,
+      style: const ButtonStyle(),
+      child: const Text(
+        '회원가입',
+        style: TextStyle(
+          fontFamily: NanumSquare.bold,
+          fontSize: 20,
+        ),
+      ),
+    );
+  }
+}
+
+// textStyle: const TextStyle(
+//           fontFamily: NanumSquare.bold,
+//           fontSize: 20,
+//         ),
