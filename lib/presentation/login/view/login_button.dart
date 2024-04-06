@@ -11,30 +11,27 @@ class LoginButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : EBButton(
                 name: '로그인',
-                onPressed: state.isValid
-                    ? () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
-                      }
-                    : null,
-              );
+                onPressed: () {
+                  context.read<LoginBloc>().add(const LoginSubmitted());
+                });
       },
     );
   }
 }
 
 class RegisterButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-
-  const RegisterButton({
-    super.key,
-    this.onPressed,
-  });
+  const RegisterButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // return TextButton(onPressed: () )
     return TextButton(
-      onPressed: onPressed,
+      onPressed: () {
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FirstPage()));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const RegisterView()));
+
+        log('efefheioghe');
+      },
       style: const ButtonStyle(),
       child: const Text(
         '회원가입',
@@ -46,8 +43,3 @@ class RegisterButton extends StatelessWidget {
     );
   }
 }
-
-// textStyle: const TextStyle(
-//           fontFamily: NanumSquare.bold,
-//           fontSize: 20,
-//         ),

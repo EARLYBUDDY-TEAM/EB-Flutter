@@ -11,22 +11,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     required AuthRepository authenticationRepository,
   })  : _authenticationRepository = authenticationRepository,
         super(const LoginState()) {
-    on<LoginUsernameChanged>(onUsernameChanged);
+    on<LoginEmailChanged>(onEmailChanged);
     on<LoginPasswordChanged>(onPasswordChanged);
     on<LoginSubmitted>(onSubmitted);
+    on<LoginDidAppearSnackBar>(onDidAppearSnackBar);
   }
 
   final AuthRepository _authenticationRepository;
 
-  void onUsernameChanged(
-    LoginUsernameChanged event,
+  void onEmailChanged(
+    LoginEmailChanged event,
     Emitter<LoginState> emit,
   ) {
     final email = Email.dirty(event.email);
     emit(
       state.copyWith(
-        email: email,
-        isValid: Formz.validate([state.password, email]),
+        emailState: state.emailState.copyWith(email: email, isError: false),
+        inputIsValid: Formz.validate([email, state.passwordState.password]),
       ),
     );
   }
@@ -38,8 +39,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final password = Password.dirty(event.password);
     emit(
       state.copyWith(
-        password: password,
-        isValid: Formz.validate([password, state.email]),
+        passwordState:
+            state.passwordState.copyWith(password: password, isError: false),
+        inputIsValid: Formz.validate([password, state.emailState.email]),
       ),
     );
   }
@@ -48,17 +50,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginSubmitted event,
     Emitter<LoginState> emit,
   ) async {
-    if (state.isValid) {
+    if (state.inputIsValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
         await _authenticationRepository.logIn(
-          email: state.email.value,
-          password: state.password.value,
+          email: state.emailState.email.value,
+          password: state.passwordState.password.value,
         );
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+        emit(
+          state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            emailState: state.emailState.copyWith(isError: true),
+            passwordState: state.passwordState.copyWith(isError: true),
+          ),
+        );
       }
+    } else {
+      emit(
+        state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          emailState: state.emailState.copyWith(isError: true),
+          passwordState: state.passwordState.copyWith(isError: true),
+        ),
+      );
     }
+  }
+
+  void onDidAppearSnackBar(
+      LoginDidAppearSnackBar event, Emitter<LoginState> emit) {
+    emit(state.copyWith(status: FormzSubmissionStatus.initial));
   }
 }

@@ -8,10 +8,11 @@ class LoginInput extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-                const SnackBar(content: Text('Authentication Failure')));
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(
+          //       const SnackBar(content: Text('Authentication Failure')));
+          // context.read<LoginBloc>().add(const LoginDidAppearSnackBar());
         }
       },
       child: Column(
@@ -33,7 +34,8 @@ class _EmailInput extends StatelessWidget {
         return EBTextField(
           labelText: '이메일을 입력해주세요',
           onChanged: (email) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(email)),
+              context.read<LoginBloc>().add(LoginEmailChanged(email)),
+          errorText: (state.emailState.isError) ? '아이디를 확인해주세요.' : null,
         );
       },
     );
@@ -49,6 +51,7 @@ class _PasswordInput extends StatelessWidget {
           labelText: '비밀번호를 입력해주세요',
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+          errorText: (state.passwordState.isError) ? '비밀번호를 확인해주세요.' : null,
         );
       },
     );
