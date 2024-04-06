@@ -35,7 +35,7 @@ class _EmailInput extends StatelessWidget {
           labelText: '이메일을 입력해주세요',
           onChanged: (email) =>
               context.read<LoginBloc>().add(LoginEmailChanged(email)),
-          errorText: (state.emailState.isError) ? '아이디를 확인해주세요.' : null,
+          errorText: (state.emailState.isError) ? '이메일을 확인해주세요.' : null,
         );
       },
     );

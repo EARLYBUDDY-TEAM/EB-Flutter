@@ -2,20 +2,20 @@ part of 'login_bloc.dart';
 
 final class LoginState extends Equatable {
   const LoginState({
-    this.emailState = const EmailState(),
-    this.passwordState = const PasswordState(),
+    this.emailState = const LoginEmailState(),
+    this.passwordState = const LoginPasswordState(),
     this.inputIsValid = false,
     this.status = FormzSubmissionStatus.initial,
   });
 
-  final EmailState emailState;
-  final PasswordState passwordState;
+  final LoginEmailState emailState;
+  final LoginPasswordState passwordState;
   final bool inputIsValid;
   final FormzSubmissionStatus status;
 
   LoginState copyWith({
-    EmailState? emailState,
-    PasswordState? passwordState,
+    LoginEmailState? emailState,
+    LoginPasswordState? passwordState,
     bool? inputIsValid,
     FormzSubmissionStatus? status,
   }) {
@@ -31,8 +31,8 @@ final class LoginState extends Equatable {
   List<Object?> get props => [emailState, passwordState, inputIsValid];
 }
 
-final class EmailState extends Equatable {
-  const EmailState({
+final class LoginEmailState extends Equatable {
+  const LoginEmailState({
     this.email = const Email.pure(),
     this.isError = false,
   });
@@ -40,11 +40,11 @@ final class EmailState extends Equatable {
   final Email email;
   final bool isError;
 
-  EmailState copyWith({
+  LoginEmailState copyWith({
     Email? email,
     bool? isError,
   }) {
-    return EmailState(
+    return LoginEmailState(
       email: email ?? this.email,
       isError: isError ?? this.isError,
     );
@@ -54,8 +54,8 @@ final class EmailState extends Equatable {
   List<Object?> get props => [email, isError];
 }
 
-final class PasswordState extends Equatable {
-  const PasswordState({
+final class LoginPasswordState extends Equatable {
+  const LoginPasswordState({
     this.password = const Password.pure(),
     this.isError = false,
   });
@@ -63,11 +63,11 @@ final class PasswordState extends Equatable {
   final Password password;
   final bool isError;
 
-  PasswordState copyWith({
+  LoginPasswordState copyWith({
     Password? password,
     bool? isError,
   }) {
-    return PasswordState(
+    return LoginPasswordState(
       password: password ?? this.password,
       isError: isError ?? this.isError,
     );

@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
 import 'package:earlybuddy/presentation/login/login.dart';
 import 'package:earlybuddy/presentation/register/register.dart';
+import 'package:earlybuddy/shared/assets/color.dart';
 import 'package:earlybuddy/shared/assets/font.dart';
 import 'package:earlybuddy/shared/assets/image.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';

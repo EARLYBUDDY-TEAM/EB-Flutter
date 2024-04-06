@@ -13,7 +13,8 @@ class LoginButton extends StatelessWidget {
                 name: '로그인',
                 onPressed: () {
                   context.read<LoginBloc>().add(const LoginSubmitted());
-                });
+                },
+              );
       },
     );
   }
@@ -29,15 +30,13 @@ class RegisterButton extends StatelessWidget {
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FirstPage()));
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const RegisterView()));
-
-        log('efefheioghe');
       },
-      style: const ButtonStyle(),
-      child: const Text(
+      child: Text(
         '회원가입',
         style: TextStyle(
-          fontFamily: NanumSquare.bold,
+          fontFamily: NanumSquare.extraBold,
           fontSize: 20,
+          color: EBColors.text,
         ),
       ),
     );
