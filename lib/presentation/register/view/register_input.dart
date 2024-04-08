@@ -5,11 +5,6 @@ class RegisterInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocListener<RegisterBloc, RegisterState>(
-    //   listener: (context, state) {},
-    //   child:
-    // );
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -36,7 +31,6 @@ class _EmailInput extends StatelessWidget {
         _RegisterText(text: '아이디'),
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
-            log('_EmailInput : $state.emailState.isValidEmail');
             return EBTextField(
               onChanged: (email) =>
                   context.read<RegisterBloc>().add(RegisterEmailChanged(email)),
@@ -57,8 +51,18 @@ class _PasswordInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _RegisterText(text: '비밀번호'),
-        const EBTextField(
-          labelText: '영어+숫자 6자 이상 입력해주세요.',
+        BlocBuilder<RegisterBloc, RegisterState>(
+          builder: (context, state) {
+            return EBTextField(
+              onChanged: (password) => context
+                  .read<RegisterBloc>()
+                  .add(RegisterPasswordChanged(password)),
+              labelText: '영어+숫자 6자 이상 입력해주세요.',
+              errorText: state.passwordState.isValidPassword
+                  ? null
+                  : '영어+숫자 6자 이상 입력해주세요.',
+            );
+          },
         ),
       ],
     );

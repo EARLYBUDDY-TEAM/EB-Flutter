@@ -61,7 +61,7 @@ final class RegisterPasswordState extends Equatable {
 
   const RegisterPasswordState({
     this.password = const Password.pure(),
-    this.isValidPassword = false,
+    this.isValidPassword = true,
   });
 
   RegisterPasswordState copyWith({
@@ -84,7 +84,7 @@ final class RegisterPasswordConfirmState extends Equatable {
 
   const RegisterPasswordConfirmState({
     this.password = const Password.pure(),
-    this.isValidPassword = false,
+    this.isValidPassword = true,
   });
 
   RegisterPasswordConfirmState copyWith({

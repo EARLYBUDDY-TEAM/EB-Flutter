@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/presentation/register/bloc/register_bloc.dart';
 import 'package:earlybuddy/shared/assets/font.dart';
 import 'package:earlybuddy/shared/assets/color.dart';
@@ -46,6 +44,3 @@ class RegisterAppBar extends AppBar {
         icon: const Icon(Icons.arrow_back_ios_new),
       );
 }
-
-
-//  @required BuildContext context,
