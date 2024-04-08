@@ -1,3 +1,4 @@
+import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
 import 'package:earlybuddy/presentation/presentation_model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,11 +8,17 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc() : super(const RegisterState()) {
+  RegisterBloc({
+    required AuthRepository authRepository,
+  })  : _authRepository = authRepository,
+        super(const RegisterState()) {
     on<RegisterEmailChanged>(onRegisterEmailChanged);
     on<RegisterPasswordChanged>(onRegisterPasswordChanged);
     on<RegisterPasswordConfirmChanged>(onRegisterPasswordConfirmChanged);
+    on<RegisterPressed>(onRegisterPressed);
   }
+
+  final AuthRepository _authRepository;
 
   void onRegisterEmailChanged(
     RegisterEmailChanged event,
@@ -65,5 +72,22 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             isValidPassword,
       ),
     );
+  }
+
+  void onRegisterPressed(
+    RegisterPressed event,
+    Emitter<RegisterState> emit,
+  ) async {
+    if (state.inputIsValid) {
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      try {
+        await _authRepository.logIn(
+          email: state.emailState.email.value,
+          password: state.passwordState.password.value,
+        );
+      } catch (_) {
+        state.copyWith(status: FormzSubmissionStatus.failure);
+      }
+    }
   }
 }

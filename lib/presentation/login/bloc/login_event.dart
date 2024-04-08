@@ -25,14 +25,10 @@ final class LoginPasswordChanged extends LoginEvent {
   List<Object> get props => [password];
 }
 
-final class LoginSubmitted extends LoginEvent {
-  const LoginSubmitted();
+final class LoginPressed extends LoginEvent {
+  const LoginPressed();
 }
 
-final class LoginDidAppearSnackBar extends LoginEvent {
-  const LoginDidAppearSnackBar();
-}
-
-final class LoginPressedRegisterButton extends LoginEvent {
-  const LoginPressedRegisterButton();
+final class LoginRegisterPressed extends LoginEvent {
+  const LoginRegisterPressed();
 }

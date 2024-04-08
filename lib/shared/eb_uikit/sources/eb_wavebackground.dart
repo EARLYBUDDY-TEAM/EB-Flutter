@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:earlybuddy/shared/assets/color.dart';
+import 'package:earlybuddy/shared/eb_resources/assets/color.dart';
 
 class WaveBackground extends StatelessWidget {
   const WaveBackground({super.key});

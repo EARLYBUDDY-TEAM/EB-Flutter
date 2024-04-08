@@ -25,7 +25,7 @@ class _EmailInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _RegisterText(text: '아이디'),
+        _RegisterText(text: '이메일'),
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             return EBTextField(

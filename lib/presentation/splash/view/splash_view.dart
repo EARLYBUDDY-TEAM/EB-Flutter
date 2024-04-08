@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:earlybuddy/shared/assets/image.dart';
+import 'package:earlybuddy/shared/eb_resources/assets/image.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});

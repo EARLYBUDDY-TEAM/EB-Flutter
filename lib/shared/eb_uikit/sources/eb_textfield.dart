@@ -1,4 +1,4 @@
-import 'package:earlybuddy/shared/assets/font.dart';
+import 'package:earlybuddy/shared/eb_resources/assets/font.dart';
 import 'package:flutter/material.dart';
 
 class EBTextField extends StatelessWidget {

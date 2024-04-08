@@ -9,7 +9,11 @@ class RegisterRequestButton extends StatelessWidget {
       builder: (context, state) {
         return EBButton(
           name: '시작하기',
-          onPressed: state.inputIsValid ? () {} : null,
+          onPressed: state.inputIsValid
+              ? () {
+                  context.read<RegisterBloc>().add(const RegisterPressed());
+                }
+              : null,
         );
       },
     );

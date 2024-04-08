@@ -3,21 +3,21 @@ import 'package:earlybuddy/presentation/presentation_model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+
 part 'login_state.dart';
 part 'login_event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
-    required AuthRepository authenticationRepository,
-  })  : _authenticationRepository = authenticationRepository,
+    required AuthRepository authRepository,
+  })  : _authRepository = authRepository,
         super(const LoginState()) {
     on<LoginEmailChanged>(onEmailChanged);
     on<LoginPasswordChanged>(onPasswordChanged);
-    on<LoginSubmitted>(onSubmitted);
-    on<LoginDidAppearSnackBar>(onDidAppearSnackBar);
+    on<LoginPressed>(onSubmitted);
   }
 
-  final AuthRepository _authenticationRepository;
+  final AuthRepository _authRepository;
 
   void onEmailChanged(
     LoginEmailChanged event,
@@ -47,13 +47,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<void> onSubmitted(
-    LoginSubmitted event,
+    LoginPressed event,
     Emitter<LoginState> emit,
   ) async {
     if (state.inputIsValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
-        await _authenticationRepository.logIn(
+        await _authRepository.logIn(
           email: state.emailState.email.value,
           password: state.passwordState.password.value,
         );
@@ -76,10 +76,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
     }
-  }
-
-  void onDidAppearSnackBar(
-      LoginDidAppearSnackBar event, Emitter<LoginState> emit) {
-    emit(state.copyWith(status: FormzSubmissionStatus.initial));
   }
 }

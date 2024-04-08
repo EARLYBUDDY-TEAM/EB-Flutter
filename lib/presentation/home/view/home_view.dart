@@ -1,5 +1,5 @@
 import 'package:earlybuddy/presentation/auth/auth.dart';
-import 'package:earlybuddy/shared/assets/font.dart';
+import 'package:earlybuddy/shared/eb_resources/assets/font.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
     return Stack(
       children: [
         Container(color: Colors.white),
-        WaveBackground(),
+        const WaveBackground(),
         Scaffold(
           appBar: AppBar(
             leading: MenuButton(onPressed: () {

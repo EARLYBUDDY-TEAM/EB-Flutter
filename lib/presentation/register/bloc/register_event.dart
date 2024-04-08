@@ -33,3 +33,7 @@ final class RegisterPasswordConfirmChanged extends RegisterEvent {
   @override
   List<Object?> get props => [passwordConfirm];
 }
+
+final class RegisterPressed extends RegisterEvent {
+  const RegisterPressed();
+}
