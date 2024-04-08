@@ -5,26 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+part 'home_appbar.dart';
 part 'home_calendar.dart';
 part 'home_schedulecard.dart';
 part 'home_transportcard.dart';
-
-class MenuButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const MenuButton({
-    super.key,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: const Icon(Icons.menu, color: Colors.white),
-    );
-  }
-}
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -40,12 +24,7 @@ class HomeView extends StatelessWidget {
         Container(color: Colors.white),
         const WaveBackground(),
         Scaffold(
-          appBar: AppBar(
-            leading: MenuButton(onPressed: () {
-              context.read<AuthBloc>().add(AuthLogoutRequested());
-            }),
-            backgroundColor: Colors.transparent,
-          ),
+          appBar: HomeAppBar(),
           backgroundColor: Colors.transparent,
           body: Padding(
             padding: const EdgeInsets.all(20),
