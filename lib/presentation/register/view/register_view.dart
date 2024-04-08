@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+part 'register_appbar.dart';
 part 'register_input.dart';
+part 'register_requestbutton.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -14,33 +16,24 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: RegisterAppBar(context: context),
-      body: BlocProvider(
-        create: (context) => RegisterBloc(),
-        child: const RegisterInput(),
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) => RegisterBloc(),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                RegisterInput(),
+                Spacer(),
+                RegisterRequestButton(),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
-}
-
-class RegisterAppBar extends AppBar {
-  BuildContext context;
-
-  RegisterAppBar({super.key, required this.context});
-
-  @override
-  Widget? get title => const Text(
-        '회원가입',
-        style: TextStyle(
-          fontFamily: NanumSquare.bold,
-          fontSize: 18,
-        ),
-      );
-
-  @override
-  Widget? get leading => IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(Icons.arrow_back_ios_new),
-      );
 }

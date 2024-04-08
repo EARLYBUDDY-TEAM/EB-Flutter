@@ -79,24 +79,25 @@ final class RegisterPasswordState extends Equatable {
 }
 
 final class RegisterPasswordConfirmState extends Equatable {
-  final Password password;
-  final bool isValidPassword;
+  final Password passwordConfirm;
+  final bool isValidPasswordConfirm;
 
   const RegisterPasswordConfirmState({
-    this.password = const Password.pure(),
-    this.isValidPassword = true,
+    this.passwordConfirm = const Password.pure(),
+    this.isValidPasswordConfirm = true,
   });
 
   RegisterPasswordConfirmState copyWith({
-    Password? password,
-    bool? isValidPassword,
+    Password? passwordConfirm,
+    bool? isValidPasswordConfirm,
   }) {
     return RegisterPasswordConfirmState(
-      password: password ?? this.password,
-      isValidPassword: isValidPassword ?? this.isValidPassword,
+      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
+      isValidPasswordConfirm:
+          isValidPasswordConfirm ?? this.isValidPasswordConfirm,
     );
   }
 
   @override
-  List<Object?> get props => [password, isValidPassword];
+  List<Object?> get props => [passwordConfirm, isValidPasswordConfirm];
 }

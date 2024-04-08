@@ -10,6 +10,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(const RegisterState()) {
     on<RegisterEmailChanged>(onRegisterEmailChanged);
     on<RegisterPasswordChanged>(onRegisterPasswordChanged);
+    on<RegisterPasswordConfirmChanged>(onRegisterPasswordConfirmChanged);
   }
 
   void onRegisterEmailChanged(
@@ -23,7 +24,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         emailState:
             state.emailState.copyWith(email: email, isValidEmail: isValidEmail),
-        inputIsValid: Formz.validate([email, state.passwordState.password]),
+        inputIsValid: Formz.validate([email, state.passwordState.password]) &&
+            state.passwordState.password ==
+                state.passwordConfirmState.passwordConfirm,
       ),
     );
   }
@@ -39,7 +42,27 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         passwordState: state.passwordState
             .copyWith(password: password, isValidPassword: isValidPassword),
-        inputIsValid: Formz.validate([password, state.emailState.email]),
+        inputIsValid: Formz.validate([password, state.emailState.email]) &&
+            password == state.passwordConfirmState.passwordConfirm,
+      ),
+    );
+  }
+
+  void onRegisterPasswordConfirmChanged(
+    RegisterPasswordConfirmChanged event,
+    Emitter<RegisterState> emit,
+  ) {
+    final passwordConfirm = Password.dirty(event.passwordConfirm);
+    final isValidPassword = state.passwordState.password == passwordConfirm;
+
+    emit(
+      state.copyWith(
+        passwordConfirmState: state.passwordConfirmState.copyWith(
+            passwordConfirm: passwordConfirm,
+            isValidPasswordConfirm: isValidPassword),
+        inputIsValid: Formz.validate(
+                [state.passwordState.password, state.emailState.email]) &&
+            isValidPassword,
       ),
     );
   }
