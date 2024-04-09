@@ -1,4 +1,4 @@
-part of '../addschedule_view.dart';
+part of '../view.dart';
 
 class _TimeForm extends StatelessWidget {
   final double fontSize;
@@ -85,7 +85,47 @@ class _DateTimeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-        '${dateTime.year}년 ${dateTime.month}월 ${dateTime.day}일 ${dateTime.hour}:${dateTime.minute}');
+    return Row(
+      children: [
+        Text(
+          '${dateTime.year}년 ${dateTime.month}월 ${dateTime.day}일 (${weekDay(dateTime.weekday)})',
+          style: TextStyle(
+            fontFamily: NanumSquare.regular,
+            color: EBColors.text,
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          '${dateTime.hour}:${dateTime.minute}',
+          style: TextStyle(
+            fontFamily: NanumSquare.bold,
+            color: EBColors.text,
+            fontSize: 20,
+          ),
+        ),
+      ],
+    );
+  }
+
+  String weekDay(int rawValue) {
+    switch (rawValue) {
+      case (1):
+        return '월';
+      case (2):
+        return '화';
+      case (3):
+        return '수';
+      case (4):
+        return '목';
+      case (5):
+        return '금';
+      case (6):
+        return '토';
+      case (7):
+        return '일';
+      default:
+        return 'error';
+    }
   }
 }

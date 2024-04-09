@@ -1,4 +1,4 @@
-part of '../addschedule_view.dart';
+part of '../view.dart';
 
 class _NameForm extends StatelessWidget {
   final Color color = Colors.grey;

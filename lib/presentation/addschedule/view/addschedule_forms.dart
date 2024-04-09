@@ -1,6 +1,6 @@
-part of 'addschedule_view.dart';
+part of 'view.dart';
 
-class _Forms extends StatelessWidget {
+class _AddScheduleForms extends StatelessWidget {
   final double fontSize = 17;
 
   @override

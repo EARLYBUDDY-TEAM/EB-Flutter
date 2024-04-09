@@ -1,9 +1,9 @@
-part of '../addschedule_view.dart';
+part of '../view.dart';
 
-class _AlertForm extends StatelessWidget {
+class _RouteForm extends StatelessWidget {
   final double fontSize;
 
-  const _AlertForm({
+  const _RouteForm({
     required this.fontSize,
   });
 
@@ -15,7 +15,7 @@ class _AlertForm extends StatelessWidget {
         child: Row(
           children: [
             _IconPlusName(
-              name: '일정알림',
+              name: '경로',
               iconData: CupertinoIcons.bell,
               fontSize: fontSize,
               isActive: true,
@@ -29,12 +29,12 @@ class _AlertForm extends StatelessWidget {
   }
 }
 
-class _AlertSwitch extends StatefulWidget {
+class _RouteSwitch extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _AlertState();
+  State<StatefulWidget> createState() => _RouteState();
 }
 
-class _AlertState extends State<_AlertSwitch> {
+class _RouteState extends State<_RouteSwitch> {
   var _isChecked = false;
 
   @override

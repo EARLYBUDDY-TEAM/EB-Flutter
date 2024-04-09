@@ -1,4 +1,4 @@
-part of '../../addschedule_view.dart';
+part of '../view.dart';
 
 final class _IconPlusName extends StatelessWidget {
   final String name;
