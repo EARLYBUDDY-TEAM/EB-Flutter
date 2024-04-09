@@ -1,57 +1,47 @@
-import 'package:earlybuddy/shared/eb_resources/assets/font.dart';
+import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/material.dart';
 
 class EBTextField extends StatelessWidget {
+  final Function(String)? onChanged;
   final String labelText;
   final String? errorText;
-  final Function(String)? onChanged;
+  final Color? cursorColor;
+  final Color? focusedBorderColor;
+  final Color? enabledBorderColor;
 
   const EBTextField({
     super.key,
+    required this.onChanged,
     required this.labelText,
     this.errorText,
-    this.onChanged,
+    this.cursorColor,
+    this.focusedBorderColor,
+    this.enabledBorderColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
-      cursorColor: Colors.blue,
-      decoration: EBInputDecoration(
+      cursorColor: cursorColor ?? EBColors.blue2,
+      decoration: InputDecoration(
         labelText: labelText,
         errorText: errorText,
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: focusedBorderColor ?? EBColors.blue2,
+          ),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: enabledBorderColor ?? Colors.grey,
+          ),
+        ),
+        labelStyle: const TextStyle(fontFamily: NanumSquare.regular),
+        floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
     );
   }
-}
-
-class EBInputDecoration extends InputDecoration {
-  const EBInputDecoration({
-    required super.labelText,
-    required super.errorText,
-  });
-
-  @override
-  FloatingLabelBehavior? get floatingLabelBehavior =>
-      FloatingLabelBehavior.never;
-
-  @override
-  InputBorder? get focusedBorder => const UnderlineInputBorder(
-        borderSide: BorderSide(
-          width: 2,
-          color: Colors.blue,
-        ),
-      );
-
-  @override
-  InputBorder? get enabledBorder => const UnderlineInputBorder(
-        borderSide: BorderSide(
-          width: 2,
-          color: Colors.grey,
-        ),
-      );
-
-  @override
-  TextStyle? get labelStyle => const TextStyle(fontFamily: NanumSquare.regular);
 }
