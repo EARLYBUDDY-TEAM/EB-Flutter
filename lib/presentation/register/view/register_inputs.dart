@@ -1,7 +1,7 @@
-part of 'register_view.dart';
+part of 'view.dart';
 
-class RegisterInput extends StatelessWidget {
-  const RegisterInput({super.key});
+class _RegisterInputs extends StatelessWidget {
+  const _RegisterInputs({super.key});
 
   @override
   Widget build(BuildContext context) {

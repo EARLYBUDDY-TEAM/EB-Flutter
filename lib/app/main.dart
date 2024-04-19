@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:earlybuddy/presentation/home/view/view.dart';
 import 'package:earlybuddy/presentation/register/register.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
 
-  runApp(const App());
+  // runApp(const App());
   // runApp(const TestApp());
+
+  // var testDecoder = TestDecoder();
+  // var testModel = testDecoder.decode();
+  // log(testModel.toString());
+  // log(testModel.name);
 }
 
 class TestApp extends StatelessWidget {

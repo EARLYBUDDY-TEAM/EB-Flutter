@@ -27,5 +27,10 @@ class AuthRepository {
     _controller.add(AuthStatus.unauthenticated);
   }
 
+  Future<void> Register({
+    required String email,
+    required String password,
+  }) async {}
+
   void dispose() => _controller.close();
 }

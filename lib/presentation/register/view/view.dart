@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'register_appbar.dart';
-part 'register_input.dart';
-part 'register_button.dart';
+part 'appbar.dart';
+part 'register_inputs.dart';
+part 'register_request_button.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -16,7 +16,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RegisterAppBar(context: context),
+      appBar: _AppBar(context: context),
       body: SafeArea(
         child: BlocProvider(
           create: (context) => RegisterBloc(
@@ -26,9 +26,9 @@ class RegisterView extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                RegisterInput(),
+                _RegisterInputs(),
                 Spacer(),
-                RegisterRequestButton(),
+                _RegisterRequestButton(),
                 SizedBox(
                   height: 50,
                 ),

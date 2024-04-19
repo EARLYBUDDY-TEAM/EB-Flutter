@@ -1,9 +1,9 @@
-part of 'register_view.dart';
+part of 'view.dart';
 
-class RegisterAppBar extends AppBar {
+class _AppBar extends AppBar {
   BuildContext context;
 
-  RegisterAppBar({super.key, required this.context});
+  _AppBar({super.key, required this.context});
 
   @override
   Widget? get title => const Text(

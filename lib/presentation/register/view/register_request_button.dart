@@ -1,7 +1,7 @@
-part of 'register_view.dart';
+part of 'view.dart';
 
-class RegisterRequestButton extends StatelessWidget {
-  const RegisterRequestButton({super.key});
+class _RegisterRequestButton extends StatelessWidget {
+  const _RegisterRequestButton({super.key});
 
   @override
   Widget build(BuildContext context) {

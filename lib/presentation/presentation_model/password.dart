@@ -13,7 +13,7 @@ class Password extends FormzInput<String, PasswordValidationError> {
   }
 
   bool checkPassword({required String password}) {
-    if (password.contains(' ') || password.isEmpty) {
+    if (password.contains(' ') || password.trim().isEmpty) {
       return false;
     }
 
