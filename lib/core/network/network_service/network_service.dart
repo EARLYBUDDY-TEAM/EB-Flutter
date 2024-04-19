@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 part 'network_client.dart';
 part 'network_request.dart';

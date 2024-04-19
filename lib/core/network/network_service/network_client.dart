@@ -27,7 +27,7 @@ class NetworkClient implements NetworkClientAB {
         var response = await _dio.get(
           request.path,
           queryParameters: request.query,
-          data: request.data,
+          data: request.requestData,
         );
         return response;
       case HTTPMethod.put:
@@ -35,7 +35,7 @@ class NetworkClient implements NetworkClientAB {
         var response = await _dio.put(
           request.path,
           queryParameters: request.query,
-          data: request.data,
+          data: request.requestData,
         );
         return response;
     }
