@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:earlybuddy/domain/user_repository/user_repository.dart';
 import 'package:earlybuddy/presentation/auth/auth.dart';
 import 'package:flutter/material.dart';

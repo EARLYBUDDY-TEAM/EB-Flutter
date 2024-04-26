@@ -1,7 +1,7 @@
 part of 'login_view.dart';
 
-class LoginButton extends StatelessWidget {
-  const LoginButton({super.key});
+class _LoginButton extends StatelessWidget {
+  const _LoginButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class LoginButton extends StatelessWidget {
   }
 }
 
-class RegisterButton extends StatelessWidget {
-  const RegisterButton({super.key});
+class _RegisterButton extends StatelessWidget {
+  const _RegisterButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {
+      onPressed: () async {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const RegisterView()));
       },

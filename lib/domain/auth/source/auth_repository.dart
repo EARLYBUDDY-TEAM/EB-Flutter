@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
+import 'package:earlybuddy/core/network/network_service/network_service.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
@@ -11,6 +13,10 @@ class AuthRepository {
     yield* _controller.stream;
   }
 
+  void dispose() => _controller.close();
+}
+
+extension Login on AuthRepository {
   Future<void> logIn({
     required String email,
     required String password,
@@ -26,11 +32,23 @@ class AuthRepository {
   void logOut() {
     _controller.add(AuthStatus.unauthenticated);
   }
+}
 
-  Future<void> Register({
+extension Register on AuthRepository {
+  Future<bool> register({
     required String email,
     required String password,
-  }) async {}
+  }) async {
+    var service = NetworkService();
+    var request = EBApiRequest.register(email: email, password: password);
 
-  void dispose() => _controller.close();
+    try {
+      EmptyDTO _ = await service.request(request);
+      _controller.add(AuthStatus.authenticated);
+      return true;
+    } catch (e) {
+      _controller.add(AuthStatus.unauthenticated);
+      return false;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:earlybuddy/presentation/presentation_model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

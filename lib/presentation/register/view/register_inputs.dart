@@ -1,4 +1,4 @@
-part of 'view.dart';
+part of 'register_view.dart';
 
 class _RegisterInputs extends StatelessWidget {
   const _RegisterInputs({super.key});

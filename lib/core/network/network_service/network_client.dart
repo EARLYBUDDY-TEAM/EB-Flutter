@@ -30,6 +30,16 @@ class NetworkClient implements NetworkClientAB {
           data: request.requestData,
         );
         return response;
+
+      case HTTPMethod.post:
+        _dio.options.headers = request.headers;
+        var response = await _dio.post(
+          request.path,
+          queryParameters: request.query,
+          data: request.requestData,
+        );
+        return response;
+
       case HTTPMethod.put:
         _dio.options.headers = request.headers;
         var response = await _dio.put(

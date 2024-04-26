@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:earlybuddy/domain/user_repository/user_repository.dart';
 
 part 'auth_event.dart';

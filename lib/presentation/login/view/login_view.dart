@@ -1,4 +1,6 @@
-import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'dart:developer';
+
+import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:earlybuddy/presentation/login/bloc/login_bloc.dart';
 import 'package:earlybuddy/presentation/register/register.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
@@ -40,9 +42,9 @@ class LoginView extends StatelessWidget {
                   Spacer(),
                   LoginInput(),
                   SizedBox(height: 40),
-                  LoginButton(),
+                  _LoginButton(),
                   SizedBox(height: 10),
-                  RegisterButton(),
+                  _RegisterButton(),
                   Spacer(),
                 ],
               ),

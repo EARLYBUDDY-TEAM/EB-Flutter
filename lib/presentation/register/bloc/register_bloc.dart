@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/auth_repository/auth_repository.dart';
+import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:earlybuddy/presentation/presentation_model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,12 +80,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   ) async {
     if (state.inputIsValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      try {
-        await _authRepository.logIn(
-          email: state.emailState.email.value,
-          password: state.passwordState.password.value,
-        );
-      } catch (_) {
+      final bool isSuccess = await _authRepository.register(
+        email: state.emailState.email.value,
+        password: state.passwordState.password.value,
+      );
+
+      if (!isSuccess) {
         state.copyWith(status: FormzSubmissionStatus.failure);
       }
     }

@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
 
-  // runApp(const App());
+  runApp(const App());
   // runApp(const TestApp());
 
   // var testDecoder = TestDecoder();

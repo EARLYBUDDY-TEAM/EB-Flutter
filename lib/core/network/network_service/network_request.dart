@@ -2,6 +2,7 @@ part of 'network_service.dart';
 
 enum HTTPMethod {
   get,
+  post,
   put;
 
   @override
@@ -11,6 +12,8 @@ enum HTTPMethod {
         return 'GET';
       case HTTPMethod.put:
         return 'PUT';
+      case HTTPMethod.post:
+        return 'POST';
     }
   }
 }
@@ -22,7 +25,7 @@ abstract class NetworkRequestAB<P> {
   Map<String, String>? get query;
   Object? get requestData;
 
-  P Function(dynamic responseData) get converter;
+  P Function(dynamic responseData)? get converter;
 }
 
 class ApiRequest<P> implements NetworkRequestAB<P> {
@@ -38,11 +41,14 @@ class ApiRequest<P> implements NetworkRequestAB<P> {
   Object? requestData;
 
   @override
-  P Function(dynamic responseData) converter;
+  P Function(dynamic responseData)? converter;
 
   ApiRequest({
     required this.path,
     required this.method,
-    required this.converter,
+    this.converter,
+    this.headers,
+    this.query,
+    this.requestData,
   });
 }
