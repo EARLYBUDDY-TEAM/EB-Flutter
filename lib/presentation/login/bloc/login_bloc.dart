@@ -14,7 +14,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         super(const LoginState()) {
     on<LoginEmailChanged>(onEmailChanged);
     on<LoginPasswordChanged>(onPasswordChanged);
-    on<LoginPressed>(onSubmitted);
+    on<LoginPressed>(onLoginPressed);
   }
 
   final AuthRepository _authRepository;
@@ -46,7 +46,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  Future<void> onSubmitted(
+  Future<void> onLoginPressed(
     LoginPressed event,
     Emitter<LoginState> emit,
   ) async {
@@ -76,5 +76,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
     }
+  }
+
+  void onLoginRegisterPressed(
+    LoginRegisterPressed event,
+    Emitter<LoginState> emit,
+  ) {
+    // Navigator.of(context).push(
+    //         MaterialPageRoute(builder: (context) => const RegisterView()));
   }
 }

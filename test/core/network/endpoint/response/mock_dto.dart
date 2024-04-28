@@ -9,11 +9,11 @@ final class MockDTO {
     required this.address,
   });
 
-  static MockDTO fromJson(Map<String, dynamic> jsonData) {
+  static MockDTO fromJson(Map<String, dynamic> j) {
     return MockDTO(
-      id: jsonData['id'],
-      name: jsonData['name'],
-      address: jsonData['address'],
+      id: j['id'],
+      name: j['name'],
+      address: j['address'],
     );
   }
 

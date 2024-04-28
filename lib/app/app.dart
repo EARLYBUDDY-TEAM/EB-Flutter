@@ -1,5 +1,4 @@
 import 'package:earlybuddy/domain/auth/auth_repository.dart';
-import 'package:earlybuddy/domain/user_repository/user_repository.dart';
 import 'package:earlybuddy/presentation/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,13 +15,11 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final AuthRepository _authRepository;
-  late final UserRepository _userRepository;
 
   @override
   void initState() {
     super.initState();
     _authRepository = AuthRepository();
-    _userRepository = UserRepository();
   }
 
   @override
@@ -38,7 +35,6 @@ class _AppState extends State<App> {
       child: BlocProvider(
         create: (_) => AuthBloc(
           authRepository: _authRepository,
-          userRepository: _userRepository,
         ),
         child: const AppView(),
       ),
@@ -76,8 +72,6 @@ class _AppViewState extends State<AppView> {
                   LoginView.route(),
                   (route) => false,
                 );
-              case AuthStatus.unknown:
-                break;
             }
           },
           child: child,

@@ -29,6 +29,7 @@ class NetworkClient implements NetworkClientAB {
           queryParameters: request.query,
           data: request.requestData,
         );
+        _dio.options.headers = null;
         return response;
 
       case HTTPMethod.post:
@@ -38,6 +39,7 @@ class NetworkClient implements NetworkClientAB {
           queryParameters: request.query,
           data: request.requestData,
         );
+        _dio.options.headers = null;
         return response;
 
       case HTTPMethod.put:
@@ -47,6 +49,7 @@ class NetworkClient implements NetworkClientAB {
           queryParameters: request.query,
           data: request.requestData,
         );
+        _dio.options.headers = null;
         return response;
     }
   }

@@ -1,2 +1,2 @@
-export 'request/eb_api_request.dart';
+export 'request/request.dart';
 export 'response/dto.dart';

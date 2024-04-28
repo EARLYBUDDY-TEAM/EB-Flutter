@@ -1,29 +1,31 @@
-import 'package:earlybuddy/core/network/endpoint/response/dto.dart';
-import 'package:earlybuddy/core/network/network_service/network_service.dart';
+part of 'request.dart';
 
-final class EBApiRequest {
-  static ApiRequest<EmptyDTO> register({
+class LoginRequest {
+  static ApiRequest<TokenDTO> init({
     required String email,
     required String password,
   }) {
-    var requestData = _RegisterInfo(
+    final requestData = _LoginInfo(
       email: email,
       password: password,
     ).toJson();
+    TokenDTO converter(dynamic responseData) => TokenDTO.fromJson(responseData);
 
     return ApiRequest(
-      path: '/user/create',
+      path: '/auth/login',
       method: HTTPMethod.post,
       requestData: requestData,
+      converter: converter,
+      headers: {'application': 'x-www-form-urlencoded'},
     );
   }
 }
 
-final class _RegisterInfo {
+final class _LoginInfo {
   final String email;
   final String password;
 
-  _RegisterInfo({
+  _LoginInfo({
     required this.email,
     required this.password,
   });

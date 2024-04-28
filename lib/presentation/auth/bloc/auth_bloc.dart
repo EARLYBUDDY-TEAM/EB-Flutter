@@ -2,26 +2,22 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/domain/auth/auth_repository.dart';
-import 'package:earlybuddy/domain/user_repository/user_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  final UserRepository _userRepository;
-  late StreamSubscription<AuthStatus> _authStatusSubscription;
+  late StreamSubscription<AuthInfo> _authStatusSubscription;
 
   AuthBloc({
     required AuthRepository authRepository,
-    required UserRepository userRepository,
   })  : _authRepository = authRepository,
-        _userRepository = userRepository,
-        super(const AuthState.unknown()) {
+        super(const AuthState.unAuth()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
-    _authStatusSubscription = _authRepository.status
-        .listen((status) => add(AuthStatusChanged(status)));
+    _authStatusSubscription = _authRepository.authInfo
+        .listen((authInfo) => add(AuthStatusChanged(authInfo)));
   }
 
   @override
@@ -36,26 +32,16 @@ extension on AuthBloc {
     AuthStatusChanged event,
     Emitter<AuthState> emit,
   ) async {
-    switch (event.status) {
+    switch (event.authInfo.status) {
       case AuthStatus.unauthenticated:
-        return emit(const AuthState.unauthenticated());
+        return emit(const AuthState.unAuth());
       case AuthStatus.authenticated:
-        final user = await _tryGetUser();
-        final authState = user != null
-            ? AuthState.authenticated(user)
-            : const AuthState.unauthenticated();
-        return emit(authState);
-      case AuthStatus.unknown:
-        return emit(const AuthState.unknown());
-    }
-  }
-
-  Future<User?> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser();
-      return user;
-    } catch (_) {
-      return null;
+        return emit(
+          AuthState(
+            status: event.authInfo.status,
+            token: event.authInfo.token,
+          ),
+        );
     }
   }
 }

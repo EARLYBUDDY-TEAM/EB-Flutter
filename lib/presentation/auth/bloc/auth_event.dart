@@ -5,9 +5,9 @@ sealed class AuthEvent {
 }
 
 final class AuthStatusChanged extends AuthEvent {
-  final AuthStatus status;
+  final AuthInfo authInfo;
 
-  const AuthStatusChanged(this.status);
+  const AuthStatusChanged(this.authInfo);
 }
 
 final class AuthLogoutRequested extends AuthEvent {}
