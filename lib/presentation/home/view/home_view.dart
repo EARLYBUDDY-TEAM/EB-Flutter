@@ -1,4 +1,5 @@
-import 'package:earlybuddy/presentation/auth/auth.dart';
+import 'package:earlybuddy/domain/auth/auth_repository.dart';
+import 'package:earlybuddy/presentation/home/bloc/home_bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,22 +22,27 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(color: Colors.white),
-        const WaveBackground(),
-        Scaffold(
-          appBar: HomeAppBar(),
-          backgroundColor: Colors.transparent,
-          body: const Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              HomeContent(),
-              HomeScheduleAddButton(),
-            ],
+    return BlocProvider(
+      create: (context) => HomeBloc(
+        authRepository: RepositoryProvider.of<AuthRepository>(context),
+      ),
+      child: Stack(
+        children: [
+          Container(color: Colors.white),
+          const WaveBackground(),
+          Scaffold(
+            appBar: HomeAppBar(),
+            backgroundColor: Colors.transparent,
+            body: const Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                HomeContent(),
+                HomeScheduleAddButton(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

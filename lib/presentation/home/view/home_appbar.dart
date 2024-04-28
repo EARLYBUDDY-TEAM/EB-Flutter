@@ -15,7 +15,7 @@ class _MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        context.read<AuthBloc>().add(AuthLogoutRequested());
+        context.read<HomeBloc>().add(const HomeMenuPressed());
       },
       icon: const Icon(Icons.menu, color: Colors.white),
     );

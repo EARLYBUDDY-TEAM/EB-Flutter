@@ -1,5 +1,5 @@
+import 'package:earlybuddy/app/app/bloc/auth_bloc.dart';
 import 'package:earlybuddy/domain/auth/auth_repository.dart';
-import 'package:earlybuddy/presentation/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/presentation/home/home.dart';

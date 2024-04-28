@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:earlybuddy/presentation/login/bloc/login_bloc.dart';
 import 'package:earlybuddy/presentation/register/register.dart';
@@ -24,11 +22,9 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) {
-          return LoginBloc(
-            authRepository: RepositoryProvider.of<AuthRepository>(context),
-          );
-        },
+        create: (context) => LoginBloc(
+          authRepository: RepositoryProvider.of<AuthRepository>(context),
+        ),
         child: const Stack(
           children: [
             WaveBackground(),

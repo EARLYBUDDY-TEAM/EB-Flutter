@@ -8,6 +8,8 @@ part 'login_state.dart';
 part 'login_event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final AuthRepository _authRepository;
+
   LoginBloc({
     required AuthRepository authRepository,
   })  : _authRepository = authRepository,
@@ -16,8 +18,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginPasswordChanged>(onPasswordChanged);
     on<LoginPressed>(onLoginPressed);
   }
-
-  final AuthRepository _authRepository;
 
   void onEmailChanged(
     LoginEmailChanged event,
