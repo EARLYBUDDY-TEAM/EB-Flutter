@@ -61,22 +61,26 @@ class _DateTimePickerState extends State<_DateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      onPressed: () => _showDialog(
-        CupertinoDatePicker(
-          initialDateTime: dateTime,
-          use24hFormat: true,
-          onDateTimeChanged: (DateTime newDateTime) {
-            // context
-            //     .read<AddScheduleBloc>()
-            //     .add(AddScheduleTimeChanged(newDateTime));
-            setState(() {
-              dateTime = newDateTime;
-            });
-          },
-        ),
-      ),
-      child: _DateTimeText(dateTime: dateTime),
+    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
+      builder: (context, state) {
+        return CupertinoButton(
+          onPressed: () => _showDialog(
+            CupertinoDatePicker(
+              initialDateTime: dateTime,
+              use24hFormat: true,
+              onDateTimeChanged: (DateTime newDateTime) {
+                setState(() {
+                  dateTime = newDateTime;
+                });
+                context
+                    .read<AddScheduleBloc>()
+                    .add(AddScheduleTimeChanged(newDateTime));
+              },
+            ),
+          ),
+          child: _DateTimeText(dateTime: dateTime),
+        );
+      },
     );
   }
 }
