@@ -1,4 +1,4 @@
-part of '../view.dart';
+part of '../addschedule_view.dart';
 
 class _TimeForm extends StatelessWidget {
   final double fontSize;
@@ -67,6 +67,9 @@ class _DateTimePickerState extends State<_DateTimePicker> {
           initialDateTime: dateTime,
           use24hFormat: true,
           onDateTimeChanged: (DateTime newDateTime) {
+            // context
+            //     .read<AddScheduleBloc>()
+            //     .add(AddScheduleTimeChanged(newDateTime));
             setState(() {
               dateTime = newDateTime;
             });

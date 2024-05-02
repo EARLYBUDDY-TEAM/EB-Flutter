@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
 import 'package:earlybuddy/core/network/network_service/network_service.dart';
 import 'model/model.dart';
@@ -26,7 +25,6 @@ extension AuthLogin on AuthRepository {
     final TokenDTO tokenDTO = await service.request(request);
     final Token token = Token.fromDTO(tokenDTO: tokenDTO);
     _controller.add(AuthInfo.auth(token));
-    log(token.toString());
     return;
   }
 
@@ -44,10 +42,9 @@ extension AuthRegister on AuthRepository {
 
     try {
       EmptyDTO _ = await service.request(request);
-      // _controller.add(AuthStatus.authenticated);
+      await logIn(email: email, password: password);
       return true;
     } catch (e) {
-      // _controller.add(AuthStatus.unauthenticated);
       return false;
     }
   }

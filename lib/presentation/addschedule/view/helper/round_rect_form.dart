@@ -1,4 +1,4 @@
-part of '../view.dart';
+part of '../addschedule_view.dart';
 
 class _RoundRectForm extends StatelessWidget {
   final Widget? child;

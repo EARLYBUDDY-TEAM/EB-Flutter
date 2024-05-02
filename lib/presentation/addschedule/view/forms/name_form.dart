@@ -1,4 +1,4 @@
-part of '../view.dart';
+part of '../addschedule_view.dart';
 
 class _NameForm extends StatelessWidget {
   final Color color = Colors.grey;
@@ -39,25 +39,34 @@ final class _MemoInput extends StatelessWidget {
     required this.fontSize,
   });
 
+// onChanged: (title) => context
+//               .read<AddScheduleBloc>()
+//               .add(AddScheduleTitleChanged(title)),
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxHeight: 150),
-      child: TextField(
-        onChanged: (_) {},
-        keyboardType: TextInputType.multiline,
-        maxLines: null,
-        cursorColor: color,
-        decoration: InputDecoration(
-          labelText: '메모',
-          border: InputBorder.none,
-          labelStyle: TextStyle(
-            fontFamily: NanumSquare.bold,
-            fontSize: fontSize,
-            color: color,
-          ),
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-        ),
+      child: BlocBuilder<AddScheduleBloc, AddScheduleState>(
+        builder: (context, state) {
+          return TextField(
+            onChanged: (memo) => context
+                .read<AddScheduleBloc>()
+                .add(AddScheduleMemoChanged(memo)),
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            cursorColor: color,
+            decoration: InputDecoration(
+              labelText: '메모',
+              border: InputBorder.none,
+              labelStyle: TextStyle(
+                fontFamily: NanumSquare.bold,
+                fontSize: fontSize,
+                color: color,
+              ),
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+            ),
+          );
+        },
       ),
     );
   }
@@ -74,30 +83,36 @@ final class _TitleInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (_) {},
-      cursorColor: color,
-      decoration: InputDecoration(
-        labelText: '제목',
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            width: 1,
-            color: color,
+    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
+      builder: (context, state) {
+        return TextField(
+          onChanged: (title) => context
+              .read<AddScheduleBloc>()
+              .add(AddScheduleTitleChanged(title)),
+          cursorColor: color,
+          decoration: InputDecoration(
+            labelText: '제목',
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: color,
+              ),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: color,
+              ),
+            ),
+            labelStyle: TextStyle(
+              fontFamily: NanumSquare.bold,
+              fontSize: fontSize,
+              color: color,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
           ),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            width: 1,
-            color: color,
-          ),
-        ),
-        labelStyle: TextStyle(
-          fontFamily: NanumSquare.bold,
-          fontSize: fontSize,
-          color: color,
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-      ),
+        );
+      },
     );
   }
 }

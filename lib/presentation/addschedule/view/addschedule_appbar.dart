@@ -1,9 +1,9 @@
-part of 'view.dart';
+part of 'addschedule_view.dart';
 
-class _AppBar extends AppBar {
+final class _AppBar extends AppBar {
   BuildContext context;
 
-  _AppBar({super.key, required this.context});
+  _AppBar({required this.context});
 
   @override
   Widget? get title => const Text(

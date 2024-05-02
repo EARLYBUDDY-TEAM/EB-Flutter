@@ -1,4 +1,4 @@
-part of '../view.dart';
+part of '../addschedule_view.dart';
 
 class _PlaceForm extends StatelessWidget {
   final double fontSize;

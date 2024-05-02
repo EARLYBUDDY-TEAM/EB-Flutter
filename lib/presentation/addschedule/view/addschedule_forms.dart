@@ -1,4 +1,4 @@
-part of 'view.dart';
+part of 'addschedule_view.dart';
 
 class _AddScheduleForms extends StatelessWidget {
   final double fontSize = 17;
@@ -14,7 +14,7 @@ class _AddScheduleForms extends StatelessWidget {
             const SizedBox(height: 20),
             _TimeForm(fontSize: fontSize),
             const SizedBox(height: 20),
-            _AlertForm(fontSize: fontSize),
+            _NotifyForm(fontSize: fontSize),
             const SizedBox(height: 20),
             _PlaceForm(fontSize: fontSize),
             const SizedBox(height: 20),

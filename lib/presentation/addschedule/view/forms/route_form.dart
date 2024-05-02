@@ -1,4 +1,4 @@
-part of '../view.dart';
+part of '../addschedule_view.dart';
 
 class _RouteForm extends StatelessWidget {
   final double fontSize;
@@ -16,12 +16,12 @@ class _RouteForm extends StatelessWidget {
           children: [
             _IconPlusName(
               name: '경로',
-              iconData: CupertinoIcons.bell,
+              iconData: Icons.map_outlined,
               fontSize: fontSize,
               isActive: true,
             ),
             const Spacer(),
-            _AlertSwitch()
+            _NotifySwitch()
           ],
         ),
       ),
