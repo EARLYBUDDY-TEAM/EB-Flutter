@@ -11,25 +11,25 @@ final class AddScheduleState extends Equatable {
 
   AddScheduleState.empty()
       : info = AddScheduleInfo.empty(),
-        status = AddScheduleStatus.none;
+        status = AddScheduleStatus.init;
 
   AddScheduleState copyWith({
     AddScheduleInfo? info,
     AddScheduleStatus? status,
-  }) {
-    return AddScheduleState(
-      info: info ?? this.info,
-      status: status ?? this.status,
-    );
-  }
+  }) =>
+      AddScheduleState(
+        info: info ?? this.info,
+        status: status ?? this.status,
+      );
 
   @override
   List<Object?> get props => [info, status];
 }
 
 enum AddScheduleStatus {
-  none,
-  emptyTitle;
+  init,
+  complete,
+  inComplete;
 }
 
 final class AddScheduleInfo extends Equatable {
@@ -64,16 +64,15 @@ final class AddScheduleInfo extends Equatable {
     bool? isNotify,
     String? place,
     String? route,
-  }) {
-    return AddScheduleInfo(
-      title: title ?? this.title,
-      memo: memo ?? this.memo,
-      time: time ?? this.time,
-      isNotify: isNotify ?? this.isNotify,
-      place: place ?? this.place,
-      route: route ?? this.route,
-    );
-  }
+  }) =>
+      AddScheduleInfo(
+        title: title ?? this.title,
+        memo: memo ?? this.memo,
+        time: time ?? this.time,
+        isNotify: isNotify ?? this.isNotify,
+        place: place ?? this.place,
+        route: route ?? this.route,
+      );
 
   @override
   List<Object?> get props => [title, memo, time, isNotify, place, route];

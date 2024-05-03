@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:earlybuddy/presentation/addschedule/addschedule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,80 +11,62 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<AddScheduleTimeChanged>(_onAddScheduleTimeChanged);
     on<AddScheduleIsNotifyChanged>(_onAddScheduleIsNotifyChanged);
     on<AddSchedulePressed>(_onAddSchedulePressed);
-    on<AddScheduleOnVisibleSnackBar>(_onAddScheduleOnVisibleSnackBar);
   }
+}
 
+extension on AddScheduleBloc {
   void _onAddScheduleTitleChanged(
     AddScheduleTitleChanged event,
     Emitter<AddScheduleState> emit,
   ) {
-    emit(
-      state.copyWith(
-        info: state.info.copyWith(
-          title: event.title,
-        ),
-      ),
-    );
+    final title = event.title.trim();
+    final newInfo = state.info.copyWith(title: title);
+    final newStatus = title.isEmpty
+        ? AddScheduleStatus.inComplete
+        : AddScheduleStatus.complete;
+    emit(state.copyWith(
+      info: newInfo,
+      status: newStatus,
+    ));
   }
+}
 
+extension on AddScheduleBloc {
   void _onAddScheduleMemoChanged(
     AddScheduleMemoChanged event,
     Emitter<AddScheduleState> emit,
   ) {
-    emit(
-      state.copyWith(
-        info: state.info.copyWith(
-          memo: event.memo,
-        ),
-      ),
-    );
+    final memo = event.memo.trim();
+    final newInfo = state.info.copyWith(memo: memo);
+    emit(state.copyWith(info: newInfo));
   }
+}
 
+extension on AddScheduleBloc {
   void _onAddScheduleTimeChanged(
     AddScheduleTimeChanged event,
     Emitter<AddScheduleState> emit,
   ) {
-    emit(
-      state.copyWith(
-        info: state.info.copyWith(
-          time: event.time,
-        ),
-      ),
-    );
+    final newInfo = state.info.copyWith(time: event.time);
+    emit(state.copyWith(info: newInfo));
   }
+}
 
+extension on AddScheduleBloc {
   void _onAddScheduleIsNotifyChanged(
     AddScheduleIsNotifyChanged event,
     Emitter<AddScheduleState> emit,
   ) {
-    emit(
-      state.copyWith(
-        info: state.info.copyWith(
-          isNotify: event.isNotify,
-        ),
-      ),
-    );
+    final newInfo = state.info.copyWith(isNotify: event.isNotify);
+    emit(state.copyWith(info: newInfo));
   }
+}
 
+extension on AddScheduleBloc {
   void _onAddSchedulePressed(
     AddSchedulePressed event,
     Emitter<AddScheduleState> emit,
   ) {
-    AddScheduleStatus status;
-    if (state.info.title.isEmpty) {
-      status = AddScheduleStatus.emptyTitle;
-    } else {
-      status = AddScheduleStatus.none;
-    }
-    var newState = state.copyWith(status: status);
-    log(newState.toString());
-    emit(newState);
-  }
-
-  void _onAddScheduleOnVisibleSnackBar(
-    AddScheduleOnVisibleSnackBar event,
-    Emitter<AddScheduleState> emit,
-  ) {
-    emit(state.copyWith(status: AddScheduleStatus.none));
+    emit(state);
   }
 }

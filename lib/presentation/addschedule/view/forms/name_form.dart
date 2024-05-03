@@ -39,9 +39,6 @@ final class _MemoInput extends StatelessWidget {
     required this.fontSize,
   });
 
-// onChanged: (title) => context
-//               .read<AddScheduleBloc>()
-//               .add(AddScheduleTitleChanged(title)),
   @override
   Widget build(BuildContext context) {
     return Container(

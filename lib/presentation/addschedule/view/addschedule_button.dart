@@ -9,9 +9,13 @@ class _AddScheduleButton extends StatelessWidget {
         builder: (context, state) {
           return EBButton(
             name: '일정 등록',
-            onPressed: () {
-              context.read<AddScheduleBloc>().add(const AddSchedulePressed());
-            },
+            onPressed: state.status == AddScheduleStatus.complete
+                ? () {
+                    context
+                        .read<AddScheduleBloc>()
+                        .add(const AddSchedulePressed());
+                  }
+                : null,
           );
         },
       ),

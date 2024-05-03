@@ -40,22 +40,8 @@ final class AddScheduleIsNotifyChanged extends AddScheduleEvent {
   List<Object?> get props => [isNotify];
 }
 
-// final String title;
-//   final String? memo;
-//   final DateTime time;
-//   final bool isNotify;
-//   final String? place;
-//   final String? route;
-
 final class AddSchedulePressed extends AddScheduleEvent {
   const AddSchedulePressed();
-
-  @override
-  List<Object?> get props => [];
-}
-
-final class AddScheduleOnVisibleSnackBar extends AddScheduleEvent {
-  const AddScheduleOnVisibleSnackBar();
 
   @override
   List<Object?> get props => [];

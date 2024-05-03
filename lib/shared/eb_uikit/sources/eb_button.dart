@@ -1,5 +1,5 @@
-import 'package:earlybuddy/shared/eb_resources/assets/color.dart';
 import 'package:flutter/material.dart';
+import 'package:earlybuddy/shared/eb_resources/assets/color.dart';
 import 'package:earlybuddy/shared/eb_resources/assets/font.dart';
 
 class EBButton extends StatelessWidget {
@@ -17,6 +17,8 @@ class EBButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
+        disabledBackgroundColor: Colors.grey,
+        disabledForegroundColor: Colors.white,
         backgroundColor: EBColors.blue3,
         foregroundColor: Colors.white,
         shadowColor: Colors.black87,

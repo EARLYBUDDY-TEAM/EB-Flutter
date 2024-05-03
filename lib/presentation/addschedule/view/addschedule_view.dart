@@ -25,60 +25,18 @@ class AddScheduleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddScheduleBloc(),
-      child: BlocListener<AddScheduleBloc, AddScheduleState>(
-        listener: (context, state) {
-          if (state.status != AddScheduleStatus.none) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                _snackBar(
-                  message: errorMessage(state.status),
-                  onVisible: () {
-                    context
-                        .read<AddScheduleBloc>()
-                        .add(const AddScheduleOnVisibleSnackBar());
-                  },
-                ),
-              );
-          }
-        },
-        child: Scaffold(
-          appBar: _AppBar(context: context),
-          body: SafeArea(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                _AddScheduleForms(),
-                _AddScheduleButton(),
-              ],
-            ),
+      child: Scaffold(
+        appBar: _AppBar(context: context),
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              _AddScheduleForms(),
+              _AddScheduleButton(),
+            ],
           ),
         ),
       ),
     );
-  }
-}
-
-extension on AddScheduleView {
-  SnackBar _snackBar({
-    required String message,
-    required Function onVisible,
-  }) {
-    return SnackBar(
-      content: Center(child: Text(message)),
-      backgroundColor: Colors.indigo.shade800,
-      onVisible: onVisible(),
-    );
-  }
-}
-
-extension on AddScheduleView {
-  String errorMessage(AddScheduleStatus status) {
-    switch (status) {
-      case AddScheduleStatus.none:
-        return '';
-      case AddScheduleStatus.emptyTitle:
-        return '일정 제목을 입력해주세요.';
-    }
   }
 }
