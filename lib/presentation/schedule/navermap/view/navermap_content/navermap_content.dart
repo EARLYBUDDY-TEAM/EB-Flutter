@@ -1,9 +1,9 @@
 part of '../navermap_view.dart';
 
 final class _NaverMapContent extends StatelessWidget {
-  BuildContext childContext2;
+  BuildContext context;
 
-  _NaverMapContent({required this.childContext2});
+  _NaverMapContent({required this.context});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ final class _NaverMapContent extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: _NaverMapSearchResultView(childContext2: childContext2),
+        body: _NaverMapSearchResultView(),
       ),
     );
   }

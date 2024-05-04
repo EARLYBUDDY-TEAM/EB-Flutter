@@ -1,23 +1,19 @@
 part of '../navermap_view.dart';
 
 final class _NaverMapSearchResultView extends StatelessWidget {
-  BuildContext childContext2;
-
-  _NaverMapSearchResultView({required this.childContext2});
-
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      controller: ModalScrollController.of(childContext2),
+      controller: ModalScrollController.of(context),
       children: ListTile.divideTiles(
-        context: childContext2,
+        context: context,
         tiles: List.generate(
             100,
             (index) => ListTile(
-                  title: const Text('Item'),
+                  title: const Text('네이버지도'),
                   onTap: () {
-                    Navigator.of(childContext2).push(
+                    Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => CupertinoPageScaffold(
                           navigationBar: const CupertinoNavigationBar(
