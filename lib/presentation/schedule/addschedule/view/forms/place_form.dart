@@ -22,7 +22,12 @@ class _PlaceForm extends StatelessWidget {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () {},
+              onPressed: () => showCupertinoModalBottomSheet(
+                expand: true,
+                context: context,
+                backgroundColor: Colors.white,
+                builder: (context) => const NaverMapView(),
+              ),
               child: Text(
                 '추가하기',
                 style: TextStyle(
@@ -38,3 +43,10 @@ class _PlaceForm extends StatelessWidget {
     );
   }
 }
+
+// showCupertinoModalBottomSheet(
+//                         expand: true,
+//                         context: context,
+//                         backgroundColor: Colors.transparent,
+//                         builder: (context) => ComplexModal(),
+//                       ),
