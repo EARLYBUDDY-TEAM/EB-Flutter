@@ -18,8 +18,8 @@ class NaverMapView extends StatelessWidget {
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (childContext1) => Builder(
             builder: (childContext2) => CupertinoPageScaffold(
-              navigationBar: _NaverMapNaviBar(context: childContext1),
-              child: _NaverMapContent(context: childContext2),
+              navigationBar: _NaverMapNaviBar(context: context),
+              child: _NaverMapContent(childContext: childContext2),
             ),
           ),
         ),

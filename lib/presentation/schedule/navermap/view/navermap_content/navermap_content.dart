@@ -1,9 +1,9 @@
 part of '../navermap_view.dart';
 
 final class _NaverMapContent extends StatelessWidget {
-  BuildContext context;
+  BuildContext childContext;
 
-  _NaverMapContent({required this.context});
+  _NaverMapContent({required this.childContext});
 
   @override
   Widget build(BuildContext context) {

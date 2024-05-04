@@ -43,10 +43,3 @@ class _PlaceForm extends StatelessWidget {
     );
   }
 }
-
-// showCupertinoModalBottomSheet(
-//                         expand: true,
-//                         context: context,
-//                         backgroundColor: Colors.transparent,
-//                         builder: (context) => ComplexModal(),
-//                       ),
