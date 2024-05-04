@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
-import 'package:earlybuddy/presentation/schedule/navermap/navermap.dart';
+import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/cupertino.dart';

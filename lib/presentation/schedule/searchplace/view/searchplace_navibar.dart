@@ -1,12 +1,12 @@
-part of 'navermap_view.dart';
+part of 'searchplace_view.dart';
 
-final class _NaverMapNaviBar extends CupertinoNavigationBar {
+final class _SearchPlaceNaviBar extends CupertinoNavigationBar {
   BuildContext context;
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
 
-  _NaverMapNaviBar({required this.context});
+  _SearchPlaceNaviBar({required this.context});
 
   TextStyle textStyle() => TextStyle(
         color: color,

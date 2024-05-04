@@ -26,7 +26,7 @@ class _PlaceForm extends StatelessWidget {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.white,
-                builder: (context) => const NaverMapView(),
+                builder: (context) => const SearchPlaceView(),
               ),
               child: Text(
                 '추가하기',
