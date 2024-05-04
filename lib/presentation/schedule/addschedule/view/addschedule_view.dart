@@ -1,4 +1,4 @@
-import 'package:earlybuddy/presentation/addschedule/bloc/addschedule_bloc.dart';
+import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/cupertino.dart';

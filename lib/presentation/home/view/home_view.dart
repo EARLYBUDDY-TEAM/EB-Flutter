@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
-import 'package:earlybuddy/presentation/addschedule/addschedule.dart';
+import 'package:earlybuddy/presentation/schedule/addschedule/addschedule.dart';
 
 part 'home_appbar.dart';
 part 'home_calendar.dart';

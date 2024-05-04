@@ -1,4 +1,4 @@
-import 'package:earlybuddy/presentation/addschedule/view/view.dart';
+import 'package:earlybuddy/presentation/schedule/addschedule/view/view.dart';
 import 'package:flutter/material.dart';
 
 class ExampleAddSchedule extends StatelessWidget {
