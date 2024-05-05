@@ -1,3 +1,4 @@
+import 'package:earlybuddy/presentation/schedule/kakaomap/kakaomap.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,8 @@ class SearchPlaceView extends StatelessWidget {
       child: Navigator(
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => Builder(
-            builder: (childContext) => CupertinoPageScaffold(
+            builder: (_) => CupertinoPageScaffold(
               navigationBar: _SearchPlaceNaviBar(context: context),
-              // child: _NaverMapContent(childContext: childContext),
               child: _SearchPlaceContent(),
             ),
           ),

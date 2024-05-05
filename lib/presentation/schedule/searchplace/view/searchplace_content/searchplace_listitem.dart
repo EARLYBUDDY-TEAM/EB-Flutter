@@ -8,20 +8,21 @@ final class _SearchPlaceListItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => CupertinoPageScaffold(
-              navigationBar: const CupertinoNavigationBar(
-                middle: Text('New Page'),
-              ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  MaterialButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('touch here'),
-                  )
-                ],
-              ),
-            ),
+            // builder: (context) => CupertinoPageScaffold(
+            //   navigationBar: const CupertinoNavigationBar(
+            //     middle: Text('New Page'),
+            //   ),
+            //   child: Stack(
+            //     fit: StackFit.expand,
+            //     children: <Widget>[
+            //       MaterialButton(
+            //         onPressed: () => Navigator.of(context).pop(),
+            //         child: const Text('touch here'),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            builder: (context) => const KakaoMapView(),
           ),
         );
       },
