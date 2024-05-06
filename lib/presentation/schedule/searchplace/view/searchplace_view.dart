@@ -1,10 +1,11 @@
+import 'package:earlybuddy/app/app/view/app.dart';
 import 'package:earlybuddy/presentation/schedule/kakaomap/kakaomap.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-part 'searchplace_navibar.dart';
+part 'searchplace_appbar.dart';
 part 'searchplace_content/searchplace_searchbar.dart';
 part 'searchplace_content/searchplace_listview.dart';
 part 'searchplace_content/searchplace_content.dart';
@@ -15,17 +16,10 @@ class SearchPlaceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Navigator(
-        onGenerateRoute: (_) => MaterialPageRoute(
-          builder: (_) => Builder(
-            builder: (_) => CupertinoPageScaffold(
-              navigationBar: _SearchPlaceNaviBar(context: context),
-              child: _SearchPlaceContent(),
-            ),
-          ),
-        ),
-      ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _SearchPlaceAppBar(context: context),
+      body: _SearchPlaceContent(),
     );
   }
 }

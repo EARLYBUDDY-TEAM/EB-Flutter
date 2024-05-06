@@ -1,12 +1,12 @@
 part of 'searchplace_view.dart';
 
-final class _SearchPlaceNaviBar extends CupertinoNavigationBar {
+final class _SearchPlaceAppBar extends AppBar {
   BuildContext context;
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
 
-  _SearchPlaceNaviBar({required this.context});
+  _SearchPlaceAppBar({required this.context});
 
   TextStyle textStyle() => TextStyle(
         color: color,
@@ -14,11 +14,19 @@ final class _SearchPlaceNaviBar extends CupertinoNavigationBar {
         fontSize: fontSize,
       );
 
+  // Is it possible to resize automatically?
+  @override
+  double? get leadingWidth => 150;
+  @override
+  Color? get backgroundColor => Colors.white;
+  @override
+  double? get scrolledUnderElevation => 0;
+
   @override
   Widget? get leading => TextButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Icon(
               Icons.arrow_back_ios,
@@ -31,7 +39,7 @@ final class _SearchPlaceNaviBar extends CupertinoNavigationBar {
       );
 
   @override
-  Widget? get middle => Text(
+  Widget? get title => Text(
         '장소',
         style: TextStyle(
           color: Colors.black,
@@ -41,14 +49,13 @@ final class _SearchPlaceNaviBar extends CupertinoNavigationBar {
       );
 
   @override
-  Widget? get trailing => TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Text(
-          '취소',
-          style: textStyle(),
-        ),
-      );
-
-  @override
-  EdgeInsetsDirectional? get padding => EdgeInsetsDirectional.zero;
+  List<Widget>? get actions => List<Widget>.of([
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            '취소',
+            style: textStyle(),
+          ),
+        )
+      ]);
 }

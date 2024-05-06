@@ -26,7 +26,24 @@ class _PlaceForm extends StatelessWidget {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.white,
-                builder: (context) => const SearchPlaceView(),
+                builder: (context) => Navigator(
+                  onGenerateRoute: (_) => MaterialPageRoute(
+                      builder: (_) =>
+                          Builder(builder: (_) => const SearchPlaceView())),
+                ),
+
+                // return Material(
+                //   child: Navigator(
+                //     onGenerateRoute: (_) => MaterialPageRoute(
+                //       builder: (_) => Builder(
+                //         builder: (_) => CupertinoPageScaffold(
+                //           navigationBar: _SearchPlaceNaviBar(context: context),
+                //           child: _SearchPlaceContent(),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // );
               ),
               child: Text(
                 '추가하기',
