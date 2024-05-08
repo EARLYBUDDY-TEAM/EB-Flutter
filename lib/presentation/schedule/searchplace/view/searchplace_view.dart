@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:earlybuddy/app/app/view/app.dart';
 import 'package:earlybuddy/presentation/schedule/kakaomap/kakaomap.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
