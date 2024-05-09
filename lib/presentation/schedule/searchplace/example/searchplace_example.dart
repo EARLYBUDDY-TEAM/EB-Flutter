@@ -10,7 +10,7 @@ class SearchPlaceExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const MockModalSearchPlace();
-    return const MockSearchPlace();
+    return const MockModalSearchPlace();
+    // return const MockSearchPlace();
   }
 }
