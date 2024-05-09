@@ -3,8 +3,8 @@ import 'package:earlybuddy/domain/auth/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/presentation/home/home.dart';
-import 'package:earlybuddy/presentation/login/login.dart';
-import 'package:earlybuddy/presentation/splash/splash.dart';
+import 'package:earlybuddy/presentation/auth/login/login.dart';
+import 'package:earlybuddy/presentation/auth/splash/splash.dart';
 
 class App extends StatefulWidget {
   const App({super.key});

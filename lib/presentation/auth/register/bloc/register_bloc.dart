@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/auth/auth_repository.dart';
-import 'package:earlybuddy/presentation/presentation_model/model.dart';
+import 'package:earlybuddy/presentation/auth/auth_model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
