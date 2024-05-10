@@ -1,5 +1,5 @@
 import 'package:earlybuddy/app/app/bloc/auth_bloc.dart';
-import 'package:earlybuddy/domain/auth/auth_repository.dart';
+import 'package:earlybuddy/domain/ebauth/ebauth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/presentation/home/home.dart';
@@ -14,12 +14,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final AuthRepository _authRepository;
+  late final EBAuthRepository _authRepository;
 
   @override
   void initState() {
     super.initState();
-    _authRepository = AuthRepository();
+    _authRepository = EBAuthRepository();
   }
 
   @override
@@ -62,12 +62,12 @@ class _AppViewState extends State<AppView> {
         return BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             switch (state.status) {
-              case AuthStatus.authenticated:
+              case EBAuthStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   HomeView.route(),
                   (route) => false,
                 );
-              case AuthStatus.unauthenticated:
+              case EBAuthStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil(
                   LoginView.route(),
                   (route) => false,

@@ -22,7 +22,6 @@ final class _SearchPlaceAppBar extends AppBar {
   Color? get backgroundColor => Colors.white;
   @override
   double? get scrolledUnderElevation => 0;
-
   @override
   bool get automaticallyImplyLeading => false;
 

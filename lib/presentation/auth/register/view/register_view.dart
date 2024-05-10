@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/auth/auth_repository.dart';
+import 'package:earlybuddy/domain/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/register/bloc/register_bloc.dart';
 import 'package:earlybuddy/shared/eb_resources/assets/font.dart';
 import 'package:earlybuddy/shared/eb_resources/assets/color.dart';
@@ -20,7 +20,7 @@ class RegisterView extends StatelessWidget {
       body: SafeArea(
         child: BlocProvider(
           create: (context) => RegisterBloc(
-            authRepository: RepositoryProvider.of<AuthRepository>(context),
+            authRepository: RepositoryProvider.of<EBAuthRepository>(context),
           ),
           child: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),

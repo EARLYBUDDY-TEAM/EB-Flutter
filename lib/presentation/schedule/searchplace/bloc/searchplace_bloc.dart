@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:earlybuddy/domain/searchplace/searchplace_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,11 +26,14 @@ extension on SearchPlaceBloc {
     SearchPlaceSearchTextChanged event,
     Emitter<SearchPlaceState> emit,
   ) async {
-    log(event.searchText);
-    final List<Place> places =
-        await _searchPlaceRepository.getPlaces(searchText: event.searchText);
-    log(places.toString());
-    emit(state.copyWith(places: places));
+    try {
+      final List<Place> places =
+          await _searchPlaceRepository.getPlaces(searchText: event.searchText);
+      emit(state.copyWith(places: places));
+    } catch (e) {
+      log(e.toString());
+      emit(state.copyWith(places: []));
+    }
   }
 
   EventTransformer<Event> _debounce<Event>(

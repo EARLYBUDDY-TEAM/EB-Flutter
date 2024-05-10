@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:earlybuddy/domain/auth/auth_repository.dart';
+import 'package:earlybuddy/domain/ebauth/ebauth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository _authRepository;
-  late StreamSubscription<AuthInfo> _authStatusSubscription;
+  final EBAuthRepository _authRepository;
+  late StreamSubscription<EBAuthInfo> _authStatusSubscription;
 
   AuthBloc({
-    required AuthRepository authRepository,
+    required EBAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const AuthState.unAuth()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
@@ -33,9 +33,9 @@ extension on AuthBloc {
     Emitter<AuthState> emit,
   ) async {
     switch (event.authInfo.status) {
-      case AuthStatus.unauthenticated:
+      case EBAuthStatus.unauthenticated:
         return emit(const AuthState.unAuth());
-      case AuthStatus.authenticated:
+      case EBAuthStatus.authenticated:
         return emit(
           AuthState(
             status: event.authInfo.status,

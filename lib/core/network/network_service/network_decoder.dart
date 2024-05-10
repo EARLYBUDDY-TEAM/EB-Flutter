@@ -13,12 +13,9 @@ class JsonDecoder implements NetworkDecoderAB {
 
     try {
       Map<String, dynamic> jsonData = data;
-      log('check');
-      log('$jsonData');
       final model = converter(jsonData);
       return model;
     } catch (e) {
-      log(e.toString());
       throw NetworkError.jsonDecode;
     }
   }
