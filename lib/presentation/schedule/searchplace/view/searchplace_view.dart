@@ -1,10 +1,10 @@
-import 'dart:ui';
-
-import 'package:earlybuddy/app/app/view/app.dart';
+import 'package:earlybuddy/domain/searchplace/searchplace_repository.dart';
 import 'package:earlybuddy/presentation/schedule/kakaomap/kakaomap.dart';
+import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 part 'searchplace_appbar.dart';

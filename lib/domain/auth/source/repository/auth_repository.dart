@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
 import 'package:earlybuddy/core/network/network_service/network_service.dart';
-import 'model/model.dart';
+import '../model/model.dart';
 
 class AuthRepository {
   final _controller = StreamController<AuthInfo>();

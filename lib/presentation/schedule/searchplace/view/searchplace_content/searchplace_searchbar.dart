@@ -15,52 +15,71 @@ final class _SearchPlaceSearchBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          searchButton(),
-          Flexible(child: textFormField()),
-          cancelButton(),
+          _SearchButton(),
+          _SearchTextField(),
+          _CancelButton(),
         ],
       ),
     );
   }
+}
 
-  IconButton searchButton() {
+final class _SearchButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {},
-      icon: Icon(
+      icon: const Icon(
         Icons.search,
-        color: color,
+        color: Colors.grey,
       ),
     );
   }
+}
 
-  TextFormField textFormField() {
-    return TextFormField(
-      cursorColor: color,
-      decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-        contentPadding: EdgeInsets.zero,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-        ),
-        labelText: '검색 또는 주소 입력',
-        labelStyle: TextStyle(
-          color: color,
-          fontFamily: NanumSquare.bold,
-          fontSize: fontSize,
-        ),
+final class _SearchTextField extends StatelessWidget {
+  final color = Colors.grey;
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+        builder: (context, state) {
+          return TextFormField(
+            onChanged: (searchText) => context
+                .read<SearchPlaceBloc>()
+                .add(SearchPlaceSearchTextChanged(searchText)),
+            cursorColor: color,
+            decoration: InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              contentPadding: EdgeInsets.zero,
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              labelText: '검색 또는 주소 입력',
+              labelStyle: TextStyle(
+                color: color,
+                fontFamily: NanumSquare.bold,
+                fontSize: 18,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
+}
 
-  IconButton cancelButton() {
+final class _CancelButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {},
-      icon: Icon(
+      icon: const Icon(
         Icons.cancel_outlined,
-        color: color,
+        color: Colors.grey,
       ),
     );
   }
