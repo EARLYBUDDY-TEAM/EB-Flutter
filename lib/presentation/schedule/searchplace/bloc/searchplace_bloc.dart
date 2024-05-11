@@ -10,10 +10,12 @@ part 'searchplace_state.dart';
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceRepository _searchPlaceRepository;
 
-  SearchPlaceBloc({SearchPlaceRepository? searchPlaceRepository})
-      : _searchPlaceRepository =
+  SearchPlaceBloc({
+    SearchPlaceRepository? searchPlaceRepository,
+    SearchPlaceState? searchPlaceState,
+  })  : _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
-        super(SearchPlaceState()) {
+        super(searchPlaceState ?? SearchPlaceState()) {
     on<SearchPlaceSearchTextChanged>(
       _onSearchPlaceSearchTextChanged,
       transformer: _debounce(),

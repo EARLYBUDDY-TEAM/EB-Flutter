@@ -15,6 +15,11 @@ final class SearchPlaceState extends Equatable {
     );
   }
 
+  static SearchPlaceState mock() {
+    final places = List<Place>.generate(100, (index) => Place.mock());
+    return SearchPlaceState(places: places);
+  }
+
   @override
   List<Object?> get props => [places];
 }

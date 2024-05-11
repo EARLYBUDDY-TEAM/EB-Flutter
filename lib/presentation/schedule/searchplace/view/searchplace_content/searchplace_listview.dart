@@ -12,10 +12,6 @@ final class _SearchPlaceListView extends StatelessWidget {
             children: ListTile.divideTiles(
               context: context,
               tiles: tiles(places: state.places),
-              // tiles: List.generate(
-              //   100,
-              //   (index) => const _SearchPlaceListItem(),
-              // ),
             ).toList(),
           );
         },

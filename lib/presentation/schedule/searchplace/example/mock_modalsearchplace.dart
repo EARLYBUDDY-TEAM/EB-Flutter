@@ -24,7 +24,7 @@ class MockModalSearchPlace extends StatelessWidget {
       context: context,
       expand: true,
       backgroundColor: Colors.white,
-      builder: (context) => const SearchPlaceView(),
+      builder: (context) => SearchPlaceView(),
     );
   }
 }

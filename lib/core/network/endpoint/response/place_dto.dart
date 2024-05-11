@@ -26,20 +26,23 @@ final class PlaceMetaDTO {
 }
 
 final class PlaceDTO {
-  final String placeName;
-  final String roadAddress;
+  final String name;
+  final String address;
+  final String category;
   final CoordiDTO coordi;
 
   PlaceDTO({
-    required this.placeName,
-    required this.roadAddress,
+    required this.name,
+    required this.address,
+    required this.category,
     required this.coordi,
   });
 
   static PlaceDTO fromJson(Map<String, dynamic> j) {
     return PlaceDTO(
-      placeName: j['place_name'],
-      roadAddress: j['road_address_name'],
+      name: j['place_name'],
+      address: j['road_address_name'],
+      category: j['category_group_name'],
       coordi: CoordiDTO(
         x: j['x'],
         y: j['y'],

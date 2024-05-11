@@ -1,12 +1,19 @@
 part of 'searchplace_example.dart';
 
 class MockSearchPlace extends StatelessWidget {
-  const MockSearchPlace({super.key});
+  final _searchPlaceBloc =
+      SearchPlaceBloc(searchPlaceState: SearchPlaceState.mock());
+
+  MockSearchPlace({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SearchPlaceView(),
+    return MaterialApp(
+      home: SearchPlaceView(
+        searchPlaceContent: SearchPlaceContent(
+          searchPlaceBloc: _searchPlaceBloc,
+        ),
+      ),
     );
   }
 }
