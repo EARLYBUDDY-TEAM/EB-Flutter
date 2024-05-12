@@ -1,4 +1,4 @@
-import 'package:earlybuddy/app/app/bloc/auth_bloc.dart';
+import 'package:earlybuddy/app/app/bloc/ebauth_bloc.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +33,7 @@ class _AppState extends State<App> {
     return RepositoryProvider.value(
       value: _authRepository,
       child: BlocProvider(
-        create: (_) => AuthBloc(
+        create: (_) => EBAuthBloc(
           authRepository: _authRepository,
         ),
         child: const AppView(),
@@ -59,7 +59,7 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       builder: (context, child) {
-        return BlocListener<AuthBloc, AuthState>(
+        return BlocListener<EBAuthBloc, EBAuthState>(
           listener: (context, state) {
             switch (state.status) {
               case EBAuthStatus.authenticated:

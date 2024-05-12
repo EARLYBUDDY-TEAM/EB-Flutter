@@ -3,21 +3,21 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 
-part 'auth_event.dart';
-part 'auth_state.dart';
+part 'ebauth_event.dart';
+part 'ebauth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class EBAuthBloc extends Bloc<EBAuthEvent, EBAuthState> {
   final EBAuthRepository _authRepository;
   late StreamSubscription<EBAuthInfo> _authStatusSubscription;
 
-  AuthBloc({
+  EBAuthBloc({
     required EBAuthRepository authRepository,
   })  : _authRepository = authRepository,
-        super(const AuthState.unAuth()) {
-    on<AuthStatusChanged>(_onAuthStatusChanged);
-    on<AuthLogoutRequested>(_onAuthLogoutRequested);
+        super(const EBAuthState.unAuth()) {
+    on<EBAuthStatusChanged>(_onAuthStatusChanged);
+    on<EBAuthLogoutRequested>(_onAuthLogoutRequested);
     _authStatusSubscription = _authRepository.authInfo
-        .listen((authInfo) => add(AuthStatusChanged(authInfo)));
+        .listen((authInfo) => add(EBAuthStatusChanged(authInfo)));
   }
 
   @override
@@ -27,29 +27,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 }
 
-extension on AuthBloc {
+extension on EBAuthBloc {
   Future<void> _onAuthStatusChanged(
-    AuthStatusChanged event,
-    Emitter<AuthState> emit,
+    EBAuthStatusChanged event,
+    Emitter<EBAuthState> emit,
   ) async {
-    switch (event.authInfo.status) {
+    switch (event.ebAuthInfo.status) {
       case EBAuthStatus.unauthenticated:
-        return emit(const AuthState.unAuth());
+        return emit(const EBAuthState.unAuth());
       case EBAuthStatus.authenticated:
         return emit(
-          AuthState(
-            status: event.authInfo.status,
-            token: event.authInfo.token,
+          EBAuthState(
+            status: event.ebAuthInfo.status,
+            token: event.ebAuthInfo.token,
           ),
         );
     }
   }
 }
 
-extension on AuthBloc {
+extension on EBAuthBloc {
   Future<void> _onAuthLogoutRequested(
-    AuthLogoutRequested event,
-    Emitter<AuthState> emit,
+    EBAuthLogoutRequested event,
+    Emitter<EBAuthState> emit,
   ) async {
     _authRepository.logOut();
   }

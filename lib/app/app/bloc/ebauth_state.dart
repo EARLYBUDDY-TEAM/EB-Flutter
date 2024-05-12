@@ -1,17 +1,17 @@
-part of 'auth_bloc.dart';
+part of 'ebauth_bloc.dart';
 
-final class AuthState extends Equatable {
+final class EBAuthState extends Equatable {
   final EBAuthStatus status;
   final EBToken? token;
 
-  const AuthState({
+  const EBAuthState({
     required this.status,
     required this.token,
   });
 
-  const AuthState.auth(EBToken token)
+  const EBAuthState.auth(EBToken token)
       : this(status: EBAuthStatus.authenticated, token: token);
-  const AuthState.unAuth()
+  const EBAuthState.unAuth()
       : this(status: EBAuthStatus.unauthenticated, token: null);
 
   @override
