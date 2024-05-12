@@ -3,8 +3,14 @@ part of 'request.dart';
 final class SearchPlaceRequest {
   static ApiRequest<PlaceListDTO> init({
     required String searchText,
+    required String longitudeX,
+    required String latitudeY,
   }) {
-    final query = {'search_text': searchText};
+    final query = {
+      'query': searchText,
+      'x': longitudeX,
+      'y': latitudeY,
+    };
     PlaceListDTO converter(dynamic responseData) =>
         PlaceListDTO.fromJson(responseData);
 

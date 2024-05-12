@@ -14,32 +14,12 @@ final class _SearchPlaceAppBar extends AppBar {
         fontSize: fontSize,
       );
 
-  // Is it possible to resize automatically?
-  // @override
-  // double? get leadingWidth => 150;
-
   @override
   Color? get backgroundColor => Colors.white;
   @override
   double? get scrolledUnderElevation => 0;
   @override
   bool get automaticallyImplyLeading => false;
-
-  // @override
-  // Widget? get leading => TextButton(
-  //       onPressed: () => Navigator.of(context).pop(),
-  //       child: Row(
-  //         mainAxisSize: MainAxisSize.max,
-  //         children: [
-  //           Icon(
-  //             Icons.arrow_back_ios,
-  //             color: color,
-  //             size: fontSize + 5,
-  //           ),
-  //           Text('일정 등록', style: textStyle()),
-  //         ],
-  //       ),
-  //     );
 
   @override
   Widget? get title => Text(

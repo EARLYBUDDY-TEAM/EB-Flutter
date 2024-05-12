@@ -15,20 +15,21 @@ final class _SearchPlaceSearchBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _SearchButton(),
-          _SearchTextField(),
-          _CancelButton(),
+          _SearchBarSearchButton(),
+          _SearchBarTextField(),
+          _SearchBarCancelButton(),
         ],
       ),
     );
   }
 }
 
-final class _SearchButton extends StatelessWidget {
+class _SearchBarSearchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () =>
+          context.read<SearchPlaceBloc>().add(SearchPlaceSearchButtonPressed()),
       icon: const Icon(
         Icons.search,
         color: Colors.grey,
@@ -37,30 +38,41 @@ final class _SearchButton extends StatelessWidget {
   }
 }
 
-final class _SearchTextField extends StatelessWidget {
-  final color = Colors.grey;
+class _SearchBarTextField extends StatelessWidget {
+  final _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
-        builder: (context, state) {
-          return TextFormField(
+      child: BlocSelector<SearchPlaceBloc, SearchPlaceState, String>(
+        selector: (state) => state.searchText,
+        builder: (context, searchText) {
+          if (searchText.isEmpty) {
+            _controller.clear();
+          }
+          return TextField(
             onChanged: (searchText) => context
                 .read<SearchPlaceBloc>()
                 .add(SearchPlaceSearchTextChanged(searchText)),
-            cursorColor: color,
-            decoration: InputDecoration(
+            controller: _controller,
+            style: const TextStyle(
+              color: Colors.black,
+              fontFamily: NanumSquare.bold,
+              fontSize: 18,
+            ),
+            cursorColor: Colors.grey,
+            decoration: const InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.never,
               contentPadding: EdgeInsets.zero,
-              enabledBorder: const OutlineInputBorder(
+              enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
               ),
-              focusedBorder: const OutlineInputBorder(
+              focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
               ),
               labelText: '검색 또는 주소 입력',
               labelStyle: TextStyle(
-                color: color,
+                color: Colors.grey,
                 fontFamily: NanumSquare.bold,
                 fontSize: 18,
               ),
@@ -72,11 +84,12 @@ final class _SearchTextField extends StatelessWidget {
   }
 }
 
-final class _CancelButton extends StatelessWidget {
+class _SearchBarCancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () =>
+          context.read<SearchPlaceBloc>().add(SearchPlaceCancelButtonPressed()),
       icon: const Icon(
         Icons.cancel_outlined,
         color: Colors.grey,

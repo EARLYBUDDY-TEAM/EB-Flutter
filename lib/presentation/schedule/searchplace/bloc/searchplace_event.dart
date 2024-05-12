@@ -12,3 +12,18 @@ final class SearchPlaceSearchTextChanged extends SearchPlaceEvent {
   @override
   List<Object?> get props => [searchText];
 }
+
+final class SearchPlaceListItemPressed extends SearchPlaceEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+final class SearchPlaceSearchButtonPressed extends SearchPlaceEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+final class SearchPlaceCancelButtonPressed extends SearchPlaceEvent {
+  @override
+  List<Object?> get props => [];
+}

@@ -29,12 +29,14 @@ final class PlaceDTO {
   final String name;
   final String address;
   final String category;
+  final String distance;
   final CoordiDTO coordi;
 
   PlaceDTO({
     required this.name,
     required this.address,
     required this.category,
+    required this.distance,
     required this.coordi,
   });
 
@@ -43,6 +45,7 @@ final class PlaceDTO {
       name: j['place_name'],
       address: j['road_address_name'],
       category: j['category_group_name'],
+      distance: j['distance'],
       coordi: CoordiDTO(
         x: j['x'],
         y: j['y'],

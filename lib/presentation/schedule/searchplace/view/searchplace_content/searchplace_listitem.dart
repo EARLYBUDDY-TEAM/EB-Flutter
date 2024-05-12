@@ -9,18 +9,17 @@ final class _SearchPlaceListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-      title: _content(
-        context: context,
-        place: place,
-      ),
-      onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => const KakaoMapView(),
-        //   ),
-        // );
+    return BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+      builder: (context, state) {
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          title: _content(
+            context: context,
+            place: place,
+          ),
+          onTap: () =>
+              context.read<SearchPlaceBloc>().add(SearchPlaceListItemPressed()),
+        );
       },
     );
   }
@@ -69,7 +68,7 @@ final class _SearchPlaceListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(place.category),
-                    const Text('거리km'),
+                    Text('${place.distance}km'),
                   ],
                 ),
               ),

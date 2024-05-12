@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
