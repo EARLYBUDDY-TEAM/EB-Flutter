@@ -9,11 +9,7 @@ class MockSearchPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SearchPlaceView(
-        searchPlaceContent: SearchPlaceContent(
-          searchPlaceBloc: _searchPlaceBloc,
-        ),
-      ),
+      home: SearchPlaceView(searchPlaceBloc: _searchPlaceBloc),
     );
   }
 }

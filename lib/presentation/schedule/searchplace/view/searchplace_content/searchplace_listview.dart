@@ -18,7 +18,13 @@ final class _SearchPlaceListView extends StatelessWidget {
               ),
             );
           case SearchPlaceContentStatus.map:
-            return const Text('efaefe');
+            if (state.selectedPlace != null) {
+              return Expanded(
+                child: EBKakaoMapView(place: state.selectedPlace!),
+              );
+            } else {
+              return const Text('Empty Data');
+            }
         }
       },
     );

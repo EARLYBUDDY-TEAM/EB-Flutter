@@ -26,6 +26,7 @@ final class PlaceMetaDTO {
 }
 
 final class PlaceDTO {
+  final String id;
   final String name;
   final String address;
   final String category;
@@ -33,6 +34,7 @@ final class PlaceDTO {
   final CoordiDTO coordi;
 
   PlaceDTO({
+    required this.id,
     required this.name,
     required this.address,
     required this.category,
@@ -42,6 +44,7 @@ final class PlaceDTO {
 
   static PlaceDTO fromJson(Map<String, dynamic> j) {
     return PlaceDTO(
+      id: j['id'],
       name: j['place_name'],
       address: j['road_address_name'],
       category: j['category_group_name'],

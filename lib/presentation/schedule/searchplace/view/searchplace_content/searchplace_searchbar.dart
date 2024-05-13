@@ -47,6 +47,7 @@ class _SearchBarTextField extends StatelessWidget {
       child: BlocSelector<SearchPlaceBloc, SearchPlaceState, String>(
         selector: (state) => state.searchText,
         builder: (context, searchText) {
+          // is it ok?
           if (searchText.isEmpty) {
             _controller.clear();
           }

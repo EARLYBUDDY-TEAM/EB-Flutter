@@ -1,6 +1,7 @@
 part of 'model.dart';
 
 final class Place extends Equatable {
+  final String id;
   final String name;
   final String address;
   final String category;
@@ -8,6 +9,7 @@ final class Place extends Equatable {
   final Coordi coordi;
 
   const Place({
+    required this.id,
     required this.name,
     required this.address,
     required this.category,
@@ -17,7 +19,8 @@ final class Place extends Equatable {
 
   Place.fromDTO({
     required PlaceDTO placeDTO,
-  })  : name = placeDTO.name,
+  })  : id = placeDTO.id,
+        name = placeDTO.name,
         address = placeDTO.address,
         category = placeDTO.category,
         distance = (double.parse(placeDTO.distance) / 1000).toStringAsFixed(1),
@@ -32,6 +35,7 @@ final class Place extends Equatable {
     const distance = '1.2';
 
     return Place(
+      id: UniqueKey().toString(),
       name: name,
       address: address,
       category: category,

@@ -1,5 +1,6 @@
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
+import 'package:earlybuddy/presentation/schedule/searchplace/view/ebkakaomap.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,19 +13,22 @@ part 'searchplace_content/searchplace_content.dart';
 part 'searchplace_content/searchplace_listitem.dart';
 
 final class SearchPlaceView extends StatelessWidget {
-  final SearchPlaceContent _searchPlaceContent;
+  final SearchPlaceBloc _searchPlaceBloc;
 
   SearchPlaceView({
     super.key,
-    SearchPlaceContent? searchPlaceContent,
-  }) : _searchPlaceContent = searchPlaceContent ?? SearchPlaceContent();
+    SearchPlaceBloc? searchPlaceBloc,
+  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _SearchPlaceAppBar(context: context),
-      body: _searchPlaceContent,
+    return BlocProvider(
+      create: (context) => _searchPlaceBloc,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _SearchPlaceAppBar(context: context),
+        body: _SearchPlaceContent(),
+      ),
     );
   }
 }

@@ -53,7 +53,12 @@ extension on SearchPlaceBloc {
     SearchPlaceListItemPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
-    emit(state.copyWith(status: SearchPlaceContentStatus.map));
+    emit(
+      state.copyWith(
+        status: SearchPlaceContentStatus.map,
+        selectedPlace: event.place,
+      ),
+    );
   }
 }
 

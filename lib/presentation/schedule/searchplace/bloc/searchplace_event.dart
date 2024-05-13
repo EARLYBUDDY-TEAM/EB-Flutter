@@ -14,8 +14,12 @@ final class SearchPlaceSearchTextChanged extends SearchPlaceEvent {
 }
 
 final class SearchPlaceListItemPressed extends SearchPlaceEvent {
+  final Place place;
+
+  const SearchPlaceListItemPressed({required this.place});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [place];
 }
 
 final class SearchPlaceSearchButtonPressed extends SearchPlaceEvent {

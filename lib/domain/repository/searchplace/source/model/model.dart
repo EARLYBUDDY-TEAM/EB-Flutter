@@ -6,5 +6,6 @@ import 'package:earlybuddy/core/network/endpoint/response/place_dto.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 
 part 'place.dart';
