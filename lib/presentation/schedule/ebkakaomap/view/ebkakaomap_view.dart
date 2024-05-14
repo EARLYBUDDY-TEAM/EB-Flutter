@@ -21,9 +21,7 @@ final class EBKakaoMapView extends StatelessWidget {
         children: [
           Expanded(
             flex: 8,
-            child: Container(
-              color: Colors.red,
-            ),
+            child: _EBKakaoMapContent(place: place),
           ),
           Expanded(
             flex: 2,

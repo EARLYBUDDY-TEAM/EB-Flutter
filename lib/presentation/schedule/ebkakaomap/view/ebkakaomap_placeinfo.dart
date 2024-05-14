@@ -8,7 +8,17 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, -3),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Row(
