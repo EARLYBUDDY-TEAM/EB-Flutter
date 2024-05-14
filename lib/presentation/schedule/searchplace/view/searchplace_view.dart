@@ -1,6 +1,6 @@
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
-import 'package:earlybuddy/presentation/schedule/searchplace/view/ebkakaomap.dart';
+import 'package:earlybuddy/presentation/schedule/ebkakaomap/view/ebkakaomap_view.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

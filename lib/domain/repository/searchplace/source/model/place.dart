@@ -26,7 +26,7 @@ final class Place extends Equatable {
         distance = (double.parse(placeDTO.distance) / 1000).toStringAsFixed(1),
         coordi = Coordi.fromDTO(coordiDTO: placeDTO.coordi);
 
-  static Place mock() {
+  static Place mockView() {
     final random = Random().nextBool();
     final name = random ? '테스트장소이름' : '테스트 장소이름 테스트장소 이름테스트장 소이름';
     final address =
@@ -41,6 +41,17 @@ final class Place extends Equatable {
       category: category,
       distance: distance,
       coordi: const Coordi(x: '0', y: '0'),
+    );
+  }
+
+  static Place mockStarBucks() {
+    return const Place(
+      id: '2140311573',
+      name: '스타벅스 수서역R점',
+      address: '서울 강남구 광평로 281',
+      category: '카페',
+      distance: '0.1',
+      coordi: Coordi(x: '127.10297988971773', y: '37.48800665367514'),
     );
   }
 

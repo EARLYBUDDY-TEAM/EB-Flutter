@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule_example.dart';
+import 'package:earlybuddy/presentation/schedule/ebkakaomap/example/ebkakaomap_example.dart';
 import 'package:earlybuddy/presentation/schedule/kakaomap/example/kakaomap_example.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
 
@@ -19,7 +20,8 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationd
 
-  runApp(const SearchPlaceExample());
+  // runApp(const SearchPlaceExample());
+  runApp(const EBKakaoMapExample());
 }
 
 Future<void> initializeKakaoMap() async {

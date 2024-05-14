@@ -31,7 +31,7 @@ final class SearchPlaceState extends Equatable {
   }
 
   static SearchPlaceState mock() {
-    final places = List<Place>.generate(100, (index) => Place.mock());
+    final places = List<Place>.generate(100, (index) => Place.mockView());
     return SearchPlaceState(places: places);
   }
 
