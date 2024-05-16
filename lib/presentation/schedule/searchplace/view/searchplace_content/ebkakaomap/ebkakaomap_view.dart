@@ -1,10 +1,4 @@
-import 'package:earlybuddy/domain/repository/searchplace/source/model/model.dart';
-import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
-import 'package:flutter/material.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart';
-
-part 'ebkakaomap_content.dart';
-part 'ebkakaomap_placeinfo.dart';
+part of '../../searchplace_view.dart';
 
 final class EBKakaoMapView extends StatelessWidget {
   final Place place;

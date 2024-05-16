@@ -1,4 +1,4 @@
-part of '../searchplace_view.dart';
+part of '../../searchplace_view.dart';
 
 final class _SearchPlaceListItem extends StatelessWidget {
   final Place place;

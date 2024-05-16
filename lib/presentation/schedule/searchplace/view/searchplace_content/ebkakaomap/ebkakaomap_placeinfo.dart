@@ -1,4 +1,4 @@
-part of 'ebkakaomap_view.dart';
+part of '../../searchplace_view.dart';
 
 final class _EBKakaoMapPlaceInfo extends StatelessWidget {
   final Place place;

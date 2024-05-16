@@ -1,7 +1,7 @@
 part of 'searchplace_example.dart';
 
-class MockModalSearchPlace extends StatelessWidget {
-  const MockModalSearchPlace({super.key});
+class _MockModalSearchPlace extends StatelessWidget {
+  const _MockModalSearchPlace({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,15 @@ class MockModalSearchPlace extends StatelessWidget {
   }
 
   void onPressed(BuildContext context) {
+    final SearchPlaceBloc searchPlaceBloc = SearchPlaceBloc(
+      searchPlaceState: SearchPlaceState.mockStarBucks(),
+    );
+
     showCupertinoModalBottomSheet(
       context: context,
       expand: true,
       backgroundColor: Colors.white,
-      builder: (context) => SearchPlaceView(),
+      builder: (context) => SearchPlaceView(searchPlaceBloc: searchPlaceBloc),
     );
   }
 }

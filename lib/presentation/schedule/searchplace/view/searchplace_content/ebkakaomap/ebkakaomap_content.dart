@@ -1,4 +1,4 @@
-part of 'ebkakaomap_view.dart';
+part of '../../searchplace_view.dart';
 
 final class _EBKakaoMapContent extends StatefulWidget {
   final Place place;
@@ -40,6 +40,29 @@ final class _EBKakaoMapContentState extends State<_EBKakaoMapContent> {
         setState(() {});
       },
       markers: markers.toList(),
+    );
+  }
+}
+
+final class _TopShadow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: const BoxDecoration(),
+      child: Container(
+        margin: const EdgeInsets.only(top: 30),
+        decoration: const BoxDecoration(
+          color: Colors.blue,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.red,
+              blurRadius: 20,
+              spreadRadius: 8,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

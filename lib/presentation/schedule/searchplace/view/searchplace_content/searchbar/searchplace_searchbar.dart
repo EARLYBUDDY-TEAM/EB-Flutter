@@ -1,25 +1,58 @@
-part of '../searchplace_view.dart';
+part of '../../searchplace_view.dart';
 
 final class _SearchPlaceSearchBar extends StatelessWidget {
   final color = Colors.grey;
   final double inset = 10;
   final double fontSize = 18;
+  final double searchBarHeight;
+  final double bottomSpace;
+
+  const _SearchPlaceSearchBar({
+    required this.searchBarHeight,
+    required this.bottomSpace,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(color: color, width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          _SearchBarSearchButton(),
-          _SearchBarTextField(),
-          _SearchBarCancelButton(),
-        ],
-      ),
+    return BlocSelector<SearchPlaceBloc, SearchPlaceState,
+        SearchPlaceContentStatus>(
+      selector: (state) {
+        return state.status;
+      },
+      builder: (context, status) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: status == SearchPlaceContentStatus.search
+                ? []
+                : [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      offset: const Offset(0, 10),
+                      blurRadius: 7,
+                    ),
+                  ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, right: 10, bottom: bottomSpace),
+            child: Container(
+              height: searchBarHeight,
+              decoration: BoxDecoration(
+                border: Border.all(color: color, width: 2),
+                borderRadius: BorderRadius.circular(10),
+                // color: Colors.white
+              ),
+              child: Row(
+                children: [
+                  _SearchBarSearchButton(),
+                  _SearchBarTextField(),
+                  _SearchBarCancelButton(),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
