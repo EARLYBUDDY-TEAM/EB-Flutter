@@ -40,7 +40,6 @@ final class _SearchPlaceSearchBar extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: color, width: 2),
                 borderRadius: BorderRadius.circular(10),
-                // color: Colors.white
               ),
               child: Row(
                 children: [
@@ -80,10 +79,8 @@ class _SearchBarTextField extends StatelessWidget {
       child: BlocSelector<SearchPlaceBloc, SearchPlaceState, String>(
         selector: (state) => state.searchText,
         builder: (context, searchText) {
-          // is it ok?
-          if (searchText.isEmpty) {
-            _controller.clear();
-          }
+          _controller.text = searchText;
+          log('chechlehc');
           return TextField(
             onChanged: (searchText) => context
                 .read<SearchPlaceBloc>()

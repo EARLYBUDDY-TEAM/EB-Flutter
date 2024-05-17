@@ -11,17 +11,25 @@ final class EBKakaoMapView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 8,
-            child: _EBKakaoMapContent(place: place),
-          ),
-          Expanded(
-            flex: 2,
-            child: _EBKakaoMapPlaceInfo(place: place),
-          ),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) => Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                height: constraints.maxHeight * 0.8,
+                child: _EBKakaoMapContent(place: place),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: constraints.maxHeight * 0.2,
+                child: _EBKakaoMapPlaceInfo(place: place),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

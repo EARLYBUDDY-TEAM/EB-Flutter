@@ -3,17 +3,22 @@ part of '../../searchplace_view.dart';
 final class _SearchPlaceListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
-      builder: (context, state) {
-        return Expanded(
-          child: ListView(
-            shrinkWrap: true,
-            // controller: ModalScrollController.of(context),
-            children: ListTile.divideTiles(
-              context: context,
-              tiles: tiles(places: state.places),
-            ).toList(),
-          ),
+    return BlocSelector<SearchPlaceBloc, SearchPlaceState, List<Place>>(
+      selector: (state) => state.places,
+      builder: (context, places) {
+        return Column(
+          children: [
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                // controller: ModalScrollController.of(context),
+                children: ListTile.divideTiles(
+                  context: context,
+                  tiles: tiles(places: places),
+                ).toList(),
+              ),
+            ),
+          ],
         );
       },
     );

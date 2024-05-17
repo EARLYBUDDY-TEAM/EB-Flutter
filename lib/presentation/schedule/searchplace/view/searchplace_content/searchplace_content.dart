@@ -6,12 +6,6 @@ final class _SearchPlaceContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Column(
-    //   children: [
-    //     _SearchPlaceSearchBar(),
-    //     _SearchPlaceSwitchContent(),
-    //   ],
-    // );
     return LayoutBuilder(
       builder: ((context, constraints) => Stack(
             children: [
@@ -53,9 +47,7 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
               return _SearchPlaceListView();
             case SearchPlaceContentStatus.map:
               if (state.selectedPlace != null) {
-                return Expanded(
-                  child: EBKakaoMapView(place: state.selectedPlace!),
-                );
+                return EBKakaoMapView(place: state.selectedPlace!);
               } else {
                 return const Text('Empty Data');
               }

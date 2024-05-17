@@ -32,13 +32,28 @@ extension on SearchPlaceBloc {
     Emitter<SearchPlaceState> emit,
   ) async {
     emit(state.copyWith(searchText: event.searchText));
+
+    if (event.searchText.trim().isEmpty) {
+      return;
+    }
+
     try {
       final List<Place> places =
           await _searchPlaceRepository.getPlaces(searchText: event.searchText);
-      emit(state.copyWith(places: places));
+      emit(
+        state.copyWith(
+          status: SearchPlaceContentStatus.search,
+          places: places,
+        ),
+      );
     } catch (e) {
       log(e.toString());
-      emit(state.copyWith(places: []));
+      emit(
+        state.copyWith(
+          status: SearchPlaceContentStatus.search,
+          places: [],
+        ),
+      );
     }
   }
 
@@ -67,14 +82,23 @@ extension on SearchPlaceBloc {
     SearchPlaceSearchButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) async {
-    log(state.searchText);
     try {
       final List<Place> places =
           await _searchPlaceRepository.getPlaces(searchText: state.searchText);
-      emit(state.copyWith(places: places));
+      emit(
+        state.copyWith(
+          status: SearchPlaceContentStatus.search,
+          places: places,
+        ),
+      );
     } catch (e) {
       log(e.toString());
-      emit(state.copyWith(places: []));
+      emit(
+        state.copyWith(
+          status: SearchPlaceContentStatus.search,
+          places: [],
+        ),
+      );
     }
   }
 }
@@ -84,6 +108,6 @@ extension on SearchPlaceBloc {
     SearchPlaceCancelButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
-    emit(SearchPlaceState());
+    emit(state.copyWith(searchText: ''));
   }
 }
