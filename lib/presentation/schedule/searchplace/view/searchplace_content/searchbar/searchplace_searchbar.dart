@@ -80,7 +80,8 @@ class _SearchBarTextField extends StatelessWidget {
         selector: (state) => state.searchText,
         builder: (context, searchText) {
           _controller.text = searchText;
-          log('chechlehc');
+          _controller.selection = TextSelection.fromPosition(
+              TextPosition(offset: searchText.length));
           return TextField(
             onChanged: (searchText) => context
                 .read<SearchPlaceBloc>()

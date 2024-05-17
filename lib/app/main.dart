@@ -18,9 +18,8 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationd
 
-  // runApp(const SearchPlaceExample());
-  // runApp(const EBKakaoMapExample());
-  runApp(const AddScheduleExample());
+  runApp(const SearchPlaceExample());
+  // runApp(const AddScheduleExample());
 }
 
 Future<void> initializeKakaoMap() async {

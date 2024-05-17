@@ -15,7 +15,6 @@ class SearchPlaceExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _MockModalSearchPlace();
     // return MockSearchPlace();
-
-    // return _MockTestShadow();
+    // return _MockEBKakaoMapView();
   }
 }

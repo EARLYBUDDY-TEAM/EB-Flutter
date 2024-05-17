@@ -3,6 +3,15 @@ part of 'searchplace_example.dart';
 class _MockEBKakaoMapView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: _MockEBKakaoMapScaffold(),
+    );
+  }
+}
+
+class _MockEBKakaoMapScaffold extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: TextButton(

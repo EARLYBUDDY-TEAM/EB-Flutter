@@ -82,6 +82,10 @@ extension on SearchPlaceBloc {
     SearchPlaceSearchButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) async {
+    if (state.searchText.trim().isEmpty) {
+      return;
+    }
+
     try {
       final List<Place> places =
           await _searchPlaceRepository.getPlaces(searchText: state.searchText);
