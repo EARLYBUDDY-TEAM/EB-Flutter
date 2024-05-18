@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/auth/auth_repository.dart';
+import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/home/bloc/home_bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBloc(
-        authRepository: RepositoryProvider.of<AuthRepository>(context),
+        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
       ),
       child: Stack(
         children: [

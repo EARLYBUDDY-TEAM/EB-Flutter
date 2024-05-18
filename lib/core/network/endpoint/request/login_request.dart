@@ -5,33 +5,20 @@ class LoginRequest {
     required String email,
     required String password,
   }) {
-    final requestData = _LoginInfo(
-      email: email,
-      password: password,
-    ).toJson();
+    const path = '/auth/login';
+    final Map<String, dynamic> requestData = {
+      'email': email,
+      'password': password,
+    };
     TokenDTO converter(dynamic responseData) => TokenDTO.fromJson(responseData);
+    final header = {'application': 'x-www-form-urlencoded'};
 
     return ApiRequest(
-      path: '/auth/login',
+      path: path,
       method: HTTPMethod.post,
       requestData: requestData,
       converter: converter,
-      headers: {'application': 'x-www-form-urlencoded'},
+      headers: header,
     );
   }
-}
-
-final class _LoginInfo {
-  final String email;
-  final String password;
-
-  _LoginInfo({
-    required this.email,
-    required this.password,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'email': email,
-        'password': password,
-      };
 }

@@ -29,7 +29,7 @@ class _PlaceForm extends StatelessWidget {
                 builder: (context) => Navigator(
                   onGenerateRoute: (_) => MaterialPageRoute(
                       builder: (_) =>
-                          Builder(builder: (_) => const SearchPlaceView())),
+                          Builder(builder: (_) => SearchPlaceView())),
                 ),
 
                 // return Material(

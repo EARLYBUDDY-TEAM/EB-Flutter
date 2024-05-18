@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/auth/auth_repository.dart';
+import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/auth_model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +9,7 @@ part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc({
-    required AuthRepository authRepository,
+    required EBAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const RegisterState()) {
     on<RegisterEmailChanged>(onRegisterEmailChanged);
@@ -18,7 +18,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterPressed>(onRegisterPressed);
   }
 
-  final AuthRepository _authRepository;
+  final EBAuthRepository _authRepository;
 
   void onRegisterEmailChanged(
     RegisterEmailChanged event,

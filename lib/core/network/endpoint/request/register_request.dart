@@ -5,10 +5,10 @@ final class RegisterRequest {
     required String email,
     required String password,
   }) {
-    final requestData = _RegisterInfo(
-      email: email,
-      password: password,
-    ).toJson();
+    final Map<String, dynamic> requestData = {
+      'email': email,
+      'password': password,
+    };
 
     return ApiRequest(
       path: '/auth/register',
@@ -16,19 +16,4 @@ final class RegisterRequest {
       requestData: requestData,
     );
   }
-}
-
-final class _RegisterInfo {
-  final String email;
-  final String password;
-
-  _RegisterInfo({
-    required this.email,
-    required this.password,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'email': email,
-        'password': password,
-      };
 }
