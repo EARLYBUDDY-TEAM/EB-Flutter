@@ -28,10 +28,13 @@ class _PlaceForm extends StatelessWidget {
                 backgroundColor: Colors.white,
                 builder: (context) => Navigator(
                   onGenerateRoute: (_) => MaterialPageRoute(
-                      builder: (_) =>
-                          Builder(builder: (_) => SearchPlaceView())),
+                    builder: (_) => Builder(
+                      builder: (_) => SearchPlaceView(
+                          cancelAction: () => Navigator.of(context).pop()),
+                    ),
+                  ),
                 ),
-
+// onPressed: () => Navigator.of(context).pop(),
                 // return Material(
                 //   child: Navigator(
                 //     onGenerateRoute: (_) => MaterialPageRoute(

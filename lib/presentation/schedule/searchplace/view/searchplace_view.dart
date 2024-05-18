@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
@@ -18,11 +16,14 @@ part 'searchplace_content/ebkakaomap/ebkakaomap_content.dart';
 
 final class SearchPlaceView extends StatelessWidget {
   final SearchPlaceBloc _searchPlaceBloc;
+  final VoidCallback _cancelAction;
 
   SearchPlaceView({
     super.key,
     SearchPlaceBloc? searchPlaceBloc,
-  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc();
+    VoidCallback? cancelAction,
+  })  : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc(),
+        _cancelAction = cancelAction ?? (() {});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ final class SearchPlaceView extends StatelessWidget {
       create: (context) => _searchPlaceBloc,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: _SearchPlaceAppBar(context: context),
+        appBar: _SearchPlaceAppBar(cancelAction: _cancelAction),
         body: _SearchPlaceContent(),
       ),
     );

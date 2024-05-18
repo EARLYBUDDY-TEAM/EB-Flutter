@@ -1,12 +1,12 @@
 part of 'searchplace_view.dart';
 
 final class _SearchPlaceAppBar extends AppBar {
-  BuildContext context;
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
+  final VoidCallback cancelAction;
 
-  _SearchPlaceAppBar({required this.context});
+  _SearchPlaceAppBar({required this.cancelAction});
 
   TextStyle textStyle() => TextStyle(
         color: color,
@@ -34,7 +34,7 @@ final class _SearchPlaceAppBar extends AppBar {
   @override
   List<Widget>? get actions => List<Widget>.of([
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: cancelAction,
           child: Text(
             '취소',
             style: textStyle(),
