@@ -28,7 +28,9 @@ class AddScheduleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddScheduleBloc(),
+      create: (context) => AddScheduleBloc(popSearchPlaceView: () {
+        Navigator.of(context).pop();
+      }),
       child: Scaffold(
         appBar: _AppBar(context: context),
         body: SafeArea(

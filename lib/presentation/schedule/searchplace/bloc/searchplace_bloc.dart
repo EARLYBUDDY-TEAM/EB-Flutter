@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'dart:developer';
 import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -130,8 +128,8 @@ extension on SearchPlaceBloc {
     SearchPlaceSelectPlaceButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
-    // log('efeafae');
     _searchPlaceEventDelegate.sinkSelectPlaceButtonPressed(
-        place: event.selectedPlace);
+      place: event.selectedPlace,
+    );
   }
 }

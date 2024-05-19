@@ -1,13 +1,19 @@
 import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
 import 'package:earlybuddy/domain/repository/searchplace/source/model/model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'addschedule_event.dart';
 part 'addschedule_state.dart';
 
 class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
-  AddScheduleBloc() : super(AddScheduleState.empty()) {
+  final VoidCallback _popSearchPlaceView;
+
+  AddScheduleBloc({
+    VoidCallback? popSearchPlaceView,
+  })  : _popSearchPlaceView = popSearchPlaceView ?? (() {}),
+        super(AddScheduleState.empty()) {
     on<AddScheduleTitleChanged>(_onAddScheduleTitleChanged);
     on<AddScheduleMemoChanged>(_onAddScheduleMemoChanged);
     on<AddScheduleTimeChanged>(_onAddScheduleTimeChanged);
@@ -85,5 +91,6 @@ extension on AddScheduleBloc {
   ) {
     final AddScheduleInfo info = state.info.copyWith(place: event.place.name);
     emit(state.copyWith(info: info));
+    _popSearchPlaceView();
   }
 }
