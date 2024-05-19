@@ -16,24 +16,32 @@ part 'searchplace_content/ebkakaomap/ebkakaomap_content.dart';
 
 final class SearchPlaceView extends StatelessWidget {
   final SearchPlaceBloc _searchPlaceBloc;
-  final VoidCallback _cancelAction;
 
   SearchPlaceView({
     super.key,
     SearchPlaceBloc? searchPlaceBloc,
-    VoidCallback? cancelAction,
-  })  : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc(),
-        _cancelAction = cancelAction ?? (() {});
+  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _searchPlaceBloc,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _SearchPlaceAppBar(cancelAction: _cancelAction),
-        body: _SearchPlaceContent(),
+      child: _SearchPlaceView(),
+    );
+  }
+}
+
+final class _SearchPlaceView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _SearchPlaceAppBar(
+        cancelAction: () => context
+            .read<SearchPlaceBloc>()
+            .add(SearchPlaceCancelButtonPressed()),
       ),
+      body: _SearchPlaceContent(),
     );
   }
 }

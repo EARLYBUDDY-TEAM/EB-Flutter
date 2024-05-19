@@ -24,6 +24,9 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     SearchPlaceEventDelegate.shared.selectPlaceButtonPressed.listen(
       (selectedPlace) => add(AddScheduleInfoPlaceChanged(place: selectedPlace)),
     );
+    SearchPlaceEventDelegate.shared.cancelButtonPressed.listen(
+      (event) => _popSearchPlaceView(),
+    );
   }
 }
 

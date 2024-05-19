@@ -11,9 +11,14 @@ class SearchPlaceEventDelegate {
   final _selectPlaceButtonPressedController = StreamController<Place>();
   late final selectPlaceButtonPressed =
       _selectPlaceButtonPressedController.stream;
-
   void sinkSelectPlaceButtonPressed({required Place place}) {
     _selectPlaceButtonPressedController.sink.add(place);
+  }
+
+  final _cancelButtonPressedController = StreamController<void>();
+  late final cancelButtonPressed = _cancelButtonPressedController.stream;
+  void sinkCancelButtonPressed() {
+    _cancelButtonPressedController.sink.add(());
   }
 }
 

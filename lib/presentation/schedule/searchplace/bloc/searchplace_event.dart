@@ -27,7 +27,7 @@ final class SearchPlaceSearchButtonPressed extends SearchPlaceEvent {
   List<Object?> get props => [];
 }
 
-final class SearchPlaceCancelButtonPressed extends SearchPlaceEvent {
+final class SearchPlaceSearchResetButtonPressed extends SearchPlaceEvent {
   @override
   List<Object?> get props => [];
 }
@@ -39,4 +39,9 @@ final class SearchPlaceSelectPlaceButtonPressed extends SearchPlaceEvent {
 
   @override
   List<Object?> get props => [selectedPlace];
+}
+
+final class SearchPlaceCancelButtonPressed extends SearchPlaceEvent {
+  @override
+  List<Object?> get props => [];
 }

@@ -29,9 +29,7 @@ class _PlaceForm extends StatelessWidget {
                 builder: (context) => Navigator(
                   onGenerateRoute: (_) => MaterialPageRoute(
                     builder: (_) => Builder(
-                      builder: (_) => SearchPlaceView(
-                        cancelAction: () => Navigator.of(context).pop(),
-                      ),
+                      builder: (_) => SearchPlaceView(),
                     ),
                   ),
                 ),

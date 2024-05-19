@@ -27,9 +27,11 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     );
     on<SearchPlaceListItemPressed>(_onSearchPlaceListItemPressed);
     on<SearchPlaceSearchButtonPressed>(_onSearchPlaceSearchButtonPressed);
-    on<SearchPlaceCancelButtonPressed>(_onSearchPlaceCancelButtonPressed);
+    on<SearchPlaceSearchResetButtonPressed>(
+        _onSearchPlaceSearchResetButtonPressed);
     on<SearchPlaceSelectPlaceButtonPressed>(
         _onSearchPlaceSelectPlaceButtonPressed);
+    on<SearchPlaceCancelButtonPressed>(_onSearchPlaceCancelButtonPressed);
   }
 }
 
@@ -115,8 +117,8 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceCancelButtonPressed(
-    SearchPlaceCancelButtonPressed event,
+  void _onSearchPlaceSearchResetButtonPressed(
+    SearchPlaceSearchResetButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
     emit(state.copyWith(searchText: ''));
@@ -131,5 +133,14 @@ extension on SearchPlaceBloc {
     _searchPlaceEventDelegate.sinkSelectPlaceButtonPressed(
       place: event.selectedPlace,
     );
+  }
+}
+
+extension on SearchPlaceBloc {
+  void _onSearchPlaceCancelButtonPressed(
+    SearchPlaceCancelButtonPressed event,
+    Emitter<SearchPlaceState> emit,
+  ) {
+    _searchPlaceEventDelegate.sinkCancelButtonPressed();
   }
 }
