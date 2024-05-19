@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
+import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -9,12 +12,16 @@ part 'searchplace_state.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceRepository _searchPlaceRepository;
+  final SearchPlaceEventDelegate _searchPlaceEventDelegate;
 
   SearchPlaceBloc({
     SearchPlaceRepository? searchPlaceRepository,
+    SearchPlaceEventDelegate? searchPlaceEventDelegate,
     SearchPlaceState? searchPlaceState,
   })  : _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
+        _searchPlaceEventDelegate =
+            searchPlaceEventDelegate ?? SearchPlaceEventDelegate.shared,
         super(searchPlaceState ?? SearchPlaceState()) {
     on<SearchPlaceSearchTextChanged>(
       _onSearchPlaceSearchTextChanged,
@@ -23,6 +30,8 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     on<SearchPlaceListItemPressed>(_onSearchPlaceListItemPressed);
     on<SearchPlaceSearchButtonPressed>(_onSearchPlaceSearchButtonPressed);
     on<SearchPlaceCancelButtonPressed>(_onSearchPlaceCancelButtonPressed);
+    on<SearchPlaceSelectPlaceButtonPressed>(
+        _onSearchPlaceSelectPlaceButtonPressed);
   }
 }
 
@@ -113,5 +122,16 @@ extension on SearchPlaceBloc {
     Emitter<SearchPlaceState> emit,
   ) {
     emit(state.copyWith(searchText: ''));
+  }
+}
+
+extension on SearchPlaceBloc {
+  void _onSearchPlaceSelectPlaceButtonPressed(
+    SearchPlaceSelectPlaceButtonPressed event,
+    Emitter<SearchPlaceState> emit,
+  ) {
+    // log('efeafae');
+    _searchPlaceEventDelegate.sinkSelectPlaceButtonPressed(
+        place: event.selectedPlace);
   }
 }

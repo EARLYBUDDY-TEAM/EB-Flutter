@@ -31,3 +31,12 @@ final class SearchPlaceCancelButtonPressed extends SearchPlaceEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class SearchPlaceSelectPlaceButtonPressed extends SearchPlaceEvent {
+  final Place selectedPlace;
+
+  const SearchPlaceSelectPlaceButtonPressed({required this.selectedPlace});
+
+  @override
+  List<Object?> get props => [selectedPlace];
+}

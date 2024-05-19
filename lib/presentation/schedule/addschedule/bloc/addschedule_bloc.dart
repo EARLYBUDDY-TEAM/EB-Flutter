@@ -1,3 +1,5 @@
+import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
+import 'package:earlybuddy/domain/repository/searchplace/source/model/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +13,11 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<AddScheduleTimeChanged>(_onAddScheduleTimeChanged);
     on<AddScheduleIsNotifyChanged>(_onAddScheduleIsNotifyChanged);
     on<AddSchedulePressed>(_onAddSchedulePressed);
+
+    on<AddScheduleInfoPlaceChanged>(_onAddScheduleInfoPlaceChanged);
+    SearchPlaceEventDelegate.shared.selectPlaceButtonPressed.listen(
+      (selectedPlace) => add(AddScheduleInfoPlaceChanged(place: selectedPlace)),
+    );
   }
 }
 
@@ -68,5 +75,15 @@ extension on AddScheduleBloc {
     Emitter<AddScheduleState> emit,
   ) {
     emit(state);
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onAddScheduleInfoPlaceChanged(
+    AddScheduleInfoPlaceChanged event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    final AddScheduleInfo info = state.info.copyWith(place: event.place.name);
+    emit(state.copyWith(info: info));
   }
 }

@@ -30,36 +30,37 @@ class _PlaceForm extends StatelessWidget {
                   onGenerateRoute: (_) => MaterialPageRoute(
                     builder: (_) => Builder(
                       builder: (_) => SearchPlaceView(
-                          cancelAction: () => Navigator.of(context).pop()),
+                        cancelAction: () => Navigator.of(context).pop(),
+                      ),
                     ),
                   ),
                 ),
-// onPressed: () => Navigator.of(context).pop(),
-                // return Material(
-                //   child: Navigator(
-                //     onGenerateRoute: (_) => MaterialPageRoute(
-                //       builder: (_) => Builder(
-                //         builder: (_) => CupertinoPageScaffold(
-                //           navigationBar: _SearchPlaceNaviBar(context: context),
-                //           child: _SearchPlaceContent(),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // );
               ),
-              child: Text(
-                '추가하기',
-                style: TextStyle(
-                  fontFamily: NanumSquare.bold,
-                  fontSize: fontSize,
-                  color: Colors.grey,
-                ),
+              child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
+                selector: (state) => unwrapPlace(state.info.place),
+                builder: (context, place) {
+                  return Text(
+                    place,
+                    style: TextStyle(
+                      fontFamily: NanumSquare.bold,
+                      fontSize: fontSize,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  String unwrapPlace(String? place) {
+    if (place != null && place.trim().isNotEmpty) {
+      return place;
+    } else {
+      return '추가하기';
+    }
   }
 }
