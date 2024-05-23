@@ -21,24 +21,3 @@ class SearchPlaceEventDelegate {
     _cancelButtonPressedController.sink.add(());
   }
 }
-
-// class Singleton {
-//   Singleton._privateConstructor();
-//   static final Singleton _instance = Singleton._privateConstructor();
-
-//   factory Singleton() {
-//     return _instance;
-//   }
-// }
-
-
-// final _controller = StreamController<EBAuthInfo>();
-//   final NetworkService service = NetworkService();
-
-//   Stream<EBAuthInfo> get authInfo async* {
-//     await Future<void>.delayed(const Duration(seconds: 1));
-//     yield const EBAuthInfo.unAuth();
-//     yield* _controller.stream;
-//   }
-
-//   void dispose() => _controller.close();

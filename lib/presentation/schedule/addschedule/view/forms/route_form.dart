@@ -21,7 +21,7 @@ class _RouteForm extends StatelessWidget {
               isActive: true,
             ),
             const Spacer(),
-            _NotifySwitch()
+            _RouteSwitch(),
           ],
         ),
       ),
@@ -42,11 +42,30 @@ class _RouteState extends State<_RouteSwitch> {
     return CupertinoSwitch(
       value: _isChecked,
       activeColor: EBColors.blue2,
-      onChanged: (bool value) {
-        setState(() {
-          _isChecked = value;
-        });
-      },
+      onChanged: _onChanged,
+    );
+  }
+
+  void _onChanged(bool value) async {
+    setState(() {
+      _isChecked = value;
+    });
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    showCupertinoModalBottomSheet(
+      context: context,
+      expand: true,
+      backgroundColor: Colors.white,
+      builder: (_) => _searchPlaceView(),
+    );
+  }
+
+  Navigator _searchPlaceView() {
+    return Navigator(
+      onGenerateRoute: (_) => MaterialPageRoute(
+        builder: (_) => Builder(
+          builder: (_) => SearchPlaceView(),
+        ),
+      ),
     );
   }
 }
