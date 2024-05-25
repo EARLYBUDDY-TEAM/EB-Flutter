@@ -1,12 +1,12 @@
 import 'dart:developer';
 
+import 'package:earlybuddy/domain/repository/searchplace/source/model/model.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -28,20 +28,15 @@ class AddScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddScheduleBloc(popSearchPlaceView: () {
-        Navigator.of(context).pop();
-      }),
-      child: Scaffold(
-        appBar: _AppBar(context: context),
-        body: SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              _AddScheduleForms(),
-              _AddScheduleButton(),
-            ],
-          ),
+    return Scaffold(
+      appBar: _AppBar(context: context),
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            _AddScheduleForms(),
+            _AddScheduleButton(),
+          ],
         ),
       ),
     );

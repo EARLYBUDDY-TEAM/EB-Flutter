@@ -26,13 +26,7 @@ class _PlaceForm extends StatelessWidget {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.white,
-                builder: (context) => Navigator(
-                  onGenerateRoute: (_) => MaterialPageRoute(
-                    builder: (_) => Builder(
-                      builder: (_) => SearchPlaceView(),
-                    ),
-                  ),
-                ),
+                builder: _searchPlaceView,
               ),
               child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
                 selector: (state) => unwrapPlace(state.info.place),
@@ -49,6 +43,32 @@ class _PlaceForm extends StatelessWidget {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Builder _searchPlaceView(BuildContext context) {
+    selectAction(Place place) {
+      log(place.name);
+      context
+          .read<AddScheduleBloc>()
+          .add(AddScheduleInfoPlaceChanged(place: place));
+    }
+
+    cancelAction() {
+      Navigator.of(context).pop();
+    }
+
+    return Builder(
+      builder: (context) => Navigator(
+        onGenerateRoute: (context) => MaterialPageRoute(
+          builder: (context) => Builder(
+            builder: (context) => SearchPlaceView(
+              selectAction: selectAction,
+              cancelAction: cancelAction,
+            ),
+          ),
         ),
       ),
     );

@@ -20,7 +20,16 @@ final class SearchPlaceView extends StatelessWidget {
   SearchPlaceView({
     super.key,
     SearchPlaceBloc? searchPlaceBloc,
-  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc();
+    Function(Place)? selectAction,
+    Function()? cancelAction,
+  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc() {
+    if (selectAction != null) {
+      _searchPlaceBloc.selectAction = selectAction;
+    }
+    if (cancelAction != null) {
+      _searchPlaceBloc.cancelAction = cancelAction;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

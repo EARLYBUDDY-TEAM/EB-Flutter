@@ -41,14 +41,14 @@ class _RouteState extends State<_RouteSwitch> {
   Widget build(BuildContext context) {
     return BlocSelector<AddScheduleBloc, AddScheduleState, String?>(
       selector: (state) {
-        return state.info.place;
+        return state.info.route;
       },
-      builder: (context, place) {
+      builder: (context, route) {
         return CupertinoSwitch(
           value: _isChecked,
           activeColor: EBColors.blue2,
           onChanged: (bool value) {
-            _onChanged(context, value, place);
+            _onChanged(context, value, route);
           },
         );
       },
@@ -90,24 +90,32 @@ class _RouteState extends State<_RouteSwitch> {
       _isChecked = value;
     });
 
-    if (place == null) {
-      showNoDestinationAlert(
-        context: context,
-        okAction: () {
-          setState(() {
-            _isChecked = !value;
-          });
-        },
-      );
-    } else {
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-      showCupertinoModalBottomSheet(
-        context: context,
-        expand: true,
-        backgroundColor: Colors.white,
-        builder: (_) => _searchPlaceView(),
-      );
-    }
+    // if (place == null) {
+    //   showNoDestinationAlert(
+    //     context: context,
+    //     okAction: () {
+    //       setState(() {
+    //         _isChecked = !value;
+    //       });
+    //     },
+    //   );
+    // } else {
+    //   await Future<void>.delayed(const Duration(milliseconds: 500));
+    //   showCupertinoModalBottomSheet(
+    //     context: context,
+    //     expand: true,
+    //     backgroundColor: Colors.white,
+    //     builder: (_) => _searchPlaceView(),
+    //   );
+    // }
+
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    showCupertinoModalBottomSheet(
+      context: context,
+      expand: true,
+      backgroundColor: Colors.white,
+      builder: (_) => _searchPlaceView(),
+    );
   }
 
   Navigator _searchPlaceView() {

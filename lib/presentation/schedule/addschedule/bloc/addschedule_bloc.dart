@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
 import 'package:earlybuddy/domain/repository/searchplace/source/model/model.dart';
 import 'package:equatable/equatable.dart';
@@ -8,25 +10,20 @@ part 'addschedule_event.dart';
 part 'addschedule_state.dart';
 
 class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
-  final VoidCallback _popSearchPlaceView;
-
-  AddScheduleBloc({
-    VoidCallback? popSearchPlaceView,
-  })  : _popSearchPlaceView = popSearchPlaceView ?? (() {}),
-        super(AddScheduleState.empty()) {
+  AddScheduleBloc() : super(AddScheduleState.empty()) {
     on<AddScheduleTitleChanged>(_onAddScheduleTitleChanged);
     on<AddScheduleMemoChanged>(_onAddScheduleMemoChanged);
     on<AddScheduleTimeChanged>(_onAddScheduleTimeChanged);
     on<AddScheduleIsNotifyChanged>(_onAddScheduleIsNotifyChanged);
     on<AddSchedulePressed>(_onAddSchedulePressed);
-
     on<AddScheduleInfoPlaceChanged>(_onAddScheduleInfoPlaceChanged);
-    SearchPlaceEventDelegate.shared.selectPlaceButtonPressed.listen(
-      (selectedPlace) => add(AddScheduleInfoPlaceChanged(place: selectedPlace)),
-    );
-    SearchPlaceEventDelegate.shared.cancelButtonPressed.listen(
-      (event) => _popSearchPlaceView(),
-    );
+
+    // SearchPlaceEventDelegate.shared.selectPlaceButtonPressed.listen(
+    //   (selectedPlace) => add(AddScheduleInfoPlaceChanged(place: selectedPlace)),
+    // );
+    // SearchPlaceEventDelegate.shared.cancelButtonPressed.listen(
+    //   (event) => _popSearchPlaceView(),
+    // );
   }
 }
 
@@ -94,6 +91,5 @@ extension on AddScheduleBloc {
   ) {
     final AddScheduleInfo info = state.info.copyWith(place: event.place.name);
     emit(state.copyWith(info: info));
-    _popSearchPlaceView();
   }
 }

@@ -10,7 +10,7 @@ final class AddScheduleState extends Equatable {
   });
 
   AddScheduleState.empty()
-      : info = AddScheduleInfo.empty(),
+      : info = AddScheduleInfo(),
         status = AddScheduleStatus.init;
 
   AddScheduleState copyWith({
@@ -40,22 +40,16 @@ final class AddScheduleInfo extends Equatable {
   final String? place;
   final String? route;
 
-  const AddScheduleInfo({
-    required this.title,
+  AddScheduleInfo({
+    String? title,
     this.memo,
-    required this.time,
-    required this.isNotify,
+    DateTime? time,
+    bool? isNotify,
     this.place,
     this.route,
-  });
-
-  AddScheduleInfo.empty()
-      : title = '',
-        memo = null,
-        time = DateTime.now(),
-        isNotify = false,
-        place = null,
-        route = null;
+  })  : title = title ?? '',
+        time = time ?? DateTime.now(),
+        isNotify = isNotify ?? false;
 
   AddScheduleInfo copyWith({
     String? title,
@@ -76,4 +70,26 @@ final class AddScheduleInfo extends Equatable {
 
   @override
   List<Object?> get props => [title, memo, time, isNotify, place, route];
+}
+
+final class SchedulePlace extends Equatable {
+  final String? departure;
+  final String? destination;
+
+  const SchedulePlace({
+    this.departure,
+    this.destination,
+  });
+
+  SchedulePlace copyWith({
+    String? departure,
+    String? destination,
+  }) =>
+      SchedulePlace(
+        departure: departure ?? this.departure,
+        destination: destination ?? this.destination,
+      );
+
+  @override
+  List<Object?> get props => [departure, destination];
 }

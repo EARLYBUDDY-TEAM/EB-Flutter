@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,16 +9,18 @@ part 'searchplace_state.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceRepository _searchPlaceRepository;
-  final SearchPlaceEventDelegate _searchPlaceEventDelegate;
+  Function(Place) selectAction;
+  Function() cancelAction;
 
   SearchPlaceBloc({
     SearchPlaceRepository? searchPlaceRepository,
-    SearchPlaceEventDelegate? searchPlaceEventDelegate,
     SearchPlaceState? searchPlaceState,
+    Function(Place)? selectAction,
+    Function()? cancelAction,
   })  : _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
-        _searchPlaceEventDelegate =
-            searchPlaceEventDelegate ?? SearchPlaceEventDelegate.shared,
+        selectAction = selectAction ?? ((_) {}),
+        cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {
     on<SearchPlaceSearchTextChanged>(
       _onSearchPlaceSearchTextChanged,
@@ -130,9 +131,8 @@ extension on SearchPlaceBloc {
     SearchPlaceSelectPlaceButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
-    _searchPlaceEventDelegate.sinkSelectPlaceButtonPressed(
-      place: event.selectedPlace,
-    );
+    selectAction(event.selectedPlace);
+    cancelAction();
   }
 }
 
@@ -141,6 +141,6 @@ extension on SearchPlaceBloc {
     SearchPlaceCancelButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
-    _searchPlaceEventDelegate.sinkCancelButtonPressed();
+    cancelAction();
   }
 }
