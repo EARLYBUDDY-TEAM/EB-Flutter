@@ -51,9 +51,7 @@ class _PlaceForm extends StatelessWidget {
   Builder _searchPlaceView(BuildContext context) {
     selectAction(Place place) {
       log(place.name);
-      context
-          .read<AddScheduleBloc>()
-          .add(AddScheduleInfoPlaceChanged(place: place));
+      context.read<AddScheduleBloc>().add(AddScheduleSelectPlace(place: place));
     }
 
     cancelAction() {

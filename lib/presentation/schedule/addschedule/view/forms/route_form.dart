@@ -41,14 +41,14 @@ class _RouteState extends State<_RouteSwitch> {
   Widget build(BuildContext context) {
     return BlocSelector<AddScheduleBloc, AddScheduleState, String?>(
       selector: (state) {
-        return state.info.route;
+        return state.info.place;
       },
-      builder: (context, route) {
+      builder: (context, place) {
         return CupertinoSwitch(
           value: _isChecked,
           activeColor: EBColors.blue2,
           onChanged: (bool value) {
-            _onChanged(context, value, route);
+            _onChanged(context, value, place);
           },
         );
       },
@@ -90,41 +90,46 @@ class _RouteState extends State<_RouteSwitch> {
       _isChecked = value;
     });
 
-    // if (place == null) {
-    //   showNoDestinationAlert(
-    //     context: context,
-    //     okAction: () {
-    //       setState(() {
-    //         _isChecked = !value;
-    //       });
-    //     },
-    //   );
-    // } else {
-    //   await Future<void>.delayed(const Duration(milliseconds: 500));
-    //   showCupertinoModalBottomSheet(
-    //     context: context,
-    //     expand: true,
-    //     backgroundColor: Colors.white,
-    //     builder: (_) => _searchPlaceView(),
-    //   );
-    // }
-
-    await Future<void>.delayed(const Duration(milliseconds: 500));
-    showCupertinoModalBottomSheet(
-      context: context,
-      expand: true,
-      backgroundColor: Colors.white,
-      builder: (_) => _searchPlaceView(),
-    );
+    if (place == null) {
+      showNoDestinationAlert(
+        context: context,
+        okAction: () {
+          setState(() {
+            _isChecked = !value;
+          });
+        },
+      );
+    } else {
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+      showCupertinoModalBottomSheet(
+        context: context,
+        expand: true,
+        backgroundColor: Colors.white,
+        builder: _searchPlaceView,
+      );
+    }
   }
 
-  Navigator _searchPlaceView() {
-    return Navigator(
+  Builder _searchPlaceView(BuildContext context) {
+    selectAction(Place place) {
+      log(place.name);
+      context.read<AddScheduleBloc>().add(AddScheduleSelectRoute(place: place));
+    }
+
+    cancelAction() {
+      Navigator.of(context).pop();
+    }
+
+    final searchPlaceView = Navigator(
       onGenerateRoute: (_) => MaterialPageRoute(
         builder: (_) => Builder(
-          builder: (_) => SearchPlaceView(),
+          builder: (_) => SearchPlaceView(
+            selectAction: selectAction,
+            cancelAction: cancelAction,
+          ),
         ),
       ),
     );
+    return Builder(builder: (context) => searchPlaceView);
   }
 }

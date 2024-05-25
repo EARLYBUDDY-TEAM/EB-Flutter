@@ -1,9 +1,6 @@
 import 'dart:developer';
-
-import 'package:earlybuddy/domain/delegate/searchplace_event_delegate.dart';
 import 'package:earlybuddy/domain/repository/searchplace/source/model/model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'addschedule_event.dart';
@@ -16,14 +13,8 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<AddScheduleTimeChanged>(_onAddScheduleTimeChanged);
     on<AddScheduleIsNotifyChanged>(_onAddScheduleIsNotifyChanged);
     on<AddSchedulePressed>(_onAddSchedulePressed);
-    on<AddScheduleInfoPlaceChanged>(_onAddScheduleInfoPlaceChanged);
-
-    // SearchPlaceEventDelegate.shared.selectPlaceButtonPressed.listen(
-    //   (selectedPlace) => add(AddScheduleInfoPlaceChanged(place: selectedPlace)),
-    // );
-    // SearchPlaceEventDelegate.shared.cancelButtonPressed.listen(
-    //   (event) => _popSearchPlaceView(),
-    // );
+    on<AddScheduleSelectPlace>(_onAddScheduleSelectPlace);
+    on<AddScheduleSelectRoute>(_onAddScheduleSelectRoute);
   }
 }
 
@@ -85,11 +76,20 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onAddScheduleInfoPlaceChanged(
-    AddScheduleInfoPlaceChanged event,
+  void _onAddScheduleSelectPlace(
+    AddScheduleSelectPlace event,
     Emitter<AddScheduleState> emit,
   ) {
     final AddScheduleInfo info = state.info.copyWith(place: event.place.name);
     emit(state.copyWith(info: info));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onAddScheduleSelectRoute(
+    AddScheduleSelectRoute event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    log(event.place.toString());
   }
 }
