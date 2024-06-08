@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule_example.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
+import 'package:earlybuddy/presentation/schedule/selectroute/example/selectroute_example.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -19,7 +20,8 @@ void main() async {
   // await getlocationd
 
   // runApp(const SearchPlaceExample());
-  runApp(const AddScheduleExample());
+  // runApp(const AddScheduleExample());
+  runApp(const SelectRouteExample());
 }
 
 Future<void> initializeKakaoMap() async {
