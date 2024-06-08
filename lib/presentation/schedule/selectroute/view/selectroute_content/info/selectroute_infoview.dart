@@ -8,7 +8,7 @@ final class _SelectRouteInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: horizontalInset),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: horizontalInset),
       child: Row(
         children: [
           infoImage(),
