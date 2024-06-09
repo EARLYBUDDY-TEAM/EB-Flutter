@@ -6,29 +6,20 @@ final class _SelectRouteSortView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: Colors.grey.withOpacity(0.5)),
-          bottom: BorderSide(color: Colors.grey.withOpacity(0.5)),
-        ),
-      ),
-      child: Container(
-        color: Colors.grey.shade100,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-          child: Row(
+      height: 70,
+      color: Colors.grey.shade100,
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _date(),
-                  _hour(),
-                ],
-              ),
-              const Spacer(),
+              _date(),
+              const SizedBox(height: 3),
+              _hour(),
             ],
           ),
-        ),
+          const Spacer(),
+        ],
       ),
     );
   }
@@ -39,7 +30,7 @@ final class _SelectRouteSortView extends StatelessWidget {
       style: TextStyle(
         color: Colors.black54,
         fontFamily: NanumSquare.bold,
-        fontSize: 18,
+        fontSize: 15,
       ),
     );
   }
@@ -51,7 +42,7 @@ final class _SelectRouteSortView extends StatelessWidget {
         style: TextStyle(
           color: EBColors.blue2,
           fontFamily: NanumSquare.extraBold,
-          fontSize: 22,
+          fontSize: 19,
         ),
         children: const [
           TextSpan(
@@ -59,7 +50,7 @@ final class _SelectRouteSortView extends StatelessWidget {
             style: TextStyle(
               color: Colors.black54,
               fontFamily: NanumSquare.extraBold,
-              fontSize: 22,
+              fontSize: 19,
             ),
           )
         ],

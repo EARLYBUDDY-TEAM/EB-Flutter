@@ -8,7 +8,8 @@ final class _SelectRouteInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: horizontalInset),
+      padding: EdgeInsets.only(
+          left: horizontalInset, right: horizontalInset, bottom: 20),
       child: Row(
         children: [
           infoImage(),
@@ -44,7 +45,7 @@ final class _SelectRouteInfoView extends StatelessWidget {
           style: TextStyle(
             fontFamily: NanumSquare.bold,
             color: EBColors.text,
-            fontSize: 18,
+            fontSize: 15,
           ),
         ),
         const Spacer(),
@@ -65,6 +66,7 @@ final class _SelectRouteInfoView extends StatelessWidget {
               style: TextStyle(
                 fontFamily: NanumSquare.bold,
                 color: Colors.grey,
+                fontSize: 13,
               ),
             ),
           ),
@@ -86,7 +88,7 @@ final class _SelectRouteInfoView extends StatelessWidget {
       style: TextStyle(
         fontFamily: NanumSquare.extraBold,
         color: Colors.grey.withOpacity(0.7),
-        fontSize: 18,
+        fontSize: 15,
       ),
     );
   }
