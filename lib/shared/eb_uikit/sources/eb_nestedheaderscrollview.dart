@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 class NestedHeaderScrollView extends StatefulWidget {
   StatelessWidget header;
@@ -34,15 +36,20 @@ class _NestedHeaderScrollState extends State<NestedHeaderScrollView>
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return [
           SliverAppBar(
-            backgroundColor: Colors.grey.shade100,
             title: header,
             centerTitle: true,
-            // collapsedHeight: 70,
-            // expandedHeight: 70,
+          )
+          // SliverAppBar(
+          //   // backgroundColor: Colors.grey.shade100,
+          //   title: header,
+          //   centerTitle: true,
 
-            // pinned: false,
-            // floating: false,
-          ),
+          //   // collapsedHeight: 70,
+          //   // expandedHeight: 70,
+
+          //   // pinned: false,
+          //   // floating: false,
+          // ),
         ];
       },
       body: content,

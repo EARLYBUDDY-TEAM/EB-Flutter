@@ -5,21 +5,22 @@ final class _SelectRouteSortView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      color: Colors.grey.shade100,
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _date(),
-              const SizedBox(height: 3),
-              _hour(),
-            ],
-          ),
-          const Spacer(),
-        ],
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _date(),
+                const SizedBox(height: 3),
+                _hour(),
+              ],
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
