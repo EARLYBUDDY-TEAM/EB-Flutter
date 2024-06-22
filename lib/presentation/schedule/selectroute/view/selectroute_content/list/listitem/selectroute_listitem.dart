@@ -5,21 +5,18 @@ final class SelectRouteListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        children: [
-          _listItemRouteInfo(),
-          _ListItemRouteLine(),
-        ],
-      ),
+    return Column(
+      children: [
+        _listItemRouteInfo(),
+        _RouteLine(),
+      ],
     );
   }
 
   Expanded _listItemRouteInfo() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 10),
+        padding: const EdgeInsets.only(top: 20, left: 20, right: 10),
         child: Row(
           children: [
             _ListItemRouteInfo(),

@@ -22,6 +22,8 @@ void main() async {
   // runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());
   runApp(const SelectRouteExample());
+
+  // runApp(const TestStackPositionedExample());
 }
 
 Future<void> initializeKakaoMap() async {
@@ -30,4 +32,47 @@ Future<void> initializeKakaoMap() async {
     appKey: dotenv.env['APP_KEY'] ?? '',
     baseUrl: dotenv.env['BASE_URL'] ?? '',
   );
+}
+
+class TestStackPositionedExample extends StatelessWidget {
+  const TestStackPositionedExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: StackPositionedExample(),
+    );
+  }
+}
+
+class StackPositionedExample extends StatelessWidget {
+  const StackPositionedExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(width: 5, color: Colors.lightGreenAccent)),
+          child: Stack(
+            children: [
+              Positioned(
+                left:
+                    50, // distance between this child's left edge & left edge of stack
+                top:
+                    150, // distance between this child's top edge & top edge of stack
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  color: Colors.blue,
+                  alignment: Alignment.center,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
