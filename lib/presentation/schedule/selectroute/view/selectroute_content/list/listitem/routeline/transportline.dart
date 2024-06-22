@@ -10,9 +10,9 @@ class _TransportLine extends StatelessWidget {
     return Row(
       children: [
         _line(name: '50분', flex: 2, color: null),
-        _line(name: '2호선', flex: 2, color: Colors.green),
-        _line(name: '50분', flex: 2, color: null),
-        _line(name: '350', flex: 2, color: Colors.blue),
+        _line(name: '2호선', flex: 3, color: Colors.green),
+        _line(name: '20분', flex: 1, color: null),
+        _line(name: '350', flex: 4, color: Colors.blue),
       ],
     );
   }

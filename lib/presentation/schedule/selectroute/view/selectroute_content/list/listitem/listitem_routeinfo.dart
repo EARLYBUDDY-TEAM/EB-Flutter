@@ -8,6 +8,7 @@ class _ListItemRouteInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _routeState(),
+          const SizedBox(height: 5),
           _routeTimeTrasport(),
           _routeSpecificInfo(),
         ],
@@ -33,6 +34,7 @@ extension on _ListItemRouteInfo {
   Expanded _routeTimeTrasport() {
     return Expanded(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
             '1시간 30분',

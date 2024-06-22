@@ -10,7 +10,7 @@ class _RouteLine extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 20,
         right: 20,
-        bottom: 40, // transport textsize 구해서 적용하기
+        bottom: 35, // transport textsize 구해서 적용하기
       ),
       child: Stack(
         alignment: Alignment.center,

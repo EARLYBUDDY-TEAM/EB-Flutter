@@ -36,6 +36,7 @@ class _NestedHeaderScrollState extends State<NestedHeaderScrollView>
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return [
           SliverAppBar(
+            backgroundColor: Colors.grey.shade100,
             title: header,
             centerTitle: true,
           )

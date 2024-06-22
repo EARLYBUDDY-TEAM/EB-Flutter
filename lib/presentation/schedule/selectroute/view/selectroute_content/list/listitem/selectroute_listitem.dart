@@ -5,11 +5,14 @@ final class SelectRouteListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _listItemRouteInfo(),
-        _RouteLine(),
-      ],
+    return SizedBox(
+      height: 200,
+      child: Column(
+        children: [
+          _listItemRouteInfo(),
+          _RouteLine(),
+        ],
+      ),
     );
   }
 

@@ -9,11 +9,7 @@ class _SelectRouteListView extends StatelessWidget {
       child: ListView.separated(
         itemCount: 30,
         itemBuilder: (context, index) {
-          return Container(
-            height: 100,
-            width: double.infinity,
-            color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          );
+          return const SelectRouteListItem();
         },
         separatorBuilder: ((context, index) {
           return const Divider(height: 1);
