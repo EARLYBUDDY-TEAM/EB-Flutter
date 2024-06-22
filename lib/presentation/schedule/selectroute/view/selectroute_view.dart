@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 part 'selectroute_appbar.dart';

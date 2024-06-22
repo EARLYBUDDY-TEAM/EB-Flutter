@@ -60,7 +60,7 @@ extension on _ListItemRouteInfo {
     return const Expanded(
       child: DefaultTextStyle(
         style: TextStyle(
-          fontFamily: NanumSquare.regular,
+          fontFamily: NanumSquare.bold,
           color: Colors.black54,
           fontSize: 17,
         ),
