@@ -1,5 +1,4 @@
-import 'package:earlybuddy/core/network/endpoint/response/dto.dart';
-import 'package:equatable/equatable.dart';
+part of 'domain_model.dart';
 
 final class Coordi extends Equatable {
   final String x;

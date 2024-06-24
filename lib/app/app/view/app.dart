@@ -1,4 +1,5 @@
 import 'package:earlybuddy/app/app/bloc/ebauth_bloc.dart';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
 import 'package:flutter/material.dart';

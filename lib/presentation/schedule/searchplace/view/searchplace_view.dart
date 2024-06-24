@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/material.dart';

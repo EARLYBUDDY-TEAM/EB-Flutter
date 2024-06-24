@@ -1,4 +1,4 @@
-part of 'model.dart';
+part of 'domain_model.dart';
 
 final class Place extends Equatable {
   final String id;

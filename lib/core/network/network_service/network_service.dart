@@ -10,6 +10,8 @@ final class NetworkService {
   final NetworkClientAB _client;
   final NetworkDecoderAB _decoder;
 
+  static final NetworkService shared = NetworkService();
+
   NetworkService({
     NetworkClientAB? client,
     NetworkDecoderAB? decoder,

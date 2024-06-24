@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';

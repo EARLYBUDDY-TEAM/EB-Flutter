@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart';
 
 // 37.487548, 127.10202381181418, 수서역
 class LocationProvider {
+  static final LocationProvider shared = LocationProvider();
+
   Future<Coordi> getCurrentLocation() async {
     bool serviceEnable = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnable) {

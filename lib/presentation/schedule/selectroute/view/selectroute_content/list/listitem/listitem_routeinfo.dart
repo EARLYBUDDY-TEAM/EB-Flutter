@@ -8,7 +8,7 @@ class _ListItemRouteInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _routeState(),
-          const SizedBox(height: 5),
+          const SizedBox(height: 3),
           _routeTimeTrasport(),
           _routeSpecificInfo(),
         ],
