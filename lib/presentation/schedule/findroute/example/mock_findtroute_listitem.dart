@@ -1,6 +1,6 @@
-part of 'selectroute_example.dart';
+part of 'findroute_example.dart';
 
-final class _MockSelectRouteListItem extends StatelessWidget {
+final class _MockFindRouteListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +19,9 @@ final class _MockListItem extends StatelessWidget {
     return Container(
       height: 200,
       color: Colors.amber.shade200,
-      child: const SelectRouteListItem(),
+      child: FindRouteListItem(
+        ebPath: EBPath.mock(),
+      ),
     );
   }
 }

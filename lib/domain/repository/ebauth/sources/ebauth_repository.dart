@@ -5,7 +5,7 @@ import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 
 class EBAuthRepository {
   final _controller = StreamController<EBAuthInfo>();
-  final NetworkService service = NetworkService();
+  final NetworkService service = NetworkService.shared;
 
   Stream<EBAuthInfo> get authInfo async* {
     await Future<void>.delayed(const Duration(seconds: 1));

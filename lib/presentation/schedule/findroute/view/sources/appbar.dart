@@ -1,12 +1,12 @@
-part of 'selectroute_view.dart';
+part of 'findroute_view.dart';
 
-final class _SelectRouteAppBar extends AppBar {
+final class _FindRouteAppBar extends AppBar {
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
   final VoidCallback cancelAction;
 
-  _SelectRouteAppBar({required this.cancelAction});
+  _FindRouteAppBar({required this.cancelAction});
 
   TextStyle textStyle() => TextStyle(
         color: color,

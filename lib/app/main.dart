@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule_example.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
-import 'package:earlybuddy/presentation/schedule/selectroute/example/selectroute_example.dart';
+import 'package:earlybuddy/presentation/schedule/findroute/example/findroute_example.dart';
+import 'package:earlybuddy/shared/eb_env/eb_env.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -12,7 +13,9 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
-  await initializeKakaoMap();
+  final env = ENV.shared;
+  await env.load();
+  initializeKakaoMap(appKey: env.kakao_app_key, baseUrl: env.kakao_baseUrl);
 
   // runApp(const App());
   // runApp(const ExampleAddSchedule());
@@ -21,16 +24,18 @@ void main() async {
 
   // runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());
-  runApp(const SelectRouteExample());
+  runApp(const FindRouteExample());
 
   // runApp(const TestStackPositionedExample());
 }
 
-Future<void> initializeKakaoMap() async {
-  await dotenv.load(fileName: 'assets/env/.env');
+void initializeKakaoMap({
+  required String appKey,
+  required String baseUrl,
+}) {
   AuthRepository.initialize(
-    appKey: dotenv.env['APP_KEY'] ?? '',
-    baseUrl: dotenv.env['BASE_URL'] ?? '',
+    appKey: appKey,
+    baseUrl: baseUrl,
   );
 }
 

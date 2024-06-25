@@ -1,7 +1,7 @@
-part of '../../selectroute_view.dart';
+part of '../../findroute_view.dart';
 
-final class _SelectRouteSortView extends StatelessWidget {
-  const _SelectRouteSortView();
+final class _FindRouteSortView extends StatelessWidget {
+  const _FindRouteSortView();
 
   @override
   Widget build(BuildContext context) {

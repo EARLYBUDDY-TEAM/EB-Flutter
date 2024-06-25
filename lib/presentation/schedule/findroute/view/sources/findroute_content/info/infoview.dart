@@ -1,9 +1,9 @@
-part of '../../selectroute_view.dart';
+part of '../../findroute_view.dart';
 
-final class _SelectRouteInfoView extends StatelessWidget {
+final class _FindRouteInfoView extends StatelessWidget {
   final double horizontalInset = 15;
 
-  const _SelectRouteInfoView();
+  const _FindRouteInfoView();
 
   @override
   Widget build(BuildContext context) {

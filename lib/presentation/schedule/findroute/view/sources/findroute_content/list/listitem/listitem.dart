@@ -1,7 +1,12 @@
-part of '../../../selectroute_view.dart';
+part of '../../../findroute_view.dart';
 
-final class SelectRouteListItem extends StatelessWidget {
-  const SelectRouteListItem({super.key});
+final class FindRouteListItem extends StatelessWidget {
+  final EBPath ebPath;
+
+  const FindRouteListItem({
+    super.key,
+    required this.ebPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ final class SelectRouteListItem extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20, left: 20, right: 10),
         child: Row(
           children: [
-            _ListItemRouteInfo(),
+            _ListItemRouteInfo(ebPath: ebPath),
             const Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,

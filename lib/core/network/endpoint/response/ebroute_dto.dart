@@ -1,3 +1,16 @@
+import 'dart:developer';
+
+// final class EBRouteResultDTO {
+//   final EBRouteDTO ebRouteDTO;
+
+//   EBRouteResultDTO({required this.ebRouteDTO});
+
+//   static EBRouteResultDTO fromJson(Map<String, dynamic> j) {
+//     final ebRouteDTO = EBRouteDTO.fromJson(j['result']);
+//     return EBRouteResultDTO(ebRouteDTO: ebRouteDTO);
+//   }
+// }
+
 final class EBRouteDTO {
   final int searchType;
   final List<EBPathDTO> ebPaths;
@@ -16,18 +29,19 @@ final class EBRouteDTO {
 
 final class EBPathDTO {
   final int pathType;
-  final List<EBPathInfoDTO> ebPathInfos;
+  final EBPathInfoDTO ebPathInfo;
 
   EBPathDTO({
     required this.pathType,
-    required this.ebPathInfos,
+    required this.ebPathInfo,
   });
 
   static EBPathDTO fromJson(Map<String, dynamic> j) {
-    final ebPathInfoList = j['info'] as List;
-    final ebPathInfos =
-        ebPathInfoList.map((i) => EBPathInfoDTO.fromJson(i)).toList();
-    return EBPathDTO(pathType: j['pathType'], ebPathInfos: ebPathInfos);
+    final ebPathInfo = EBPathInfoDTO.fromJson(j['info']);
+    return EBPathDTO(
+      pathType: j['pathType'],
+      ebPathInfo: ebPathInfo,
+    );
   }
 }
 

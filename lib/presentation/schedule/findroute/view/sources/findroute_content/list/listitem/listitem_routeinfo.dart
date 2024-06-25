@@ -1,6 +1,12 @@
-part of '../../../selectroute_view.dart';
+part of '../../../findroute_view.dart';
 
-class _ListItemRouteInfo extends StatelessWidget {
+final class _ListItemRouteInfo extends StatelessWidget {
+  final EBPath ebPath;
+
+  const _ListItemRouteInfo({
+    required this.ebPath,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -30,14 +36,16 @@ extension on _ListItemRouteInfo {
       ),
     );
   }
+}
 
+extension on _ListItemRouteInfo {
   Expanded _routeTimeTrasport() {
     return Expanded(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            '1시간 30분',
+            ebPath.ebPathInfo.totalTime,
             style: TextStyle(
               fontFamily: NanumSquare.extraBold,
               color: EBColors.text,
@@ -45,9 +53,9 @@ extension on _ListItemRouteInfo {
             ),
           ),
           const SizedBox(width: 15),
-          const Text(
-            '지하철 + 버스',
-            style: TextStyle(
+          Text(
+            ebPath.pathType,
+            style: const TextStyle(
               fontFamily: NanumSquare.extraBold,
               color: Colors.grey,
               fontSize: 18,
@@ -57,22 +65,26 @@ extension on _ListItemRouteInfo {
       ),
     );
   }
+}
 
+extension on _ListItemRouteInfo {
   Expanded _routeSpecificInfo() {
-    return const Expanded(
+    final transitCount = ebPath.ebPathInfo.transitCount;
+    final payment = ebPath.ebPathInfo.payment;
+    return Expanded(
       child: DefaultTextStyle(
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: NanumSquare.bold,
           color: Colors.black54,
           fontSize: 17,
         ),
         child: Row(
           children: [
-            Text('환승 1회'),
-            SizedBox(width: 20),
-            Text('도보 9분'),
-            SizedBox(width: 20),
-            Text('1200원'),
+            Text('환승 $transitCount회'),
+            const SizedBox(width: 20),
+            const Text('도보 9분'),
+            const SizedBox(width: 20),
+            Text('$payment원'),
           ],
         ),
       ),
