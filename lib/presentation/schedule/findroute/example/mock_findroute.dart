@@ -5,8 +5,8 @@ class _MockFindRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: FindRouteView(),
+    return const Scaffold(
+      body: FindRouteView(),
     );
   }
 }

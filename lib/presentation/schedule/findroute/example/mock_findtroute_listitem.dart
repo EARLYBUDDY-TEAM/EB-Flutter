@@ -3,11 +3,9 @@ part of 'findroute_example.dart';
 final class _MockFindRouteListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: _MockListItem(),
-        ),
+    return Scaffold(
+      body: Center(
+        child: _MockListItem(),
       ),
     );
   }

@@ -1,6 +1,6 @@
 part of '../../../../findroute_view.dart';
 
-class _RouteLine extends StatelessWidget {
+class RouteLine extends StatelessWidget {
   final double height = 2;
   final double dotSize = 15;
 
@@ -32,7 +32,7 @@ class _RouteLine extends StatelessWidget {
   }
 }
 
-extension on _RouteLine {
+extension on RouteLine {
   Flex circlePoints() {
     return Flex(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

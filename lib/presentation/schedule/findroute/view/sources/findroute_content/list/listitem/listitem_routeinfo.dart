@@ -45,7 +45,7 @@ extension on _ListItemRouteInfo {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            ebPath.ebPathInfo.totalTime,
+            EBTime.shared.intToString(ebPath.time),
             style: TextStyle(
               fontFamily: NanumSquare.extraBold,
               color: EBColors.text,
@@ -54,7 +54,7 @@ extension on _ListItemRouteInfo {
           ),
           const SizedBox(width: 15),
           Text(
-            ebPath.pathType,
+            _pathType(ebPath.type),
             style: const TextStyle(
               fontFamily: NanumSquare.extraBold,
               color: Colors.grey,
@@ -65,12 +65,23 @@ extension on _ListItemRouteInfo {
       ),
     );
   }
+
+  String _pathType(int pathType) {
+    if (pathType == 1) {
+      return '지하철';
+    } else if (pathType == 2) {
+      return '버스';
+    } else {
+      return '지하철 + 버스';
+    }
+  }
 }
 
 extension on _ListItemRouteInfo {
   Expanded _routeSpecificInfo() {
-    final transitCount = ebPath.ebPathInfo.transitCount;
-    final payment = ebPath.ebPathInfo.payment;
+    final transitCount = ebPath.busTransitCount + ebPath.subwayTransitCount;
+    final payment = ebPath.payment;
+    final walkTime = EBTime.shared.intToString(ebPath.walkTime);
     return Expanded(
       child: DefaultTextStyle(
         style: const TextStyle(
@@ -82,7 +93,7 @@ extension on _ListItemRouteInfo {
           children: [
             Text('환승 $transitCount회'),
             const SizedBox(width: 20),
-            const Text('도보 9분'),
+            Text(walkTime),
             const SizedBox(width: 20),
             Text('$payment원'),
           ],

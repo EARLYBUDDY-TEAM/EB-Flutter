@@ -1,35 +1,60 @@
 part of '../domain_model.dart';
 
 final class EBPath extends Equatable {
-  final String pathType;
-  final EBPathInfo ebPathInfo;
+  final int type;
+  final int time;
+  final int walkTime;
+  final int payment;
+  final int busTransitCount;
+  final int subwayTransitCount;
+  final List<EBSubPath> ebSubPaths;
 
   const EBPath({
-    required this.pathType,
-    required this.ebPathInfo,
+    required this.type,
+    required this.time,
+    required this.walkTime,
+    required this.payment,
+    required this.busTransitCount,
+    required this.subwayTransitCount,
+    required this.ebSubPaths,
   });
 
   EBPath.fromDTO({required EBPathDTO ebPathDTO})
-      : pathType = _pathType(ebPathDTO.pathType),
-        ebPathInfo = EBPathInfo.fromDTO(ebPathInfoDTO: ebPathDTO.ebPathInfo);
+      : type = ebPathDTO.type,
+        time = ebPathDTO.time,
+        walkTime = ebPathDTO.walkTime,
+        payment = ebPathDTO.payment,
+        busTransitCount = ebPathDTO.busTransitCount,
+        subwayTransitCount = ebPathDTO.subwayTransitCount,
+        ebSubPaths = ebPathDTO.ebSubPaths
+            .map((s) => EBSubPath.fromDTO(ebSubPathDTO: s))
+            .toList();
 
   @override
-  List<Object?> get props => [pathType, ebPathInfo];
+  List<Object?> get props => [
+        type,
+        time,
+        walkTime,
+        payment,
+        busTransitCount,
+        subwayTransitCount,
+        ebSubPaths,
+      ];
 
   static EBPath mock() {
     return EBPath(
-      pathType: _pathType(3),
-      ebPathInfo: EBPathInfo.mock(),
+      type: 3,
+      time: 92,
+      walkTime: 12,
+      payment: 3400,
+      busTransitCount: 4,
+      subwayTransitCount: 3,
+      ebSubPaths: [
+        EBSubPath.mockBus(),
+        EBSubPath.mockWalk(),
+        EBSubPath.mockSubway(),
+        EBSubPath.mockWalk(),
+      ],
     );
-  }
-}
-
-String _pathType(int pathType) {
-  if (pathType == 1) {
-    return '지하철';
-  } else if (pathType == 2) {
-    return '버스';
-  } else {
-    return '지하철 + 버스';
   }
 }
