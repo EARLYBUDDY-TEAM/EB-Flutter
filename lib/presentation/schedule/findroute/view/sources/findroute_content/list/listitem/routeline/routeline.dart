@@ -1,8 +1,14 @@
 part of '../../../../findroute_view.dart';
 
-class RouteLine extends StatelessWidget {
+class _RouteLine extends StatelessWidget {
   final double height = 2;
   final double dotSize = 15;
+  final TransportLineOfPath lineOfPath;
+
+  const _RouteLine({
+    super.key,
+    required this.lineOfPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +28,10 @@ class RouteLine extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 _DashLine(height: height),
-                _TransportLine(height: height),
+                _TransportLine(
+                  height: height,
+                  lineOfPath: lineOfPath,
+                ),
               ],
             ),
           ),
@@ -32,7 +41,7 @@ class RouteLine extends StatelessWidget {
   }
 }
 
-extension on RouteLine {
+extension on _RouteLine {
   Flex circlePoints() {
     return Flex(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

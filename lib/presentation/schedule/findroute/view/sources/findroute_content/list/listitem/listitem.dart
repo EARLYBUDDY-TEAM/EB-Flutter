@@ -2,10 +2,12 @@ part of '../../../findroute_view.dart';
 
 final class FindRouteListItem extends StatelessWidget {
   final EBPath ebPath;
+  final TransportLineOfPath lineOfPath;
 
   const FindRouteListItem({
     super.key,
     required this.ebPath,
+    required this.lineOfPath,
   });
 
   @override
@@ -15,7 +17,7 @@ final class FindRouteListItem extends StatelessWidget {
       child: Column(
         children: [
           _listItemRouteInfo(),
-          RouteLine(),
+          _RouteLine(lineOfPath: lineOfPath),
         ],
       ),
     );

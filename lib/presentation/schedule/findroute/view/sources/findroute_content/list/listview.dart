@@ -6,11 +6,10 @@ class _FindRouteListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: BlocSelector<FindRouteBloc, FindRouteState, EBRoute?>(
-        selector: (state) {
-          return state.ebRoute;
-        },
-        builder: (context, ebRoute) {
+      child: BlocBuilder<FindRouteBloc, FindRouteState>(
+        builder: (context, findRouteState) {
+          final ebRoute = findRouteState.ebRoute;
+          final viewState = findRouteState.viewState;
           if (ebRoute == null) {
             return const Center(
               child: Text('empty ebRoute...'),
@@ -19,7 +18,10 @@ class _FindRouteListView extends StatelessWidget {
             return ListView.separated(
               itemCount: ebRoute.ebPaths.length,
               itemBuilder: (context, index) {
-                return FindRouteListItem(ebPath: ebRoute.ebPaths[index]);
+                return FindRouteListItem(
+                  ebPath: ebRoute.ebPaths[index],
+                  lineOfPath: viewState.transportLineOfRoute.lineOfRoute[index],
+                );
               },
               separatorBuilder: ((context, index) {
                 return const Divider(height: 1);

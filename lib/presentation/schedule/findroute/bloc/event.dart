@@ -1,4 +1,4 @@
-part of 'findroute_bloc.dart';
+part of 'bloc.dart';
 
 sealed class FindRouteEvent extends Equatable {
   const FindRouteEvent();

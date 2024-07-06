@@ -19,6 +19,7 @@ final class _MockListItem extends StatelessWidget {
       color: Colors.amber.shade200,
       child: FindRouteListItem(
         ebPath: EBPath.mock(),
+        lineOfPath: TransportLineOfPath.mock(),
       ),
     );
   }
