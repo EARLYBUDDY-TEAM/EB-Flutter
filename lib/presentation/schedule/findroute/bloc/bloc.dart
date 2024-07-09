@@ -25,6 +25,14 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   void fetchFindRouteData() {}
 }
 
+// shared 이동
+class Pair<T1, T2> {
+  final T1 a;
+  final T2 b;
+
+  Pair(this.a, this.b);
+}
+
 extension on FindRouteBloc {
   void _onFetchFindRouteData(
     FetchFindRouteData event,
@@ -48,21 +56,23 @@ extension on FindRouteBloc {
   }
 
   TransportLineOfRoute getTransportLineOfRoute({required List<EBPath> paths}) {
-    final lineOfRoute = paths.map((p) {
-      return getTransportLineOfPath(ebSubPaths: p.ebSubPaths);
+    final lineOfRoute = paths.map((path) {
+      return getTransportLineOfPath(pair: Pair(path.time, path.ebSubPaths));
     }).toList();
     return TransportLineOfRoute(lineOfRoute: lineOfRoute);
   }
 
   TransportLineOfPath getTransportLineOfPath(
-      {required List<EBSubPath> ebSubPaths}) {
-    final lineOfPath = ebSubPaths
+      {required Pair<int, List<EBSubPath>> pair}) {
+    final lineOfPath = pair.b
         .map((ebSubPath) => subPathToLineInfo(ebSubPath: ebSubPath))
         .toList();
-    return TransportLineOfPath(lineOfPath: lineOfPath);
+    return TransportLineOfPath(pathTime: pair.a, lineOfPath: lineOfPath);
   }
 
-  TransportLineInfo subPathToLineInfo({required EBSubPath ebSubPath}) {
+  TransportLineInfo subPathToLineInfo({
+    required EBSubPath ebSubPath,
+  }) {
     String? name;
     Color? color;
 
@@ -82,7 +92,7 @@ extension on FindRouteBloc {
     return TransportLineInfo(
       type: ebSubPath.type,
       name: name,
-      length: ebSubPath.time,
+      subPathTime: ebSubPath.time,
       color: color,
     );
   }

@@ -11,17 +11,32 @@ class _TransportLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        children: lineOfPath.lineOfPath
-            .map((lineInfo) => _line(lineInfo: lineInfo))
-            .toList());
+    return LayoutBuilder(builder: ((context, constraints) {
+      return Row(
+          children: lineOfPath.lineOfPath.map((lineInfo) {
+        final String text = lineInfo.name ?? '${lineInfo.subPathTime}분';
+        final TextStyle style = _textStyle(lineInfo.color);
+        final double minWidth = _textSize(text: text, style: style).width + 10;
+        final double myWidth =
+            constraints.maxWidth * (lineInfo.subPathTime / lineOfPath.pathTime);
+
+        if (minWidth < myWidth) {
+          return _lineFlexible(lineInfo: lineInfo);
+        } else {
+          return _lineSizedBox(lineInfo: lineInfo, width: minWidth);
+        }
+      }).toList());
+    }));
   }
 
-  Flexible _line({
+  Flexible _lineFlexible({
     required TransportLineInfo lineInfo,
   }) {
+    final String text = lineInfo.name ?? '${lineInfo.subPathTime}분';
+    final TextStyle style = _textStyle(lineInfo.color);
+
     return Flexible(
-      flex: lineInfo.length,
+      flex: lineInfo.subPathTime,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -35,8 +50,9 @@ class _TransportLine extends StatelessWidget {
           Transform.translate(
             offset: const Offset(0, 20),
             child: Text(
-              lineInfo.name ?? '${lineInfo.length}분',
-              style: _textStyle(lineInfo.color),
+              text,
+              maxLines: 1,
+              style: style,
             ),
           ),
         ],
@@ -44,11 +60,52 @@ class _TransportLine extends StatelessWidget {
     );
   }
 
+  SizedBox _lineSizedBox({
+    required TransportLineInfo lineInfo,
+    required double width,
+  }) {
+    final String text = lineInfo.name ?? '${lineInfo.subPathTime}분';
+    final TextStyle style = _textStyle(lineInfo.color);
+
+    return SizedBox(
+      width: width,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: lineInfo.color,
+              borderRadius: BorderRadius.all(Radius.circular(height / 2)),
+            ),
+            height: height,
+          ),
+          Transform.translate(
+            offset: const Offset(0, 20),
+            child: Text(
+              text,
+              maxLines: 1,
+              style: style,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Size _textSize({required String text, required TextStyle style}) {
+    final TextPainter textPainter = TextPainter(
+        text: TextSpan(text: text, style: style),
+        maxLines: 1,
+        textDirection: TextDirection.ltr)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
+    return textPainter.size;
+  }
+
   TextStyle _textStyle(Color? color) {
     if (color != null) {
       return TextStyle(
         fontFamily: NanumSquare.extraBold,
-        fontSize: 20,
+        fontSize: 16,
         color: color,
       );
     } else {
