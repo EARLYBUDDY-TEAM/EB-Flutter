@@ -3,13 +3,12 @@ import 'dart:developer';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/findroute/findroute_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'event.dart';
 part 'states/state.dart';
-part 'states/viewstates/transportline.dart';
+part 'states/viewstates/transportlineinfo.dart';
 part 'states/viewstates/viewstate.dart';
 
 class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {

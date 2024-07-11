@@ -91,7 +91,7 @@ final class TransportDTO {
   static TransportDTO fromJson(Map<String, dynamic> j) {
     return TransportDTO(
       subwayName: j['subwayName'],
-      busName: j['busName'],
+      busName: j['busNumber'],
     );
   }
 }

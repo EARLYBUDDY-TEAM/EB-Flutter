@@ -11,8 +11,8 @@ class FindRouteExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: _MockFindRouteListItem(),
+    return const MaterialApp(
+      home: _MockFindRoute(),
     );
   }
 }
