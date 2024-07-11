@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/findroute/findroute_repository.dart';
+import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +15,7 @@ part 'states/viewstates/viewstate.dart';
 
 class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final FindRouteRepository _findRouteRepository;
+
   FindRouteBloc({
     FindRouteRepository? findRouteRepository,
   })  : _findRouteRepository = findRouteRepository ?? FindRouteRepository(),
@@ -21,15 +24,32 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
     add(const FetchFindRouteData());
   }
 
-  void fetchFindRouteData() {}
-}
-
-// shared 이동
-class Pair<T1, T2> {
-  final T1 a;
-  final T2 b;
-
-  Pair(this.a, this.b);
+  final Map<String, Color> _subwayColor = {
+    '1호선': EBColors.subway.line1,
+    '2호선': EBColors.subway.line2,
+    '3호선': EBColors.subway.line3,
+    '4호선': EBColors.subway.line4,
+    '5호선': EBColors.subway.line5,
+    '6호선': EBColors.subway.line6,
+    '7호선': EBColors.subway.line7,
+    '8호선': EBColors.subway.line8,
+    '9호선': EBColors.subway.line9,
+    '인천1호선': EBColors.subway.incheon1,
+    '인천2호선': EBColors.subway.incheon2,
+    '신분당': EBColors.subway.sinbundang,
+    '경의중앙선': EBColors.subway.gyongijungang,
+    '경춘선': EBColors.subway.gyongchun,
+    '수인분당': EBColors.subway.suinbundang,
+    '공항': EBColors.subway.gonghang,
+    '신림선': EBColors.subway.sillim,
+    '의정부': EBColors.subway.uijongbu,
+    '에버라인': EBColors.subway.everline,
+    'GTX-A': EBColors.subway.gtx_a,
+    '경강선': EBColors.subway.gyonggang,
+    '우이신설': EBColors.subway.uisinsol,
+    '서해선': EBColors.subway.sohae,
+    '김포골드': EBColors.subway.gimpokkoldeu,
+  };
 }
 
 extension on FindRouteBloc {
@@ -40,7 +60,7 @@ extension on FindRouteBloc {
     try {
       final ebRoute = await _findRouteRepository.getEBRoute();
       final transportLineOfRoute =
-          getTransportLineOfRoute(paths: ebRoute.ebPaths);
+          _getTransportLineOfRoute(paths: ebRoute.ebPaths);
       final findRouteViewState =
           FindRouteViewState(transportLineOfRoute: transportLineOfRoute);
       emit(
@@ -54,22 +74,22 @@ extension on FindRouteBloc {
     }
   }
 
-  TransportLineOfRoute getTransportLineOfRoute({required List<EBPath> paths}) {
+  TransportLineOfRoute _getTransportLineOfRoute({required List<EBPath> paths}) {
     final lineOfRoute = paths.map((path) {
-      return getTransportLineOfPath(pair: Pair(path.time, path.ebSubPaths));
+      return _getTransportLineOfPath(pair: Pair(path.time, path.ebSubPaths));
     }).toList();
     return TransportLineOfRoute(lineOfRoute: lineOfRoute);
   }
 
-  TransportLineOfPath getTransportLineOfPath(
+  TransportLineOfPath _getTransportLineOfPath(
       {required Pair<int, List<EBSubPath>> pair}) {
     final lineOfPath = pair.b
-        .map((ebSubPath) => subPathToLineInfo(ebSubPath: ebSubPath))
+        .map((ebSubPath) => _subPathToLineInfo(ebSubPath: ebSubPath))
         .toList();
     return TransportLineOfPath(pathTime: pair.a, lineOfPath: lineOfPath);
   }
 
-  TransportLineInfo subPathToLineInfo({
+  TransportLineInfo _subPathToLineInfo({
     required EBSubPath ebSubPath,
   }) {
     String? name;
@@ -77,9 +97,9 @@ extension on FindRouteBloc {
 
     if (ebSubPath.type == 1) {
       try {
-        name = ebSubPath.transports?[0].subwayName;
-        // color = ebSubPath.transports?[0].color
-        color = Colors.green;
+        final subwayName = ebSubPath.transports?[0].subwayName;
+        name = subwayName;
+        color = _subwayColor[name];
       } catch (e) {}
     } else if (ebSubPath.type == 2) {
       try {
