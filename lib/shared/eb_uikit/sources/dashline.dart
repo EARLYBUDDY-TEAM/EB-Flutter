@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 final class HDashLine extends StatelessWidget {
-  final double dotSize = 15;
   final StatelessWidget? stackLine;
+  final Color color;
+  final double dotSize = 15;
 
   const HDashLine({
     super.key,
+    this.color = Colors.grey,
     this.stackLine,
   });
 
@@ -27,7 +29,9 @@ final class HDashLine extends StatelessWidget {
   }
 
   List<Widget> stackChildren() {
-    return stackLine != null ? [const _HDash(), stackLine!] : [const _HDash()];
+    return stackLine != null
+        ? [_HDash(color: color), stackLine!]
+        : [_HDash(color: color)];
   }
 
   Row _circlePoints() {
@@ -44,16 +48,18 @@ final class HDashLine extends StatelessWidget {
     return Icon(
       Icons.trip_origin,
       size: dotSize,
-      color: Colors.grey,
+      color: color,
     );
   }
 }
 
 final class _HDash extends StatelessWidget {
   final double height;
+  final Color color;
 
   const _HDash({
     this.height = 2,
+    this.color = Colors.grey,
   });
 
   @override
@@ -72,8 +78,8 @@ final class _HDash extends StatelessWidget {
             (index) => SizedBox(
               width: dashWidth,
               height: dashHeight,
-              child: const DecoratedBox(
-                decoration: BoxDecoration(color: Colors.grey),
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: color),
               ),
             ),
           ),
@@ -84,12 +90,14 @@ final class _HDash extends StatelessWidget {
 }
 
 final class VDashLine extends StatelessWidget {
-  final double dotSize = 15;
   final StatelessWidget? stackLine;
+  final Color color;
+  final double dotSize = 15;
 
   const VDashLine({
     super.key,
     this.stackLine,
+    this.color = Colors.grey,
   });
 
   @override
@@ -110,7 +118,9 @@ final class VDashLine extends StatelessWidget {
   }
 
   List<Widget> stackChildren() {
-    return stackLine != null ? [const _VDash(), stackLine!] : [const _VDash()];
+    return stackLine != null
+        ? [_VDash(color: color), stackLine!]
+        : [_VDash(color: color)];
   }
 
   Column _circlePoints() {
@@ -127,16 +137,18 @@ final class VDashLine extends StatelessWidget {
     return Icon(
       Icons.trip_origin,
       size: dotSize,
-      color: Colors.grey,
+      color: color,
     );
   }
 }
 
 final class _VDash extends StatelessWidget {
   final double width;
+  final Color color;
 
   const _VDash({
     this.width = 2,
+    this.color = Colors.grey,
   });
 
   @override
@@ -155,8 +167,8 @@ final class _VDash extends StatelessWidget {
             (index) => SizedBox(
               width: dashWidth,
               height: dashHeight,
-              child: const DecoratedBox(
-                decoration: BoxDecoration(color: Colors.grey),
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: color),
               ),
             ),
           ),
