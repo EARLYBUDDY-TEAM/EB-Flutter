@@ -17,4 +17,8 @@ final class EBRoute extends Equatable {
 
   @override
   List<Object?> get props => [type, ebPaths];
+
+  static EBRoute mock() {
+    return EBRoute.fromDTO(ebRouteDTO: EBRouteDTO.mock());
+  }
 }
