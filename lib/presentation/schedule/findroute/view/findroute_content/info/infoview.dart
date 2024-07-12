@@ -53,28 +53,10 @@ final class _FindRouteInfoView extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        SizedBox(
+        const EBRoundedButton(
+          text: '변경',
           height: 25,
-          child: OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-              side: const BorderSide(
-                width: 1,
-                color: Colors.grey,
-              ),
-            ),
-            child: const Text(
-              '변경',
-              style: TextStyle(
-                fontFamily: NanumSquare.bold,
-                color: Colors.grey,
-                fontSize: 13,
-              ),
-            ),
-          ),
-        )
+        ),
       ],
     );
   }

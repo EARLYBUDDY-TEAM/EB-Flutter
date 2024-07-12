@@ -14,7 +14,6 @@ part 'findroute_content/list/listview.dart';
 part 'findroute_content/list/listitem/listitem.dart';
 part 'findroute_content/list/listitem/listitem_routeinfo.dart';
 part 'findroute_content/list/listitem/routeline/routeline.dart';
-part 'findroute_content/list/listitem/routeline/dashline.dart';
 part 'findroute_content/list/listitem/routeline/transportline.dart';
 
 final class FindRouteView extends StatelessWidget {

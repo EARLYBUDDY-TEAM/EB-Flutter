@@ -36,3 +36,44 @@ class EBButton extends StatelessWidget {
     );
   }
 }
+
+class EBRoundedButton extends StatelessWidget {
+  final String text;
+  final double? height;
+  final double fontSize;
+  final Function()? onPressed;
+
+  const EBRoundedButton({
+    super.key,
+    required this.text,
+    this.height,
+    this.fontSize = 12,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+          side: const BorderSide(
+            width: 1,
+            color: Colors.grey,
+          ),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: NanumSquare.bold,
+            color: Colors.grey,
+            fontSize: fontSize,
+          ),
+        ),
+      ),
+    );
+  }
+}
