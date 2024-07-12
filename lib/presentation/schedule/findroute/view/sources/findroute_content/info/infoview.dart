@@ -33,7 +33,11 @@ final class _FindRouteInfoView extends StatelessWidget {
     return Container(
       width: 25,
       height: 60,
-      color: Colors.amber,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+        image: EBImages.markFindRoute,
+        fit: BoxFit.contain,
+      )),
     );
   }
 
