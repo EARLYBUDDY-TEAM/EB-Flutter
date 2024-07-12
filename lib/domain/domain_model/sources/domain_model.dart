@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:earlybuddy/core/network/endpoint/response/dto.dart';
+import 'package:earlybuddy/domain/network/endpoint/response/dto.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:equatable/equatable.dart';

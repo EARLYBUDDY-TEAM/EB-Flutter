@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:earlybuddy/core/network/endpoint/response/dto.dart';
+import 'package:earlybuddy/domain/network/endpoint/response/dto.dart';
 import 'package:earlybuddy/shared/eb_env/eb_env.dart';
 import 'package:earlybuddy/shared/eb_error/eb_error.dart';
 part 'network_client.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/endpoint/endpoint.dart';
+import 'package:earlybuddy/domain/network/network_service/network_service.dart';
 import 'package:earlybuddy/shared/eb_error/eb_error.dart';
 import 'package:test/test.dart';
 import 'endpoint/request/mock_api.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/endpoint/endpoint.dart';
+import 'package:earlybuddy/domain/network/network_service/network_service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 
 class EBAuthRepository {

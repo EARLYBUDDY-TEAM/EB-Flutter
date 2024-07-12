@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/findroute/findroute_repository.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
