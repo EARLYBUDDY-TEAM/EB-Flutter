@@ -11,6 +11,14 @@ final class EBColors {
   static Color text = const Color(0xff3C3C3C);
 
   static final subway = _Subway();
+  static final bus = _Bus();
+}
+
+final class _Bus {
+  Color ganson = HexColor('3469ec');
+  Color jison = HexColor('33c63c');
+  Color gwangyok = HexColor('ff574c');
+  Color others = HexColor('85c900');
 }
 
 final class _Subway {
@@ -26,17 +34,18 @@ final class _Subway {
 
   Color incheon1 = HexColor('6d98d2');
   Color incheon2 = HexColor('f7ac2e');
-  Color sinbundang = HexColor('a71b2c');
-  Color gyongijungang = HexColor('7ac6a4');
-  Color gyongchun = HexColor('00b07a');
-  Color suinbundang = HexColor('eeaa00');
-  Color gonghang = HexColor('70b5e6');
-  Color sillim = HexColor('6789CA');
-  Color uijongbu = HexColor('ff9f00');
-  Color everline = HexColor('75c56e');
   Color gtx_a = HexColor('9A6292');
+  Color gonghang = HexColor('70b5e6');
+  Color jagibusang = HexColor('f08d41');
+  Color gyongijungang = HexColor('7ac6a4');
+  Color everline = HexColor('75c56e');
+  Color gyongchun = HexColor('00b07a');
+  Color sinbundang = HexColor('a71b2c');
+  Color uijongbu = HexColor('ff9f00');
   Color gyonggang = HexColor('1e6ff7');
   Color uisinsol = HexColor('c7c300');
   Color sohae = HexColor('8ac832');
-  Color gimpokkoldeu = HexColor('977300');
+  Color gimpogold = HexColor('977300');
+  Color suinbundang = HexColor('eeaa00');
+  Color sillim = HexColor('6789CA');
 }

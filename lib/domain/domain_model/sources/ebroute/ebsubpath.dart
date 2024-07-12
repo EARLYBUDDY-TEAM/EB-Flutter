@@ -14,12 +14,19 @@ final class EBSubPath extends Equatable {
   @override
   List<Object?> get props => [type, time, transports];
 
-  EBSubPath.fromDTO({required EBSubPathDTO ebSubPathDTO})
-      : type = ebSubPathDTO.type,
-        time = ebSubPathDTO.time,
-        transports = ebSubPathDTO.transports
-            ?.map((t) => Transport.fromDTO(transportDTO: t))
-            .toList();
+  static EBSubPath fromDTO({required EBSubPathDTO ebSubPathDTO}) {
+    List<Transport>? transports;
+    if (ebSubPathDTO.transports != null) {
+      transports = ebSubPathDTO.transports!
+          .map((dto) => Transport.fromDTO(transportDTO: dto))
+          .toList();
+    }
+    return EBSubPath(
+      type: ebSubPathDTO.type,
+      time: ebSubPathDTO.time,
+      transports: transports,
+    );
+  }
 
   static EBSubPath mockWalk() {
     return const EBSubPath(

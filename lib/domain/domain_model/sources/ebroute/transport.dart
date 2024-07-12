@@ -1,32 +1,41 @@
 part of '../domain_model.dart';
 
 final class Transport extends Equatable {
-  final String? subwayName;
-  final String? busName;
+  final Subway? subway;
+  final Bus? bus;
 
   const Transport({
-    required this.subwayName,
-    required this.busName,
+    required this.subway,
+    required this.bus,
   });
 
-  Transport.fromDTO({required TransportDTO transportDTO})
-      : subwayName = transportDTO.subwayName,
-        busName = transportDTO.busName;
+  static Transport fromDTO({required TransportDTO transportDTO}) {
+    Subway? subway;
+    Bus? bus;
+    if (transportDTO.subwayType != null) {
+      subway = Subway(type: transportDTO.subwayType!);
+    }
+    if ((transportDTO.busNumber != null) && (transportDTO.busType != null)) {
+      bus = Bus(number: transportDTO.busNumber!, type: transportDTO.busType!);
+    }
+
+    return Transport(subway: subway, bus: bus);
+  }
 
   @override
-  List<Object?> get props => [subwayName, busName];
+  List<Object?> get props => [subway, bus];
 
   static Transport mockBus() {
-    return const Transport(
-      subwayName: null,
-      busName: '401',
+    return Transport(
+      subway: null,
+      bus: Bus.mock(),
     );
   }
 
   static Transport mockSubway() {
-    return const Transport(
-      subwayName: '3호선',
-      busName: null,
+    return Transport(
+      subway: Subway.mock(),
+      bus: null,
     );
   }
 }

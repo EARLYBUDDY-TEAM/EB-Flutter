@@ -30,7 +30,7 @@ class TransportLineOfPath extends Equatable {
     final subway2 = TransportLineInfo.subwayMock();
     final bus1 = TransportLineInfo.busMock();
     final lineOfPath = [walk1, subway1, walk2, subway2, bus1];
-    final int pathTime = lineOfPath.fold(0, (t, e) => t + e.subPathTime);
+    final int pathTime = lineOfPath.fold(0, (t, e) => t + e.time);
 
     return TransportLineOfPath(
       pathTime: pathTime,
@@ -40,49 +40,43 @@ class TransportLineOfPath extends Equatable {
 }
 
 class TransportLineInfo extends Equatable {
-  final int type;
   final String? name;
-  final int subPathTime;
+  final int time;
   final Color? color;
 
   const TransportLineInfo({
-    required this.type,
     required this.name,
-    required this.subPathTime,
+    required this.time,
     required this.color,
   });
 
   @override
   List<Object?> get props => [
-        type,
         name,
-        subPathTime,
+        time,
         color,
       ];
 
   static TransportLineInfo subwayMock() {
     return const TransportLineInfo(
-      type: 1,
       name: '2호선',
-      subPathTime: 35,
+      time: 35,
       color: Colors.green,
     );
   }
 
   static TransportLineInfo busMock() {
     return const TransportLineInfo(
-      type: 2,
       name: '406',
-      subPathTime: 73,
+      time: 73,
       color: Colors.blue,
     );
   }
 
   static TransportLineInfo walkMock() {
     return const TransportLineInfo(
-      type: 3,
       name: null,
-      subPathTime: 2,
+      time: 2,
       color: null,
     );
   }

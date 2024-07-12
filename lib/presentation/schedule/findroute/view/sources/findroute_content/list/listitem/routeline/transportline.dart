@@ -14,11 +14,11 @@ class _TransportLine extends StatelessWidget {
     return LayoutBuilder(builder: ((context, constraints) {
       return Row(
           children: lineOfPath.lineOfPath.map((lineInfo) {
-        final String text = lineInfo.name ?? '${lineInfo.subPathTime}분';
+        final String text = lineInfo.name ?? '${lineInfo.time}분';
         final TextStyle style = _textStyle(lineInfo.color);
         final double minWidth = _textSize(text: text, style: style).width + 10;
         final double myWidth =
-            constraints.maxWidth * (lineInfo.subPathTime / lineOfPath.pathTime);
+            constraints.maxWidth * (lineInfo.time / lineOfPath.pathTime);
 
         if (minWidth < myWidth) {
           return _lineFlexible(lineInfo: lineInfo);
@@ -32,11 +32,11 @@ class _TransportLine extends StatelessWidget {
   Flexible _lineFlexible({
     required TransportLineInfo lineInfo,
   }) {
-    final String text = lineInfo.name ?? '${lineInfo.subPathTime}분';
+    final String text = lineInfo.name ?? '${lineInfo.time}분';
     final TextStyle style = _textStyle(lineInfo.color);
 
     return Flexible(
-      flex: lineInfo.subPathTime,
+      flex: lineInfo.time,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -64,7 +64,7 @@ class _TransportLine extends StatelessWidget {
     required TransportLineInfo lineInfo,
     required double width,
   }) {
-    final String text = lineInfo.name ?? '${lineInfo.subPathTime}분';
+    final String text = lineInfo.name ?? '${lineInfo.time}분';
     final TextStyle style = _textStyle(lineInfo.color);
 
     return SizedBox(

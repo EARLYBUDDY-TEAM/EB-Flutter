@@ -80,18 +80,21 @@ final class EBSubPathDTO {
 }
 
 final class TransportDTO {
-  final String? subwayName;
-  final String? busName;
+  final String? subwayType;
+  final String? busNumber;
+  final String? busType;
 
   TransportDTO({
-    required this.subwayName,
-    required this.busName,
+    required this.subwayType,
+    required this.busNumber,
+    required this.busType,
   });
 
   static TransportDTO fromJson(Map<String, dynamic> j) {
     return TransportDTO(
-      subwayName: j['subwayName'],
-      busName: j['busNumber'],
+      subwayType: j['subwayType'],
+      busNumber: j['busNumber'],
+      busType: j['busType'],
     );
   }
 }
