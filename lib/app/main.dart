@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule_example.dart';
+import 'package:earlybuddy/presentation/schedule/detailroute/example/detailroute_example.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/example/findroute_example.dart';
 import 'package:earlybuddy/shared/eb_env/eb_env.dart';
@@ -24,7 +25,8 @@ void main() async {
 
   // runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());
-  runApp(const FindRouteExample());
+  // runApp(const FindRouteExample());
+  runApp(const DetailRouteExample());
 
   // runApp(const TestStackPositionedExample());
 }
