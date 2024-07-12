@@ -12,8 +12,9 @@ class NetworkClient implements NetworkClientAB {
 
   NetworkClient() {
     _dio = Dio();
+    final baseUrl = ENV.shared.eb_server_url;
     _dio.options = BaseOptions(
-      baseUrl: 'http://localhost:8000',
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 5),
     );

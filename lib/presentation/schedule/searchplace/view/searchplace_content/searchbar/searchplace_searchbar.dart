@@ -120,8 +120,9 @@ class _SearchBarCancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () =>
-          context.read<SearchPlaceBloc>().add(SearchPlaceCancelButtonPressed()),
+      onPressed: () => context
+          .read<SearchPlaceBloc>()
+          .add(SearchPlaceSearchResetButtonPressed()),
       icon: const Icon(
         Icons.cancel_outlined,
         color: Colors.grey,

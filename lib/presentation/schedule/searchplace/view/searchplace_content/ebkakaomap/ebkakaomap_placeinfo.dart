@@ -48,7 +48,7 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
             ),
             const Spacer(),
             FilledButton(
-              onPressed: () {},
+              onPressed: () => selectAction(context),
               style: FilledButton.styleFrom(
                 backgroundColor: EBColors.blue3,
               ),
@@ -65,5 +65,13 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension on _EBKakaoMapPlaceInfo {
+  void selectAction(BuildContext context) {
+    context
+        .read<SearchPlaceBloc>()
+        .add(SearchPlaceSelectPlaceButtonPressed(selectedPlace: place));
   }
 }

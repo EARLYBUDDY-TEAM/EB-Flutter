@@ -26,37 +26,57 @@ class _PlaceForm extends StatelessWidget {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.white,
-                builder: (context) => Navigator(
-                  onGenerateRoute: (_) => MaterialPageRoute(
-                      builder: (_) =>
-                          Builder(builder: (_) => SearchPlaceView())),
-                ),
-
-                // return Material(
-                //   child: Navigator(
-                //     onGenerateRoute: (_) => MaterialPageRoute(
-                //       builder: (_) => Builder(
-                //         builder: (_) => CupertinoPageScaffold(
-                //           navigationBar: _SearchPlaceNaviBar(context: context),
-                //           child: _SearchPlaceContent(),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // );
+                builder: _searchPlaceView,
               ),
-              child: Text(
-                '추가하기',
-                style: TextStyle(
-                  fontFamily: NanumSquare.bold,
-                  fontSize: fontSize,
-                  color: Colors.grey,
-                ),
+              child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
+                selector: (state) => unwrapPlace(state.info.place),
+                builder: (context, place) {
+                  return Text(
+                    place,
+                    style: TextStyle(
+                      fontFamily: NanumSquare.bold,
+                      fontSize: fontSize,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  Builder _searchPlaceView(BuildContext context) {
+    selectAction(Place place) {
+      log(place.name);
+      context.read<AddScheduleBloc>().add(AddScheduleSelectPlace(place: place));
+    }
+
+    cancelAction() {
+      Navigator.of(context).pop();
+    }
+
+    return Builder(
+      builder: (context) => Navigator(
+        onGenerateRoute: (context) => MaterialPageRoute(
+          builder: (context) => Builder(
+            builder: (context) => SearchPlaceView(
+              selectAction: selectAction,
+              cancelAction: cancelAction,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String unwrapPlace(String? place) {
+    if (place != null && place.trim().isNotEmpty) {
+      return place;
+    } else {
+      return '추가하기';
+    }
   }
 }

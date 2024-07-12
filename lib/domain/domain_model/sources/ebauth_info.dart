@@ -1,4 +1,4 @@
-import 'package:earlybuddy/core/network/endpoint/response/token_dto.dart';
+part of 'domain_model.dart';
 
 enum EBAuthStatus { authenticated, unauthenticated }
 

@@ -2,7 +2,6 @@ import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
 import 'package:earlybuddy/core/network/network_service/network_service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/provider/location/location_provider.dart';
-import '../model/model.dart';
 
 final class SearchPlaceRepository {
   final NetworkService service;
@@ -11,8 +10,8 @@ final class SearchPlaceRepository {
   SearchPlaceRepository({
     NetworkService? networkService,
     LocationProvider? locationProvider,
-  })  : service = networkService ?? NetworkService(),
-        locationProvider = locationProvider ?? LocationProvider();
+  })  : service = networkService ?? NetworkService.shared,
+        locationProvider = locationProvider ?? LocationProvider.shared;
 
   Future<List<Place>> getPlaces({
     required String searchText,

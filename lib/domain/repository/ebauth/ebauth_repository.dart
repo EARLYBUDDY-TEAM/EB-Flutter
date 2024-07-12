@@ -1,2 +1,1 @@
-export 'source/repository/ebauth_repository.dart';
-export 'source/model/model.dart';
+export 'sources/ebauth_repository.dart';

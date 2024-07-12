@@ -39,20 +39,16 @@ class _NotifyState extends State<_NotifySwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
-      builder: (context, state) {
-        return CupertinoSwitch(
-          value: _isNotify,
-          activeColor: EBColors.blue2,
-          onChanged: (bool isNotify) {
-            setState(() {
-              _isNotify = isNotify;
-            });
-            context
-                .read<AddScheduleBloc>()
-                .add(AddScheduleIsNotifyChanged(isNotify));
-          },
-        );
+    return CupertinoSwitch(
+      value: _isNotify,
+      activeColor: EBColors.blue2,
+      onChanged: (bool isNotify) {
+        setState(() {
+          _isNotify = isNotify;
+        });
+        context
+            .read<AddScheduleBloc>()
+            .add(AddScheduleIsNotifyChanged(isNotify));
       },
     );
   }

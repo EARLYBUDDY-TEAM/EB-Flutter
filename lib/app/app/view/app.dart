@@ -1,5 +1,7 @@
 import 'package:earlybuddy/app/app/bloc/ebauth_bloc.dart';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/presentation/home/home.dart';
@@ -31,14 +33,18 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: _authRepository,
-      child: BlocProvider(
-        create: (_) => EBAuthBloc(
-          authRepository: _authRepository,
-        ),
-        child: const AppView(),
-      ),
-    );
+        value: _authRepository,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => EBAuthBloc(authRepository: _authRepository),
+            ),
+            BlocProvider(
+              create: (context) => AddScheduleBloc(),
+            ),
+          ],
+          child: const AppView(),
+        ));
   }
 }
 

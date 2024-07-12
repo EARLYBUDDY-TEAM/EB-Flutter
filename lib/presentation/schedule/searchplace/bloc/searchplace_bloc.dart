@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,12 +10,18 @@ part 'searchplace_state.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceRepository _searchPlaceRepository;
+  Function(Place) selectAction;
+  Function() cancelAction;
 
   SearchPlaceBloc({
     SearchPlaceRepository? searchPlaceRepository,
     SearchPlaceState? searchPlaceState,
+    Function(Place)? selectAction,
+    Function()? cancelAction,
   })  : _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
+        selectAction = selectAction ?? ((_) {}),
+        cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {
     on<SearchPlaceSearchTextChanged>(
       _onSearchPlaceSearchTextChanged,
@@ -22,6 +29,10 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     );
     on<SearchPlaceListItemPressed>(_onSearchPlaceListItemPressed);
     on<SearchPlaceSearchButtonPressed>(_onSearchPlaceSearchButtonPressed);
+    on<SearchPlaceSearchResetButtonPressed>(
+        _onSearchPlaceSearchResetButtonPressed);
+    on<SearchPlaceSelectPlaceButtonPressed>(
+        _onSearchPlaceSelectPlaceButtonPressed);
     on<SearchPlaceCancelButtonPressed>(_onSearchPlaceCancelButtonPressed);
   }
 }
@@ -108,10 +119,29 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
+  void _onSearchPlaceSearchResetButtonPressed(
+    SearchPlaceSearchResetButtonPressed event,
+    Emitter<SearchPlaceState> emit,
+  ) {
+    emit(state.copyWith(searchText: ''));
+  }
+}
+
+extension on SearchPlaceBloc {
+  void _onSearchPlaceSelectPlaceButtonPressed(
+    SearchPlaceSelectPlaceButtonPressed event,
+    Emitter<SearchPlaceState> emit,
+  ) {
+    selectAction(event.selectedPlace);
+    cancelAction();
+  }
+}
+
+extension on SearchPlaceBloc {
   void _onSearchPlaceCancelButtonPressed(
     SearchPlaceCancelButtonPressed event,
     Emitter<SearchPlaceState> emit,
   ) {
-    emit(state.copyWith(searchText: ''));
+    cancelAction();
   }
 }

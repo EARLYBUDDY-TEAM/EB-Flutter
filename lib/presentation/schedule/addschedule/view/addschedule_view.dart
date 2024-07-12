@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
@@ -25,18 +28,15 @@ class AddScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddScheduleBloc(),
-      child: Scaffold(
-        appBar: _AppBar(context: context),
-        body: SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              _AddScheduleForms(),
-              _AddScheduleButton(),
-            ],
-          ),
+    return Scaffold(
+      appBar: _AppBar(context: context),
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            _AddScheduleForms(),
+            _AddScheduleButton(),
+          ],
         ),
       ),
     );

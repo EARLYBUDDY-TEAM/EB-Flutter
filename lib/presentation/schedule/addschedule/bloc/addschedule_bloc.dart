@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +13,8 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<AddScheduleTimeChanged>(_onAddScheduleTimeChanged);
     on<AddScheduleIsNotifyChanged>(_onAddScheduleIsNotifyChanged);
     on<AddSchedulePressed>(_onAddSchedulePressed);
+    on<AddScheduleSelectPlace>(_onAddScheduleSelectPlace);
+    on<AddScheduleSelectRoute>(_onAddScheduleSelectRoute);
   }
 }
 
@@ -68,5 +72,24 @@ extension on AddScheduleBloc {
     Emitter<AddScheduleState> emit,
   ) {
     emit(state);
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onAddScheduleSelectPlace(
+    AddScheduleSelectPlace event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    final AddScheduleInfo info = state.info.copyWith(place: event.place.name);
+    emit(state.copyWith(info: info));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onAddScheduleSelectRoute(
+    AddScheduleSelectRoute event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    log(event.place.toString());
   }
 }

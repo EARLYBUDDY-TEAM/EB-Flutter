@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:flutter/material.dart';
@@ -22,17 +20,37 @@ final class SearchPlaceView extends StatelessWidget {
   SearchPlaceView({
     super.key,
     SearchPlaceBloc? searchPlaceBloc,
-  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc();
+    Function(Place)? selectAction,
+    Function()? cancelAction,
+  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc() {
+    if (selectAction != null) {
+      _searchPlaceBloc.selectAction = selectAction;
+    }
+    if (cancelAction != null) {
+      _searchPlaceBloc.cancelAction = cancelAction;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _searchPlaceBloc,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _SearchPlaceAppBar(context: context),
-        body: _SearchPlaceContent(),
+      child: _SearchPlaceView(),
+    );
+  }
+}
+
+final class _SearchPlaceView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _SearchPlaceAppBar(
+        cancelAction: () => context
+            .read<SearchPlaceBloc>()
+            .add(SearchPlaceCancelButtonPressed()),
       ),
+      body: _SearchPlaceContent(),
     );
   }
 }

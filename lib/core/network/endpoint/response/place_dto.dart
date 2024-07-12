@@ -1,5 +1,3 @@
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
-
 final class PlaceListDTO {
   final List<PlaceDTO> places;
   final PlaceMetaDTO meta;

@@ -46,3 +46,21 @@ final class AddSchedulePressed extends AddScheduleEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class AddScheduleSelectPlace extends AddScheduleEvent {
+  final Place place;
+
+  const AddScheduleSelectPlace({required this.place});
+
+  @override
+  List<Object?> get props => [place];
+}
+
+final class AddScheduleSelectRoute extends AddScheduleEvent {
+  final Place place;
+
+  const AddScheduleSelectRoute({required this.place});
+
+  @override
+  List<Object?> get props => [place];
+}
