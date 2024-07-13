@@ -1,25 +1,31 @@
-part of '../domain_model.dart';
+part of '../../domain_model.dart';
 
 final class Transport extends Equatable {
   final Subway? subway;
   final Bus? bus;
+  final Walk? walk;
 
   const Transport({
-    required this.subway,
-    required this.bus,
+    this.subway,
+    this.bus,
+    this.walk,
   });
 
   static Transport fromDTO({required TransportDTO transportDTO}) {
     Subway? subway;
     Bus? bus;
+    Walk? walk;
+
     if (transportDTO.subwayType != null) {
       subway = Subway(type: transportDTO.subwayType!);
-    }
-    if ((transportDTO.busNumber != null) && (transportDTO.busType != null)) {
+    } else if ((transportDTO.busNumber != null) &&
+        (transportDTO.busType != null)) {
       bus = Bus(number: transportDTO.busNumber!, type: transportDTO.busType!);
+    } else {
+      walk = Walk();
     }
 
-    return Transport(subway: subway, bus: bus);
+    return Transport(subway: subway, bus: bus, walk: walk);
   }
 
   @override
@@ -27,7 +33,6 @@ final class Transport extends Equatable {
 
   static Transport mockBus() {
     return Transport(
-      subway: null,
       bus: Bus.mock(),
     );
   }
@@ -35,7 +40,11 @@ final class Transport extends Equatable {
   static Transport mockSubway() {
     return Transport(
       subway: Subway.mock(),
-      bus: null,
     );
   }
+
+  Transport.walk()
+      : subway = null,
+        bus = null,
+        walk = Walk();
 }

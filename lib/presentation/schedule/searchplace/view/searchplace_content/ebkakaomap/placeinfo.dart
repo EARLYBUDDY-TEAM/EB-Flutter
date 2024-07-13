@@ -72,6 +72,6 @@ extension on _EBKakaoMapPlaceInfo {
   void selectAction(BuildContext context) {
     context
         .read<SearchPlaceBloc>()
-        .add(SearchPlaceSelectPlaceButtonPressed(selectedPlace: place));
+        .add(PressSelectPlaceButton(selectedPlace: place));
   }
 }

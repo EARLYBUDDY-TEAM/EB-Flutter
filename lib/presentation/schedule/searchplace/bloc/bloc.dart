@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-part 'searchplace_event.dart';
-part 'searchplace_state.dart';
+part 'event.dart';
+part 'state.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceRepository _searchPlaceRepository;
@@ -23,23 +23,21 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
         selectAction = selectAction ?? ((_) {}),
         cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {
-    on<SearchPlaceSearchTextChanged>(
-      _onSearchPlaceSearchTextChanged,
+    on<ChangeSearchText>(
+      _onChangeSearchText,
       transformer: _debounce(),
     );
-    on<SearchPlaceListItemPressed>(_onSearchPlaceListItemPressed);
-    on<SearchPlaceSearchButtonPressed>(_onSearchPlaceSearchButtonPressed);
-    on<SearchPlaceSearchResetButtonPressed>(
-        _onSearchPlaceSearchResetButtonPressed);
-    on<SearchPlaceSelectPlaceButtonPressed>(
-        _onSearchPlaceSelectPlaceButtonPressed);
-    on<SearchPlaceCancelButtonPressed>(_onSearchPlaceCancelButtonPressed);
+    on<PressListItem>(_onPressListItem);
+    on<PressSearchButton>(_onPressSearchButton);
+    on<PressResetButton>(_onPressResetButton);
+    on<PressSelectPlaceButton>(_onPressSelectPlaceButton);
+    on<PressCancelButton>(_onPressCancelButton);
   }
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceSearchTextChanged(
-    SearchPlaceSearchTextChanged event,
+  void _onChangeSearchText(
+    ChangeSearchText event,
     Emitter<SearchPlaceState> emit,
   ) async {
     emit(state.copyWith(searchText: event.searchText));
@@ -53,7 +51,7 @@ extension on SearchPlaceBloc {
           await _searchPlaceRepository.getPlaces(searchText: event.searchText);
       emit(
         state.copyWith(
-          status: SearchPlaceContentStatus.search,
+          status: ContentStatus.search,
           places: places,
         ),
       );
@@ -61,7 +59,7 @@ extension on SearchPlaceBloc {
       log(e.toString());
       emit(
         state.copyWith(
-          status: SearchPlaceContentStatus.search,
+          status: ContentStatus.search,
           places: [],
         ),
       );
@@ -75,13 +73,13 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceListItemPressed(
-    SearchPlaceListItemPressed event,
+  void _onPressListItem(
+    PressListItem event,
     Emitter<SearchPlaceState> emit,
   ) {
     emit(
       state.copyWith(
-        status: SearchPlaceContentStatus.map,
+        status: ContentStatus.map,
         selectedPlace: event.place,
       ),
     );
@@ -89,8 +87,8 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceSearchButtonPressed(
-    SearchPlaceSearchButtonPressed event,
+  void _onPressSearchButton(
+    PressSearchButton event,
     Emitter<SearchPlaceState> emit,
   ) async {
     if (state.searchText.trim().isEmpty) {
@@ -102,7 +100,7 @@ extension on SearchPlaceBloc {
           await _searchPlaceRepository.getPlaces(searchText: state.searchText);
       emit(
         state.copyWith(
-          status: SearchPlaceContentStatus.search,
+          status: ContentStatus.search,
           places: places,
         ),
       );
@@ -110,7 +108,7 @@ extension on SearchPlaceBloc {
       log(e.toString());
       emit(
         state.copyWith(
-          status: SearchPlaceContentStatus.search,
+          status: ContentStatus.search,
           places: [],
         ),
       );
@@ -119,17 +117,20 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceSearchResetButtonPressed(
-    SearchPlaceSearchResetButtonPressed event,
+  void _onPressResetButton(
+    PressResetButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    emit(state.copyWith(searchText: ''));
+    emit(state.copyWith(
+      searchText: '',
+      status: ContentStatus.search,
+    ));
   }
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceSelectPlaceButtonPressed(
-    SearchPlaceSelectPlaceButtonPressed event,
+  void _onPressSelectPlaceButton(
+    PressSelectPlaceButton event,
     Emitter<SearchPlaceState> emit,
   ) {
     selectAction(event.selectedPlace);
@@ -138,8 +139,8 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
-  void _onSearchPlaceCancelButtonPressed(
-    SearchPlaceCancelButtonPressed event,
+  void _onPressCancelButton(
+    PressCancelButton event,
     Emitter<SearchPlaceState> emit,
   ) {
     cancelAction();

@@ -2,11 +2,13 @@ part of '../../../../findroute_view.dart';
 
 class _RouteLine extends StatelessWidget {
   final TransportLineOfPath lineOfPath;
+  final int pathTime;
   final double height = 2;
 
   const _RouteLine({
     super.key,
     required this.lineOfPath,
+    required this.pathTime,
   });
 
   @override
@@ -18,7 +20,11 @@ class _RouteLine extends StatelessWidget {
         bottom: 35, // transport textsize 구해서 적용하기
       ),
       child: HDashLine(
-        stackLine: _TransportLine(height: height, lineOfPath: lineOfPath),
+        stackLine: _TransportLine(
+          height: height,
+          lineOfPath: lineOfPath,
+          totalTime: pathTime,
+        ),
       ),
     );
   }

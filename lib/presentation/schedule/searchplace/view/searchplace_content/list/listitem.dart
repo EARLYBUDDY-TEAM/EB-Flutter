@@ -17,9 +17,8 @@ final class _SearchPlaceListItem extends StatelessWidget {
             context: context,
             place: place,
           ),
-          onTap: () => context
-              .read<SearchPlaceBloc>()
-              .add(SearchPlaceListItemPressed(place: place)),
+          onTap: () =>
+              context.read<SearchPlaceBloc>().add(PressListItem(place: place)),
         );
       },
     );

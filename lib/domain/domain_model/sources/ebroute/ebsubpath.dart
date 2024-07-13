@@ -3,7 +3,7 @@ part of '../domain_model.dart';
 final class EBSubPath extends Equatable {
   final int type;
   final int time;
-  final List<Transport>? transports;
+  final List<Transport> transports;
 
   const EBSubPath({
     required this.type,
@@ -15,7 +15,7 @@ final class EBSubPath extends Equatable {
   List<Object?> get props => [type, time, transports];
 
   static EBSubPath fromDTO({required EBSubPathDTO ebSubPathDTO}) {
-    List<Transport>? transports;
+    var transports = [Transport.walk()];
     if (ebSubPathDTO.transports != null) {
       transports = ebSubPathDTO.transports!
           .map((dto) => Transport.fromDTO(transportDTO: dto))
@@ -29,10 +29,10 @@ final class EBSubPath extends Equatable {
   }
 
   static EBSubPath mockWalk() {
-    return const EBSubPath(
+    return EBSubPath(
       type: 3,
       time: 3,
-      transports: null,
+      transports: [Transport.walk()],
     );
   }
 

@@ -1,4 +1,4 @@
-part of '../domain_model.dart';
+part of '../../domain_model.dart';
 
 final class Subway extends Equatable {
   final String type;

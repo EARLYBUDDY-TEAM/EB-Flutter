@@ -3,46 +3,60 @@ part of '../../../../findroute_view.dart';
 class _TransportLine extends StatelessWidget {
   final double height;
   final TransportLineOfPath lineOfPath;
+  final int totalTime;
 
   const _TransportLine({
     required height,
     required this.lineOfPath,
+    required this.totalTime,
   }) : height = height + 3;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: ((context, constraints) {
       return Row(
-          children: lineOfPath.lineOfPath.map((lineInfo) {
-        final String text = lineInfo.name ?? '${lineInfo.time}분';
-        final TextStyle style = _textStyle(lineInfo.color);
-        final double minWidth = _textSize(text: text, style: style).width + 10;
-        final double myWidth =
-            constraints.maxWidth * (lineInfo.time / lineOfPath.pathTime);
+        children: lineOfPath.lineOfPath.map((lineInfo) {
+          final String text = lineInfo.name;
+          final TextStyle style = _textStyle(lineInfo.color);
+          final double minWidth =
+              _textSize(text: text, style: style).width + 10;
+          final double myWidth =
+              constraints.maxWidth * (lineInfo.time / totalTime);
 
-        if (minWidth < myWidth) {
-          return _lineFlexible(lineInfo: lineInfo);
-        } else {
-          return _lineSizedBox(lineInfo: lineInfo, width: minWidth);
-        }
-      }).toList());
+          if (minWidth < myWidth) {
+            return _lineFlexible(
+              text: text,
+              style: style,
+              color: lineInfo.color,
+              flex: lineInfo.time,
+            );
+          } else {
+            return _lineSizedBox(
+              text: text,
+              style: style,
+              color: lineInfo.color,
+              minWidth: minWidth,
+            );
+          }
+        }).toList(),
+      );
     }));
   }
 
   Flexible _lineFlexible({
-    required TransportLineInfo lineInfo,
+    required String text,
+    required TextStyle style,
+    required Color? color,
+    required int flex,
   }) {
-    final String text = lineInfo.name ?? '${lineInfo.time}분';
-    final TextStyle style = _textStyle(lineInfo.color);
-
     return Flexible(
-      flex: lineInfo.time,
+      flex: flex,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
             decoration: BoxDecoration(
-              color: lineInfo.color,
+              color: color,
               borderRadius: BorderRadius.all(Radius.circular(height / 2)),
             ),
             height: height,
@@ -61,20 +75,19 @@ class _TransportLine extends StatelessWidget {
   }
 
   SizedBox _lineSizedBox({
-    required TransportLineInfo lineInfo,
-    required double width,
+    required String text,
+    required TextStyle style,
+    required Color? color,
+    required double minWidth,
   }) {
-    final String text = lineInfo.name ?? '${lineInfo.time}분';
-    final TextStyle style = _textStyle(lineInfo.color);
-
     return SizedBox(
-      width: width,
+      width: minWidth,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
             decoration: BoxDecoration(
-              color: lineInfo.color,
+              color: color,
               borderRadius: BorderRadius.all(Radius.circular(height / 2)),
             ),
             height: height,

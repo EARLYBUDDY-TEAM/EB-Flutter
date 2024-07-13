@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
-import 'package:earlybuddy/presentation/schedule/searchplace/bloc/searchplace_bloc.dart';
+import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -14,7 +14,7 @@ class SearchPlaceExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const _MockModalSearchPlace();
-    // return MockSearchPlace();
-    // return _MockEBKakaoMapView();
+    // // return MockSearchPlace();
+    // // return _MockEBKakaoMapView();
   }
 }

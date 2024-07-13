@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/findroute/findroute_repository.dart';
-import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,37 +48,40 @@ extension on FindRouteBloc {
 
   TransportLineOfRoute _getTransportLineOfRoute({required List<EBPath> paths}) {
     final lineOfRoute = paths.map((path) {
-      return _getTransportLineOfPath(pair: Pair(path.time, path.ebSubPaths));
+      return _getTransportLineOfPath(ebSubPaths: path.ebSubPaths);
     }).toList();
     return TransportLineOfRoute(lineOfRoute: lineOfRoute);
   }
 
-  TransportLineOfPath _getTransportLineOfPath(
-      {required Pair<int, List<EBSubPath>> pair}) {
-    final lineOfPath = pair.b
+  TransportLineOfPath _getTransportLineOfPath({
+    required List<EBSubPath> ebSubPaths,
+  }) {
+    final lineOfPath = ebSubPaths
         .map((ebSubPath) => _subPathToLineInfo(ebSubPath: ebSubPath))
         .toList();
-    return TransportLineOfPath(pathTime: pair.a, lineOfPath: lineOfPath);
+    return TransportLineOfPath(lineOfPath: lineOfPath);
   }
 
   TransportLineInfo _subPathToLineInfo({
     required EBSubPath ebSubPath,
   }) {
-    String? name;
+    String name = '';
     Color? color;
 
     if (ebSubPath.type == 1) {
-      final subway = ebSubPath.transports?[0].subway;
+      final subway = ebSubPath.transports[0].subway;
       if (subway != null) {
         name = subway.type;
         color = subway.color();
       }
     } else if (ebSubPath.type == 2) {
-      final bus = ebSubPath.transports?[0].bus;
+      final bus = ebSubPath.transports[0].bus;
       if (bus != null) {
         name = bus.number;
         color = bus.color();
       }
+    } else {
+      name = '${ebSubPath.time}분';
     }
 
     return TransportLineInfo(

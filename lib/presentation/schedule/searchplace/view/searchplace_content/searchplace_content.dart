@@ -18,7 +18,7 @@ final class _SearchPlaceContent extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: _SearchPlaceSearchBar(
+                child: _SearchBar(
                   searchBarHeight: searchBarHeight,
                   bottomSpace: bottomSpace,
                 ),
@@ -43,9 +43,9 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
       child: BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
         builder: (context, state) {
           switch (state.status) {
-            case SearchPlaceContentStatus.search:
-              return _SearchPlaceListView();
-            case SearchPlaceContentStatus.map:
+            case ContentStatus.search:
+              return _SearchPlaceListView(places: state.places);
+            case ContentStatus.map:
               if (state.selectedPlace != null) {
                 return EBKakaoMapView(place: state.selectedPlace!);
               } else {

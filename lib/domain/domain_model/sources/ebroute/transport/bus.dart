@@ -1,4 +1,4 @@
-part of '../domain_model.dart';
+part of '../../domain_model.dart';
 
 final class Bus extends Equatable {
   final String number;

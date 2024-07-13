@@ -1,26 +1,26 @@
-part of 'searchplace_bloc.dart';
+part of 'bloc.dart';
 
 final class SearchPlaceState extends Equatable {
   final String searchText;
   final List<Place> places;
   final Place? selectedPlace;
-  final SearchPlaceContentStatus status;
+  final ContentStatus status;
 
   SearchPlaceState({
     String? searchText,
     List<Place>? places,
     Place? selectedPlace,
-    SearchPlaceContentStatus? status,
+    ContentStatus? status,
   })  : searchText = searchText ?? '',
         places = places ?? [],
         selectedPlace = selectedPlace,
-        status = status ?? SearchPlaceContentStatus.search;
+        status = status ?? ContentStatus.search;
 
   SearchPlaceState copyWith({
     String? searchText,
     List<Place>? places,
     Place? selectedPlace,
-    SearchPlaceContentStatus? status,
+    ContentStatus? status,
   }) {
     return SearchPlaceState(
       searchText: searchText ?? this.searchText,
@@ -44,7 +44,7 @@ final class SearchPlaceState extends Equatable {
   List<Object?> get props => [places, status, searchText, selectedPlace];
 }
 
-enum SearchPlaceContentStatus {
+enum ContentStatus {
   search,
   map,
 }

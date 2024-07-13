@@ -17,7 +17,7 @@ final class FindRouteListItem extends StatelessWidget {
       child: Column(
         children: [
           _listItemRouteInfo(),
-          _RouteLine(lineOfPath: lineOfPath),
+          _RouteLine(lineOfPath: lineOfPath, pathTime: ebPath.time)
         ],
       ),
     );

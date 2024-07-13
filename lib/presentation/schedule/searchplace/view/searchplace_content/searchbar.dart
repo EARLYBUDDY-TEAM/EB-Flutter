@@ -1,21 +1,20 @@
-part of '../../searchplace_view.dart';
+part of '../searchplace_view.dart';
 
-final class _SearchPlaceSearchBar extends StatelessWidget {
+final class _SearchBar extends StatelessWidget {
   final color = Colors.grey;
   final double inset = 10;
   final double fontSize = 18;
   final double searchBarHeight;
   final double bottomSpace;
 
-  const _SearchPlaceSearchBar({
+  const _SearchBar({
     required this.searchBarHeight,
     required this.bottomSpace,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SearchPlaceBloc, SearchPlaceState,
-        SearchPlaceContentStatus>(
+    return BlocSelector<SearchPlaceBloc, SearchPlaceState, ContentStatus>(
       selector: (state) {
         return state.status;
       },
@@ -23,7 +22,7 @@ final class _SearchPlaceSearchBar extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: status == SearchPlaceContentStatus.search
+            boxShadow: status == ContentStatus.search
                 ? []
                 : [
                     BoxShadow(
@@ -60,8 +59,7 @@ class _SearchBarSearchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () =>
-          context.read<SearchPlaceBloc>().add(SearchPlaceSearchButtonPressed()),
+      onPressed: () => context.read<SearchPlaceBloc>().add(PressSearchButton()),
       icon: const Icon(
         Icons.search,
         color: Colors.grey,
@@ -85,7 +83,7 @@ class _SearchBarTextField extends StatelessWidget {
           return TextField(
             onChanged: (searchText) => context
                 .read<SearchPlaceBloc>()
-                .add(SearchPlaceSearchTextChanged(searchText)),
+                .add(ChangeSearchText(searchText)),
             controller: _controller,
             style: const TextStyle(
               color: Colors.black,
@@ -120,9 +118,7 @@ class _SearchBarCancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => context
-          .read<SearchPlaceBloc>()
-          .add(SearchPlaceSearchResetButtonPressed()),
+      onPressed: () => context.read<SearchPlaceBloc>().add(PressResetButton()),
       icon: const Icon(
         Icons.cancel_outlined,
         color: Colors.grey,

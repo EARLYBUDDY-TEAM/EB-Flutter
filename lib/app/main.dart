@@ -23,10 +23,10 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
-  // runApp(const SearchPlaceExample());
+  runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());
   // runApp(const FindRouteExample());
-  runApp(const DetailRouteExample());
+  // runApp(const DetailRouteExample());
 
   // runApp(const TestStackPositionedExample());
 }
