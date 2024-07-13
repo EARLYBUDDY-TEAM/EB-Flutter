@@ -20,15 +20,14 @@ class _MockModalSearchPlace extends StatelessWidget {
   }
 
   void onPressed(BuildContext context) {
-    final SearchPlaceBloc searchPlaceBloc = SearchPlaceBloc(
-      searchPlaceState: SearchPlaceState.mockStarBucks(),
-    );
-
     showCupertinoModalBottomSheet(
       context: context,
       expand: true,
       backgroundColor: Colors.white,
-      builder: (context) => SearchPlaceView(searchPlaceBloc: searchPlaceBloc),
+      builder: (context) => SearchPlaceView(
+        setting: SearchPlaceSetting.departure,
+        searchPlaceState: SearchPlaceState.mockStarBucks(),
+      ),
     );
   }
 }

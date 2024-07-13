@@ -42,10 +42,10 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
       height: height,
       child: BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
         builder: (context, state) {
-          switch (state.status) {
-            case ContentStatus.search:
+          switch (state.viewState.contentStatus) {
+            case SearchPlaceContentStatus.search:
               return _SearchPlaceListView(places: state.places);
-            case ContentStatus.map:
+            case SearchPlaceContentStatus.map:
               if (state.selectedPlace != null) {
                 return EBKakaoMapView(place: state.selectedPlace!);
               } else {

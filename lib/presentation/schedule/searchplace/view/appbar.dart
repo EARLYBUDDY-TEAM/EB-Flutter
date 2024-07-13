@@ -1,12 +1,18 @@
 part of 'searchplace_view.dart';
 
 final class _SearchPlaceAppBar extends AppBar {
+  @override
+  final String textTitle;
+  final VoidCallback cancelAction;
+
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
-  final VoidCallback cancelAction;
 
-  _SearchPlaceAppBar({required this.cancelAction});
+  _SearchPlaceAppBar({
+    required this.textTitle,
+    required this.cancelAction,
+  });
 
   TextStyle textStyle() => TextStyle(
         color: color,
@@ -23,7 +29,7 @@ final class _SearchPlaceAppBar extends AppBar {
 
   @override
   Widget? get title => Text(
-        '장소',
+        textTitle,
         style: TextStyle(
           color: Colors.black,
           fontSize: fontSize,

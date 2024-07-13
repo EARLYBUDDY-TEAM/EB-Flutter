@@ -5,24 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
-part 'searchplace_appbar.dart';
-part 'searchplace_content/searchplace_content.dart';
-part 'searchplace_content/searchbar.dart';
-part 'searchplace_content/list/searchplace_listview.dart';
-part 'searchplace_content/list/searchplace_listitem.dart';
-part 'searchplace_content/ebkakaomap/ebkakaomap_view.dart';
-part 'searchplace_content/ebkakaomap/ebkakaomap_placeinfo.dart';
-part 'searchplace_content/ebkakaomap/ebkakaomap_content.dart';
+part 'appbar.dart';
+part 'content/searchplace_content.dart';
+part 'content/searchbar.dart';
+part 'content/list/listview.dart';
+part 'content/list/listitem.dart';
+part 'content/ebkakaomap/ebkakaomap_view.dart';
+part 'content/ebkakaomap/placeinfo.dart';
+part 'content/ebkakaomap/content.dart';
 
 final class SearchPlaceView extends StatelessWidget {
   final SearchPlaceBloc _searchPlaceBloc;
 
   SearchPlaceView({
     super.key,
-    SearchPlaceBloc? searchPlaceBloc,
+    required SearchPlaceSetting setting,
+    SearchPlaceState? searchPlaceState,
     Function(Place)? selectAction,
     Function()? cancelAction,
-  }) : _searchPlaceBloc = searchPlaceBloc ?? SearchPlaceBloc() {
+  }) : _searchPlaceBloc = searchPlaceState == null
+            ? SearchPlaceBloc(setting: setting)
+            : SearchPlaceBloc(
+                setting: setting,
+                searchPlaceState: searchPlaceState,
+              ) {
     if (selectAction != null) {
       _searchPlaceBloc.selectAction = selectAction;
     }
@@ -35,21 +41,31 @@ final class SearchPlaceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _searchPlaceBloc,
-      child: _SearchPlaceView(),
+      child: const _EBSearchPlaceView(),
     );
   }
 }
 
-final class _SearchPlaceView extends StatelessWidget {
+final class _EBSearchPlaceView extends StatelessWidget {
+  const _EBSearchPlaceView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _SearchPlaceAppBar(
-        cancelAction: () =>
-            context.read<SearchPlaceBloc>().add(PressCancelButton()),
-      ),
-      body: _SearchPlaceContent(),
+    return BlocSelector<SearchPlaceBloc, SearchPlaceState, SearchPlaceSetting>(
+      selector: (state) {
+        return state.viewState.setting;
+      },
+      builder: (context, setting) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _SearchPlaceAppBar(
+            textTitle: setting == SearchPlaceSetting.departure ? '출발 장소' : '장소',
+            cancelAction: () =>
+                context.read<SearchPlaceBloc>().add(PressCancelButton()),
+          ),
+          body: _SearchPlaceContent(),
+        );
+      },
     );
   }
 }

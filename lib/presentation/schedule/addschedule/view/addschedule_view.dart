@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
+import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';

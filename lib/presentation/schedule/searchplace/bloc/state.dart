@@ -4,29 +4,29 @@ final class SearchPlaceState extends Equatable {
   final String searchText;
   final List<Place> places;
   final Place? selectedPlace;
-  final ContentStatus status;
+  final SearchPlaceViewState viewState;
 
   SearchPlaceState({
     String? searchText,
     List<Place>? places,
     Place? selectedPlace,
-    ContentStatus? status,
+    SearchPlaceViewState? viewState,
   })  : searchText = searchText ?? '',
         places = places ?? [],
         selectedPlace = selectedPlace,
-        status = status ?? ContentStatus.search;
+        viewState = viewState ?? const SearchPlaceViewState();
 
   SearchPlaceState copyWith({
     String? searchText,
     List<Place>? places,
     Place? selectedPlace,
-    ContentStatus? status,
+    SearchPlaceViewState? viewState,
   }) {
     return SearchPlaceState(
       searchText: searchText ?? this.searchText,
       places: places ?? this.places,
       selectedPlace: selectedPlace ?? this.selectedPlace,
-      status: status ?? this.status,
+      viewState: viewState ?? this.viewState,
     );
   }
 
@@ -41,10 +41,10 @@ final class SearchPlaceState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [places, status, searchText, selectedPlace];
-}
-
-enum ContentStatus {
-  search,
-  map,
+  List<Object?> get props => [
+        places,
+        searchText,
+        selectedPlace,
+        viewState,
+      ];
 }

@@ -124,6 +124,7 @@ class _RouteState extends State<_RouteSwitch> {
       onGenerateRoute: (_) => MaterialPageRoute(
         builder: (_) => Builder(
           builder: (_) => SearchPlaceView(
+            setting: SearchPlaceSetting.departure,
             selectAction: selectAction,
             cancelAction: cancelAction,
           ),

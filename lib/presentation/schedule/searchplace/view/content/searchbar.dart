@@ -14,15 +14,16 @@ final class _SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SearchPlaceBloc, SearchPlaceState, ContentStatus>(
+    return BlocSelector<SearchPlaceBloc, SearchPlaceState,
+        SearchPlaceContentStatus>(
       selector: (state) {
-        return state.status;
+        return state.viewState.contentStatus;
       },
       builder: (context, status) {
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: status == ContentStatus.search
+            boxShadow: status == SearchPlaceContentStatus.search
                 ? []
                 : [
                     BoxShadow(
