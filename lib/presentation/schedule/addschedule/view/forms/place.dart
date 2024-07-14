@@ -31,9 +31,9 @@ final class _PlaceForm extends StatelessWidget {
               ),
               child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
                 selector: (state) => unwrapPlace(state.info.place),
-                builder: (context, place) {
+                builder: (context, placeName) {
                   return Text(
-                    place,
+                    placeName,
                     style: TextStyle(
                       fontFamily: NanumSquare.bold,
                       fontSize: fontSize,
@@ -68,9 +68,9 @@ final class _PlaceForm extends StatelessWidget {
     );
   }
 
-  String unwrapPlace(String? place) {
-    if (place != null && place.trim().isNotEmpty) {
-      return place;
+  String unwrapPlace(Place? place) {
+    if (place != null && place.name.trim().isNotEmpty) {
+      return place.name;
     } else {
       return '추가하기';
     }

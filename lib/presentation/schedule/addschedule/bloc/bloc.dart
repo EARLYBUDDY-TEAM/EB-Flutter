@@ -93,7 +93,7 @@ extension on AddScheduleBloc {
     SelectPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(place: event.place.name);
+    final AddScheduleInfo info = state.info.copyWith(place: event.place);
     emit(state.copyWith(info: info));
   }
 }

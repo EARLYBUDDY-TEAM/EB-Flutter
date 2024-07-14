@@ -42,7 +42,7 @@ class _RouteState extends State<_RouteSwitch> {
   Widget build(BuildContext context) {
     return BlocSelector<AddScheduleBloc, AddScheduleState, String?>(
       selector: (state) {
-        return state.info.place;
+        return state.info.place?.name;
       },
       builder: (context, place) {
         return CupertinoSwitch(
