@@ -2,6 +2,7 @@ part of 'searchplace_example.dart';
 
 final class _MockModalSearchPlace extends StatelessWidget {
   final delegate = SearchPlaceDelegate();
+  final routeName = '_MockModalSearchPlace';
 
   _MockModalSearchPlace({super.key});
 
@@ -11,6 +12,7 @@ final class _MockModalSearchPlace extends StatelessWidget {
       create: (context) => SearchPlaceDelegate(),
       child: MaterialApp(
         onGenerateRoute: (settings) => MaterialPageRoute(
+          settings: RouteSettings(name: routeName),
           builder: (context) => Scaffold(
             body: Center(
               child: TextButton(

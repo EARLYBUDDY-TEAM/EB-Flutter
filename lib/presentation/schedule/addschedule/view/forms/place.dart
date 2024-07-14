@@ -1,9 +1,10 @@
 part of '../addschedule_view.dart';
 
-class _PlaceForm extends StatelessWidget {
+final class _PlaceForm extends StatelessWidget {
   final double fontSize;
 
   const _PlaceForm({
+    super.key,
     required this.fontSize,
   });
 
@@ -49,12 +50,6 @@ class _PlaceForm extends StatelessWidget {
   }
 
   Builder _searchPlaceView(BuildContext context) {
-    selectAction(Place place) {
-      log(place.name);
-      // context.read<AddScheduleBloc>().add(SelectPlace(place: place));
-      // BlocProvider.of<AddScheduleBloc>(context).add(SelectPlace(place: place));
-    }
-
     cancelAction() {
       Navigator.of(context).pop();
     }
@@ -65,7 +60,6 @@ class _PlaceForm extends StatelessWidget {
           builder: (context) => Builder(
             builder: (context) => SearchPlaceView(
               setting: SearchPlaceSetting.destination,
-              selectAction: selectAction,
               cancelAction: cancelAction,
             ),
           ),

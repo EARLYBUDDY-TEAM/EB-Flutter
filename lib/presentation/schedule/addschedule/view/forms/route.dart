@@ -36,6 +36,7 @@ class _RouteSwitch extends StatefulWidget {
 
 class _RouteState extends State<_RouteSwitch> {
   var _isChecked = false;
+  final routeName = '_RouteForm';
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +126,6 @@ class _RouteState extends State<_RouteSwitch> {
         builder: (_) => Builder(
           builder: (_) => SearchPlaceView(
             setting: SearchPlaceSetting.departure,
-            selectAction: selectAction,
             cancelAction: cancelAction,
           ),
         ),

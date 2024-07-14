@@ -16,60 +16,24 @@ part 'content/ebkakaomap/placeinfo.dart';
 part 'content/ebkakaomap/content.dart';
 
 final class SearchPlaceView extends StatelessWidget {
-  // final SearchPlaceBloc _searchPlaceBloc;
   SearchPlaceSetting setting;
   SearchPlaceState? searchPlaceState;
-  Function(Place)? selectAction;
   Function()? cancelAction;
 
   SearchPlaceView({
     super.key,
     required this.setting,
     this.searchPlaceState,
-    this.selectAction,
     this.cancelAction,
   });
-
-  // SearchPlaceView({
-  //   super.key,
-  //   required SearchPlaceSetting setting,
-  //   SearchPlaceState? searchPlaceState,
-  //   Function(Place)? selectAction,
-  //   Function()? cancelAction,
-  // }) : _searchPlaceBloc = searchPlaceState == null
-  //           ? SearchPlaceBloc(
-  //               setting: setting,
-  //               delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
-  //             )
-  //           : SearchPlaceBloc(
-  //               setting: setting,
-  //               delegate: delegate,
-  //               searchPlaceState: searchPlaceState,
-  //             ) {
-  //   if (selectAction != null) {
-  //     _searchPlaceBloc.selectAction = selectAction;
-  //   }
-  //   if (cancelAction != null) {
-  //     _searchPlaceBloc.cancelAction = cancelAction;
-  //   }
-  // }
-
-  // required SearchPlaceDelegate delegate,
-  //   required SearchPlaceSetting setting,
-  //   SearchPlaceRepository? searchPlaceRepository,
-  //   SearchPlaceState? searchPlaceState,
-  //   Function(Place)? selectAction,
-  //   Function()? cancelAction,
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
         delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
-        // delegate: SearchPlaceDelegate(),
         setting: setting,
         searchPlaceState: searchPlaceState,
-        selectAction: selectAction,
         cancelAction: cancelAction,
       ),
       child: const _EBSearchPlaceView(),
