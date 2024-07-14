@@ -1,4 +1,4 @@
-part of 'addschedule_bloc.dart';
+part of 'bloc.dart';
 
 final class AddScheduleState extends Equatable {
   final AddScheduleInfo info;

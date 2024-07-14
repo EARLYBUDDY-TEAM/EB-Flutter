@@ -113,7 +113,7 @@ class _RouteState extends State<_RouteSwitch> {
   Builder _searchPlaceView(BuildContext context) {
     selectAction(Place place) {
       log(place.name);
-      context.read<AddScheduleBloc>().add(AddScheduleSelectRoute(place: place));
+      context.read<AddScheduleBloc>().add(SelectRoute(place: place));
     }
 
     cancelAction() {

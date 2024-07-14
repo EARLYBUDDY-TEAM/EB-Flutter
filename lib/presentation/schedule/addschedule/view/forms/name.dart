@@ -46,9 +46,8 @@ final class _MemoInput extends StatelessWidget {
       child: BlocBuilder<AddScheduleBloc, AddScheduleState>(
         builder: (context, state) {
           return TextField(
-            onChanged: (memo) => context
-                .read<AddScheduleBloc>()
-                .add(AddScheduleMemoChanged(memo)),
+            onChanged: (memo) =>
+                context.read<AddScheduleBloc>().add(ChangeMemo(memo)),
             keyboardType: TextInputType.multiline,
             maxLines: null,
             cursorColor: color,
@@ -83,9 +82,8 @@ final class _TitleInput extends StatelessWidget {
     return BlocBuilder<AddScheduleBloc, AddScheduleState>(
       builder: (context, state) {
         return TextField(
-          onChanged: (title) => context
-              .read<AddScheduleBloc>()
-              .add(AddScheduleTitleChanged(title)),
+          onChanged: (title) =>
+              context.read<AddScheduleBloc>().add(ChangeTitle(title)),
           cursorColor: color,
           decoration: InputDecoration(
             labelText: '제목',

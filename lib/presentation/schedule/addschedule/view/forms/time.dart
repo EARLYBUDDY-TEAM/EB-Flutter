@@ -72,9 +72,7 @@ class _DateTimePickerState extends State<_DateTimePicker> {
                 setState(() {
                   dateTime = newDateTime;
                 });
-                context
-                    .read<AddScheduleBloc>()
-                    .add(AddScheduleTimeChanged(newDateTime));
+                context.read<AddScheduleBloc>().add(ChangeTime(newDateTime));
               },
             ),
           ),

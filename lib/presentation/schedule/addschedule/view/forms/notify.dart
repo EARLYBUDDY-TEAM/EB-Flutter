@@ -46,9 +46,7 @@ class _NotifyState extends State<_NotifySwitch> {
         setState(() {
           _isNotify = isNotify;
         });
-        context
-            .read<AddScheduleBloc>()
-            .add(AddScheduleIsNotifyChanged(isNotify));
+        context.read<AddScheduleBloc>().add(ChangeNotify(isNotify));
       },
     );
   }

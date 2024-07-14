@@ -14,7 +14,7 @@ class _AddScheduleButton extends StatelessWidget {
                 ? () {
                     context
                         .read<AddScheduleBloc>()
-                        .add(const AddSchedulePressed());
+                        .add(const PressAddScheduleButton());
                   }
                 : null,
           );

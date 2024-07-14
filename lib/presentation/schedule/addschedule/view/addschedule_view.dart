@@ -1,7 +1,8 @@
 import 'dart:developer';
 
+import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
-import 'package:earlybuddy/presentation/schedule/addschedule/bloc/addschedule_bloc.dart';
+import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
@@ -11,16 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-part 'addschedule_appbar.dart';
-part 'addschedule_forms.dart';
-part 'forms/name_form.dart';
-part 'forms/time_form.dart';
-part 'forms/notify_form.dart';
-part 'forms/place_form.dart';
-part 'forms/route_form.dart';
+part 'appbar.dart';
+part 'forms/addschedule_forms.dart';
+part 'forms/name.dart';
+part 'forms/time.dart';
+part 'forms/notify.dart';
+part 'forms/place.dart';
+part 'forms/route.dart';
 part 'helper/icon_plus_name.dart';
 part 'helper/round_rect_form.dart';
-part 'addschedule_button.dart';
+part 'addschedulebutton.dart';
 
 class AddScheduleView extends StatelessWidget {
   final double fontSize = 17;

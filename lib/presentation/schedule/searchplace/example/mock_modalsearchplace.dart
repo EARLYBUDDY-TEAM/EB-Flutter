@@ -1,17 +1,22 @@
 part of 'searchplace_example.dart';
 
-class _MockModalSearchPlace extends StatelessWidget {
-  const _MockModalSearchPlace({super.key});
+final class _MockModalSearchPlace extends StatelessWidget {
+  final delegate = SearchPlaceDelegate();
+
+  _MockModalSearchPlace({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: (settings) => MaterialPageRoute(
-        builder: (context) => Scaffold(
-          body: Center(
-            child: TextButton(
-              child: const Text('Push SearchPlaceView'),
-              onPressed: () => onPressed(context),
+    return RepositoryProvider(
+      create: (context) => SearchPlaceDelegate(),
+      child: MaterialApp(
+        onGenerateRoute: (settings) => MaterialPageRoute(
+          builder: (context) => Scaffold(
+            body: Center(
+              child: TextButton(
+                child: const Text('Push SearchPlaceView'),
+                onPressed: () => onPressed(context),
+              ),
             ),
           ),
         ),
@@ -27,6 +32,7 @@ class _MockModalSearchPlace extends StatelessWidget {
       builder: (context) => SearchPlaceView(
         setting: SearchPlaceSetting.departure,
         searchPlaceState: SearchPlaceState.mockStarBucks(),
+        cancelAction: () => Navigator.of(context).pop(),
       ),
     );
   }

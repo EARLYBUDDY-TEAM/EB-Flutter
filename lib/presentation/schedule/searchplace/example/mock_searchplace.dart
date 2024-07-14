@@ -1,14 +1,19 @@
 part of 'searchplace_example.dart';
 
-class _MockSearchPlace extends StatelessWidget {
-  const _MockSearchPlace({super.key});
+final class _MockSearchPlace extends StatelessWidget {
+  final delegate = SearchPlaceDelegate();
+
+  _MockSearchPlace({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SearchPlaceView(
-        setting: SearchPlaceSetting.departure,
-        searchPlaceState: SearchPlaceState.mockView(),
+      home: RepositoryProvider(
+        create: (context) => SearchPlaceDelegate(),
+        child: SearchPlaceView(
+          setting: SearchPlaceSetting.departure,
+          searchPlaceState: SearchPlaceState.mockView(),
+        ),
       ),
     );
   }
