@@ -64,3 +64,10 @@ final class SelectRoute extends AddScheduleEvent {
   @override
   List<Object?> get props => [place];
 }
+
+final class RemoveRoute extends AddScheduleEvent {
+  const RemoveRoute();
+
+  @override
+  List<Object?> get props => [];
+}

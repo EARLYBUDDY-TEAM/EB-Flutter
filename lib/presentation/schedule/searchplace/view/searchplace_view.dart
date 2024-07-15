@@ -17,12 +17,14 @@ part 'content/ebkakaomap/content.dart';
 
 final class SearchPlaceView extends StatelessWidget {
   SearchPlaceSetting setting;
+  SearchPlaceDelegate delegate;
   SearchPlaceState? searchPlaceState;
   Function()? cancelAction;
 
   SearchPlaceView({
     super.key,
     required this.setting,
+    required this.delegate,
     this.searchPlaceState,
     this.cancelAction,
   });
@@ -31,7 +33,8 @@ final class SearchPlaceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
-        delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
+        // delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
+        delegate: delegate,
         setting: setting,
         searchPlaceState: searchPlaceState,
         cancelAction: cancelAction,

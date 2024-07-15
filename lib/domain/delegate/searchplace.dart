@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 
-final class SearchPlaceDelegate {
+class SearchPlaceDelegate {
   final _selectPlaceController = StreamController<Place>();
 
   SearchPlaceDelegate();
@@ -16,3 +16,7 @@ final class SearchPlaceDelegate {
 
   void dispose() => _selectPlaceController.close();
 }
+
+class SearchPlaceDelegateForPlace extends SearchPlaceDelegate {}
+
+class SearchPlaceDelegateForRoute extends SearchPlaceDelegate {}

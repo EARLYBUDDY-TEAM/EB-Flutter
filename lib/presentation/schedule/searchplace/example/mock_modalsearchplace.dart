@@ -9,7 +9,7 @@ final class _MockModalSearchPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-      create: (context) => SearchPlaceDelegate(),
+      create: (context) => delegate,
       child: MaterialApp(
         onGenerateRoute: (settings) => MaterialPageRoute(
           settings: RouteSettings(name: routeName),
@@ -33,6 +33,7 @@ final class _MockModalSearchPlace extends StatelessWidget {
       backgroundColor: Colors.white,
       builder: (context) => SearchPlaceView(
         setting: SearchPlaceSetting.departure,
+        delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
         searchPlaceState: SearchPlaceState.mockStarBucks(),
         cancelAction: () => Navigator.of(context).pop(),
       ),

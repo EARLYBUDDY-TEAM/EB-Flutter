@@ -18,19 +18,22 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final EBAuthRepository _authRepository;
-  late final SearchPlaceDelegate _searchPlaceDelegate;
+  late final SearchPlaceDelegateForPlace _searchPlaceDelegateForPlace;
+  late final SearchPlaceDelegateForRoute _searchPlaceDelegateForRoute;
 
   @override
   void initState() {
     super.initState();
     _authRepository = EBAuthRepository();
-    _searchPlaceDelegate = SearchPlaceDelegate();
+    _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
+    _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
   }
 
   @override
   void dispose() {
     _authRepository.dispose();
-    _searchPlaceDelegate.dispose();
+    _searchPlaceDelegateForPlace.dispose();
+    _searchPlaceDelegateForRoute.dispose();
     super.dispose();
   }
 
@@ -39,7 +42,8 @@ class _AppState extends State<App> {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: _authRepository),
-        RepositoryProvider.value(value: _searchPlaceDelegate),
+        RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
+        RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -47,27 +51,15 @@ class _AppState extends State<App> {
             create: (context) => EBAuthBloc(authRepository: _authRepository),
           ),
           BlocProvider(
-            create: (context) =>
-                AddScheduleBloc(searchPlaceDelegate: _searchPlaceDelegate),
+            create: (context) => AddScheduleBloc(
+              searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
+              searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
+            ),
           ),
         ],
         child: const AppView(),
       ),
     );
-    // return RepositoryProvider.value(
-    //     value: _authRepository,
-    //     child: MultiBlocProvider(
-    //       providers: [
-    //         BlocProvider(
-    //           create: (context) => EBAuthBloc(authRepository: _authRepository),
-    //         ),
-    //         BlocProvider(
-    //           create: (context) =>
-    //               AddScheduleBloc(searchPlaceDelegate: _searchPlaceDelegate),
-    //         ),
-    //       ],
-    //       child: const AppView(),
-    //     ));
   }
 }
 

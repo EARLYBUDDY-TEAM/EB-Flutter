@@ -9,9 +9,10 @@ final class _MockSearchPlace extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: RepositoryProvider(
-        create: (context) => SearchPlaceDelegate(),
+        create: (context) => delegate,
         child: SearchPlaceView(
           setting: SearchPlaceSetting.departure,
+          delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
           searchPlaceState: SearchPlaceState.mockView(),
         ),
       ),

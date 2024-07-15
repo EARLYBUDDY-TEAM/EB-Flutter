@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/presentation/schedule/addschedule/addschedule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,10 +10,13 @@ part 'event.dart';
 part 'state.dart';
 
 class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
-  late StreamSubscription<Place> sinkPressSelectPlaceButton;
+  late StreamSubscription<Place> sinkPressSelectPlaceButtonForPlace;
+  late StreamSubscription<Place> sinkPressSelectPlaceButtonForRoute;
 
-  AddScheduleBloc({required SearchPlaceDelegate searchPlaceDelegate})
-      : super(AddScheduleState.empty()) {
+  AddScheduleBloc({
+    required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
+    required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
+  }) : super(AddScheduleState.empty()) {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);
@@ -20,13 +24,18 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
     on<SelectPlace>(_onSelectPlace);
     on<SelectRoute>(_onSelectRoute);
-    sinkPressSelectPlaceButton = searchPlaceDelegate.pressSelectPlaceButton
+    on<RemoveRoute>(_onRemoveRoute);
+    sinkPressSelectPlaceButtonForPlace = searchPlaceDelegateForPlace
+        .pressSelectPlaceButton
         .listen((place) => add(SelectPlace(place: place)));
+    sinkPressSelectPlaceButtonForRoute = searchPlaceDelegateForRoute
+        .pressSelectPlaceButton
+        .listen((place) => add(SelectRoute(place: place)));
   }
 
   @override
   Future<void> close() {
-    sinkPressSelectPlaceButton.cancel();
+    sinkPressSelectPlaceButtonForPlace.cancel();
     return super.close();
   }
 }
@@ -103,6 +112,18 @@ extension on AddScheduleBloc {
     SelectRoute event,
     Emitter<AddScheduleState> emit,
   ) {
-    log(event.place.toString());
+    final AddScheduleInfo info = state.info.copyWith(route: event.place);
+    emit(state.copyWith(info: info));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onRemoveRoute(
+    RemoveRoute event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    var info = state.info;
+    info.route = null;
+    emit(state.copyWith(info: info));
   }
 }

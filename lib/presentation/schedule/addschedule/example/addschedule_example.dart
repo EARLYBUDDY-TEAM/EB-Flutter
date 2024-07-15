@@ -6,13 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'mock_addschedule.dart';
 
-class AddScheduleExample extends StatelessWidget {
-  const AddScheduleExample({super.key});
+final class AddScheduleExample extends StatelessWidget {
+  final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
+  final _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
+
+  AddScheduleExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => SearchPlaceDelegate(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
+        RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
+      ],
       child: MaterialApp(
         home: _MockAddSchedule(),
       ),

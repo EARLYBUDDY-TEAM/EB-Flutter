@@ -5,8 +5,10 @@ final class _MockAddSchedule extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddScheduleBloc(
-        searchPlaceDelegate:
-            RepositoryProvider.of<SearchPlaceDelegate>(context),
+        searchPlaceDelegateForPlace:
+            RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
+        searchPlaceDelegateForRoute:
+            RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
       ),
       child: const AddScheduleView(),
     );

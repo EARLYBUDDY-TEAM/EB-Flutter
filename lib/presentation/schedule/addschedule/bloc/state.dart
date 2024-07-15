@@ -37,9 +37,8 @@ final class AddScheduleInfo extends Equatable {
   final String? memo;
   final DateTime time;
   final bool isNotify;
-  // final String? place;
   final Place? place;
-  final String? route;
+  Place? route;
 
   AddScheduleInfo({
     String? title,
@@ -58,7 +57,7 @@ final class AddScheduleInfo extends Equatable {
     DateTime? time,
     bool? isNotify,
     Place? place,
-    String? route,
+    Place? route,
   }) =>
       AddScheduleInfo(
         title: title ?? this.title,

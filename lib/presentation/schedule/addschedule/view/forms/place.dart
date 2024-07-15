@@ -59,6 +59,8 @@ final class _PlaceForm extends StatelessWidget {
         onGenerateRoute: (context) => MaterialPageRoute(
           builder: (context) => Builder(
             builder: (context) => SearchPlaceView(
+              delegate:
+                  RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
               setting: SearchPlaceSetting.destination,
               cancelAction: cancelAction,
             ),
