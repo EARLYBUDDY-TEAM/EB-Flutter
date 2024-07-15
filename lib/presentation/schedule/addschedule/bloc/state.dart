@@ -37,16 +37,16 @@ final class AddScheduleInfo extends Equatable {
   final String? memo;
   final DateTime time;
   final bool isNotify;
-  final Place? place;
-  Place? route;
+  final Place? startPlace;
+  Place? endPlace;
 
   AddScheduleInfo({
     String? title,
     this.memo,
     DateTime? time,
     bool? isNotify,
-    this.place,
-    this.route,
+    this.startPlace,
+    this.endPlace,
   })  : title = title ?? '',
         time = time ?? DateTime.now(),
         isNotify = isNotify ?? false;
@@ -56,40 +56,41 @@ final class AddScheduleInfo extends Equatable {
     String? memo,
     DateTime? time,
     bool? isNotify,
-    Place? place,
-    Place? route,
+    Place? startPlace,
+    Place? endPlace,
   }) =>
       AddScheduleInfo(
         title: title ?? this.title,
         memo: memo ?? this.memo,
         time: time ?? this.time,
         isNotify: isNotify ?? this.isNotify,
-        place: place ?? this.place,
-        route: route ?? this.route,
+        startPlace: startPlace ?? this.startPlace,
+        endPlace: endPlace ?? this.endPlace,
       );
 
   @override
-  List<Object?> get props => [title, memo, time, isNotify, place, route];
+  List<Object?> get props =>
+      [title, memo, time, isNotify, startPlace, endPlace];
 }
 
 final class SchedulePlace extends Equatable {
-  final String? departure;
-  final String? destination;
+  final String? start;
+  final String? end;
 
   const SchedulePlace({
-    this.departure,
-    this.destination,
+    this.start,
+    this.end,
   });
 
   SchedulePlace copyWith({
-    String? departure,
-    String? destination,
+    String? start,
+    String? end,
   }) =>
       SchedulePlace(
-        departure: departure ?? this.departure,
-        destination: destination ?? this.destination,
+        start: start ?? this.start,
+        end: end ?? this.end,
       );
 
   @override
-  List<Object?> get props => [departure, destination];
+  List<Object?> get props => [start, end];
 }

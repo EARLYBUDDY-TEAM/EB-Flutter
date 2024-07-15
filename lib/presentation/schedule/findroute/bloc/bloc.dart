@@ -15,11 +15,13 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final FindRouteRepository _findRouteRepository;
 
   FindRouteBloc({
+    required Coordi start,
+    required Coordi end,
     FindRouteRepository? findRouteRepository,
   })  : _findRouteRepository = findRouteRepository ?? FindRouteRepository(),
         super(const FindRouteState()) {
     on<FetchFindRouteData>(_onFetchFindRouteData);
-    add(const FetchFindRouteData());
+    add(FetchFindRouteData(start: start, end: end));
   }
 }
 
@@ -29,8 +31,11 @@ extension on FindRouteBloc {
     Emitter<FindRouteState> emit,
   ) async {
     try {
-      // final ebRoute = await _findRouteRepository.getEBRoute();
-      final ebRoute = EBRoute.mock();
+      final ebRoute = await _findRouteRepository.getEBRoute(
+        start: event.start,
+        end: event.end,
+      );
+      // final ebRoute = EBRoute.mock();
       final transportLineOfRoute =
           _getTransportLineOfRoute(paths: ebRoute.ebPaths);
       final findRouteViewState =

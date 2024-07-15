@@ -17,12 +17,22 @@ part 'findroute_content/list/listitem/routeline/routeline.dart';
 part 'findroute_content/list/listitem/routeline/transportline.dart';
 
 final class FindRouteView extends StatelessWidget {
-  const FindRouteView({super.key});
+  final Coordi start;
+  final Coordi end;
+
+  const FindRouteView({
+    super.key,
+    required this.start,
+    required this.end,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FindRouteBloc(),
+      create: (context) => FindRouteBloc(
+        start: start,
+        end: end,
+      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: _FindRouteAppBar(

@@ -5,8 +5,11 @@ class _MockFindRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: FindRouteView(),
+    return Scaffold(
+      body: FindRouteView(
+        start: Coordi.mockStart(),
+        end: Coordi.mockEnd(),
+      ),
     );
   }
 }

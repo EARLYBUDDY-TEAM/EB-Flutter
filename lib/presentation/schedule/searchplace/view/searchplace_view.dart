@@ -19,6 +19,7 @@ final class SearchPlaceView extends StatelessWidget {
   SearchPlaceSetting setting;
   SearchPlaceDelegate delegate;
   SearchPlaceState? searchPlaceState;
+  Function()? selectAction;
   Function()? cancelAction;
 
   SearchPlaceView({
@@ -26,6 +27,7 @@ final class SearchPlaceView extends StatelessWidget {
     required this.setting,
     required this.delegate,
     this.searchPlaceState,
+    this.selectAction,
     this.cancelAction,
   });
 
@@ -33,10 +35,10 @@ final class SearchPlaceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
-        // delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
         delegate: delegate,
         setting: setting,
         searchPlaceState: searchPlaceState,
+        selectAction: selectAction,
         cancelAction: cancelAction,
       ),
       child: const _EBSearchPlaceView(),

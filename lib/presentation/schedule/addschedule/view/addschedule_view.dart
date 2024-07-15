@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';
+import 'package:earlybuddy/presentation/schedule/findroute/view/findroute_view.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';

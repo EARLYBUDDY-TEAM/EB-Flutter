@@ -30,7 +30,7 @@ final class _PlaceForm extends StatelessWidget {
                 builder: _searchPlaceView,
               ),
               child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
-                selector: (state) => unwrapPlace(state.info.place),
+                selector: (state) => unwrapPlace(state.info.startPlace),
                 builder: (context, placeName) {
                   return Text(
                     placeName,
@@ -54,6 +54,10 @@ final class _PlaceForm extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
+    selectAction() {
+      Navigator.of(context).pop();
+    }
+
     return Builder(
       builder: (context) => Navigator(
         onGenerateRoute: (context) => MaterialPageRoute(
@@ -62,6 +66,7 @@ final class _PlaceForm extends StatelessWidget {
               delegate:
                   RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
               setting: SearchPlaceSetting.destination,
+              selectAction: selectAction,
               cancelAction: cancelAction,
             ),
           ),

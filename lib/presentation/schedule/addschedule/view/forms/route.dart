@@ -45,18 +45,18 @@ class _RouteState extends State<_RouteSwitch> {
       },
       builder: (context, info) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          checkRoute(info.route);
+          checkRoute(info.endPlace);
         });
         return Row(
           children: [
-            Text(info.route?.name ?? 'no data'),
+            Text(info.endPlace?.name ?? 'no data'),
             CupertinoSwitch(
               value: _isChecked,
               activeColor: EBColors.blue2,
               onChanged: (_) => _onChanged(
                 context,
-                info.place,
-                info.route,
+                info.startPlace,
+                info.endPlace,
               ),
             ),
           ],
@@ -73,11 +73,11 @@ class _RouteState extends State<_RouteSwitch> {
 
   void _onChanged(
     BuildContext context,
-    Place? place,
-    Place? route,
+    Place? startPlace,
+    Place? endPlace,
   ) async {
-    if (route == null) {
-      if (place == null) {
+    if (endPlace == null) {
+      if (startPlace == null) {
         showNoDestinationAlert(context: context);
       } else {
         showCupertinoModalBottomSheet(
@@ -105,6 +105,23 @@ extension on _RouteState {
       Navigator.of(context).pop();
     }
 
+    selectAction() async {
+      final info = BlocProvider.of<AddScheduleBloc>(context).state.info;
+      final Coordi? start = info.startPlace?.coordi;
+      final Coordi? end = info.endPlace?.coordi;
+      if (start != null && end != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FindRouteView(
+              start: start,
+              end: end,
+            ),
+          ),
+        );
+      }
+    }
+
     final searchPlaceView = Navigator(
       onGenerateRoute: (_) => MaterialPageRoute(
         builder: (_) => Builder(
@@ -112,6 +129,7 @@ extension on _RouteState {
             delegate:
                 RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
             setting: SearchPlaceSetting.departure,
+            selectAction: selectAction,
             cancelAction: cancelAction,
           ),
         ),

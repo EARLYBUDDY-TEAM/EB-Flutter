@@ -3,6 +3,7 @@ import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -13,6 +14,7 @@ part 'viewstate.dart';
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceDelegate _delegate;
   final SearchPlaceRepository _searchPlaceRepository;
+  Function() selectAction;
   Function() cancelAction;
 
   SearchPlaceBloc({
@@ -20,11 +22,12 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     required SearchPlaceSetting setting,
     SearchPlaceRepository? searchPlaceRepository,
     SearchPlaceState? searchPlaceState,
-    Function(Place)? selectAction,
+    Function()? selectAction,
     Function()? cancelAction,
   })  : _delegate = delegate,
         _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
+        selectAction = selectAction ?? (() {}),
         cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {
     final viewState = state.viewState.copyWith(setting: setting);
@@ -153,7 +156,7 @@ extension on SearchPlaceBloc {
     Emitter<SearchPlaceState> emit,
   ) {
     _delegate.addPressSelectPlaceButton(event.selectedPlace);
-    cancelAction();
+    selectAction();
   }
 }
 

@@ -9,8 +9,16 @@ final class FindRouteRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService.shared;
 
-  Future<EBRoute> getEBRoute() async {
-    final request = FindRouteRequest.init();
+  Future<EBRoute> getEBRoute({
+    required Coordi start,
+    required Coordi end,
+  }) async {
+    final request = FindRouteRequest.init(
+      sx: start.x,
+      sy: start.y,
+      ex: end.x,
+      ey: end.y,
+    );
     final EBRouteDTO ebRouteDTO = await service.request(request);
     final ebRoute = EBRoute.fromDTO(ebRouteDTO: ebRouteDTO);
     return ebRoute;
