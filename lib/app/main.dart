@@ -22,8 +22,8 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
-  // runApp(const SearchPlaceExample());
-  runApp(AddScheduleExample());
+  runApp(const SearchPlaceExample());
+  // runApp(AddScheduleExample());
   // runApp(const FindRouteExample());
   // runApp(const DetailRouteExample());
 

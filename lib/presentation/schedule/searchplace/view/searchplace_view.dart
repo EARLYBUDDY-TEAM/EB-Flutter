@@ -22,6 +22,8 @@ final class SearchPlaceView extends StatelessWidget {
   Function()? selectAction;
   Function()? cancelAction;
 
+  static const routeName = 'SearchPlaceView';
+
   SearchPlaceView({
     super.key,
     required this.setting,
