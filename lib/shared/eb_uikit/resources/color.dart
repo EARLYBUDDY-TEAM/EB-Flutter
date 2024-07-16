@@ -1,5 +1,4 @@
-import 'package:earlybuddy/shared/eb_uikit/sources/hexcolor.dart';
-import 'package:flutter/material.dart';
+part of 'eb_resources.dart';
 
 final class EBColors {
   static Color blue1 = const Color(0xff4DA6FF);

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'eb_resources.dart';
 
 class EBImages {
   static _EBAssetImage splash = const _EBAssetImage('splash.png');

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:earlybuddy/domain/network/endpoint/response/dto.dart';
-import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
+import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';

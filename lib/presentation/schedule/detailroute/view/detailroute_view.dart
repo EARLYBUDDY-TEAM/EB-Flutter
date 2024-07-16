@@ -1,4 +1,4 @@
-import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
+import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/material.dart';
 
 part 'listview.dart';

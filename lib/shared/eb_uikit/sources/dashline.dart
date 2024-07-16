@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'eb_sources.dart';
 
 final class HDashLine extends StatelessWidget {
   final StatelessWidget? stackLine;

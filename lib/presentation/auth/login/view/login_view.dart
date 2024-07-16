@@ -1,8 +1,8 @@
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/login/bloc/login_bloc.dart';
 import 'package:earlybuddy/presentation/auth/register/register.dart';
-import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
-import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
+import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
+import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';

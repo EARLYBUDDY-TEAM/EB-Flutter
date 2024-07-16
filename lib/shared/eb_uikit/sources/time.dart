@@ -1,3 +1,5 @@
+part of 'eb_sources.dart';
+
 class EBTime {
   static final EBTime shared = EBTime();
 

@@ -1,3 +1,5 @@
+part of 'eb_resources.dart';
+
 final class NanumSquare {
   static const light = 'NanumSquareLight';
   static const regular = 'NanumSquareRegular';

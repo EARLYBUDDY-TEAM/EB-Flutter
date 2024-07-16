@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+part of 'eb_sources.dart';
 
 class NestedHeaderScrollView extends StatefulWidget {
   StatelessWidget header;
