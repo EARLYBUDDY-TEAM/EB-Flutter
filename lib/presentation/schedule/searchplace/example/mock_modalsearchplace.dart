@@ -38,9 +38,9 @@ final class _MockModalSearchPlaceForRoute extends StatelessWidget {
         builder: (context2) => FindRouteView(
           start: start,
           end: end,
-          cancelAction: () {
-            Navigator.of(parent).pop();
-          },
+          parentName: '출발 장소',
+          backAction: () => Navigator.of(child).pop(),
+          cancelAction: () => Navigator.of(parent).pop(),
         ),
       ),
     );

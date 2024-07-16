@@ -19,12 +19,16 @@ part 'findroute_content/list/listitem/routeline/transportline.dart';
 final class FindRouteView extends StatelessWidget {
   final Coordi start;
   final Coordi end;
+  final String? parentName;
+  Function()? backAction;
   Function()? cancelAction;
 
   FindRouteView({
     super.key,
     required this.start,
     required this.end,
+    this.parentName,
+    this.backAction,
     this.cancelAction,
   });
 
@@ -37,7 +41,11 @@ final class FindRouteView extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: _FindRouteAppBar(cancelAction ?? () {}),
+        appBar: _FindRouteAppBar(
+          parentName: parentName,
+          backAction: backAction,
+          cancelAction: cancelAction,
+        ),
         body: _FindRouteContent(),
       ),
     );

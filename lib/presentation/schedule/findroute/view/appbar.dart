@@ -1,23 +1,54 @@
 part of 'findroute_view.dart';
 
 final class _FindRouteAppBar extends AppBar {
+  final String? parentName;
+  final Function()? cancelAction;
+  final Function()? backAction;
+
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
-  final Function()? cancelAction;
 
-  _FindRouteAppBar(this.cancelAction);
-
-  TextStyle textStyle() => TextStyle(
-        color: color,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-      );
+  _FindRouteAppBar({
+    this.parentName,
+    this.backAction,
+    this.cancelAction,
+  });
 
   @override
   Color? get backgroundColor => Colors.white;
   @override
   double? get scrolledUnderElevation => 0;
+  @override
+  bool get automaticallyImplyLeading => false;
+  @override
+  double? get leadingWidth => 130; // dynamic하게 적용법?
+
+  @override
+  Widget? get leading => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: TextButton(
+          onPressed: backAction,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.arrow_back_ios_new,
+                color: color,
+              ),
+              const SizedBox(width: 5),
+              Text(
+                parentName ?? '',
+                style: TextStyle(
+                  color: color,
+                  fontFamily: fontFamily,
+                  fontSize: fontSize,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
   @override
   Widget? get title => Text(
@@ -35,7 +66,11 @@ final class _FindRouteAppBar extends AppBar {
           onPressed: cancelAction,
           child: Text(
             '취소',
-            style: textStyle(),
+            style: TextStyle(
+              color: color,
+              fontFamily: fontFamily,
+              fontSize: fontSize,
+            ),
           ),
         )
       ]);
