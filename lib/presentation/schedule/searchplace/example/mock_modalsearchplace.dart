@@ -27,23 +27,19 @@ final class _MockModalSearchPlaceForRoute extends StatelessWidget {
   }
 
   void selectAction(
-    BuildContext context1,
-    BuildContext context2,
+    BuildContext parent,
+    BuildContext child,
   ) {
     final start = Coordi.mockStart();
     final end = Coordi.mockEnd();
     Navigator.push(
-      context2,
+      child,
       MaterialPageRoute(
         builder: (context2) => FindRouteView(
           start: start,
           end: end,
           cancelAction: () {
-            Navigator.of(context1).popUntil(
-              ModalRoute.withName(
-                _MockModalSearchPlaceForRoute.routeName,
-              ),
-            );
+            Navigator.of(parent).pop();
           },
         ),
       ),
@@ -59,7 +55,7 @@ final class _MockModalSearchPlaceForRoute extends StatelessWidget {
       builder: (context) => Material(
         child: Navigator(
           onGenerateRoute: (_) => MaterialPageRoute(
-            builder: (context) => Builder(
+            builder: (_) => Builder(
               builder: (context2) => SearchPlaceView(
                 setting: SearchPlaceSetting.departure,
                 delegate:
