@@ -23,7 +23,7 @@ void main() async {
   // await getlocationdda
 
   runApp(const SearchPlaceExample());
-  // runApp(AddScheduleExample());
+  // runApp(const AddScheduleExample());
   // runApp(const FindRouteExample());
   // runApp(const DetailRouteExample());
 

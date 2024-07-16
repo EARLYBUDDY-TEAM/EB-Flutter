@@ -44,7 +44,6 @@ final class _MockModalSearchPlaceForRoute extends StatelessWidget {
                 _MockModalSearchPlaceForRoute.routeName,
               ),
             );
-            Navigator.of(context1).pop();
           },
         ),
       ),

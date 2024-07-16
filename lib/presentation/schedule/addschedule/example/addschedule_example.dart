@@ -1,4 +1,5 @@
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
+import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/view/addschedule_view.dart';
 import 'package:flutter/material.dart';

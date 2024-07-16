@@ -3,15 +3,16 @@ part of '../findroute_view.dart';
 class _FindRouteContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        const _FindRouteInfoView(),
-        Expanded(
-          child: NestedHeaderScrollView(
-            header: const _FindRouteSortView(),
-            content: const _FindRouteListView(),
-          ),
-        ),
+        _FindRouteInfoView(),
+        Center(child: Text('testemptyview')),
+        // Expanded(
+        //   child: NestedHeaderScrollView(
+        //     header: const _FindRouteSortView(),
+        //     content: const _FindRouteListView(),
+        //   ),
+        // ),
       ],
     );
   }

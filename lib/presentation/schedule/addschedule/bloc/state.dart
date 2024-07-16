@@ -4,14 +4,11 @@ final class AddScheduleState extends Equatable {
   final AddScheduleInfo info;
   final AddScheduleStatus status;
 
-  const AddScheduleState({
-    required this.info,
-    required this.status,
-  });
-
-  AddScheduleState.empty()
-      : info = AddScheduleInfo(),
-        status = AddScheduleStatus.init;
+  AddScheduleState({
+    AddScheduleInfo? info,
+    AddScheduleStatus? status,
+  })  : info = info ?? AddScheduleInfo(),
+        status = status ?? AddScheduleStatus.init;
 
   AddScheduleState copyWith({
     AddScheduleInfo? info,

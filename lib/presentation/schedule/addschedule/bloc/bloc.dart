@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
-import 'package:earlybuddy/presentation/schedule/addschedule/addschedule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +14,8 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   AddScheduleBloc({
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
-  }) : super(AddScheduleState.empty()) {
+    AddScheduleState? addScheduleState,
+  }) : super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);

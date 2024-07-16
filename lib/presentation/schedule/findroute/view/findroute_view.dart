@@ -37,9 +37,7 @@ final class FindRouteView extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: _FindRouteAppBar(
-          cancelAction: cancelAction ?? () {},
-        ),
+        appBar: _FindRouteAppBar(cancelAction ?? () {}),
         body: _FindRouteContent(),
       ),
     );

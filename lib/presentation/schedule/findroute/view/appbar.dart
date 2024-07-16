@@ -4,9 +4,9 @@ final class _FindRouteAppBar extends AppBar {
   final Color color = EBColors.blue1;
   final String fontFamily = NanumSquare.bold;
   final double fontSize = 17;
-  final VoidCallback cancelAction;
+  final Function()? cancelAction;
 
-  _FindRouteAppBar({required this.cancelAction});
+  _FindRouteAppBar(this.cancelAction);
 
   TextStyle textStyle() => TextStyle(
         color: color,
@@ -18,8 +18,6 @@ final class _FindRouteAppBar extends AppBar {
   Color? get backgroundColor => Colors.white;
   @override
   double? get scrolledUnderElevation => 0;
-  @override
-  bool get automaticallyImplyLeading => false;
 
   @override
   Widget? get title => Text(
