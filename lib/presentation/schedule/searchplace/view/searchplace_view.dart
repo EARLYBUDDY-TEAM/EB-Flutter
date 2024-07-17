@@ -19,7 +19,7 @@ final class SearchPlaceView extends StatelessWidget {
   SearchPlaceSetting setting;
   SearchPlaceDelegate delegate;
   SearchPlaceState? searchPlaceState;
-  Function()? selectAction;
+  Function(Place)? selectAction;
   Function()? cancelAction;
 
   static const routeName = 'SearchPlaceView';
@@ -61,7 +61,7 @@ final class _EBSearchPlaceView extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: _SearchPlaceAppBar(
-            textTitle: setting == SearchPlaceSetting.departure ? '출발 장소' : '장소',
+            textTitle: setting == SearchPlaceSetting.start ? '출발 장소' : '장소',
             cancelAction: () =>
                 context.read<SearchPlaceBloc>().add(PressCancelButton()),
           ),

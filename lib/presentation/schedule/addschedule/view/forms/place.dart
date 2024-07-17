@@ -30,10 +30,10 @@ final class _PlaceForm extends StatelessWidget {
                 builder: _searchPlaceView,
               ),
               child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
-                selector: (state) => unwrapPlace(state.info.startPlace),
-                builder: (context, placeName) {
+                selector: (state) => unwrapPlace(state.info.endPlace),
+                builder: (context, end) {
                   return Text(
-                    placeName,
+                    end,
                     style: TextStyle(
                       fontFamily: NanumSquare.bold,
                       fontSize: fontSize,
@@ -54,7 +54,7 @@ final class _PlaceForm extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    selectAction() {
+    selectAction(Place start) {
       Navigator.of(context).pop();
     }
 
@@ -65,7 +65,7 @@ final class _PlaceForm extends StatelessWidget {
             builder: (context) => SearchPlaceView(
               delegate:
                   RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
-              setting: SearchPlaceSetting.destination,
+              setting: SearchPlaceSetting.end,
               selectAction: selectAction,
               cancelAction: cancelAction,
             ),

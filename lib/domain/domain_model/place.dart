@@ -56,10 +56,6 @@ final class Place extends Equatable {
   }
 
   static Place mockStart() {
-    return mockStarBucks();
-  }
-
-  static Place mockEnd() {
     return const Place(
       id: '123',
       name: '멜로즈',
@@ -68,6 +64,10 @@ final class Place extends Equatable {
       distance: '12',
       coordi: Coordi(x: '126.996509759576', y: '37.5306176474415'),
     );
+  }
+
+  static Place mockEnd() {
+    return mockStarBucks();
   }
 
   @override

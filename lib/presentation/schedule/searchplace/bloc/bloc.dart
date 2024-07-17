@@ -14,7 +14,7 @@ part 'viewstate.dart';
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final SearchPlaceDelegate _delegate;
   final SearchPlaceRepository _searchPlaceRepository;
-  Function() selectAction;
+  Function(Place) selectAction;
   Function() cancelAction;
 
   SearchPlaceBloc({
@@ -22,12 +22,12 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     required SearchPlaceSetting setting,
     SearchPlaceRepository? searchPlaceRepository,
     SearchPlaceState? searchPlaceState,
-    Function()? selectAction,
+    Function(Place)? selectAction,
     Function()? cancelAction,
   })  : _delegate = delegate,
         _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
-        selectAction = selectAction ?? (() {}),
+        selectAction = selectAction ?? ((_) {}),
         cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {
     final viewState = state.viewState.copyWith(setting: setting);
@@ -156,7 +156,7 @@ extension on SearchPlaceBloc {
     Emitter<SearchPlaceState> emit,
   ) {
     _delegate.addPressSelectPlaceButton(event.selectedPlace);
-    selectAction();
+    selectAction(event.selectedPlace);
   }
 }
 

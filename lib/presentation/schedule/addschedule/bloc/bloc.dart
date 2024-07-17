@@ -101,7 +101,7 @@ extension on AddScheduleBloc {
     SelectPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(startPlace: event.place);
+    final AddScheduleInfo info = state.info.copyWith(endPlace: event.place);
     emit(state.copyWith(info: info));
   }
 }
@@ -111,7 +111,7 @@ extension on AddScheduleBloc {
     SelectRoute event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(endPlace: event.place);
+    final AddScheduleInfo info = state.info.copyWith(startPlace: event.place);
     emit(state.copyWith(info: info));
   }
 }
@@ -122,7 +122,7 @@ extension on AddScheduleBloc {
     Emitter<AddScheduleState> emit,
   ) {
     var info = state.info;
-    info.endPlace = null;
+    info.startPlace = null;
     emit(state.copyWith(info: info));
   }
 }

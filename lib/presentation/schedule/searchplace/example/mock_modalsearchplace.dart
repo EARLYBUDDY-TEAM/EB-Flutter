@@ -57,11 +57,11 @@ final class _MockModalSearchPlaceForRoute extends StatelessWidget {
           onGenerateRoute: (_) => MaterialPageRoute(
             builder: (_) => Builder(
               builder: (context2) => SearchPlaceView(
-                setting: SearchPlaceSetting.departure,
+                setting: SearchPlaceSetting.start,
                 delegate:
                     RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
                 searchPlaceState: SearchPlaceState.mockStarBucks(),
-                selectAction: () => selectAction(context, context2),
+                selectAction: (_) => selectAction(context, context2),
                 cancelAction: () => Navigator.of(context).pop(),
               ),
             ),

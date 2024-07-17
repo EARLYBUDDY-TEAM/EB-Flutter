@@ -5,7 +5,7 @@ final class SearchPlaceViewState extends Equatable {
   final SearchPlaceContentStatus contentStatus;
 
   const SearchPlaceViewState({
-    this.setting = SearchPlaceSetting.departure,
+    this.setting = SearchPlaceSetting.start,
     this.contentStatus = SearchPlaceContentStatus.search,
   });
 
@@ -24,8 +24,8 @@ final class SearchPlaceViewState extends Equatable {
 }
 
 enum SearchPlaceSetting {
-  departure,
-  destination,
+  start,
+  end,
 }
 
 enum SearchPlaceContentStatus {

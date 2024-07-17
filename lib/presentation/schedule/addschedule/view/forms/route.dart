@@ -45,11 +45,11 @@ class _RouteState extends State<_RouteSwitch> {
       },
       builder: (context, info) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          checkRoute(info.endPlace);
+          checkRoute(info.startPlace);
         });
         return Row(
           children: [
-            Text(info.endPlace?.name ?? 'no data'),
+            Text(info.startPlace?.name ?? 'no data'),
             CupertinoSwitch(
               value: _isChecked,
               activeColor: EBColors.blue2,
@@ -65,9 +65,9 @@ class _RouteState extends State<_RouteSwitch> {
     );
   }
 
-  void checkRoute(Place? route) {
+  void checkRoute(Place? start) {
     setState(() {
-      _isChecked = route != null ? true : false;
+      _isChecked = start != null ? true : false;
     });
   }
 
@@ -75,9 +75,9 @@ class _RouteState extends State<_RouteSwitch> {
     BuildContext context,
     Place? startPlace,
     Place? endPlace,
-  ) async {
-    if (endPlace == null) {
-      if (startPlace == null) {
+  ) {
+    if (startPlace == null) {
+      if (endPlace == null) {
         showNoDestinationAlert(context: context);
       } else {
         showCupertinoModalBottomSheet(
@@ -101,19 +101,19 @@ extension on _RouteState {
   Material _searchPlaceView(
     BuildContext addScheduleContext,
   ) {
-    cancelAction(BuildContext addScheduleContext) async {
+    cancelAction(BuildContext addScheduleContext) {
       Navigator.of(addScheduleContext).pop();
     }
 
     selectAction(
+      Place start,
       BuildContext addScheduleContext,
       BuildContext searchPlaceContext,
-    ) async {
+    ) {
       final info =
           BlocProvider.of<AddScheduleBloc>(addScheduleContext).state.info;
-      final Place? start = info.startPlace;
       final Place? end = info.endPlace;
-      if (start != null && end != null) {
+      if (end != null) {
         Navigator.push(
           searchPlaceContext,
           MaterialPageRoute(
@@ -134,11 +134,11 @@ extension on _RouteState {
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => Builder(
             builder: (searchPlaceContext) => SearchPlaceView(
-              setting: SearchPlaceSetting.departure,
+              setting: SearchPlaceSetting.start,
               delegate: RepositoryProvider.of<SearchPlaceDelegateForRoute>(
                   addScheduleContext),
-              selectAction: () =>
-                  selectAction(addScheduleContext, searchPlaceContext),
+              selectAction: (start) =>
+                  selectAction(start, addScheduleContext, searchPlaceContext),
               cancelAction: () => cancelAction(addScheduleContext),
             ),
           ),

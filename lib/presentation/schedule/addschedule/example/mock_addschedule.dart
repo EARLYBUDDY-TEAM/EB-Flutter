@@ -23,7 +23,7 @@ final class MockAddSchedule extends StatelessWidget {
 final class _MyMockAddSchedule extends StatelessWidget {
   final addScheduleState = AddScheduleState(
     info: AddScheduleInfo(
-      startPlace: Place.mockStarBucks(),
+      endPlace: Place.mockStarBucks(),
     ),
   );
 

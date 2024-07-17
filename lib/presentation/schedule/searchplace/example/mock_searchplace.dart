@@ -11,7 +11,7 @@ final class _MockSearchPlace extends StatelessWidget {
       home: RepositoryProvider(
         create: (context) => delegate,
         child: SearchPlaceView(
-          setting: SearchPlaceSetting.departure,
+          setting: SearchPlaceSetting.start,
           delegate: RepositoryProvider.of<SearchPlaceDelegate>(context),
           searchPlaceState: SearchPlaceState.mockView(),
         ),

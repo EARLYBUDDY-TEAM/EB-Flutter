@@ -34,8 +34,8 @@ final class AddScheduleInfo extends Equatable {
   final String? memo;
   final DateTime time;
   final bool isNotify;
-  final Place? startPlace;
-  Place? endPlace;
+  Place? startPlace;
+  final Place? endPlace;
 
   AddScheduleInfo({
     String? title,
