@@ -25,9 +25,9 @@ void main() async {
 
   // runApp(const EBUIkitExample());
   // runApp(const SearchPlaceExample());
-  runApp(const AddScheduleExample());
+  // runApp(const AddScheduleExample());
   // runApp(const FindRouteExample());
-  // runApp(const DetailRouteExample());
+  runApp(const DetailRouteExample());
 
   // runApp(const TestStackPositionedExample());
 }
