@@ -1,9 +1,14 @@
 part of 'detailroute_view.dart';
 
-class DetailRouteListItem extends StatelessWidget {
+final class DetailRouteListItem extends StatelessWidget {
+  final EBSubPath ebSubPath;
   final double inset = 15;
   final double space = 7;
-  const DetailRouteListItem({super.key});
+
+  const DetailRouteListItem({
+    super.key,
+    required this.ebSubPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,9 @@ class DetailRouteListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    departure(),
+                    startInfo(),
                     info(),
-                    destination(),
+                    endInfo(),
                   ],
                 ),
               ),
@@ -39,36 +44,73 @@ class DetailRouteListItem extends StatelessWidget {
       ),
     );
   }
+}
 
+extension on DetailRouteListItem {
+  Column iconTransport() {
+    final text = '약 ${ebSubPath.time}분';
+    Color? color;
+    IconData icon;
+    switch (ebSubPath.type) {
+      case (1):
+        icon = Icons.subway_outlined;
+        color = ebSubPath.transports[0].subway?.color();
+      case (2):
+        icon = CupertinoIcons.bus;
+        color = ebSubPath.transports[0].bus?.color();
+      default:
+        icon = Icons.directions_walk;
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          color: color,
+        ),
+        Text(text),
+      ],
+    );
+  }
+}
+
+extension on DetailRouteListItem {
+  Row startInfo() {
+    final text = ebSubPath.startName;
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Text(text),
+        const Spacer(),
+        const EBRoundedButton(text: '지도보기'),
+      ],
+    );
+  }
+}
+
+extension on DetailRouteListItem {
   Text info() {
     return const Text('도보 642');
   }
+}
 
-  Column iconTransport() {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+extension on DetailRouteListItem {
+  Row endInfo() {
+    var text = ebSubPath.endName;
+    if (ebSubPath.type == 3) {
+      text += '까지 걷기';
+    }
+    return Row(
       children: [
-        Icon(Icons.directions_walk),
-        Text('약 3분'),
-      ],
-    );
-  }
-
-  Row departure() {
-    return const Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text('서울특별시 광진구 아차산로 463-4'),
-        Spacer(),
-        EBRoundedButton(text: '지도보기'),
-      ],
-    );
-  }
-
-  Row destination() {
-    return const Row(
-      children: [
-        Text('서울특별시 광진구 아차산로 463-4까지 걷기'),
+        Text(
+          text,
+          style: TextStyle(
+            fontFamily: NanumSquare.regular,
+            fontSize: 18,
+            color: EBColors.text,
+          ),
+        ),
       ],
     );
   }

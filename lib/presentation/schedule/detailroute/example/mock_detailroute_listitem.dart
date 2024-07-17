@@ -5,8 +5,15 @@ final class _MockDetailRouteListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: DetailRouteListItem(),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          DetailRouteListItem(ebSubPath: EBSubPath.mockWalk()),
+          DetailRouteListItem(ebSubPath: EBSubPath.mockBus()),
+          DetailRouteListItem(ebSubPath: EBSubPath.mockSubway()),
+        ],
+      ),
     );
   }
 }

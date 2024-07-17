@@ -57,7 +57,7 @@ final class EBSubPath extends Equatable {
 
   static EBSubPath mockSubway() {
     return EBSubPath(
-      type: 3,
+      type: 1,
       time: 32,
       startName: '수서역',
       endName: '이태원',
