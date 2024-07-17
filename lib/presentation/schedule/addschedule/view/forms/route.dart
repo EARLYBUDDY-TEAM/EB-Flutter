@@ -111,8 +111,8 @@ extension on _RouteState {
     ) async {
       final info =
           BlocProvider.of<AddScheduleBloc>(addScheduleContext).state.info;
-      final Coordi? start = info.startPlace?.coordi;
-      final Coordi? end = info.endPlace?.coordi;
+      final Place? start = info.startPlace;
+      final Place? end = info.endPlace;
       if (start != null && end != null) {
         Navigator.push(
           searchPlaceContext,

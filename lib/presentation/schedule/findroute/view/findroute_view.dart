@@ -14,8 +14,8 @@ part 'findroute_content/list/listitem/routeline/routeline.dart';
 part 'findroute_content/list/listitem/routeline/transportline.dart';
 
 final class FindRouteView extends StatelessWidget {
-  final Coordi start;
-  final Coordi end;
+  final Place start;
+  final Place end;
   final String? parentName;
   Function()? backAction;
   Function()? cancelAction;
@@ -33,8 +33,8 @@ final class FindRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
-        start: start,
-        end: end,
+        start: start.coordi,
+        end: end.coordi,
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -43,10 +43,13 @@ final class FindRouteView extends StatelessWidget {
           backAction: backAction,
           cancelAction: cancelAction,
         ),
-        body: const Column(
+        body: Column(
           children: [
-            _FindRouteInfoView(),
-            _FindRouteListView(),
+            _FindRouteInfoView(
+              startName: start.name,
+              endName: end.name,
+            ),
+            const _FindRouteListView(),
           ],
         ),
       ),

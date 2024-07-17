@@ -55,6 +55,21 @@ final class Place extends Equatable {
     );
   }
 
+  static Place mockStart() {
+    return mockStarBucks();
+  }
+
+  static Place mockEnd() {
+    return const Place(
+      id: '123',
+      name: '멜로즈',
+      address: '서울 용산구 보광로 82',
+      category: '카페',
+      distance: '12',
+      coordi: Coordi(x: '126.996509759576', y: '37.5306176474415'),
+    );
+  }
+
   @override
   List<Object?> get props => [name, address, coordi];
 }

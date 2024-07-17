@@ -30,8 +30,8 @@ final class _MockModalSearchPlaceForRoute extends StatelessWidget {
     BuildContext parent,
     BuildContext child,
   ) {
-    final start = Coordi.mockStart();
-    final end = Coordi.mockEnd();
+    final start = Place.mockStart();
+    final end = Place.mockEnd();
     Navigator.push(
       child,
       MaterialPageRoute(

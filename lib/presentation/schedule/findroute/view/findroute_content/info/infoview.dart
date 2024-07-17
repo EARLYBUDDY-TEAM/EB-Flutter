@@ -1,9 +1,14 @@
 part of '../../findroute_view.dart';
 
 final class _FindRouteInfoView extends StatelessWidget {
+  final String startName;
+  final String endName;
   final double horizontalInset = 15;
 
-  const _FindRouteInfoView();
+  const _FindRouteInfoView({
+    required this.startName,
+    required this.endName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ final class _FindRouteInfoView extends StatelessWidget {
     return Container(
       width: 25,
       height: 60,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
         image: EBImages.markFindRoute,
         fit: BoxFit.contain,
@@ -45,7 +50,7 @@ final class _FindRouteInfoView extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '스타벅스 리저브 수서역 R점',
+          startName,
           style: TextStyle(
             fontFamily: NanumSquare.bold,
             color: EBColors.text,
@@ -70,7 +75,7 @@ final class _FindRouteInfoView extends StatelessWidget {
 
   Text _arrival() {
     return Text(
-      '충무로역',
+      endName,
       style: TextStyle(
         fontFamily: NanumSquare.extraBold,
         color: Colors.grey.withOpacity(0.7),
