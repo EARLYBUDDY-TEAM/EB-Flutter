@@ -4,14 +4,14 @@ part of 'eb_sources.dart';
 
 class ScrollWithHeader extends StatelessWidget {
   Widget header;
-  Widget Function(int) item;
-  int length;
+  double? headerHeight;
+  List<Widget> list;
 
   ScrollWithHeader({
     super.key,
     required this.header,
-    required this.item,
-    required this.length,
+    this.headerHeight,
+    required this.list,
   });
 
   @override
@@ -21,13 +21,14 @@ class ScrollWithHeader extends StatelessWidget {
         SliverAppBar(
           title: header,
           floating: true,
-          toolbarHeight: 100,
+          toolbarHeight: headerHeight ?? 100,
           titleSpacing: 0,
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          scrolledUnderElevation: 0,
         ),
         SliverList(
-          delegate: SliverChildListDelegate(
-            List.generate(length, item),
-          ),
+          delegate: SliverChildListDelegate(list),
         ),
       ],
     );

@@ -15,13 +15,16 @@ class _MockScrollWithHeader extends StatelessWidget {
           Expanded(
             child: ScrollWithHeader(
               header: _customHeader(),
-              item: (index) => _listItem(index),
-              length: 100,
+              list: _list(),
             ),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _list() {
+    return [for (var i = 0; i < 100; i++) _listItem(i)];
   }
 
   Expanded _customHeader() {

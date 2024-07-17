@@ -1,24 +1,42 @@
 part of '../../findroute_view.dart';
 
 final class _FindRouteSortView extends StatelessWidget {
-  const _FindRouteSortView();
+  final double height;
+
+  const _FindRouteSortView({
+    super.key,
+    required this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _date(),
-              const SizedBox(height: 3),
-              _hour(),
-            ],
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        border: Border.symmetric(
+          horizontal: BorderSide(
+            color: Colors.grey.withOpacity(0.5),
+            width: 1,
           ),
-          const Spacer(),
-        ],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _date(),
+                const SizedBox(height: 3),
+                _hour(),
+              ],
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }

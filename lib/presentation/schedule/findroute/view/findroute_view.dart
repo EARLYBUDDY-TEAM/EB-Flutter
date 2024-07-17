@@ -1,9 +1,6 @@
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/bloc/bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
-import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
-import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

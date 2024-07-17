@@ -12,14 +12,22 @@ final class FindRouteListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: Column(
-        children: [
-          _listItemRouteInfo(),
-          _RouteLine(lineOfPath: lineOfPath, pathTime: ebPath.time)
-        ],
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          height: 200,
+          child: Column(
+            children: [
+              _listItemRouteInfo(),
+              _RouteLine(lineOfPath: lineOfPath, pathTime: ebPath.time)
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Divider(color: Colors.grey.withOpacity(0.5)),
+        )
+      ],
     );
   }
 

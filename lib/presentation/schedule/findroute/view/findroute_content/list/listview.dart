@@ -1,6 +1,8 @@
 part of '../../findroute_view.dart';
 
 class _FindRouteListView extends StatelessWidget {
+  final double headerHeight = 100;
+
   const _FindRouteListView();
 
   @override
@@ -14,20 +16,28 @@ class _FindRouteListView extends StatelessWidget {
           );
         } else {
           final ebPaths = ebRoute.ebPaths;
-          final lineOfRoute =
+          final lineOfPaths =
               findRouteState.viewState.transportLineOfRoute.lineOfRoute;
           return Expanded(
             child: ScrollWithHeader(
-              length: ebPaths.length,
-              header: const _FindRouteSortView(),
-              item: (index) => FindRouteListItem(
-                ebPath: ebPaths[index],
-                lineOfPath: lineOfRoute[index],
-              ),
+              header: _FindRouteSortView(height: headerHeight),
+              headerHeight: headerHeight,
+              list: _list(ebPaths, lineOfPaths),
             ),
           );
         }
       },
     );
+  }
+
+  List<Widget> _list(
+      List<EBPath> ebPaths, List<TransportLineOfPath> lineOfPaths) {
+    return [
+      for (var i = 0; i < ebPaths.length; i++)
+        FindRouteListItem(
+          ebPath: ebPaths[i],
+          lineOfPath: lineOfPaths[i],
+        )
+    ];
   }
 }
