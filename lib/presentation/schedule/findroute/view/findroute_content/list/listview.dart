@@ -32,12 +32,21 @@ class _FindRouteListView extends StatelessWidget {
 
   List<Widget> _list(
       List<EBPath> ebPaths, List<TransportLineOfPath> lineOfPaths) {
-    return [
-      for (var i = 0; i < ebPaths.length; i++)
-        FindRouteListItem(
-          ebPath: ebPaths[i],
-          lineOfPath: lineOfPaths[i],
-        )
+    var list = [
+      for (var i = 0; i <= ebPaths.length; i++)
+        i != ebPaths.length
+            ? FindRouteListItem(
+                ebPath: ebPaths[i],
+                lineOfPath: lineOfPaths[i],
+                isLast: false,
+              )
+            : FindRouteListItem(
+                ebPath: ebPaths[i - 1],
+                lineOfPath: lineOfPaths[i - 1],
+                isLast: true,
+              )
     ];
+
+    return list;
   }
 }
