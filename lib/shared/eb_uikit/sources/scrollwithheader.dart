@@ -26,6 +26,7 @@ class ScrollWithHeader extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           scrolledUnderElevation: 0,
+          automaticallyImplyLeading: false,
         ),
         SliverList(
           delegate: SliverChildListDelegate(list),

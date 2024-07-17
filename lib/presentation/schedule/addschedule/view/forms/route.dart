@@ -84,7 +84,7 @@ class _RouteState extends State<_RouteSwitch> {
           context: context,
           expand: true,
           backgroundColor: Colors.white,
-          builder: (context) => _searchPlaceView(context),
+          builder: (_) => _searchPlaceView(context),
         );
       }
     } else {
@@ -98,45 +98,53 @@ class _RouteState extends State<_RouteSwitch> {
 }
 
 extension on _RouteState {
-  Navigator _searchPlaceView(
-    BuildContext context,
+  Material _searchPlaceView(
+    BuildContext addScheduleContext,
   ) {
-    cancelAction() async {
-      Navigator.of(context).pop();
+    cancelAction(BuildContext addScheduleContext) async {
+      Navigator.of(addScheduleContext).pop();
     }
 
-    selectAction() async {
-      final info = BlocProvider.of<AddScheduleBloc>(context).state.info;
+    selectAction(
+      BuildContext addScheduleContext,
+      BuildContext searchPlaceContext,
+    ) async {
+      final info =
+          BlocProvider.of<AddScheduleBloc>(addScheduleContext).state.info;
       final Coordi? start = info.startPlace?.coordi;
       final Coordi? end = info.endPlace?.coordi;
       if (start != null && end != null) {
         Navigator.push(
-          context,
+          searchPlaceContext,
           MaterialPageRoute(
-            builder: (context) => FindRouteView(
+            builder: (searchPlaceContext) => FindRouteView(
               start: start,
               end: end,
+              parentName: '출발 장소',
+              backAction: () => Navigator.of(searchPlaceContext).pop(),
+              cancelAction: () => Navigator.of(addScheduleContext).pop(),
             ),
           ),
         );
       }
     }
 
-    final searchPlaceView = Navigator(
-      onGenerateRoute: (_) => MaterialPageRoute(
-        builder: (_) => Builder(
-          builder: (_) => SearchPlaceView(
-            delegate:
-                RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
-            setting: SearchPlaceSetting.departure,
-            selectAction: selectAction,
-            cancelAction: cancelAction,
+    return Material(
+      child: Navigator(
+        onGenerateRoute: (_) => MaterialPageRoute(
+          builder: (_) => Builder(
+            builder: (searchPlaceContext) => SearchPlaceView(
+              setting: SearchPlaceSetting.departure,
+              delegate: RepositoryProvider.of<SearchPlaceDelegateForRoute>(
+                  addScheduleContext),
+              selectAction: () =>
+                  selectAction(addScheduleContext, searchPlaceContext),
+              cancelAction: () => cancelAction(addScheduleContext),
+            ),
           ),
         ),
       ),
     );
-
-    return searchPlaceView;
   }
 }
 
