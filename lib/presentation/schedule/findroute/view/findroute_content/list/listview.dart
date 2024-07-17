@@ -5,32 +5,29 @@ class _FindRouteListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: BlocBuilder<FindRouteBloc, FindRouteState>(
-        builder: (context, findRouteState) {
-          final ebRoute = findRouteState.ebRoute;
-          final viewState = findRouteState.viewState;
-          if (ebRoute == null) {
-            return const Center(
-              child: Text('empty ebRoute...'),
-            );
-          } else {
-            return ListView.separated(
-              itemCount: ebRoute.ebPaths.length,
-              itemBuilder: (context, index) {
-                return FindRouteListItem(
-                  ebPath: ebRoute.ebPaths[index],
-                  lineOfPath: viewState.transportLineOfRoute.lineOfRoute[index],
-                );
-              },
-              separatorBuilder: ((context, index) {
-                return const Divider(height: 1);
-              }),
-              padding: const EdgeInsets.all(0.0),
-            );
-          }
-        },
-      ),
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      builder: (context, findRouteState) {
+        final ebRoute = findRouteState.ebRoute;
+        if (ebRoute == null) {
+          return const Center(
+            child: Text('Empty Route...'),
+          );
+        } else {
+          final ebPaths = ebRoute.ebPaths;
+          final lineOfRoute =
+              findRouteState.viewState.transportLineOfRoute.lineOfRoute;
+          return Expanded(
+            child: ScrollWithHeader(
+              length: ebPaths.length,
+              header: const _FindRouteSortView(),
+              item: (index) => FindRouteListItem(
+                ebPath: ebPaths[index],
+                lineOfPath: lineOfRoute[index],
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

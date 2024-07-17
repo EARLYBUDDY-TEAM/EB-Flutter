@@ -3,10 +3,33 @@
 part of 'eb_sources.dart';
 
 class ScrollWithHeader extends StatelessWidget {
-  const ScrollWithHeader({super.key});
+  Widget header;
+  Widget Function(int) item;
+  int length;
+
+  ScrollWithHeader({
+    super.key,
+    required this.header,
+    required this.item,
+    required this.length,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Text('');
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: header,
+          floating: true,
+          toolbarHeight: 100,
+          titleSpacing: 0,
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            List.generate(length, item),
+          ),
+        ),
+      ],
+    );
   }
 }

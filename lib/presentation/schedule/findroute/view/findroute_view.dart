@@ -1,13 +1,13 @@
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/bloc/bloc.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'appbar.dart';
-part 'findroute_content/content.dart';
 part 'findroute_content/info/infoview.dart';
 part 'findroute_content/list/sortview.dart';
 part 'findroute_content/list/listview.dart';
@@ -46,7 +46,12 @@ final class FindRouteView extends StatelessWidget {
           backAction: backAction,
           cancelAction: cancelAction,
         ),
-        body: _FindRouteContent(),
+        body: const Column(
+          children: [
+            _FindRouteInfoView(),
+            _FindRouteListView(),
+          ],
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:earlybuddy/presentation/schedule/detailroute/example/detailroute
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/example/findroute_example.dart';
 import 'package:earlybuddy/shared/eb_env/eb_env.dart';
+import 'package:earlybuddy/shared/eb_uikit/example/eb_uikit_example.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -22,9 +23,10 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
-  runApp(const SearchPlaceExample());
+  // runApp(const EBUIkitExample());
+  // runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());
-  // runApp(const FindRouteExample());
+  runApp(const FindRouteExample());
   // runApp(const DetailRouteExample());
 
   // runApp(const TestStackPositionedExample());

@@ -9,6 +9,9 @@ final class EBColors {
   static Color inactive = const Color(0xffA8A8A8);
   static Color text = const Color(0xff3C3C3C);
 
+  static Color get random =>
+      Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+
   static final subway = _Subway();
   static final bus = _Bus();
 }
