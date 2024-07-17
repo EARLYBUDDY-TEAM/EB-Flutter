@@ -15,7 +15,7 @@ final class FindRouteListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLast) {
-      return odsayImage();
+      return _odsayImage();
     } else {
       return Column(
         children: [
@@ -55,10 +55,21 @@ final class FindRouteListItem extends StatelessWidget {
     );
   }
 
-  Container odsayImage() {
-    return Container(
-      height: 100,
-      color: Colors.red,
+  Column _odsayImage() {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        Container(
+          height: 40,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: EBImages.odsay,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        const SizedBox(height: 50),
+      ],
     );
   }
 }

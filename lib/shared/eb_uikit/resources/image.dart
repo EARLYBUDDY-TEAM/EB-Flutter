@@ -1,10 +1,11 @@
 part of 'eb_resources.dart';
 
-class EBImages {
-  static _EBAssetImage splash = const _EBAssetImage('splash.png');
-  static _EBAssetImage loginTitle = const _EBAssetImage('login_title.png');
-  static _EBAssetImage markFindRoute =
-      const _EBAssetImage('mark_findroute.png');
+final class EBImages {
+  static const _EBAssetImage splash = _EBAssetImage('splash.png');
+  static const _EBAssetImage loginTitle = _EBAssetImage('login_title.png');
+  static const _EBAssetImage markFindRoute =
+      _EBAssetImage('mark_findroute.png');
+  static _EBAssetImage odsay = const _EBAssetImage('odsay.png');
 }
 
 class _EBAssetImage extends AssetImage {
