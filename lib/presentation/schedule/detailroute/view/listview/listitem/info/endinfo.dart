@@ -31,70 +31,34 @@ final class _EndInfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: rowChildren,
+    return DefaultTextStyle(
+      style: TextStyle(
+        fontFamily: NanumSquare.bold,
+        fontSize: 20,
+        color: EBColors.text,
+      ),
+      child: Row(
+        children: rowChildren,
+      ),
     );
   }
 
   factory _EndInfoItem.walk(String endName) {
     final text = '$endName까지 걷기';
     return _EndInfoItem(
-      rowChildren: [
-        Text(
-          text,
-          style: const TextStyle(
-            fontFamily: NanumSquare.bold,
-            fontSize: 20,
-          ),
-        )
-      ],
+      rowChildren: [Text(text)],
     );
   }
 
   factory _EndInfoItem.bus(String endName) {
     return _EndInfoItem(
-      rowChildren: [
-        Text(
-          endName,
-          style: const TextStyle(
-            fontFamily: NanumSquare.bold,
-            fontSize: 20,
-          ),
-        )
-      ],
+      rowChildren: [Text(endName)],
     );
   }
 
   factory _EndInfoItem.subway(String endName) {
     return _EndInfoItem(
-      rowChildren: [
-        Text(
-          endName,
-          style: const TextStyle(
-            fontFamily: NanumSquare.bold,
-            fontSize: 20,
-          ),
-        )
-      ],
+      rowChildren: [Text(endName)],
     );
   }
 }
-
-// Row endInfo() {
-//     var text = ebSubPath.endName;
-//     if (ebSubPath.type == 3) {
-//       text += '까지 걷기';
-//     }
-//     return Row(
-//       children: [
-//         Text(
-//           text,
-//           style: TextStyle(
-//             fontFamily: NanumSquare.regular,
-//             fontSize: 18,
-//             color: EBColors.text,
-//           ),
-//         ),
-//       ],
-//     );
-//   }

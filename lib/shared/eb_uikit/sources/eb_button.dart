@@ -45,7 +45,7 @@ class EBRoundedButton extends StatelessWidget {
     super.key,
     required this.text,
     this.height,
-    this.fontSize = 12,
+    this.fontSize = 14,
     this.onPressed,
   });
 

@@ -55,6 +55,8 @@ final class _IconTransportItem extends StatelessWidget {
             text,
             style: const TextStyle(
               fontFamily: NanumSquare.regular,
+              fontSize: 15,
+              color: Colors.black87,
             ),
           ),
         ],
