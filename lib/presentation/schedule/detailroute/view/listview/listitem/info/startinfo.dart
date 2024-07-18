@@ -69,7 +69,7 @@ final class _StartInfoItem extends StatelessWidget {
           info: bus.number,
           color: bus.color(),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 8),
         Text(startName),
         const Spacer(),
         EBRoundedButton(
@@ -92,7 +92,7 @@ final class _StartInfoItem extends StatelessWidget {
           info: subway.type,
           color: subway.color(),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 8),
         Text(startName),
         const Spacer(),
         EBRoundedButton(
@@ -122,7 +122,7 @@ final class _StartTransportInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(
