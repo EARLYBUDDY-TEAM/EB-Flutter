@@ -12,6 +12,7 @@ class DetailRouteExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: _MockDetailRouteListItem(),
+      // home: _MockDetailRouteListView(),
     );
   }
 }

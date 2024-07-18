@@ -1,4 +1,4 @@
-part of 'detailroute_view.dart';
+part of '../detailroute_view.dart';
 
 class DetailRouteListView extends StatelessWidget {
   const DetailRouteListView({super.key});

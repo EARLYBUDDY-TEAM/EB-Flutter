@@ -4,8 +4,12 @@ import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-part 'listview.dart';
-part 'listitem.dart';
+part 'listview/listview.dart';
+part 'listview/listitem/listitem.dart';
+part 'listview/listitem/info/startinfo.dart';
+part 'listview/listitem/info/laneinfo.dart';
+part 'listview/listitem/info/endinfo.dart';
+part 'listview/listitem/icon/icontransport.dart';
 
 class DetailRouteView extends StatelessWidget {
   const DetailRouteView({super.key});

@@ -26,6 +26,6 @@ final class Bus extends Equatable {
   List<Object?> get props => [number, type];
 
   static Bus mock() {
-    return const Bus(number: '301', type: '간선');
+    return const Bus(number: '301', type: '지선');
   }
 }

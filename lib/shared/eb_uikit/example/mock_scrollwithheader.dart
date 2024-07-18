@@ -24,7 +24,9 @@ class _MockScrollWithHeader extends StatelessWidget {
   }
 
   List<Widget> _list() {
-    return [for (var i = 0; i < 100; i++) _listItem(i)];
+    return [
+      for (var i = 0; i < 100; i++) i % 2 == 0 ? _listItem(i) : _testListItem(i)
+    ];
   }
 
   Expanded _customHeader() {
@@ -40,9 +42,19 @@ class _MockScrollWithHeader extends StatelessWidget {
     );
   }
 
-  Card _listItem(int index) {
+  Widget _listItem(int index) {
     return Card(
       color: EBColors.random,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Text('Sample, Index : $index'),
+      ),
+    );
+  }
+
+  Widget _testListItem(int index) {
+    return Container(
+      color: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(20),
         child: Text('Sample, Index : $index'),
@@ -61,3 +73,10 @@ class _MockScrollWithHeader extends StatelessWidget {
     );
   }
 }
+
+// class _MockCardListItemAB extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {// TODO: implement build
+//     throw UnimplementedError();
+//   }
+// }
