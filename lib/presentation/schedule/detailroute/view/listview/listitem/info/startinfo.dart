@@ -31,7 +31,7 @@ final class _StartInfo extends StatelessWidget {
 
 final class _StartInfoItem extends StatelessWidget {
   final List<Widget> rowChildren;
-  final double fontSize = 20;
+  static const double fontSize = 20;
 
   const _StartInfoItem({
     required this.rowChildren,
@@ -42,7 +42,7 @@ final class _StartInfoItem extends StatelessWidget {
     return DefaultTextStyle(
       style: TextStyle(
         fontFamily: NanumSquare.bold,
-        fontSize: 20,
+        fontSize: fontSize,
         color: EBColors.text,
       ),
       child: Row(
@@ -68,6 +68,7 @@ final class _StartInfoItem extends StatelessWidget {
         _StartTransportInfoItem(
           info: bus.number,
           color: bus.color(),
+          fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
         Text(startName),
@@ -91,6 +92,7 @@ final class _StartInfoItem extends StatelessWidget {
         _StartTransportInfoItem(
           info: subway.type,
           color: subway.color(),
+          fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
         Text(startName),
@@ -108,11 +110,13 @@ final class _StartInfoItem extends StatelessWidget {
 final class _StartTransportInfoItem extends StatelessWidget {
   final String info;
   final Color color;
+  final double fontSize;
 
   const _StartTransportInfoItem({
     super.key,
     required this.info,
     required this.color,
+    required this.fontSize,
   });
 
   /*
@@ -122,7 +126,7 @@ final class _StartTransportInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(
@@ -132,9 +136,9 @@ final class _StartTransportInfoItem extends StatelessWidget {
       child: Center(
         child: Text(
           info,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: NanumSquare.extraBold,
-            fontSize: 20,
+            fontSize: fontSize,
             color: Colors.white,
           ),
         ),

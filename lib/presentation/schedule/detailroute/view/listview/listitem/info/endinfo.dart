@@ -29,6 +29,7 @@ final class _EndInfo extends StatelessWidget {
 
 final class _EndInfoItem extends StatelessWidget {
   final List<Widget> rowChildren;
+  static const double fontSize = 20;
 
   const _EndInfoItem({
     super.key,
@@ -40,7 +41,7 @@ final class _EndInfoItem extends StatelessWidget {
     return DefaultTextStyle(
       style: TextStyle(
         fontFamily: NanumSquare.bold,
-        fontSize: 20,
+        fontSize: fontSize,
         color: EBColors.text,
       ),
       child: Row(
@@ -59,7 +60,10 @@ final class _EndInfoItem extends StatelessWidget {
   factory _EndInfoItem.bus(Bus bus, String endName) {
     return _EndInfoItem(
       rowChildren: [
-        _EndGetOffInfoItem(color: bus.color()),
+        _EndGetOffInfoItem(
+          color: bus.color(),
+          fontSize: fontSize - 2,
+        ),
         const SizedBox(width: 8),
         Text(endName),
       ],
@@ -69,7 +73,10 @@ final class _EndInfoItem extends StatelessWidget {
   factory _EndInfoItem.subway(Subway subway, String endName) {
     return _EndInfoItem(
       rowChildren: [
-        _EndGetOffInfoItem(color: subway.color()),
+        _EndGetOffInfoItem(
+          color: subway.color(),
+          fontSize: fontSize - 2,
+        ),
         const SizedBox(width: 8),
         Text(endName),
       ],
@@ -79,10 +86,12 @@ final class _EndInfoItem extends StatelessWidget {
 
 final class _EndGetOffInfoItem extends StatelessWidget {
   final Color color;
+  final double fontSize;
 
   const _EndGetOffInfoItem({
     super.key,
     required this.color,
+    required this.fontSize,
   });
 
   /*
@@ -92,7 +101,7 @@ final class _EndGetOffInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(color: color, width: 2),
@@ -105,7 +114,7 @@ final class _EndGetOffInfoItem extends StatelessWidget {
           '하차',
           style: TextStyle(
             fontFamily: NanumSquare.extraBold,
-            fontSize: 20,
+            fontSize: fontSize,
             color: color,
           ),
         ),
