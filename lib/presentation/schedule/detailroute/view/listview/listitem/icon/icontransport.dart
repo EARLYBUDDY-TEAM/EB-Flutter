@@ -14,12 +14,12 @@ final class _IconTransport extends StatelessWidget {
       case (1):
         return _IconTransportItem.subway(
           ebSubPath.time,
-          ebSubPath.transports[0].subway?.color(),
+          ebSubPath.transports[0].subway?.color() ?? EBColors.text,
         );
       case (2):
         return _IconTransportItem.bus(
           ebSubPath.time,
-          ebSubPath.transports[0].bus?.color(),
+          ebSubPath.transports[0].bus?.color() ?? EBColors.text,
         );
       default:
         return _IconTransportItem.walk(ebSubPath.time);
@@ -30,7 +30,7 @@ final class _IconTransport extends StatelessWidget {
 final class _IconTransportItem extends StatelessWidget {
   final String text;
   final IconData icon;
-  final Color? color;
+  final Color color;
 
   const _IconTransportItem({
     super.key,
@@ -72,7 +72,7 @@ final class _IconTransportItem extends StatelessWidget {
     );
   }
 
-  factory _IconTransportItem.bus(int time, Color? color) {
+  factory _IconTransportItem.bus(int time, Color color) {
     return _IconTransportItem(
       text: '약 $time분',
       icon: CupertinoIcons.bus,
@@ -80,7 +80,7 @@ final class _IconTransportItem extends StatelessWidget {
     );
   }
 
-  factory _IconTransportItem.subway(int time, Color? color) {
+  factory _IconTransportItem.subway(int time, Color color) {
     return _IconTransportItem(
       text: '약 $time분',
       icon: Icons.subway_outlined,

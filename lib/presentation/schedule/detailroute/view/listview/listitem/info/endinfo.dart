@@ -2,6 +2,7 @@ part of '../../../detailroute_view.dart';
 
 final class _EndInfo extends StatelessWidget {
   final EBSubPath ebSubPath;
+  final double fontSize = 20;
 
   const _EndInfo({
     super.key,
@@ -12,74 +13,105 @@ final class _EndInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (ebSubPath.type) {
       case (1):
-        return _EndInfoItem.subway(
-          ebSubPath.transports[0].subway!,
-          ebSubPath.endName,
+        final subway = ebSubPath.transports[0].subway!;
+        return _EndInfoOther.subway(
+          subway: subway,
+          endName: ebSubPath.endName,
+          fontSize: fontSize,
         );
       case (2):
-        return _EndInfoItem.bus(
-          ebSubPath.transports[0].bus!,
-          ebSubPath.endName,
+        final bus = ebSubPath.transports[0].bus!;
+        return _EndInfoOther.bus(
+          bus: bus,
+          endName: ebSubPath.endName,
+          fontSize: fontSize,
         );
       default:
-        return _EndInfoItem.walk(ebSubPath.endName);
+        return _EndInfoWalk(
+          endName: ebSubPath.endName,
+          fontSize: fontSize - 2,
+        );
     }
   }
 }
 
-final class _EndInfoItem extends StatelessWidget {
-  final List<Widget> rowChildren;
-  static const double fontSize = 20;
+final class _EndInfoWalk extends StatelessWidget {
+  final String endName;
+  final double fontSize;
 
-  const _EndInfoItem({
+  const _EndInfoWalk({
     super.key,
-    required this.rowChildren,
+    required this.endName,
+    required this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTextStyle(
+    return Text(
+      endName,
       style: TextStyle(
         fontFamily: NanumSquare.bold,
         fontSize: fontSize,
         color: EBColors.text,
       ),
-      child: Row(
-        children: rowChildren,
-      ),
     );
   }
+}
 
-  factory _EndInfoItem.walk(String endName) {
-    final text = '$endName까지 걷기';
-    return _EndInfoItem(
-      rowChildren: [Text(text)],
-    );
-  }
+final class _EndInfoOther extends StatelessWidget {
+  final String endName;
+  final Color color;
+  final double fontSize;
 
-  factory _EndInfoItem.bus(Bus bus, String endName) {
-    return _EndInfoItem(
-      rowChildren: [
+  const _EndInfoOther({
+    super.key,
+    required this.endName,
+    required this.color,
+    required this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
         _EndGetOffInfoItem(
-          color: bus.color(),
+          color: color,
           fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
-        Text(endName),
+        Text(
+          endName,
+          style: TextStyle(
+            fontFamily: NanumSquare.bold,
+            fontSize: fontSize,
+            color: EBColors.text,
+          ),
+        ),
       ],
     );
   }
 
-  factory _EndInfoItem.subway(Subway subway, String endName) {
-    return _EndInfoItem(
-      rowChildren: [
-        _EndGetOffInfoItem(
-          color: subway.color(),
-          fontSize: fontSize - 2,
-        ),
-        const SizedBox(width: 8),
-        Text(endName),
-      ],
+  factory _EndInfoOther.subway({
+    required Subway subway,
+    required String endName,
+    required double fontSize,
+  }) {
+    return _EndInfoOther(
+      endName: endName,
+      color: subway.color(),
+      fontSize: fontSize,
+    );
+  }
+
+  factory _EndInfoOther.bus({
+    required Bus bus,
+    required String endName,
+    required double fontSize,
+  }) {
+    return _EndInfoOther(
+      endName: endName,
+      color: bus.color(),
+      fontSize: fontSize,
     );
   }
 }
@@ -94,14 +126,10 @@ final class _EndGetOffInfoItem extends StatelessWidget {
     required this.fontSize,
   });
 
-  /*
-  info 한글일때 right 패딩값 조금 짧음...
-  */
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(color: color, width: 2),

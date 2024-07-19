@@ -23,14 +23,17 @@ final class _ListItemOther extends StatelessWidget {
             children: [
               _IconTransport(ebSubPath: ebSubPath),
               SizedBox(width: rowSpace),
-              _VTransportLine.byType(ebSubPath),
+              _VTransportLine(ebSubPath: ebSubPath),
               SizedBox(width: rowSpace),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _StartInfo(ebSubPath: ebSubPath),
+                    _StartInfo(
+                      ebSubPath: ebSubPath,
+                      showMapAction: () {},
+                    ),
                     SizedBox(height: colSpace),
                     _LaneInfo(ebSubPath: ebSubPath),
                     SizedBox(height: colSpace),
@@ -46,11 +49,32 @@ final class _ListItemOther extends StatelessWidget {
   }
 }
 
-class _VTransportLine extends StatelessWidget {
+final class _VTransportLine extends StatelessWidget {
+  final EBSubPath ebSubPath;
+
+  const _VTransportLine({
+    super.key,
+    required this.ebSubPath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    switch (ebSubPath.type) {
+      case (1):
+        final color = ebSubPath.transports[0].subway?.color() ?? Colors.grey;
+        return _VTransportLineOther(color: color);
+      default:
+        final color = ebSubPath.transports[0].bus?.color() ?? Colors.grey;
+        return _VTransportLineOther(color: color);
+    }
+  }
+}
+
+final class _VTransportLineOther extends StatelessWidget {
   final Color color;
   final double pointSize = 12;
 
-  const _VTransportLine({
+  const _VTransportLineOther({
     super.key,
     required this.color,
   });
@@ -83,24 +107,5 @@ class _VTransportLine extends StatelessWidget {
         shape: BoxShape.circle,
       ),
     );
-  }
-
-  factory _VTransportLine.byType(EBSubPath ebSubPath) {
-    switch (ebSubPath.type) {
-      case (1):
-        return _VTransportLine.subway(ebSubPath);
-      default:
-        return _VTransportLine.bus(ebSubPath);
-    }
-  }
-
-  factory _VTransportLine.bus(EBSubPath ebSubPath) {
-    final color = ebSubPath.transports[0].bus?.color() ?? Colors.grey;
-    return _VTransportLine(color: color);
-  }
-
-  factory _VTransportLine.subway(EBSubPath ebSubPath) {
-    final color = ebSubPath.transports[0].subway?.color() ?? Colors.grey;
-    return _VTransportLine(color: color);
   }
 }

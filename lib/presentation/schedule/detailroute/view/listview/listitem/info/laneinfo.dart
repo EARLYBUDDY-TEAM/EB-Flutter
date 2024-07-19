@@ -12,47 +12,39 @@ final class _LaneInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (ebSubPath.type) {
       case (1):
-        return _LaneInfoItem.subway();
+        return _LaneInfoItemOther();
       case (2):
-        return _LaneInfoItem.bus();
+        return _LaneInfoItemOther();
       default:
-        return _LaneInfoItem.walk(ebSubPath.distance);
+        return _LaneInfoItemWalk(distance: ebSubPath.distance);
     }
   }
 }
 
-final class _LaneInfoItem extends StatelessWidget {
-  final Widget laneInfo;
+final class _LaneInfoItemOther extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Text('');
+  }
+}
 
-  const _LaneInfoItem({
+final class _LaneInfoItemWalk extends StatelessWidget {
+  final int distance;
+
+  const _LaneInfoItemWalk({
     super.key,
-    required this.laneInfo,
+    required this.distance,
   });
 
   @override
   Widget build(BuildContext context) {
-    return laneInfo;
-  }
-
-  factory _LaneInfoItem.walk(int distance) {
-    return _LaneInfoItem(
-        laneInfo: Text(
+    return Text(
       '도보 ${distance}m',
       style: const TextStyle(
         fontFamily: NanumSquare.regular,
         fontSize: 15,
         color: Colors.black54,
       ),
-    ));
-  }
-
-  factory _LaneInfoItem.bus() {
-    const String text =
-        'busbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsu';
-    return const _LaneInfoItem(laneInfo: Text(text));
-  }
-
-  factory _LaneInfoItem.subway() {
-    return const _LaneInfoItem(laneInfo: Text('subwayy'));
+    );
   }
 }
