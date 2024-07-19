@@ -7,6 +7,7 @@ final class EBSubPath extends Equatable {
   final String endName;
   final int distance;
   final List<Transport> transports;
+  final List<Station> stations;
 
   const EBSubPath({
     required this.type,
@@ -15,6 +16,7 @@ final class EBSubPath extends Equatable {
     required this.endName,
     required this.distance,
     required this.transports,
+    required this.stations,
   });
 
   @override
@@ -25,6 +27,7 @@ final class EBSubPath extends Equatable {
         endName,
         distance,
         transports,
+        stations,
       ];
 
   static EBSubPath fromDTO({required EBSubPathDTO ebSubPathDTO}) {
@@ -34,6 +37,12 @@ final class EBSubPath extends Equatable {
           .map((dto) => Transport.fromDTO(transportDTO: dto))
           .toList();
     }
+    List<Station> stations = [];
+    if (ebSubPathDTO.stations != null) {
+      stations = ebSubPathDTO.stations!
+          .map((dto) => Station.fromDTO(stationDTO: dto))
+          .toList();
+    }
     return EBSubPath(
       type: ebSubPathDTO.type,
       time: ebSubPathDTO.time,
@@ -41,6 +50,7 @@ final class EBSubPath extends Equatable {
       endName: ebSubPathDTO.endName,
       distance: ebSubPathDTO.distance,
       transports: transports,
+      stations: stations,
     );
   }
 
@@ -52,6 +62,7 @@ final class EBSubPath extends Equatable {
       endName: '스타벅스 수서역 R점',
       distance: 365,
       transports: [Transport.walk()],
+      stations: const [],
     );
   }
 
@@ -63,6 +74,13 @@ final class EBSubPath extends Equatable {
       endName: '이태원',
       distance: 13929,
       transports: [Transport.mockSubway()],
+      stations: const [
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+      ],
     );
   }
 
@@ -74,6 +92,13 @@ final class EBSubPath extends Equatable {
       endName: '이태원',
       distance: 13929,
       transports: [Transport.mockBus()],
+      stations: const [
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+        Station(name: '수서역'),
+      ],
     );
   }
 }

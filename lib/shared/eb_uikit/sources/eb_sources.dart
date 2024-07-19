@@ -11,3 +11,4 @@ part 'hexcolor.dart';
 part 'pair.dart';
 part 'dashline.dart';
 part 'scrollwithheader.dart';
+part 'expandedsection.dart';
