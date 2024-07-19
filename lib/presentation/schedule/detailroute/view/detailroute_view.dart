@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 part 'listview/listview.dart';
 part 'listview/listitem/listitem.dart';
+part 'listview/listitem/listitem_walk.dart';
+part 'listview/listitem/listitem_other.dart';
 part 'listview/listitem/info/startinfo.dart';
 part 'listview/listitem/info/laneinfo.dart';
 part 'listview/listitem/info/endinfo.dart';

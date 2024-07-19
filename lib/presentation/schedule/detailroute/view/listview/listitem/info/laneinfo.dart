@@ -47,7 +47,9 @@ final class _LaneInfoItem extends StatelessWidget {
   }
 
   factory _LaneInfoItem.bus() {
-    return const _LaneInfoItem(laneInfo: Text('busbus'));
+    const String text =
+        'busbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsubusbusbsu';
+    return const _LaneInfoItem(laneInfo: Text(text));
   }
 
   factory _LaneInfoItem.subway() {
