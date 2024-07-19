@@ -48,8 +48,10 @@ final class _LaneInfoOtherState extends State<_LaneInfoOther> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: widget.spacing),
         toggleButton(),
         SizedBox(height: widget.spacing),
         ExpandedSection(
@@ -101,9 +103,7 @@ final class _LaneInfoOtherState extends State<_LaneInfoOther> {
 
     for (var i = 0; i < widget.stations.length; i++) {
       children.add(textStation(widget.stations[i]));
-      if (i != widget.stations.length - 1) {
-        children.add(SizedBox(height: widget.spacing));
-      }
+      children.add(SizedBox(height: widget.spacing));
     }
 
     return Column(children: children);

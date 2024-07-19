@@ -4,7 +4,7 @@ final class _ListItemOther extends StatelessWidget {
   final EBSubPath ebSubPath;
   final double contentInset;
   final double rowSpace;
-  final double colSpace = 20;
+  final double colSpace = 10;
 
   const _ListItemOther({
     super.key,
