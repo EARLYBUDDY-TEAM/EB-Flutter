@@ -106,7 +106,10 @@ final class _LaneInfoOtherState extends State<_LaneInfoOther> {
       children.add(SizedBox(height: widget.spacing));
     }
 
-    return Column(children: children);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
+    );
   }
 }
 

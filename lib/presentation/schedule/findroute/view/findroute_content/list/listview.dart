@@ -22,12 +22,29 @@ class _FindRouteListView extends StatelessWidget {
             child: ScrollWithHeader(
               header: _FindRouteSortView(height: headerHeight),
               headerHeight: headerHeight,
-              list: _list(ebPaths, lineOfPaths),
+              // list: _list(ebPaths, lineOfPaths),
+              list: [
+                _FindRouteList(
+                  ebPaths: ebPaths,
+                  lineOfPaths: lineOfPaths,
+                )
+              ],
             ),
           );
         }
       },
     );
+  }
+
+  List<Widget> _testDetailRoute(List<EBSubPath> subPaths) {
+    return List.generate(subPaths.length, (index) {
+      return Column(
+        children: [
+          Text('StartName : ${subPaths[index].startName}'),
+          Text('EndName : ${subPaths[index].endName}'),
+        ],
+      );
+    });
   }
 
   List<Widget> _list(
@@ -77,6 +94,135 @@ class _FindRouteListView extends StatelessWidget {
         ),
         const SizedBox(height: 50),
       ],
+    );
+  }
+}
+
+class _DetailRouteList extends StatelessWidget {
+  final List<EBSubPath> subPaths;
+
+  const _DetailRouteList({
+    super.key,
+    required this.subPaths,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: _list(context),
+    );
+    // return Navigator(
+    //   onGenerateRoute: (_) => MaterialPageRoute(
+    //     builder: (context2) => Column(
+    //       children: _list(context2),
+    //     ),
+    //   ),
+    // );
+  }
+
+  List<Widget> _list(BuildContext context) {
+    return List.generate(subPaths.length + 1, (index) {
+      if (index != subPaths.length) {
+        return Column(
+          children: [
+            InkWell(
+              child: DetailRouteListItem(ebSubPath: subPaths[index]),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            _ListDivider(),
+          ],
+        );
+      } else {
+        return _OdsayImage();
+      }
+    });
+  }
+}
+
+class _FindRouteList extends StatelessWidget {
+  final List<EBPath> ebPaths;
+  final List<TransportLineOfPath> lineOfPaths;
+
+  const _FindRouteList({
+    super.key,
+    required this.ebPaths,
+    required this.lineOfPaths,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute: (_) => MaterialPageRoute(
+        builder: (child) => Column(
+          children: _list(child),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _list(BuildContext child) {
+    return List.generate(ebPaths.length + 1, (index) {
+      if (index != ebPaths.length) {
+        return Column(
+          children: [
+            InkWell(
+              child: FindRouteListItem(
+                ebPath: ebPaths[index],
+                lineOfPath: lineOfPaths[index],
+              ),
+              onTap: () {
+                Navigator.push(
+                  child,
+                  MaterialPageRoute(
+                    builder: (child) => _DetailRouteList(
+                      subPaths: ebPaths[index].ebSubPaths,
+                    ),
+                  ),
+                );
+              },
+            ),
+            _ListDivider(),
+          ],
+        );
+      } else {
+        return _OdsayImage();
+      }
+    });
+  }
+}
+
+class _OdsayImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        Container(
+          height: 40,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: EBImages.odsay,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        const SizedBox(height: 50),
+      ],
+    );
+  }
+}
+
+class _ListDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Divider(
+        color: Colors.grey.withOpacity(0.5),
+        height: 1,
+      ),
     );
   }
 }

@@ -14,9 +14,8 @@ final class _ListItemWalk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 140,
-      color: Colors.amber.shade200,
       child: Padding(
         padding: EdgeInsets.all(contentInset),
         child: Center(
