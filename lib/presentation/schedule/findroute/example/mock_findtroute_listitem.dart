@@ -17,7 +17,6 @@ final class _MockListItem extends StatelessWidget {
     return FindRouteListItem(
       ebPath: EBPath.mock(),
       lineOfPath: TransportLineOfPath.mock(),
-      isLast: false,
     );
   }
 }

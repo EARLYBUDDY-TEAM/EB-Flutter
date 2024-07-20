@@ -1,4 +1,4 @@
-part of '../../../detailroute_view.dart';
+part of '../../detailroute_view.dart';
 
 final class _LaneInfo extends StatelessWidget {
   final EBSubPath ebSubPath;

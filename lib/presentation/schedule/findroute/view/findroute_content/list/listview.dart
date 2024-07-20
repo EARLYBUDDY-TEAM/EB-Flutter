@@ -31,22 +31,36 @@ class _FindRouteListView extends StatelessWidget {
   }
 
   List<Widget> _list(
-      List<EBPath> ebPaths, List<TransportLineOfPath> lineOfPaths) {
-    var list = [
-      for (var i = 0; i <= ebPaths.length; i++)
-        i != ebPaths.length
-            ? FindRouteListItem(
-                ebPath: ebPaths[i],
-                lineOfPath: lineOfPaths[i],
-                isLast: false,
-              )
-            : FindRouteListItem(
-                ebPath: ebPaths[i - 1],
-                lineOfPath: lineOfPaths[i - 1],
-                isLast: true,
-              )
-    ];
+    List<EBPath> ebPaths,
+    List<TransportLineOfPath> lineOfPaths,
+  ) {
+    return List.generate(ebPaths.length + 1, (index) {
+      if (index != ebPaths.length) {
+        return FindRouteListItem(
+          ebPath: ebPaths[index],
+          lineOfPath: lineOfPaths[index],
+        );
+      } else {
+        return _odsayImage();
+      }
+    });
+  }
 
-    return list;
+  Widget _odsayImage() {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        Container(
+          height: 40,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: EBImages.odsay,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        const SizedBox(height: 50),
+      ],
+    );
   }
 }

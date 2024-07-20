@@ -10,9 +10,9 @@ final class _MockDetailRouteListItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            DetailRouteListItem.walk(EBSubPath.mockWalk()),
-            DetailRouteListItem.other(EBSubPath.mockBus()),
-            DetailRouteListItem.other(EBSubPath.mockSubway()),
+            DetailRouteListItem(ebSubPath: EBSubPath.mockWalk()),
+            DetailRouteListItem(ebSubPath: EBSubPath.mockBus()),
+            DetailRouteListItem(ebSubPath: EBSubPath.mockSubway()),
           ],
         ),
       ),
