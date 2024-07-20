@@ -33,8 +33,8 @@ final class FindRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
-        start: start.coordi,
-        end: end.coordi,
+        start: start,
+        end: end,
       ),
       child: Scaffold(
         backgroundColor: Colors.white,

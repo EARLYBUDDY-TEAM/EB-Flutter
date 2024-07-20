@@ -9,8 +9,9 @@ final class EBRoute extends Equatable {
     required this.ebPaths,
   });
 
-  EBRoute.fromDTO({required EBRouteDTO ebRouteDTO})
-      : type = ebRouteDTO.type,
+  EBRoute.fromDTO({
+    required EBRouteDTO ebRouteDTO,
+  })  : type = ebRouteDTO.type,
         ebPaths = ebRouteDTO.ebPaths
             .map((p) => EBPath.fromDTO(ebPathDTO: p))
             .toList();

@@ -1,5 +1,5 @@
-import 'package:earlybuddy/domain/network/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
+import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/provider/location/location_provider.dart';
 

@@ -5,8 +5,8 @@ sealed class FindRouteEvent extends Equatable {
 }
 
 final class FetchFindRouteData extends FindRouteEvent {
-  final Coordi start;
-  final Coordi end;
+  final Place start;
+  final Place end;
 
   const FetchFindRouteData({
     required this.start,

@@ -19,16 +19,76 @@ final class EBPath extends Equatable {
     required this.ebSubPaths,
   });
 
-  EBPath.fromDTO({required EBPathDTO ebPathDTO})
-      : type = ebPathDTO.type,
-        time = ebPathDTO.time,
-        walkTime = ebPathDTO.walkTime,
-        payment = ebPathDTO.payment,
-        busTransitCount = ebPathDTO.busTransitCount,
-        subwayTransitCount = ebPathDTO.subwayTransitCount,
-        ebSubPaths = ebPathDTO.ebSubPaths
-            .map((s) => EBSubPath.fromDTO(ebSubPathDTO: s))
-            .toList();
+  static EBSubPath modifyWalkSubPath({
+    required EBSubPath curSubPath,
+    required String startName,
+    required String endName,
+  }) {
+    return curSubPath.copyWith(
+      startName: startName,
+      endName: endName,
+    );
+  }
+
+  // 서버에서 작업하기
+  static EBPath fromDTO({required EBPathDTO ebPathDTO}) {
+    List<EBSubPath> ebSubPaths = ebPathDTO.ebSubPaths
+        .map((s) => EBSubPath.fromDTO(ebSubPathDTO: s))
+        .toList();
+
+    // if (ebSubPaths.length == 1 && ebSubPaths[0].type == 3) {
+    //   ebSubPaths = [
+    //     modifyWalkSubPath(
+    //       curSubPath: ebSubPaths[0],
+    //       startName: startPlace,
+    //       endName: endPlace,
+    //     ),
+    //   ];
+    // } else if (2 <= ebSubPaths.length) {
+    //   ebSubPaths = ebSubPaths.asMap().entries.map((s) {
+    //     int index = s.key;
+    //     EBSubPath curSubPath = s.value;
+
+    //     if (curSubPath.type != 3) {
+    //       return curSubPath;
+    //     }
+
+    //     if (index == 0) {
+    //       String endName = ebSubPaths[index + 1].startName;
+    //       return modifyWalkSubPath(
+    //         curSubPath: curSubPath,
+    //         startName: startPlace,
+    //         endName: endName,
+    //       );
+    //     } else if (index == ebSubPaths.length - 1) {
+    //       String startName = ebSubPaths[index - 1].endName;
+    //       return modifyWalkSubPath(
+    //         curSubPath: curSubPath,
+    //         startName: startName,
+    //         endName: endPlace,
+    //       );
+    //     } else {
+    //       String startName = ebSubPaths[index - 1].endName;
+    //       String endName = ebSubPaths[index + 1].startName;
+    //       return modifyWalkSubPath(
+    //         curSubPath: curSubPath,
+    //         startName: startName,
+    //         endName: endName,
+    //       );
+    //     }
+    //   }).toList();
+    // }
+
+    return EBPath(
+      type: ebPathDTO.type,
+      time: ebPathDTO.time,
+      walkTime: ebPathDTO.walkTime,
+      payment: ebPathDTO.payment,
+      busTransitCount: ebPathDTO.busTransitCount,
+      subwayTransitCount: ebPathDTO.subwayTransitCount,
+      ebSubPaths: ebSubPaths,
+    );
+  }
 
   @override
   List<Object?> get props => [

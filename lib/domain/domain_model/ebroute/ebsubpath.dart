@@ -19,6 +19,26 @@ final class EBSubPath extends Equatable {
     required this.stations,
   });
 
+  EBSubPath copyWith({
+    int? type,
+    int? time,
+    String? startName,
+    String? endName,
+    int? distance,
+    List<Transport>? transports,
+    List<Station>? stations,
+  }) {
+    return EBSubPath(
+      type: type ?? this.type,
+      time: time ?? this.time,
+      startName: startName ?? this.startName,
+      endName: endName ?? this.endName,
+      distance: distance ?? this.distance,
+      transports: transports ?? this.transports,
+      stations: stations ?? this.stations,
+    );
+  }
+
   @override
   List<Object?> get props => [
         type,
@@ -43,6 +63,7 @@ final class EBSubPath extends Equatable {
           .map((dto) => Station.fromDTO(stationDTO: dto))
           .toList();
     }
+
     return EBSubPath(
       type: ebSubPathDTO.type,
       time: ebSubPathDTO.time,

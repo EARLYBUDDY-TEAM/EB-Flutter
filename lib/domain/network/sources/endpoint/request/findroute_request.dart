@@ -6,6 +6,8 @@ final class FindRouteRequest {
     required String sy,
     required String ex,
     required String ey,
+    required String startPlace,
+    required String endPlace,
   }) {
     EBRouteDTO converter(dynamic responseData) =>
         EBRouteDTO.fromJson(responseData);
@@ -15,6 +17,8 @@ final class FindRouteRequest {
       'sy': sy,
       'ex': ex,
       'ey': ey,
+      'startPlace': startPlace,
+      'endPlace': endPlace,
     };
 
     return ApiRequest(

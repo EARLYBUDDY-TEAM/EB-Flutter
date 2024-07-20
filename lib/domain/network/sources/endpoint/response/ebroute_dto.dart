@@ -151,8 +151,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서",
           "distance": 95,
           "transports": null,
           "stations": null
@@ -189,8 +189,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 0,
-          "startName": null,
-          "endName": null,
+          "startName": "약수",
+          "endName": "약수",
           "distance": 0,
           "transports": null,
           "stations": null
@@ -214,8 +214,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원",
+          "endName": "수서역",
           "distance": 2,
           "transports": null,
           "stations": null
@@ -233,8 +233,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역1번출구",
           "distance": 220,
           "transports": null,
           "stations": null
@@ -282,8 +282,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 8,
-          "startName": null,
-          "endName": null,
+          "startName": "용산구청",
+          "endName": "수서역",
           "distance": 553,
           "transports": null,
           "stations": null
@@ -301,8 +301,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서",
           "distance": 95,
           "transports": null,
           "stations": null
@@ -330,8 +330,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 4,
-          "startName": null,
-          "endName": null,
+          "startName": "양재",
+          "endName": "뱅뱅사거리",
           "distance": 256,
           "transports": null,
           "stations": null
@@ -365,8 +365,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원역.보광동입구",
+          "endName": "수서역",
           "distance": 88,
           "transports": null,
           "stations": null
@@ -384,8 +384,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서",
           "distance": 95,
           "transports": null,
           "stations": null
@@ -413,8 +413,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 4,
-          "startName": null,
-          "endName": null,
+          "startName": "양재",
+          "endName": "뱅뱅사거리",
           "distance": 256,
           "transports": null,
           "stations": null
@@ -447,8 +447,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 2,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원역.보광동 입구",
+          "endName": "수서역",
           "distance": 106,
           "transports": null,
           "stations": null
@@ -466,8 +466,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서",
           "distance": 95,
           "transports": null,
           "stations": null
@@ -502,8 +502,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 5,
-          "startName": null,
-          "endName": null,
+          "startName": "옥수",
+          "endName": "옥수삼성아파트.래미안옥수리버젠",
           "distance": 346,
           "transports": null,
           "stations": null
@@ -532,8 +532,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 2,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원역1번출구.해밀턴호텔",
+          "endName": "수서역",
           "distance": 136,
           "transports": null,
           "stations": null
@@ -551,8 +551,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역현대벤쳐빌",
           "distance": 89,
           "transports": null,
           "stations": null
@@ -602,8 +602,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "서울시중부기술교육원.블루스퀘어",
+          "endName": "한강진",
           "distance": 202,
           "transports": null,
           "stations": null
@@ -625,8 +625,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원",
+          "endName": "수서역",
           "distance": 2,
           "transports": null,
           "stations": null
@@ -644,8 +644,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서",
           "distance": 183,
           "transports": null,
           "stations": null
@@ -674,8 +674,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 0,
-          "startName": null,
-          "endName": null,
+          "startName": "강남구청",
+          "endName": "강남구청",
           "distance": 0,
           "transports": null,
           "stations": null
@@ -698,8 +698,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "논현",
+          "endName": "신사역",
           "distance": 198,
           "transports": null,
           "stations": null
@@ -728,8 +728,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원역.보광동입구",
+          "endName": "수서역",
           "distance": 88,
           "transports": null,
           "stations": null
@@ -747,8 +747,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역현대벤쳐빌",
           "distance": 89,
           "transports": null,
           "stations": null
@@ -797,8 +797,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 0,
-          "startName": null,
-          "endName": null,
+          "startName": "순천향대학병원",
+          "endName": "순천향대학병원",
           "distance": 0,
           "transports": null,
           "stations": null
@@ -823,8 +823,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원119안전센터",
+          "endName": "수서역",
           "distance": 182,
           "transports": null,
           "stations": null
@@ -842,8 +842,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역1번출구",
           "distance": 220,
           "transports": null,
           "stations": null
@@ -889,8 +889,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 0,
-          "startName": null,
-          "endName": null,
+          "startName": "고속터미널",
+          "endName": "고속터미널",
           "distance": 0,
           "transports": null,
           "stations": null
@@ -914,8 +914,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 8,
-          "startName": null,
-          "endName": null,
+          "startName": "용산구청",
+          "endName": "수서역",
           "distance": 553,
           "transports": null,
           "stations": null
@@ -933,8 +933,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역1번출구",
           "distance": 220,
           "transports": null,
           "stations": null
@@ -983,8 +983,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 0,
-          "startName": null,
-          "endName": null,
+          "startName": "순천향대학병원",
+          "endName": "순천향대학병원",
           "distance": 0,
           "transports": null,
           "stations": null
@@ -1009,8 +1009,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원119안전센터",
+          "endName": "수서역",
           "distance": 182,
           "transports": null,
           "stations": null
@@ -1028,8 +1028,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역현대벤쳐빌",
           "distance": 89,
           "transports": null,
           "stations": null
@@ -1076,8 +1076,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 0,
-          "startName": null,
-          "endName": null,
+          "startName": "한남대교전망카페",
+          "endName": "한남대교전망카페",
           "distance": 0,
           "transports": null,
           "stations": null
@@ -1105,8 +1105,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원역.보광동입구",
+          "endName": "수서역",
           "distance": 88,
           "transports": null,
           "stations": null
@@ -1124,8 +1124,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역1번출구",
           "distance": 220,
           "transports": null,
           "stations": null
@@ -1169,8 +1169,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 4,
-          "startName": null,
-          "endName": null,
+          "startName": "논현역7번출구",
+          "endName": "신사역",
           "distance": 271,
           "transports": null,
           "stations": null
@@ -1199,8 +1199,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 1,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원역.보광동입구",
+          "endName": "수서역",
           "distance": 88,
           "transports": null,
           "stations": null
@@ -1218,8 +1218,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "멜로즈",
+          "endName": "수서역1번출구",
           "distance": 220,
           "transports": null,
           "stations": null
@@ -1263,8 +1263,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 4,
-          "startName": null,
-          "endName": null,
+          "startName": "논현역7번출구",
+          "endName": "신사역",
           "distance": 271,
           "transports": null,
           "stations": null
@@ -1291,8 +1291,8 @@ final mockJsonEBRoute = {
         {
           "type": 3,
           "time": 3,
-          "startName": null,
-          "endName": null,
+          "startName": "이태원119안전센터",
+          "endName": "수서역",
           "distance": 182,
           "transports": null,
           "stations": null
