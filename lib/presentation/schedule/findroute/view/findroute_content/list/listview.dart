@@ -36,9 +36,25 @@ class _FindRouteListView extends StatelessWidget {
   ) {
     return List.generate(ebPaths.length + 1, (index) {
       if (index != ebPaths.length) {
-        return FindRouteListItem(
-          ebPath: ebPaths[index],
-          lineOfPath: lineOfPaths[index],
+        return Column(
+          children: [
+            InkWell(
+              child: FindRouteListItem(
+                ebPath: ebPaths[index],
+                lineOfPath: lineOfPaths[index],
+              ),
+              onTap: () {
+                log(ebPaths[index].payment.toString());
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                color: Colors.grey.withOpacity(0.5),
+                height: 1,
+              ),
+            ),
+          ],
         );
       } else {
         return _odsayImage();
