@@ -16,3 +16,14 @@ final class FetchFindRouteData extends FindRouteEvent {
   @override
   List<Object?> get props => [start, end];
 }
+
+final class setFindRouteStatus extends FindRouteEvent {
+  final FindRouteStatus status;
+
+  const setFindRouteStatus({
+    required this.status,
+  });
+
+  @override
+  List<Object?> get props => [];
+}

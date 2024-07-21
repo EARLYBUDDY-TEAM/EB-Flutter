@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:earlybuddy/app/app/view/app.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule_example.dart';
 import 'package:earlybuddy/presentation/schedule/detailroute/example/detailroute_example.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
@@ -19,17 +20,15 @@ void main() async {
   await env.load();
   initializeKakaoMap(appKey: env.kakao_app_key, baseUrl: env.kakao_baseUrl);
 
-  // runApp(const App());
+  runApp(const App());
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
   // runApp(const EBUIkitExample());
   // runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());
-  runApp(const FindRouteExample());
+  // runApp(const FindRouteExample());
   // runApp(const DetailRouteExample());
-
-  // runApp(const TestStackPositionedExample());
 }
 
 void initializeKakaoMap({
@@ -41,48 +40,3 @@ void initializeKakaoMap({
     baseUrl: baseUrl,
   );
 }
-
-
-
-// class TestStackPositionedExample extends StatelessWidget {
-//   const TestStackPositionedExample({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: StackPositionedExample(),
-//     );
-//   }
-// }
-
-// class StackPositionedExample extends StatelessWidget {
-//   const StackPositionedExample({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Container(
-//           decoration: BoxDecoration(
-//               border: Border.all(width: 5, color: Colors.lightGreenAccent)),
-//           child: Stack(
-//             children: [
-//               Positioned(
-//                 left:
-//                     50, // distance between this child's left edge & left edge of stack
-//                 top:
-//                     150, // distance between this child's top edge & top edge of stack
-//                 child: Container(
-//                   height: 100,
-//                   width: 100,
-//                   color: Colors.blue,
-//                   alignment: Alignment.center,
-//                 ),
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

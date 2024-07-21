@@ -1,4 +1,4 @@
-part of 'register_bloc.dart';
+part of 'bloc.dart';
 
 sealed class RegisterEvent extends Equatable {
   const RegisterEvent();

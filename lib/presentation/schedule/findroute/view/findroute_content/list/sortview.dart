@@ -23,21 +23,62 @@ final class _FindRouteSortView extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _date(),
-                const SizedBox(height: 3),
-                _hour(),
-              ],
-            ),
-            const Spacer(),
-          ],
+        child: BlocSelector<FindRouteBloc, FindRouteState, FindRouteStatus>(
+          selector: (state) {
+            return state.status;
+          },
+          builder: (context, status) {
+            return Row(
+              children: _content(status),
+            );
+          },
         ),
       ),
+    );
+  }
+
+  List<Widget> _content(FindRouteStatus status) {
+    List<Widget> content = [
+      _arrivalInfo(),
+      const Spacer(),
+    ];
+
+    if (status == FindRouteStatus.detailRoute) {
+      content.add(_pathInfo());
+    }
+
+    return content;
+  }
+
+  Widget _pathInfo() {
+    return DefaultTextStyle(
+      style: TextStyle(fontFamily: NanumSquare.bold, color: EBColors.text),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text('버스 + 지하철'),
+          SizedBox(height: 10),
+          Text(
+            '1시간 30분',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _arrivalInfo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _date(),
+        const SizedBox(height: 3),
+        _hour(),
+      ],
     );
   }
 

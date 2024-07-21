@@ -21,7 +21,18 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   })  : _findRouteRepository = findRouteRepository ?? FindRouteRepository(),
         super(const FindRouteState()) {
     on<FetchFindRouteData>(_onFetchFindRouteData);
+    on<setFindRouteStatus>(_onSetFindRouteStatus);
+
     add(FetchFindRouteData(start: start, end: end));
+  }
+}
+
+extension on FindRouteBloc {
+  void _onSetFindRouteStatus(
+    setFindRouteStatus event,
+    Emitter<FindRouteState> emit,
+  ) {
+    emit(state.copyWith(status: event.status));
   }
 }
 
@@ -41,12 +52,19 @@ extension on FindRouteBloc {
       final findRouteViewState =
           FindRouteViewState(transportLineOfRoute: transportLineOfRoute);
       emit(
-        state.copyWith(ebRoute: ebRoute, viewState: findRouteViewState),
+        state.copyWith(
+          ebRoute: () => ebRoute,
+          viewState: findRouteViewState,
+          status: FindRouteStatus.selectRoute,
+        ),
       );
     } catch (e) {
       log(e.toString());
       emit(
-        state.copyWith(ebRoute: null),
+        state.copyWith(
+          ebRoute: () => null,
+          status: FindRouteStatus.nodata,
+        ),
       );
     }
   }

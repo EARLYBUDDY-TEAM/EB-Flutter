@@ -10,19 +10,21 @@ class _FindRouteListView extends StatelessWidget {
     return BlocBuilder<FindRouteBloc, FindRouteState>(
       builder: (context, findRouteState) {
         final ebRoute = findRouteState.ebRoute;
-        if (ebRoute == null) {
+        final status = findRouteState.status;
+        if (status == FindRouteStatus.nodata && ebRoute == null) {
           return const Center(
             child: Text('Empty Route...'),
           );
         } else {
-          final ebPaths = ebRoute.ebPaths;
+          final ebPaths = ebRoute!.ebPaths;
           final lineOfPaths =
               findRouteState.viewState.transportLineOfRoute.lineOfRoute;
           return Expanded(
             child: ScrollWithHeader(
-              header: _FindRouteSortView(height: headerHeight),
+              header: _FindRouteSortView(
+                height: headerHeight,
+              ),
               headerHeight: headerHeight,
-              // list: _list(ebPaths, lineOfPaths),
               list: [
                 _FindRouteList(
                   ebPaths: ebPaths,
@@ -33,67 +35,6 @@ class _FindRouteListView extends StatelessWidget {
           );
         }
       },
-    );
-  }
-
-  List<Widget> _testDetailRoute(List<EBSubPath> subPaths) {
-    return List.generate(subPaths.length, (index) {
-      return Column(
-        children: [
-          Text('StartName : ${subPaths[index].startName}'),
-          Text('EndName : ${subPaths[index].endName}'),
-        ],
-      );
-    });
-  }
-
-  List<Widget> _list(
-    List<EBPath> ebPaths,
-    List<TransportLineOfPath> lineOfPaths,
-  ) {
-    return List.generate(ebPaths.length + 1, (index) {
-      if (index != ebPaths.length) {
-        return Column(
-          children: [
-            InkWell(
-              child: FindRouteListItem(
-                ebPath: ebPaths[index],
-                lineOfPath: lineOfPaths[index],
-              ),
-              onTap: () {
-                log(ebPaths[index].payment.toString());
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Divider(
-                color: Colors.grey.withOpacity(0.5),
-                height: 1,
-              ),
-            ),
-          ],
-        );
-      } else {
-        return _odsayImage();
-      }
-    });
-  }
-
-  Widget _odsayImage() {
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        Container(
-          height: 40,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: EBImages.odsay,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
-        const SizedBox(height: 50),
-      ],
     );
   }
 }
@@ -111,13 +52,6 @@ class _DetailRouteList extends StatelessWidget {
     return Column(
       children: _list(context),
     );
-    // return Navigator(
-    //   onGenerateRoute: (_) => MaterialPageRoute(
-    //     builder: (context2) => Column(
-    //       children: _list(context2),
-    //     ),
-    //   ),
-    // );
   }
 
   List<Widget> _list(BuildContext context) {
@@ -128,6 +62,11 @@ class _DetailRouteList extends StatelessWidget {
             InkWell(
               child: DetailRouteListItem(ebSubPath: subPaths[index]),
               onTap: () {
+                BlocProvider.of<FindRouteBloc>(context).add(
+                  const setFindRouteStatus(
+                    status: FindRouteStatus.selectRoute,
+                  ),
+                );
                 Navigator.of(context).pop();
               },
             ),
@@ -156,13 +95,13 @@ class _FindRouteList extends StatelessWidget {
     return Navigator(
       onGenerateRoute: (_) => MaterialPageRoute(
         builder: (child) => Column(
-          children: _list(child),
+          children: _list(context, child),
         ),
       ),
     );
   }
 
-  List<Widget> _list(BuildContext child) {
+  List<Widget> _list(BuildContext parent, BuildContext child) {
     return List.generate(ebPaths.length + 1, (index) {
       if (index != ebPaths.length) {
         return Column(
@@ -173,6 +112,9 @@ class _FindRouteList extends StatelessWidget {
                 lineOfPath: lineOfPaths[index],
               ),
               onTap: () {
+                BlocProvider.of<FindRouteBloc>(parent).add(
+                    const setFindRouteStatus(
+                        status: FindRouteStatus.detailRoute));
                 Navigator.push(
                   child,
                   MaterialPageRoute(

@@ -1,4 +1,4 @@
-part of 'register_bloc.dart';
+part of 'bloc.dart';
 
 final class RegisterState extends Equatable {
   final RegisterEmailState emailState;

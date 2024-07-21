@@ -1,24 +1,30 @@
 part of '../bloc.dart';
 
+enum FindRouteStatus { nodata, selectRoute, detailRoute }
+
 final class FindRouteState extends Equatable {
   final EBRoute? ebRoute;
   final FindRouteViewState viewState;
+  final FindRouteStatus status;
 
   const FindRouteState({
     this.ebRoute,
     this.viewState = const FindRouteViewState(),
+    this.status = FindRouteStatus.nodata,
   });
 
   FindRouteState copyWith({
-    EBRoute? ebRoute,
+    EBRoute? Function()? ebRoute,
     FindRouteViewState? viewState,
+    FindRouteStatus? status,
   }) {
     return FindRouteState(
-      ebRoute: ebRoute ?? this.ebRoute,
+      ebRoute: ebRoute != null ? ebRoute() : this.ebRoute,
       viewState: viewState ?? this.viewState,
+      status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [ebRoute];
+  List<Object?> get props => [ebRoute, viewState, status];
 }
