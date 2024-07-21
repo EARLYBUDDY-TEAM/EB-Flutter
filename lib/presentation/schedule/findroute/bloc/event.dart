@@ -5,7 +5,24 @@ sealed class FindRouteEvent extends Equatable {
 }
 
 final class FetchFindRouteData extends FindRouteEvent {
-  const FetchFindRouteData();
+  final Place start;
+  final Place end;
+
+  const FetchFindRouteData({
+    required this.start,
+    required this.end,
+  });
+
+  @override
+  List<Object?> get props => [start, end];
+}
+
+final class setFindRouteStatus extends FindRouteEvent {
+  final FindRouteStatus status;
+
+  const setFindRouteStatus({
+    required this.status,
+  });
 
   @override
   List<Object?> get props => [];

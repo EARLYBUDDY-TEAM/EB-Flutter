@@ -14,13 +14,9 @@ final class _MockFindRouteListItem extends StatelessWidget {
 final class _MockListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      color: Colors.amber.shade200,
-      child: FindRouteListItem(
-        ebPath: EBPath.mock(),
-        lineOfPath: TransportLineOfPath.mock(),
-      ),
+    return FindRouteListItem(
+      ebPath: EBPath.mock(),
+      lineOfPath: TransportLineOfPath.mock(),
     );
   }
 }

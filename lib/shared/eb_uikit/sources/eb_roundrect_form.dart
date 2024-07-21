@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'eb_sources.dart';
 
 class EBRoundRectForm extends StatelessWidget {
   final Widget? child;

@@ -1,5 +1,4 @@
-import 'package:earlybuddy/shared/eb_resources/eb_resources.dart';
-import 'package:flutter/material.dart';
+part of 'eb_sources.dart';
 
 class EBTextField extends StatelessWidget {
   final Function(String)? onChanged;

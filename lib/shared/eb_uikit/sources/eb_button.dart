@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:earlybuddy/shared/eb_resources/assets/color.dart';
-import 'package:earlybuddy/shared/eb_resources/assets/font.dart';
+part of 'eb_sources.dart';
 
 class EBButton extends StatelessWidget {
   final String name;
@@ -33,6 +31,47 @@ class EBButton extends StatelessWidget {
         ),
       ),
       child: Text(name),
+    );
+  }
+}
+
+class EBRoundedButton extends StatelessWidget {
+  final String text;
+  final double? height;
+  final double fontSize;
+  final Function()? onPressed;
+
+  const EBRoundedButton({
+    super.key,
+    required this.text,
+    this.height,
+    this.fontSize = 14,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+          side: const BorderSide(
+            width: 1,
+            color: Colors.grey,
+          ),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontFamily: NanumSquare.bold,
+            color: Colors.grey,
+            fontSize: fontSize,
+          ),
+        ),
+      ),
     );
   }
 }
