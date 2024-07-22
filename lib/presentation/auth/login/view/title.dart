@@ -1,7 +1,7 @@
 part of 'login_view.dart';
 
-class LoginTitle extends StatelessWidget {
-  const LoginTitle({super.key});
+class _LoginTitle extends StatelessWidget {
+  const _LoginTitle({super.key});
 
   @override
   Widget build(BuildContext context) {

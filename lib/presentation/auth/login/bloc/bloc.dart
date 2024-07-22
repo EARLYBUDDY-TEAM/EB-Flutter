@@ -1,11 +1,11 @@
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
-import 'package:earlybuddy/presentation/auth/auth_model/model.dart';
+import 'package:earlybuddy/domain/domain_model/auth/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-part 'login_state.dart';
-part 'login_event.dart';
+part 'state.dart';
+part 'event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final EBAuthRepository _authRepository;
@@ -14,13 +14,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     required EBAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const LoginState()) {
-    on<LoginEmailChanged>(onEmailChanged);
-    on<LoginPasswordChanged>(onPasswordChanged);
-    on<LoginPressed>(onLoginPressed);
+    on<ChangeEmail>(_onChangeEmail);
+    on<ChangePassword>(_onChangePassword);
+    on<PressLoginButton>(_onPressLoginButton);
   }
 
-  void onEmailChanged(
-    LoginEmailChanged event,
+  void _onChangeEmail(
+    ChangeEmail event,
     Emitter<LoginState> emit,
   ) {
     final email = Email.dirty(event.email);
@@ -32,8 +32,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  void onPasswordChanged(
-    LoginPasswordChanged event,
+  void _onChangePassword(
+    ChangePassword event,
     Emitter<LoginState> emit,
   ) {
     final password = Password.dirty(event.password);
@@ -46,8 +46,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  Future<void> onLoginPressed(
-    LoginPressed event,
+  Future<void> _onPressLoginButton(
+    PressLoginButton event,
     Emitter<LoginState> emit,
   ) async {
     if (state.inputIsValid) {

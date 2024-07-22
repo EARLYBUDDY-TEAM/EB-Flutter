@@ -1,4 +1,4 @@
-part of 'domain_model.dart';
+part of '../domain_model.dart';
 
 final class Coordi extends Equatable {
   final String x;

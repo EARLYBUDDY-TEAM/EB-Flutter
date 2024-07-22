@@ -1,4 +1,4 @@
-part of 'login_bloc.dart';
+part of 'bloc.dart';
 
 sealed class LoginEvent extends Equatable {
   const LoginEvent();
@@ -7,8 +7,8 @@ sealed class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class LoginEmailChanged extends LoginEvent {
-  const LoginEmailChanged(this.email);
+final class ChangeEmail extends LoginEvent {
+  const ChangeEmail(this.email);
 
   final String email;
 
@@ -16,8 +16,8 @@ final class LoginEmailChanged extends LoginEvent {
   List<Object?> get props => [email];
 }
 
-final class LoginPasswordChanged extends LoginEvent {
-  const LoginPasswordChanged(this.password);
+final class ChangePassword extends LoginEvent {
+  const ChangePassword(this.password);
 
   final String password;
 
@@ -25,8 +25,8 @@ final class LoginPasswordChanged extends LoginEvent {
   List<Object> get props => [password];
 }
 
-final class LoginPressed extends LoginEvent {
-  const LoginPressed();
+final class PressLoginButton extends LoginEvent {
+  const PressLoginButton();
 }
 
 final class LoginRegisterPressed extends LoginEvent {

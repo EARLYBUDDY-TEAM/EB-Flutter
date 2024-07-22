@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
-import 'package:earlybuddy/presentation/auth/auth_model/model.dart';
+import 'package:earlybuddy/domain/domain_model/auth/model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -12,16 +12,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     required EBAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const RegisterState()) {
-    on<RegisterEmailChanged>(onRegisterEmailChanged);
-    on<RegisterPasswordChanged>(onRegisterPasswordChanged);
-    on<RegisterPasswordConfirmChanged>(onRegisterPasswordConfirmChanged);
-    on<RegisterPressed>(onRegisterPressed);
+    on<ChangeEmail>(_onChangeEmail);
+    on<ChangePassword>(_onChangePassword);
+    on<ChangePasswordConfirm>(_onChangePasswordConfirm);
+    on<PressRegisterButton>(onPressRegisterButton);
   }
 
   final EBAuthRepository _authRepository;
 
-  void onRegisterEmailChanged(
-    RegisterEmailChanged event,
+  void _onChangeEmail(
+    ChangeEmail event,
     Emitter<RegisterState> emit,
   ) {
     final email = Email.dirty(event.email);
@@ -38,8 +38,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  void onRegisterPasswordChanged(
-    RegisterPasswordChanged event,
+  void _onChangePassword(
+    ChangePassword event,
     Emitter<RegisterState> emit,
   ) {
     final password = Password.dirty(event.password);
@@ -55,8 +55,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  void onRegisterPasswordConfirmChanged(
-    RegisterPasswordConfirmChanged event,
+  void _onChangePasswordConfirm(
+    ChangePasswordConfirm event,
     Emitter<RegisterState> emit,
   ) {
     final passwordConfirm = Password.dirty(event.passwordConfirm);
@@ -74,12 +74,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  void onRegisterPressed(
-    RegisterPressed event,
+  void onPressRegisterButton(
+    PressRegisterButton event,
     Emitter<RegisterState> emit,
   ) async {
     if (state.inputIsValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      emit(
+        state.copyWith(
+          status: FormzSubmissionStatus.inProgress,
+        ),
+      );
       final bool isSuccess = await _authRepository.register(
         email: state.emailState.email.value,
         password: state.passwordState.password.value,

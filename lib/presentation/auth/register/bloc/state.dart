@@ -1,24 +1,24 @@
 part of 'bloc.dart';
 
 final class RegisterState extends Equatable {
-  final RegisterEmailState emailState;
-  final RegisterPasswordState passwordState;
-  final RegisterPasswordConfirmState passwordConfirmState;
+  final EmailState emailState;
+  final PasswordState passwordState;
+  final PasswordConfirmState passwordConfirmState;
   final bool inputIsValid;
   final FormzSubmissionStatus status;
 
   const RegisterState({
-    this.emailState = const RegisterEmailState(),
-    this.passwordState = const RegisterPasswordState(),
-    this.passwordConfirmState = const RegisterPasswordConfirmState(),
+    this.emailState = const EmailState(),
+    this.passwordState = const PasswordState(),
+    this.passwordConfirmState = const PasswordConfirmState(),
     this.inputIsValid = false,
     this.status = FormzSubmissionStatus.initial,
   });
 
   RegisterState copyWith({
-    RegisterEmailState? emailState,
-    RegisterPasswordState? passwordState,
-    RegisterPasswordConfirmState? passwordConfirmState,
+    EmailState? emailState,
+    PasswordState? passwordState,
+    PasswordConfirmState? passwordConfirmState,
     bool? inputIsValid,
     FormzSubmissionStatus? status,
   }) {
@@ -32,24 +32,29 @@ final class RegisterState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [emailState, passwordState, passwordConfirmState, inputIsValid, status];
+  List<Object?> get props => [
+        emailState,
+        passwordState,
+        passwordConfirmState,
+        inputIsValid,
+        status,
+      ];
 }
 
-final class RegisterEmailState extends Equatable {
+final class EmailState extends Equatable {
   final Email email;
   final bool isValidEmail;
 
-  const RegisterEmailState({
+  const EmailState({
     this.email = const Email.pure(),
     this.isValidEmail = true,
   });
 
-  RegisterEmailState copyWith({
+  EmailState copyWith({
     Email? email,
     bool? isValidEmail,
   }) {
-    return RegisterEmailState(
+    return EmailState(
       email: email ?? this.email,
       isValidEmail: isValidEmail ?? this.isValidEmail,
     );
@@ -59,20 +64,20 @@ final class RegisterEmailState extends Equatable {
   List<Object?> get props => [email, isValidEmail];
 }
 
-final class RegisterPasswordState extends Equatable {
+final class PasswordState extends Equatable {
   final Password password;
   final bool isValidPassword;
 
-  const RegisterPasswordState({
+  const PasswordState({
     this.password = const Password.pure(),
     this.isValidPassword = true,
   });
 
-  RegisterPasswordState copyWith({
+  PasswordState copyWith({
     Password? password,
     bool? isValidPassword,
   }) {
-    return RegisterPasswordState(
+    return PasswordState(
       password: password ?? this.password,
       isValidPassword: isValidPassword ?? this.isValidPassword,
     );
@@ -82,20 +87,20 @@ final class RegisterPasswordState extends Equatable {
   List<Object?> get props => [password, isValidPassword];
 }
 
-final class RegisterPasswordConfirmState extends Equatable {
+final class PasswordConfirmState extends Equatable {
   final Password passwordConfirm;
   final bool isValidPasswordConfirm;
 
-  const RegisterPasswordConfirmState({
+  const PasswordConfirmState({
     this.passwordConfirm = const Password.pure(),
     this.isValidPasswordConfirm = true,
   });
 
-  RegisterPasswordConfirmState copyWith({
+  PasswordConfirmState copyWith({
     Password? passwordConfirm,
     bool? isValidPasswordConfirm,
   }) {
-    return RegisterPasswordConfirmState(
+    return PasswordConfirmState(
       passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       isValidPasswordConfirm:
           isValidPasswordConfirm ?? this.isValidPasswordConfirm,

@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-part 'coordi.dart';
-part 'place.dart';
-part 'ebauth_info.dart';
+part 'place/coordi.dart';
+part 'place/place.dart';
+part 'auth/ebauth_info.dart';
 part 'ebroute/ebroute.dart';
 part 'ebroute/ebpath.dart';
 part 'ebroute/ebsubpath.dart';

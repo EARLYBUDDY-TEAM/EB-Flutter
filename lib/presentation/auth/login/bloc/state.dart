@@ -1,4 +1,4 @@
-part of 'login_bloc.dart';
+part of 'bloc.dart';
 
 final class LoginState extends Equatable {
   final LoginEmailState emailState;

@@ -1,6 +1,4 @@
-part of 'domain_model.dart';
-
-enum EBAuthStatus { authenticated, unauthenticated }
+part of '../domain_model.dart';
 
 final class EBAuthInfo {
   final EBAuthStatus status;
@@ -16,6 +14,8 @@ final class EBAuthInfo {
   const EBAuthInfo.unAuth()
       : this(status: EBAuthStatus.unauthenticated, token: null);
 }
+
+enum EBAuthStatus { authenticated, unauthenticated }
 
 final class EBToken {
   final String accessToken;

@@ -1,7 +1,7 @@
 part of 'login_view.dart';
 
-class LoginInput extends StatelessWidget {
-  const LoginInput({super.key});
+class _LoginInput extends StatelessWidget {
+  const _LoginInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _EmailInput extends StatelessWidget {
         return EBTextField(
           labelText: '이메일을 입력해주세요',
           onChanged: (email) =>
-              context.read<LoginBloc>().add(LoginEmailChanged(email)),
+              context.read<LoginBloc>().add(ChangeEmail(email)),
           errorText: (state.emailState.isError) ? '이메일을 확인해주세요.' : null,
         );
       },
@@ -50,7 +50,7 @@ class _PasswordInput extends StatelessWidget {
         return EBTextField(
           labelText: '비밀번호를 입력해주세요',
           onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+              context.read<LoginBloc>().add(ChangePassword(password)),
           errorText: (state.passwordState.isError) ? '비밀번호를 확인해주세요.' : null,
         );
       },

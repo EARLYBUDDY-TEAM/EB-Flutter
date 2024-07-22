@@ -12,7 +12,7 @@ class _LoginButton extends StatelessWidget {
             : EBButton(
                 name: '로그인',
                 onPressed: () {
-                  context.read<LoginBloc>().add(const LoginPressed());
+                  context.read<LoginBloc>().add(const PressLoginButton());
                 },
               );
       },
