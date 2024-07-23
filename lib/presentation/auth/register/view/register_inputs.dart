@@ -32,7 +32,7 @@ class _EmailInput extends StatelessWidget {
               onChanged: (email) =>
                   context.read<RegisterBloc>().add(ChangeEmail(email)),
               labelText: '이메일을 입력해주세요.',
-              errorText: state.emailState.isValidEmail ? null : '이메일을 확인해주세요',
+              errorText: state.email.isValid ? null : '이메일을 확인해주세요',
             );
           },
         ),
@@ -54,9 +54,7 @@ class _PasswordInput extends StatelessWidget {
               onChanged: (password) =>
                   context.read<RegisterBloc>().add(ChangePassword(password)),
               labelText: '영어+숫자 6자 이상 입력해주세요.',
-              errorText: state.passwordState.isValidPassword
-                  ? null
-                  : '영어+숫자 6자 이상 입력해주세요.',
+              errorText: state.password.isValid ? null : '영어+숫자 6자 이상 입력해주세요.',
             );
           },
         ),
@@ -79,9 +77,8 @@ class _PasswordConfirmInput extends StatelessWidget {
                   .read<RegisterBloc>()
                   .add(ChangePasswordConfirm(passwordConfirm)),
               labelText: '비밀번호를 한번 더 입력해주세요.',
-              errorText: state.passwordConfirmState.isValidPasswordConfirm
-                  ? null
-                  : '비밀번호가 일치하지 않습니다.',
+              errorText:
+                  state.passwordConfirm.isValid ? null : '비밀번호가 일치하지 않습니다.',
             );
           },
         ),

@@ -5,16 +5,10 @@ class _LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        return state.status.isInProgress
-            ? const CircularProgressIndicator()
-            : EBButton(
-                name: '로그인',
-                onPressed: () {
-                  context.read<LoginBloc>().add(const PressLoginButton());
-                },
-              );
+    return EBButton(
+      name: '로그인',
+      onPressed: () {
+        context.read<LoginBloc>().add(const PressLoginButton());
       },
     );
   }
@@ -28,7 +22,10 @@ class _RegisterButton extends StatelessWidget {
     return TextButton(
       onPressed: () async {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const RegisterView()));
+          MaterialPageRoute(
+            builder: (context) => const RegisterView(),
+          ),
+        );
       },
       child: Text(
         '회원가입',

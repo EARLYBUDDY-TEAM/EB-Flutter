@@ -11,6 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 part 'place/coordi.dart';
 part 'place/place.dart';
 part 'auth/ebauth_info.dart';
+part 'auth/ebformz.dart';
 part 'ebroute/ebroute.dart';
 part 'ebroute/ebpath.dart';
 part 'ebroute/ebsubpath.dart';

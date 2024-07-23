@@ -1,112 +1,77 @@
 part of 'bloc.dart';
 
 final class RegisterState extends Equatable {
-  final EmailState emailState;
-  final PasswordState passwordState;
-  final PasswordConfirmState passwordConfirmState;
-  final bool inputIsValid;
-  final FormzSubmissionStatus status;
+  final Email email;
+  final Password password;
+  final PasswordConfirm passwordConfirm;
+  final RegisterStatus status;
+  bool get inputIsValid =>
+      (email.isValid && password.isValid && passwordConfirm.isValid);
 
   const RegisterState({
-    this.emailState = const EmailState(),
-    this.passwordState = const PasswordState(),
-    this.passwordConfirmState = const PasswordConfirmState(),
-    this.inputIsValid = false,
-    this.status = FormzSubmissionStatus.initial,
+    this.email = const Email(),
+    this.password = const Password(),
+    this.passwordConfirm = const PasswordConfirm(),
+    this.status = RegisterStatus.initial,
   });
 
   RegisterState copyWith({
-    EmailState? emailState,
-    PasswordState? passwordState,
-    PasswordConfirmState? passwordConfirmState,
-    bool? inputIsValid,
-    FormzSubmissionStatus? status,
+    Email? email,
+    Password? password,
+    PasswordConfirm? passwordConfirm,
+    RegisterStatus? status,
   }) {
     return RegisterState(
-      emailState: emailState ?? this.emailState,
-      passwordState: passwordState ?? this.passwordState,
-      passwordConfirmState: passwordConfirmState ?? this.passwordConfirmState,
-      inputIsValid: inputIsValid ?? this.inputIsValid,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       status: status ?? this.status,
     );
   }
 
   @override
   List<Object?> get props => [
-        emailState,
-        passwordState,
-        passwordConfirmState,
+        email,
+        password,
+        passwordConfirm,
         inputIsValid,
         status,
       ];
 }
 
-final class EmailState extends Equatable {
-  final Email email;
-  final bool isValidEmail;
-
-  const EmailState({
-    this.email = const Email.pure(),
-    this.isValidEmail = true,
-  });
-
-  EmailState copyWith({
-    Email? email,
-    bool? isValidEmail,
-  }) {
-    return EmailState(
-      email: email ?? this.email,
-      isValidEmail: isValidEmail ?? this.isValidEmail,
-    );
-  }
-
-  @override
-  List<Object?> get props => [email, isValidEmail];
+enum RegisterStatus {
+  initial,
+  inProgress,
+  onError,
 }
 
-final class PasswordState extends Equatable {
-  final Password password;
-  final bool isValidPassword;
+final class PasswordConfirm extends Equatable implements EBFormzAB {
+  @override
+  final String value;
+  final String origin;
+  @override
+  bool get isValid => validator();
 
-  const PasswordState({
-    this.password = const Password.pure(),
-    this.isValidPassword = true,
+  const PasswordConfirm({
+    this.value = '',
+    this.origin = '',
   });
 
-  PasswordState copyWith({
-    Password? password,
-    bool? isValidPassword,
+  PasswordConfirm copyWith({
+    String? value,
+    String? origin,
   }) {
-    return PasswordState(
-      password: password ?? this.password,
-      isValidPassword: isValidPassword ?? this.isValidPassword,
+    return PasswordConfirm(
+      value: value ?? this.value,
+      origin: origin ?? this.origin,
     );
   }
 
   @override
-  List<Object?> get props => [password, isValidPassword];
-}
-
-final class PasswordConfirmState extends Equatable {
-  final Password passwordConfirm;
-  final bool isValidPasswordConfirm;
-
-  const PasswordConfirmState({
-    this.passwordConfirm = const Password.pure(),
-    this.isValidPasswordConfirm = true,
-  });
-
-  PasswordConfirmState copyWith({
-    Password? passwordConfirm,
-    bool? isValidPasswordConfirm,
-  }) {
-    return PasswordConfirmState(
-      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
-      isValidPasswordConfirm:
-          isValidPasswordConfirm ?? this.isValidPasswordConfirm,
-    );
+  bool validator() {
+    return (value == origin);
   }
 
   @override
-  List<Object?> get props => [passwordConfirm, isValidPasswordConfirm];
+  List<Object?> get props => [value, origin];
 }

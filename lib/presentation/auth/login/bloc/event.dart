@@ -28,7 +28,3 @@ final class ChangePassword extends LoginEvent {
 final class PressLoginButton extends LoginEvent {
   const PressLoginButton();
 }
-
-final class LoginRegisterPressed extends LoginEvent {
-  const LoginRegisterPressed();
-}
