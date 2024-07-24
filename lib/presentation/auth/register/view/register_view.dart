@@ -25,20 +25,28 @@ final class RegisterView extends StatelessWidget {
 final class _RegisterContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: const SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              _RegisterInputs(),
-              Spacer(),
-              _RegisterButton(),
-              SizedBox(
-                height: 50,
-              ),
-            ],
+    return BlocListener<RegisterBloc, RegisterState>(
+      listener: (context, state) {
+        if (state.status == RegisterStatus.onError) {
+          showLoginFailAlert(context);
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: _appBar(context),
+        body: const SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                _RegisterInputs(),
+                Spacer(),
+                _RegisterButton(),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -60,6 +68,24 @@ final class _RegisterContent extends StatelessWidget {
         },
         icon: const Icon(Icons.arrow_back_ios_new),
       ),
+    );
+  }
+
+  void showLoginFailAlert(BuildContext context) {
+    EBAlert.showModalPopup(
+      context: context,
+      title: '회원가입에 실패했습니다.',
+      content: '네트워크 연결상태와 이메일 형식이 올바른지 확인해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context.read<RegisterBloc>().add(const PressAlertOkButton());
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
     );
   }
 }

@@ -6,10 +6,12 @@ final class _LoginTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
       height: 50,
       decoration: const BoxDecoration(
-        image: DecorationImage(image: EBImages.loginTitle, fit: BoxFit.fill),
+        image: DecorationImage(
+          image: EBImages.loginTitle,
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -17,7 +19,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
-    on<PressRegisterButton>(onPressRegisterButton);
+    on<PressRegisterButton>(_onPressRegisterButton);
+    on<PressAlertOkButton>(_onPressAlertOkButton);
   }
 
   final EBAuthRepository _authRepository;
@@ -104,10 +107,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  void onPressRegisterButton(
+  void _onPressRegisterButton(
     PressRegisterButton event,
     Emitter<RegisterState> emit,
   ) async {
+    emit(state.copyWith(status: RegisterStatus.onError));
     // if (state.inputIsValid) {
     //   emit(state.copyWith(status: RegisterStatus.inProgress));
 
@@ -117,10 +121,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     //   );
 
     //   if (!isSuccess) {
-    //     emit(
-    //       state.copyWith(status: RegisterStatus.onError),
-    //     );
+    //     emit(state.copyWith(status: RegisterStatus.onError));
+    //   } else {
+    //     emit(state.copyWith(status: RegisterStatus.initial));
     //   }
     // }
+  }
+
+  void _onPressAlertOkButton(
+    PressAlertOkButton event,
+    Emitter<RegisterState> emit,
+  ) {
+    emit(state.copyWith(status: RegisterStatus.initial));
   }
 }

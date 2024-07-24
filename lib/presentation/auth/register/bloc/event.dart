@@ -37,3 +37,7 @@ final class ChangePasswordConfirm extends RegisterEvent {
 final class PressRegisterButton extends RegisterEvent {
   const PressRegisterButton();
 }
+
+final class PressAlertOkButton extends RegisterEvent {
+  const PressAlertOkButton();
+}

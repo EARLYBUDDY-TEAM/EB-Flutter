@@ -5,7 +5,7 @@ class LoginRequest {
     required String email,
     required String password,
   }) {
-    const path = '/auth/login';
+    const path = '/auth/login/';
     final Map<String, dynamic> requestData = {
       'email': email,
       'password': password,

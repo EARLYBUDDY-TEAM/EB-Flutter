@@ -76,7 +76,6 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
       }
     } else {
-      log('no network');
       final emailState =
           state.emailState.copyWith(status: EmailFormStatus.onError);
       final passwordState =

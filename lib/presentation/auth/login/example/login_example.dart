@@ -11,8 +11,11 @@ class LoginExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MockLoginView(),
+    return RepositoryProvider(
+      create: (context) => EBAuthRepository(),
+      child: const MaterialApp(
+        home: MockLoginView(),
+      ),
     );
   }
 }

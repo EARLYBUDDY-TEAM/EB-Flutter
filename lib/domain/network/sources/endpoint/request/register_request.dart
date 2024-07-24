@@ -11,7 +11,7 @@ final class RegisterRequest {
     };
 
     return ApiRequest(
-      path: '/auth/register',
+      path: '/auth/register/',
       method: HTTPMethod.post,
       requestData: requestData,
     );

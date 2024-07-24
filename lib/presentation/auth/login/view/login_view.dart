@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'title.dart';
 part 'input_forms.dart';
-part 'auth_buttons.dart';
+part 'buttons.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -33,14 +33,11 @@ class _LoginContent extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == LoginStatus.onError) {
-          showLoginFailAlert(
-            context: context,
-            okAction: () =>
-                context.read<LoginBloc>().add(const PressAlertOkButton()),
-          );
+          showLoginFailAlert(context);
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             const WaveBackground(),
@@ -69,10 +66,7 @@ class _LoginContent extends StatelessWidget {
     );
   }
 
-  void showLoginFailAlert({
-    required BuildContext context,
-    required Function() okAction,
-  }) {
+  void showLoginFailAlert(BuildContext context) {
     EBAlert.showModalPopup(
       context: context,
       title: '로그인에 실패했습니다.',
