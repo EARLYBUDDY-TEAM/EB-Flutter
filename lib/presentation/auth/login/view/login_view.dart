@@ -23,6 +23,24 @@ class LoginView extends StatelessWidget {
       create: (context) => LoginBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
       ),
+      child: _LoginContent(),
+    );
+  }
+}
+
+class _LoginContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state.status == LoginStatus.onError) {
+          showLoginFailAlert(
+            context: context,
+            okAction: () =>
+                context.read<LoginBloc>().add(const PressAlertOkButton()),
+          );
+        }
+      },
       child: Scaffold(
         body: Stack(
           children: [
@@ -49,6 +67,30 @@ class LoginView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showLoginFailAlert({
+    required BuildContext context,
+    required Function() okAction,
+  }) {
+    Widget ok = TextButton(
+      onPressed: () {
+        okAction();
+        Navigator.of(context).pop();
+      },
+      child: const Text('확인'),
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text('로그인에 실패했습니다.'),
+      content: const Text('네트워크 연결상태와 아이디 비밀번호를 확인해주세요.'),
+      actions: [ok],
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => alert,
     );
   }
 }

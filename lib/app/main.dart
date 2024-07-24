@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:earlybuddy/presentation/auth/login/example/login_example.dart';
+import 'package:earlybuddy/presentation/auth/register/example/register_example.dart';
 import 'package:earlybuddy/presentation/auth/root/view/root_view.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule_example.dart';
 import 'package:earlybuddy/presentation/schedule/detailroute/example/detailroute_example.dart';
@@ -25,7 +26,9 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
-  runApp(const LoginExample());
+  // runApp(const LoginExample());
+  runApp(const RegisterExample());
+
   // runApp(const EBUIkitExample());
   // runApp(const SearchPlaceExample());
   // runApp(const AddScheduleExample());

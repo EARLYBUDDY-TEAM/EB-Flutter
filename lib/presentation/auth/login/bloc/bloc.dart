@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -18,6 +20,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<PressLoginButton>(_onPressLoginButton);
+    on<PressAlertOkButton>(_onPressAlertOkButton);
   }
 
   void _onChangeEmail(
@@ -51,23 +54,47 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     PressLoginButton event,
     Emitter<LoginState> emit,
   ) async {
-    final emailState =
-        state.emailState.copyWith(status: EmailFormStatus.onError);
-    final passwordState =
-        state.passwordState.copyWith(status: PasswordFormStatus.onError);
-    emit(state.copyWith(emailState: emailState, passwordState: passwordState));
+    if (state.inputIsValid) {
+      try {
+        emit(state.copyWith(status: LoginStatus.inProgress));
+        await _authRepository.logIn(
+          email: state.emailState.email.value,
+          password: state.passwordState.password.value,
+        );
+        emit(state.copyWith(status: LoginStatus.initial));
+      } catch (_) {
+        final emailState =
+            state.emailState.copyWith(status: EmailFormStatus.onError);
+        final passwordState =
+            state.passwordState.copyWith(status: PasswordFormStatus.onError);
+        emit(
+          state.copyWith(
+            status: LoginStatus.onError,
+            emailState: emailState,
+            passwordState: passwordState,
+          ),
+        );
+      }
+    } else {
+      log('no network');
+      final emailState =
+          state.emailState.copyWith(status: EmailFormStatus.onError);
+      final passwordState =
+          state.passwordState.copyWith(status: PasswordFormStatus.onError);
+      emit(
+        state.copyWith(
+          status: LoginStatus.onError,
+          emailState: emailState,
+          passwordState: passwordState,
+        ),
+      );
+    }
+  }
 
-    // if (state.inputIsValid) {
-    //   try {
-    //     emit(state.copyWith(status: LoginStatus.inProgress));
-    //     await _authRepository.logIn(
-    //       email: state.email.value,
-    //       password: state.password.value,
-    //     );
-    //     emit(state.copyWith(status: LoginStatus.initial));
-    //   } catch (_) {
-    //     emit(state.copyWith(status: LoginStatus.onError));
-    //   }
-    // } else {}
+  void _onPressAlertOkButton(
+    PressAlertOkButton event,
+    Emitter<LoginState> emit,
+  ) {
+    emit(state.copyWith(status: LoginStatus.initial));
   }
 }

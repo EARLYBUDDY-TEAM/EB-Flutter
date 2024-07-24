@@ -5,36 +5,60 @@ import 'package:flutter/material.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'appbar.dart';
 part 'register_inputs.dart';
 part 'register_request_button.dart';
 
-class RegisterView extends StatelessWidget {
+final class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => RegisterBloc(
+        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
+      ),
+      child: _RegisterContent(),
+    );
+  }
+}
+
+final class _RegisterContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _AppBar(context: context),
-      body: SafeArea(
-        child: BlocProvider(
-          create: (context) => RegisterBloc(
-            authRepository: RepositoryProvider.of<EBAuthRepository>(context),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                _RegisterInputs(),
-                Spacer(),
-                _RegisterButton(),
-                SizedBox(
-                  height: 50,
-                ),
-              ],
-            ),
+      appBar: _appBar(context),
+      body: const SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              _RegisterInputs(),
+              Spacer(),
+              _RegisterButton(),
+              SizedBox(
+                height: 50,
+              ),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      title: const Text(
+        '회원가입',
+        style: TextStyle(
+          fontFamily: NanumSquare.bold,
+          fontSize: 18,
+        ),
+      ),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        icon: const Icon(Icons.arrow_back_ios_new),
       ),
     );
   }

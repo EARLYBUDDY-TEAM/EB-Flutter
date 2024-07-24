@@ -1,48 +1,26 @@
-part of 'bloc.dart';
+part of '../bloc.dart';
 
-final class RegisterState extends Equatable {
-  final Email email;
-  final Password password;
+final class PasswordConfirmState extends Equatable {
   final PasswordConfirm passwordConfirm;
-  final RegisterStatus status;
-  bool get inputIsValid =>
-      (email.isValid && password.isValid && passwordConfirm.isValid);
+  final PasswordConfirmFormStatus status;
 
-  const RegisterState({
-    this.email = const Email(),
-    this.password = const Password(),
+  const PasswordConfirmState({
     this.passwordConfirm = const PasswordConfirm(),
-    this.status = RegisterStatus.initial,
+    this.status = PasswordConfirmFormStatus.initial,
   });
 
-  RegisterState copyWith({
-    Email? email,
-    Password? password,
+  PasswordConfirmState copyWith({
     PasswordConfirm? passwordConfirm,
-    RegisterStatus? status,
+    PasswordConfirmFormStatus? status,
   }) {
-    return RegisterState(
-      email: email ?? this.email,
-      password: password ?? this.password,
+    return PasswordConfirmState(
       passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [
-        email,
-        password,
-        passwordConfirm,
-        inputIsValid,
-        status,
-      ];
-}
-
-enum RegisterStatus {
-  initial,
-  inProgress,
-  onError,
+  List<Object?> get props => [passwordConfirm, status];
 }
 
 final class PasswordConfirm extends Equatable implements EBFormzAB {
@@ -74,4 +52,10 @@ final class PasswordConfirm extends Equatable implements EBFormzAB {
 
   @override
   List<Object?> get props => [value, origin];
+}
+
+enum PasswordConfirmFormStatus {
+  initial,
+  typing,
+  onError,
 }

@@ -20,7 +20,7 @@ class _RegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () async {
+      onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const RegisterView(),

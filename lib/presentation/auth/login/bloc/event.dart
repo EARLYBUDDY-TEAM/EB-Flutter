@@ -28,3 +28,7 @@ final class ChangePassword extends LoginEvent {
 final class PressLoginButton extends LoginEvent {
   const PressLoginButton();
 }
+
+final class PressAlertOkButton extends LoginEvent {
+  const PressAlertOkButton();
+}

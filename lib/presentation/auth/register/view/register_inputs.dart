@@ -1,65 +1,92 @@
 part of 'register_view.dart';
 
-class _RegisterInputs extends StatelessWidget {
-  const _RegisterInputs({super.key});
+final class _RegisterInputs extends StatelessWidget {
+  const _RegisterInputs();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 40),
-        _EmailInput(),
-        const SizedBox(height: 30),
-        _PasswordInput(),
-        const SizedBox(height: 30),
-        _PasswordConfirmInput(),
-      ],
+    return DefaultTextStyle(
+      style: TextStyle(
+        fontFamily: NanumSquare.bold,
+        color: EBColors.text,
+        fontSize: 20,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 40),
+          _EmailInput(),
+          const SizedBox(height: 30),
+          _PasswordInput(),
+          const SizedBox(height: 30),
+          _PasswordConfirmInput(),
+        ],
+      ),
     );
   }
 }
 
-class _EmailInput extends StatelessWidget {
+final class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _RegisterText(text: '이메일'),
-        BlocBuilder<RegisterBloc, RegisterState>(
-          builder: (context, state) {
+        const Text('이메일'),
+        BlocSelector<RegisterBloc, RegisterState, EmailFormStatus>(
+          selector: (state) => state.emailState.status,
+          builder: (context, status) {
             return EBTextField(
               onChanged: (email) =>
                   context.read<RegisterBloc>().add(ChangeEmail(email)),
               labelText: '이메일을 입력해주세요.',
-              errorText: state.email.isValid ? null : '이메일을 확인해주세요',
+              errorText: _errorText(status),
             );
           },
         ),
       ],
     );
   }
+
+  String? _errorText(EmailFormStatus status) {
+    switch (status) {
+      case EmailFormStatus.onError:
+        return '올바른 이메일이 아닙니다.';
+      default:
+        return null;
+    }
+  }
 }
 
-class _PasswordInput extends StatelessWidget {
+final class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _RegisterText(text: '비밀번호'),
-        BlocBuilder<RegisterBloc, RegisterState>(
-          builder: (context, state) {
+        const Text('비밀번호'),
+        BlocSelector<RegisterBloc, RegisterState, PasswordFormStatus>(
+          selector: (state) => state.passwordState.status,
+          builder: (context, status) {
             return EBTextField(
               onChanged: (password) =>
                   context.read<RegisterBloc>().add(ChangePassword(password)),
               labelText: '영어+숫자 6자 이상 입력해주세요.',
-              errorText: state.password.isValid ? null : '영어+숫자 6자 이상 입력해주세요.',
+              errorText: _errorText(status),
             );
           },
         ),
       ],
     );
+  }
+
+  String? _errorText(PasswordFormStatus status) {
+    switch (status) {
+      case PasswordFormStatus.onError:
+        return '영어+숫자 6자 이상 입력해주세요.';
+      default:
+        return null;
+    }
   }
 }
 
@@ -69,40 +96,29 @@ class _PasswordConfirmInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _RegisterText(text: '비밀번호 확인'),
-        BlocBuilder<RegisterBloc, RegisterState>(
-          builder: (context, state) {
+        const Text('비밀번호 확인'),
+        BlocSelector<RegisterBloc, RegisterState, PasswordConfirmFormStatus>(
+          selector: (state) => state.passwordConfirmState.status,
+          builder: (context, status) {
             return EBTextField(
               onChanged: (passwordConfirm) => context
                   .read<RegisterBloc>()
                   .add(ChangePasswordConfirm(passwordConfirm)),
               labelText: '비밀번호를 한번 더 입력해주세요.',
-              errorText:
-                  state.passwordConfirm.isValid ? null : '비밀번호가 일치하지 않습니다.',
+              errorText: _errorText(status),
             );
           },
         ),
       ],
     );
   }
-}
 
-class _RegisterText extends StatelessWidget {
-  _RegisterText({
-    required this.text,
-  });
-
-  String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontFamily: NanumSquare.bold,
-        color: EBColors.text,
-        fontSize: 20,
-      ),
-    );
+  String? _errorText(PasswordConfirmFormStatus status) {
+    switch (status) {
+      case PasswordConfirmFormStatus.onError:
+        return '비밀번호가 일치하지 않습니다.';
+      default:
+        return null;
+    }
   }
 }
