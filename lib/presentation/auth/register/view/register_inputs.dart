@@ -37,10 +37,10 @@ final class _EmailInput extends StatelessWidget {
           selector: (state) => state.emailState.status,
           builder: (context, status) {
             return EBTextField(
-              onChanged: (email) =>
-                  context.read<RegisterBloc>().add(ChangeEmail(email)),
               labelText: '이메일을 입력해주세요.',
               errorText: _errorText(status),
+              onChanged: (email) =>
+                  context.read<RegisterBloc>().add(ChangeEmail(email)),
             );
           },
         ),
@@ -68,7 +68,7 @@ final class _PasswordInput extends StatelessWidget {
         BlocSelector<RegisterBloc, RegisterState, PasswordFormStatus>(
           selector: (state) => state.passwordState.status,
           builder: (context, status) {
-            return EBTextField(
+            return EBPasswordTextField(
               onChanged: (password) =>
                   context.read<RegisterBloc>().add(ChangePassword(password)),
               labelText: '영어+숫자 6자 이상 입력해주세요.',
@@ -100,7 +100,7 @@ class _PasswordConfirmInput extends StatelessWidget {
         BlocSelector<RegisterBloc, RegisterState, PasswordConfirmFormStatus>(
           selector: (state) => state.passwordConfirmState.status,
           builder: (context, status) {
-            return EBTextField(
+            return EBPasswordTextField(
               onChanged: (passwordConfirm) => context
                   .read<RegisterBloc>()
                   .add(ChangePasswordConfirm(passwordConfirm)),
