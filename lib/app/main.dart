@@ -26,8 +26,8 @@ void main() async {
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
-  // runApp(const LoginExample());
-  runApp(const RegisterExample());
+  runApp(const LoginExample());
+  // runApp(const RegisterExample());
 
   // runApp(const EBUIkitExample());
   // runApp(const SearchPlaceExample());

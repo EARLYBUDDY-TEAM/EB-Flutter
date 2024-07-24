@@ -1,8 +1,7 @@
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/login/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/auth/register/register.dart';
-import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
-import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,23 +73,20 @@ class _LoginContent extends StatelessWidget {
     required BuildContext context,
     required Function() okAction,
   }) {
-    Widget ok = TextButton(
-      onPressed: () {
-        okAction();
-        Navigator.of(context).pop();
-      },
-      child: const Text('확인'),
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text('로그인에 실패했습니다.'),
-      content: const Text('네트워크 연결상태와 아이디 비밀번호를 확인해주세요.'),
-      actions: [ok],
-    );
-
-    showDialog(
+    EBAlert.showModalPopup(
       context: context,
-      builder: (context) => alert,
+      title: '로그인에 실패했습니다.',
+      content: '네트워크 연결상태와 아이디 비밀번호를 확인해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context.read<LoginBloc>().add(const PressAlertOkButton());
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
     );
   }
 }

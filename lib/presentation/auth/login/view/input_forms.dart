@@ -32,7 +32,7 @@ final class _PasswordInput extends StatelessWidget {
     return BlocSelector<LoginBloc, LoginState, PasswordFormStatus>(
       selector: (state) => state.passwordState.status,
       builder: (context, status) {
-        return EBTextField(
+        return EBPasswordTextField(
           labelText: '비밀번호를 입력해주세요',
           onChanged: (password) =>
               context.read<LoginBloc>().add(ChangePassword(password)),
