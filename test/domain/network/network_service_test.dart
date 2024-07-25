@@ -1,21 +1,17 @@
 import 'dart:convert';
-
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
-import 'package:earlybuddy/shared/eb_error/eb_error.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:test/test.dart';
 import 'endpoint/request/mock_api.dart';
 import 'endpoint/response/mock_dto.dart';
 import 'network_service/mock_network_client.dart';
 
 void main() {
-  group('Network Service Test : StatusCode', () {
-    test('Fail test throw noStatusCode', () async {
+  group('Success Network Request', () {
+    test('Return MockDTO', () async {
       var responseData = MockDTO.successJsonData();
-      var client = MockNetworkClient(
-        responseData: responseData,
-        statusCode: null,
-      );
+      Map<String, dynamic> jsonData = jsonDecode(responseData);
+      var client = MockSuccessNetworkClient(responseData: jsonData);
       var decoder = JsonDecoder();
       var service = NetworkService(
         client: client,
@@ -23,70 +19,37 @@ void main() {
       );
       var request = MockAPI.mockDTORequest();
 
-      try {
-        MockDTO _ = await service.request(request);
-      } catch (e) {
-        final error = e as NetworkError;
-        expect(error, NetworkError.noStatusCode);
-        return;
+      NetworkResult result = await service.request(request);
+      switch (result) {
+        case (Success()):
+          expect(result.dto.id, 1);
+          return;
+        case (Failure()):
+          throw 'fail test';
       }
-      throw ('test fail');
     });
 
-    test('Fail test throw inValidStatusCode', () async {
-      var responseData = MockDTO.successJsonData();
-      var client = MockNetworkClient(
-        responseData: responseData,
-        statusCode: 300,
-      );
-      var decoder = JsonDecoder();
-      var service = NetworkService(
-        client: client,
-        decoder: decoder,
-      );
-      var request = MockAPI.mockDTORequest();
+    test('Return EmptyDTO', () async {
+      var client = MockSuccessNetworkClient(responseData: null);
+      var service = NetworkService(client: client);
+      var request = MockAPI.emptyDTORequest();
 
-      try {
-        MockDTO _ = await service.request(request);
-      } catch (e) {
-        final error = e as NetworkError;
-        expect(error, NetworkError.inValidStatusCode);
-        return;
+      NetworkResult result = await service.request(request);
+      switch (result) {
+        case (Success()):
+          expect(result.dto.runtimeType, EmptyDTO);
+          return;
+        case (Failure()):
+          throw 'fail test';
       }
-      throw ('test fail');
     });
   });
 
-  group('Network Service Test : Decoder', () {
-    test('Success test return MockDTO', () async {
+  group('Fail Network Request', () {
+    test('Throw noConverter', () async {
       var responseData = MockDTO.successJsonData();
       Map<String, dynamic> jsonData = jsonDecode(responseData);
-      var client = MockNetworkClient(
-        responseData: jsonData,
-        statusCode: 200,
-      );
-      var decoder = JsonDecoder();
-      var service = NetworkService(
-        client: client,
-        decoder: decoder,
-      );
-      var request = MockAPI.mockDTORequest();
-
-      try {
-        MockDTO dto = await service.request(request);
-        expect(dto.id, 1);
-      } catch (e) {
-        rethrow;
-      }
-    });
-
-    test('Fail test throw noConverter', () async {
-      var responseData = MockDTO.successJsonData();
-      Map<String, dynamic> jsonData = jsonDecode(responseData);
-      var client = MockNetworkClient(
-        responseData: jsonData,
-        statusCode: 200,
-      );
+      var client = MockSuccessNetworkClient(responseData: jsonData);
       var decoder = JsonDecoder();
       var service = NetworkService(
         client: client,
@@ -94,22 +57,19 @@ void main() {
       );
       var request = MockAPI.mockDTORequestNoConverter();
 
-      try {
-        MockDTO _ = await service.request(request);
-      } catch (e) {
-        final error = e as NetworkError;
-        expect(error, NetworkError.noConverter);
-        return;
+      NetworkResult result = await service.request(request);
+      switch (result) {
+        case (Success()):
+          throw 'fail test';
+        case (Failure()):
+          expect(result.error, NetworkError.noConverter);
+          return;
       }
-      throw ('test fail');
     });
 
-    test('Fail test throw jsondEcode', () async {
+    test('Throw jsondEcode', () async {
       var responseData = MockDTO.failJsonData();
-      var client = MockNetworkClient(
-        responseData: responseData,
-        statusCode: 200,
-      );
+      var client = MockSuccessNetworkClient(responseData: responseData);
       var decoder = JsonDecoder();
       var service = NetworkService(
         client: client,
@@ -117,31 +77,50 @@ void main() {
       );
       var request = MockAPI.mockDTORequest();
 
-      try {
-        MockDTO _ = await service.request(request);
-      } catch (e) {
-        final error = e as NetworkError;
-        expect(error, NetworkError.jsonDecode);
-        return;
+      NetworkResult result = await service.request(request);
+      switch (result) {
+        case (Success()):
+          throw 'fail test';
+        case (Failure()):
+          expect(result.error, NetworkError.jsonDecode);
       }
-      throw ('test fail');
     });
-  });
 
-  group('Network Service Test : Success return EmptyDTO', () {
-    test('Success test return EmptyDTO', () async {
-      var client = MockNetworkClient(
+    test('Throw Client Error with statusCode : 401', () async {
+      var statusCode = 401;
+      var client = MockFailNetworkClient(
         responseData: null,
-        statusCode: 200,
+        statusCode: statusCode,
       );
       var service = NetworkService(client: client);
-      var request = MockAPI.emptyDTORequest();
+      var request = MockAPI.mockDTORequest();
 
-      try {
-        EmptyDTO _ = await service.request(request);
-        return;
-      } catch (e) {
-        rethrow;
+      NetworkResult result = await service.request(request);
+      switch (result) {
+        case (Success()):
+          throw 'fail test';
+        case (Failure()):
+          expect(result.error, NetworkError.clientError);
+          expect(result.statusCode, statusCode);
+      }
+    });
+
+    test('Throw Server Error with statusCode : 501', () async {
+      var statusCode = 501;
+      var client = MockFailNetworkClient(
+        responseData: null,
+        statusCode: statusCode,
+      );
+      var service = NetworkService(client: client);
+      var request = MockAPI.mockDTORequest();
+
+      NetworkResult result = await service.request(request);
+      switch (result) {
+        case (Success()):
+          throw 'fail test';
+        case (Failure()):
+          expect(result.error, NetworkError.serverError);
+          expect(result.statusCode, statusCode);
       }
     });
   });

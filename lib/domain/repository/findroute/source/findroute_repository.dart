@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 
 final class FindRouteRepository {
@@ -21,7 +21,16 @@ final class FindRouteRepository {
       startPlace: start.name,
       endPlace: end.name,
     );
-    final EBRouteDTO ebRouteDTO = await service.request(request);
+
+    final result = await service.request(request);
+    EBRouteDTO ebRouteDTO;
+    switch (result) {
+      case (Success()):
+        ebRouteDTO = result.dto;
+      case (Failure()):
+        throw 'error';
+    }
+
     final ebRoute = EBRoute.fromDTO(ebRouteDTO: ebRouteDTO);
     return ebRoute;
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 
 class EBAuthRepository {
@@ -22,7 +23,15 @@ extension AuthLogin on EBAuthRepository {
     required String password,
   }) async {
     final request = LoginRequest.init(email: email, password: password);
-    final TokenDTO tokenDTO = await service.request(request);
+    final result = await service.request(request);
+    TokenDTO tokenDTO;
+    switch (result) {
+      case (Success()):
+        tokenDTO = result.dto;
+      case (Failure()):
+        return;
+    }
+
     final EBToken token = EBToken.fromDTO(tokenDTO: tokenDTO);
     _controller.add(EBAuthInfo.auth(token));
     return;
@@ -40,12 +49,12 @@ extension AuthRegister on EBAuthRepository {
   }) async {
     final request = RegisterRequest.init(email: email, password: password);
 
-    try {
-      EmptyDTO _ = await service.request(request);
-      await logIn(email: email, password: password);
-      return true;
-    } catch (e) {
-      return false;
+    final result = await service.request(request);
+    switch (result) {
+      case (Success()):
+        return true;
+      case (Failure()):
+        return false;
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
-import 'package:earlybuddy/presentation/home/bloc/home_bloc.dart';
+import 'package:earlybuddy/presentation/home/bloc/bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

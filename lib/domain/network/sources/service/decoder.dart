@@ -1,4 +1,4 @@
-part of 'network_service.dart';
+part of 'service.dart';
 
 abstract class NetworkDecoderAB {
   P decode<P>(dynamic data, P Function(dynamic data)? converter);

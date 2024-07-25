@@ -22,11 +22,11 @@ void main() async {
   await env.load();
   initializeKakaoMap(appKey: env.kakao_app_key, baseUrl: env.kakao_baseUrl);
 
-  // runApp(RootView());
+  runApp(RootView());
   // runApp(const KakaoMapExample());
   // await getlocationdda
 
-  runApp(const LoginExample());
+  // runApp(const LoginExample());
   // runApp(const RegisterExample());
 
   // runApp(const EBUIkitExample());

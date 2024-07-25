@@ -111,21 +111,22 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     PressRegisterButton event,
     Emitter<RegisterState> emit,
   ) async {
-    emit(state.copyWith(status: RegisterStatus.onError));
-    // if (state.inputIsValid) {
-    //   emit(state.copyWith(status: RegisterStatus.inProgress));
+    if (state.inputIsValid) {
+      emit(state.copyWith(status: RegisterStatus.inProgress));
 
-    //   final bool isSuccess = await _authRepository.register(
-    //     email: state.emailState.email.value,
-    //     password: state.passwordState.password.value,
-    //   );
+      final bool isSuccess = await _authRepository.register(
+        email: state.emailState.email.value,
+        password: state.passwordState.password.value,
+      );
 
-    //   if (!isSuccess) {
-    //     emit(state.copyWith(status: RegisterStatus.onError));
-    //   } else {
-    //     emit(state.copyWith(status: RegisterStatus.initial));
-    //   }
-    // }
+      if (!isSuccess) {
+        emit(state.copyWith(status: RegisterStatus.onError));
+      } else {
+        emit(state.copyWith(status: RegisterStatus.initial));
+      }
+    } else {
+      emit(state.copyWith(status: RegisterStatus.onError));
+    }
   }
 
   void _onPressAlertOkButton(

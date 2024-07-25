@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/network/sources/endpoint/response/dto.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import '../response/mock_dto.dart';
 
 class MockAPI {

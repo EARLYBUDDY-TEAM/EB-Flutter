@@ -1,4 +1,4 @@
-part of 'network_service.dart';
+part of 'service.dart';
 
 abstract class NetworkClientAB<Q extends NetworkRequestAB> {
   /// [request]를 실행하고, Dio[Response]를 반환한다

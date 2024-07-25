@@ -1,6 +1,6 @@
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
 import 'package:earlybuddy/domain/network/sources/endpoint/response/dto.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 
 part 'register_request.dart';
 part 'login_request.dart';

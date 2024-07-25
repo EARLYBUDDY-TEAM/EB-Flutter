@@ -1,4 +1,4 @@
-part of 'network_service.dart';
+part of 'service.dart';
 
 enum HTTPMethod {
   get,

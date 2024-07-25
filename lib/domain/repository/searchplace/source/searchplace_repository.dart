@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/provider/location/location_provider.dart';
 
@@ -22,7 +22,16 @@ final class SearchPlaceRepository {
       longitudeX: coordi.x,
       latitudeY: coordi.y,
     );
-    final PlaceListDTO placeListDTO = await service.request(request);
+    final result = await service.request(request);
+
+    PlaceListDTO placeListDTO;
+    switch (result) {
+      case (Success()):
+        placeListDTO = result.dto;
+      case (Failure()):
+        throw 'error';
+    }
+
     final List<Place> places =
         placeListDTO.places.map((p) => Place.fromDTO(placeDTO: p)).toList();
     return places;
