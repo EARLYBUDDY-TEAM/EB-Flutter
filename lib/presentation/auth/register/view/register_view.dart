@@ -27,9 +27,7 @@ final class _RegisterContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
-        if (state.status == RegisterStatus.onError) {
-          showLoginFailAlert(context);
-        }
+        showRegisterFailAlert(context, state.status);
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -71,11 +69,28 @@ final class _RegisterContent extends StatelessWidget {
     );
   }
 
-  void showLoginFailAlert(BuildContext context) {
+  void showRegisterFailAlert(
+    BuildContext context,
+    RegisterStatus status,
+  ) {
+    if (status == RegisterStatus.initial ||
+        status == RegisterStatus.inProgress) {
+      return;
+    }
+
+    String content;
+    switch (status) {
+      case (RegisterStatus.onErrorExsitUser):
+        content = '이미 존재하는 사용자입니다.';
+      case (RegisterStatus.onErrorNotCorrectUser):
+        content = '이메일 형식이 올바른지 확인해주세요.';
+      default:
+        content = '네트워크 상태를 확인해주세요.';
+    }
     EBAlert.showModalPopup(
       context: context,
       title: '회원가입에 실패했습니다.',
-      content: '네트워크 연결상태와 이메일 형식이 올바른지 확인해주세요.',
+      content: content,
       actions: [
         EBAlert.makeAction(
           name: '확인',

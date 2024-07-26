@@ -43,5 +43,8 @@ final class RegisterState extends Equatable {
 enum RegisterStatus {
   initial,
   inProgress,
-  onError,
+
+  onErrorNotCorrectUser,
+  onErrorExsitUser,
+  onErrorUnknown,
 }

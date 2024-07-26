@@ -43,7 +43,7 @@ extension AuthLogin on EBAuthRepository {
 }
 
 extension AuthRegister on EBAuthRepository {
-  Future<bool> register({
+  Future<int?> register({
     required String email,
     required String password,
   }) async {
@@ -52,9 +52,9 @@ extension AuthRegister on EBAuthRepository {
     final result = await service.request(request);
     switch (result) {
       case (Success()):
-        return true;
+        return null;
       case (Failure()):
-        return false;
+        return result.statusCode;
     }
   }
 }

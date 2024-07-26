@@ -17,11 +17,3 @@ class Failure extends NetworkResult {
     required this.statusCode,
   });
 }
-
-enum NetworkError {
-  jsonDecode,
-  noConverter,
-  clientError,
-  serverError,
-  unknown,
-}
