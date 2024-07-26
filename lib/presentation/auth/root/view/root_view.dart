@@ -10,17 +10,17 @@ import 'package:earlybuddy/presentation/auth/login/login.dart';
 import 'package:earlybuddy/presentation/auth/splash/splash.dart';
 
 final class RootView extends StatelessWidget {
-  final EBAuthRepository _authRepository;
+  final EBAuthRepository _ebAuthRepository;
   final SearchPlaceDelegateForPlace _searchPlaceDelegateForPlace;
   final SearchPlaceDelegateForRoute _searchPlaceDelegateForRoute;
   // searchplace 좀더 하위뷰에서 주입하기..
 
   RootView({
     super.key,
-    EBAuthRepository? authRepository,
+    EBAuthRepository? ebAuthRepository,
     SearchPlaceDelegateForPlace? searchPlaceDelegateForPlace,
     SearchPlaceDelegateForRoute? searchPlaceDelegateForRoute,
-  })  : _authRepository = authRepository ?? EBAuthRepository(),
+  })  : _ebAuthRepository = ebAuthRepository ?? EBAuthRepository(),
         _searchPlaceDelegateForPlace =
             searchPlaceDelegateForPlace ?? SearchPlaceDelegateForPlace(),
         _searchPlaceDelegateForRoute =
@@ -30,14 +30,16 @@ final class RootView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(value: _authRepository),
+        RepositoryProvider.value(value: _ebAuthRepository),
         RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => RootBloc(authRepository: _authRepository),
+            create: (context) => RootBloc(
+              authRepository: _ebAuthRepository,
+            ),
           ),
           BlocProvider(
             create: (context) => AddScheduleBloc(
@@ -67,12 +69,12 @@ final class RootNaviView extends StatelessWidget {
         return BlocListener<RootBloc, RootState>(
           listener: (context, state) {
             switch (state.status) {
-              case EBAuthStatus.authenticated:
+              case Authenticated():
                 _navigator.pushAndRemoveUntil<void>(
                   HomeView.route(),
                   (route) => false,
                 );
-              case EBAuthStatus.unauthenticated:
+              case UnAuthenticated():
                 _navigator.pushAndRemoveUntil(
                   LoginView.route(),
                   (route) => false,

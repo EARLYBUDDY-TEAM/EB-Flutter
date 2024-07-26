@@ -7,10 +7,10 @@ sealed class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class HomeAddSchedulePressed extends HomeEvent {
-  const HomeAddSchedulePressed();
+final class PressAddScheduleButton extends HomeEvent {
+  const PressAddScheduleButton();
 }
 
-final class HomeMenuPressed extends HomeEvent {
-  const HomeMenuPressed();
+final class PressMenuButton extends HomeEvent {
+  const PressMenuButton();
 }

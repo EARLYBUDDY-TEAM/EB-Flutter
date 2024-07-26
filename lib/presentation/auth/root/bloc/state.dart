@@ -1,19 +1,20 @@
 part of 'bloc.dart';
 
 final class RootState extends Equatable {
-  final EBAuthStatus status;
-  final EBToken? token;
+  final AuthStatus status;
 
-  const RootState({
-    required this.status,
-    required this.token,
-  });
+  RootState({
+    AuthStatus? status,
+  }) : status = status ?? UnAuthenticated();
 
-  const RootState.auth(EBToken token)
-      : this(status: EBAuthStatus.authenticated, token: token);
-  const RootState.unAuth()
-      : this(status: EBAuthStatus.unauthenticated, token: null);
+  RootState copyWith({
+    AuthStatus? status,
+  }) {
+    return RootState(
+      status: status ?? this.status,
+    );
+  }
 
   @override
-  List<Object?> get props => [status, token];
+  List<Object?> get props => [status];
 }

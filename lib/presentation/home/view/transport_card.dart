@@ -18,13 +18,13 @@ class TransportCard extends StatelessWidget {
           ),
         ],
       ),
-      child: const _Content(),
+      child: const _TransportCardContent(),
     );
   }
 }
 
-class _Content extends StatelessWidget {
-  const _Content({super.key});
+class _TransportCardContent extends StatelessWidget {
+  const _TransportCardContent({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,12 @@
 part of 'home_view.dart';
 
-class HomeScheduleAddButton extends StatelessWidget {
-  const HomeScheduleAddButton({super.key});
+final class _ScheduleAddButton extends StatelessWidget {
+  final Function() onPressed;
+
+  const _ScheduleAddButton({
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +35,7 @@ class HomeScheduleAddButton extends StatelessWidget {
           ],
         ),
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AddScheduleView()),
-            );
-          },
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(0),
             backgroundColor: Colors.transparent,

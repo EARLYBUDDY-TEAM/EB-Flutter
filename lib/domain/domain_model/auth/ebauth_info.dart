@@ -1,35 +1,57 @@
 part of '../domain_model.dart';
 
-final class EBAuthInfo {
-  final EBAuthStatus status;
-  final EBToken? token;
+sealed class AuthStatus extends Equatable {}
 
-  const EBAuthInfo({
-    required this.status,
+final class Authenticated extends AuthStatus {
+  final Token token;
+
+  Authenticated({
     required this.token,
   });
 
-  const EBAuthInfo.auth(EBToken token)
-      : this(status: EBAuthStatus.authenticated, token: token);
-  const EBAuthInfo.unAuth()
-      : this(status: EBAuthStatus.unauthenticated, token: null);
+  static Authenticated mock() {
+    return Authenticated(
+      token: Token.mock(),
+    );
+  }
+
+  @override
+  List<Object?> get props => [token];
 }
 
-enum EBAuthStatus { authenticated, unauthenticated }
+final class UnAuthenticated extends AuthStatus {
+  @override
+  List<Object?> get props => [];
+}
 
-final class EBToken {
+final class Token extends Equatable {
   final String accessToken;
   final String tokenType;
   final String email;
 
-  EBToken({
+  const Token({
     required this.accessToken,
     required this.tokenType,
     required this.email,
   });
 
-  EBToken.fromDTO({required TokenDTO tokenDTO})
+  Token.fromDTO({required TokenDTO tokenDTO})
       : accessToken = tokenDTO.accessToken,
         tokenType = tokenDTO.tokenType,
         email = tokenDTO.email;
+
+  static Token mock() {
+    return const Token(
+      accessToken: 'accessToken',
+      tokenType: 'tokenType',
+      email: 'email',
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        accessToken,
+        tokenType,
+        email,
+      ];
 }

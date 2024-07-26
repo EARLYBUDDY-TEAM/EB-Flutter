@@ -4,10 +4,10 @@ sealed class RootEvent {
   const RootEvent();
 }
 
-final class ChangeEBAuthStatus extends RootEvent {
-  final EBAuthInfo ebAuthInfo;
+final class ChangeAuthStatus extends RootEvent {
+  final AuthStatus status;
 
-  const ChangeEBAuthStatus(this.ebAuthInfo);
+  const ChangeAuthStatus(this.status);
 }
 
 final class RequestLogout extends RootEvent {}

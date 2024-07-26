@@ -12,17 +12,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required EBAuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(const HomeState()) {
-    on<HomeAddSchedulePressed>(onHomeAddSchedulePressed);
-    on<HomeMenuPressed>(onHomeMenuPressed);
+    on<PressAddScheduleButton>(_onPressAddScheduleButton);
+    on<PressMenuButton>(_onPressMenuButton);
   }
 
-  void onHomeAddSchedulePressed(
-    HomeAddSchedulePressed event,
+  void _onPressAddScheduleButton(
+    PressAddScheduleButton event,
     Emitter<HomeState> emit,
   ) {}
 
-  void onHomeMenuPressed(
-    HomeMenuPressed event,
+  void _onPressMenuButton(
+    PressMenuButton event,
     Emitter<HomeState> emit,
   ) {
     _authRepository.logOut();

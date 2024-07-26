@@ -32,9 +32,10 @@ class _LoginContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state.status == LoginStatus.onError) {
-          showLoginFailAlert(context);
-        }
+        showLoginFailAlert(
+          context,
+          state.status,
+        );
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -66,7 +67,14 @@ class _LoginContent extends StatelessWidget {
     );
   }
 
-  void showLoginFailAlert(BuildContext context) {
+  void showLoginFailAlert(
+    BuildContext context,
+    LoginStatus status,
+  ) {
+    if (status != LoginStatus.onError) {
+      return;
+    }
+
     EBAlert.showModalPopup(
       context: context,
       title: '로그인에 실패했습니다.',

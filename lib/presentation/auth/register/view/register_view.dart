@@ -40,9 +40,7 @@ final class _RegisterContent extends StatelessWidget {
                 _RegisterInputs(),
                 Spacer(),
                 _RegisterButton(),
-                SizedBox(
-                  height: 50,
-                ),
+                SizedBox(height: 50),
               ],
             ),
           ),

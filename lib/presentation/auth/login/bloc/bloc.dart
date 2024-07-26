@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -55,25 +53,28 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     if (state.inputIsValid) {
-      try {
-        emit(state.copyWith(status: LoginStatus.inProgress));
-        await _authRepository.logIn(
-          email: state.emailState.email.value,
-          password: state.passwordState.password.value,
-        );
-        emit(state.copyWith(status: LoginStatus.initial));
-      } catch (_) {
-        final emailState =
-            state.emailState.copyWith(status: EmailFormStatus.onError);
-        final passwordState =
-            state.passwordState.copyWith(status: PasswordFormStatus.onError);
-        emit(
-          state.copyWith(
-            status: LoginStatus.onError,
-            emailState: emailState,
-            passwordState: passwordState,
-          ),
-        );
+      emit(state.copyWith(status: LoginStatus.inProgress));
+
+      final int? statusCode = await _authRepository.logIn(
+        email: state.emailState.email.value,
+        password: state.passwordState.password.value,
+      );
+
+      switch (statusCode) {
+        case (null):
+          emit(state.copyWith(status: LoginStatus.initial));
+        default:
+          final emailState =
+              state.emailState.copyWith(status: EmailFormStatus.onError);
+          final passwordState =
+              state.passwordState.copyWith(status: PasswordFormStatus.onError);
+          emit(
+            state.copyWith(
+              status: LoginStatus.onError,
+              emailState: emailState,
+              passwordState: passwordState,
+            ),
+          );
       }
     } else {
       final emailState =

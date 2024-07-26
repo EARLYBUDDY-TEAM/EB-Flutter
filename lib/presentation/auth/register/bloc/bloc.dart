@@ -114,17 +114,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     if (state.inputIsValid) {
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
-      final int? result = await _authRepository.register(
+      final int? statusCode = await _authRepository.register(
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
 
-      switch (result) {
+      switch (statusCode) {
         case (null):
           emit(state.copyWith(status: RegisterStatus.initial));
         case (400):
           emit(state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));
-        case (409):
+        case (401):
           emit(state.copyWith(status: RegisterStatus.onErrorExsitUser));
         default:
           emit(state.copyWith(status: RegisterStatus.onErrorUnknown));

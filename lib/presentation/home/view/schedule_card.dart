@@ -1,7 +1,7 @@
 part of 'home_view.dart';
 
-class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({super.key});
+class _ScheduleCard extends StatelessWidget {
+  const _ScheduleCard({super.key});
 
   @override
   Widget build(BuildContext context) {

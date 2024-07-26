@@ -1,24 +1,23 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
 import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 
 class EBAuthRepository {
-  final _controller = StreamController<EBAuthInfo>();
+  final controller = StreamController<AuthStatus>();
   final NetworkService service = NetworkService.shared;
 
-  Stream<EBAuthInfo> get authInfo async* {
+  Stream<AuthStatus> get authInfo async* {
     await Future<void>.delayed(const Duration(seconds: 1));
-    yield const EBAuthInfo.unAuth();
-    yield* _controller.stream;
+    yield UnAuthenticated();
+    yield* controller.stream;
   }
 
-  void dispose() => _controller.close();
+  void dispose() => controller.close();
 }
 
 extension AuthLogin on EBAuthRepository {
-  Future<void> logIn({
+  Future<int?> logIn({
     required String email,
     required String password,
   }) async {
@@ -29,16 +28,16 @@ extension AuthLogin on EBAuthRepository {
       case (Success()):
         tokenDTO = result.dto;
       case (Failure()):
-        return;
+        return result.statusCode;
     }
 
-    final EBToken token = EBToken.fromDTO(tokenDTO: tokenDTO);
-    _controller.add(EBAuthInfo.auth(token));
-    return;
+    final Token token = Token.fromDTO(tokenDTO: tokenDTO);
+    controller.add(Authenticated(token: token));
+    return null;
   }
 
   void logOut() {
-    _controller.add(const EBAuthInfo.unAuth());
+    controller.add(UnAuthenticated());
   }
 }
 
