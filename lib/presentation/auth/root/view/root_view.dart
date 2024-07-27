@@ -3,6 +3,7 @@ import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/presentation/home/home.dart';
@@ -64,6 +65,7 @@ final class RootNaviView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: EBTheme.light(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<RootBloc, RootState>(

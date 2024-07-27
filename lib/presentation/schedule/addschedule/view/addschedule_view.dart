@@ -9,13 +9,16 @@ import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 part 'appbar.dart';
 part 'forms/addschedule_forms.dart';
 part 'forms/name.dart';
-part 'forms/time.dart';
+part 'forms/time/time.dart';
+part 'forms/time/datepicker.dart';
+part 'forms/time/timepicker.dart';
 part 'forms/notify.dart';
 part 'forms/place.dart';
 part 'forms/route.dart';
