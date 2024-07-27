@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:earlybuddy/presentation/home/home.dart';
 import 'package:earlybuddy/presentation/auth/login/login.dart';
 import 'package:earlybuddy/presentation/auth/splash/splash.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 final class RootView extends StatelessWidget {
   final EBAuthRepository _ebAuthRepository;
@@ -65,6 +66,11 @@ final class RootNaviView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+      ],
       theme: EBTheme.light(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {

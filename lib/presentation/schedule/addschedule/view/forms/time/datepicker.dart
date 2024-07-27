@@ -22,6 +22,7 @@ final class _DatePickerState extends State<_DatePicker> {
           firstDate: DateTime(2000),
           lastDate: DateTime(3000),
           initialDate: selectedDate,
+          locale: const Locale('ko'),
         );
 
         if (date != null) {
@@ -40,68 +41,6 @@ final class _DatePickerState extends State<_DatePicker> {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Theme(
-  //     data: ThemeData(
-  //       colorScheme: ColorScheme.light(
-  //         primary: EBColors.purple1,
-  //         onPrimary: EBColors.text,
-  //         onSurface: EBColors.text,
-  //       ),
-  //       textButtonTheme: _textButtonThemeData,
-  //     ),
-  //     child: Builder(
-  //       builder: (context) {
-  //         return TextButton(
-  //           style: TextButton.styleFrom(
-  //             minimumSize: Size.zero,
-  //             padding: EdgeInsets.zero,
-  //             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-  //           ),
-  //           onPressed: () async {
-  //             final DateTime? date = await showDatePicker(
-  //               context: context,
-  //               firstDate: DateTime(2000),
-  //               lastDate: DateTime(3000),
-  //               initialDate: selectedDate,
-  //             );
-
-  //             if (date != null) {
-  //               setState(() {
-  //                 selectedDate = date;
-  //               });
-  //             }
-  //           },
-  //           child: Text(
-  //             dateString,
-  //             style: TextStyle(
-  //               fontFamily: NanumSquare.bold,
-  //               color: EBColors.text,
-  //               fontSize: 13,
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // TextButtonThemeData get _textButtonThemeData {
-  //   return TextButtonThemeData(
-  //     style: ButtonStyle(
-  //       textStyle: WidgetStateProperty.resolveWith((states) {
-  //         return const TextStyle(
-  //           fontFamily: NanumSquare.extraBold,
-  //         );
-  //       }),
-  //       foregroundColor: WidgetStateProperty.resolveWith((states) {
-  //         return EBColors.purple2;
-  //       }),
-  //     ),
-  //   );
-  // }
 
   String get dateString {
     String year = '${selectedDate.year}년';
