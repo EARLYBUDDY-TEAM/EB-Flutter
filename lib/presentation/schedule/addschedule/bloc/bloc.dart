@@ -92,7 +92,7 @@ extension on AddScheduleBloc {
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) {
-    emit(state);
+    // emit(state);
   }
 }
 

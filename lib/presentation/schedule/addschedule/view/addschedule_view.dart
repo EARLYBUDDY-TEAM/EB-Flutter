@@ -5,11 +5,8 @@ import 'package:earlybuddy/presentation/schedule/findroute/view/findroute_view.d
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
-import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
-import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
