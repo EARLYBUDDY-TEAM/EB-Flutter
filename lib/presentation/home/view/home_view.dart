@@ -12,11 +12,11 @@ part 'schedule_card.dart';
 part 'transport_card.dart';
 part 'schedule_addbutton.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+final class EBHomeView extends StatelessWidget {
+  const EBHomeView({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const HomeView());
+    return MaterialPageRoute<void>(builder: (_) => const EBHomeView());
   }
 
   @override
@@ -25,32 +25,41 @@ class HomeView extends StatelessWidget {
       create: (context) => HomeBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
       ),
-      child: Stack(
-        children: [
-          Container(color: Colors.white),
-          const WaveBackground(),
-          Scaffold(
-            appBar: _HomeAppBar(
-              pressMenuButtonAction: () =>
-                  context.read<HomeBloc>().add(const PressMenuButton()),
-            ),
-            backgroundColor: Colors.transparent,
-            body: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                const _HomeContent(),
-                _ScheduleAddButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AddScheduleView(),
-                    ),
+      child: const _HomeView(),
+    );
+  }
+}
+
+final class _HomeView extends StatelessWidget {
+  const _HomeView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(color: Colors.white),
+        const WaveBackground(),
+        Scaffold(
+          appBar: _HomeAppBar(
+            pressMenuButtonAction: () =>
+                context.read<HomeBloc>().add(const PressMenuButton()),
+          ),
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              const _HomeContent(),
+              _ScheduleAddButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddScheduleView(),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

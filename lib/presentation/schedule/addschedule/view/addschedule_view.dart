@@ -4,6 +4,7 @@ import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/view/findroute_view.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/searchplace.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/cupertino.dart';

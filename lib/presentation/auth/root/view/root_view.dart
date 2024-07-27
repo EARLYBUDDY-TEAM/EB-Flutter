@@ -71,7 +71,7 @@ final class RootNaviView extends StatelessWidget {
             switch (state.status) {
               case Authenticated():
                 _navigator.pushAndRemoveUntil<void>(
-                  HomeView.route(),
+                  EBHomeView.route(),
                   (route) => false,
                 );
               case UnAuthenticated():

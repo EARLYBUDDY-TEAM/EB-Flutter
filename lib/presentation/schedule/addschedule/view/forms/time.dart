@@ -21,7 +21,9 @@ class _TimeForm extends StatelessWidget {
               isActive: true,
             ),
             const Spacer(),
-            _DateTimePicker()
+            _DatePicker(),
+            const SizedBox(width: 7),
+            _TimePicker(),
           ],
         ),
       ),
@@ -29,108 +31,146 @@ class _TimeForm extends StatelessWidget {
   }
 }
 
-class _DateTimePicker extends StatefulWidget {
+final class _DatePicker extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _DateTimePickerState();
+  State<StatefulWidget> createState() => _DatePickerState();
 }
 
-class _DateTimePickerState extends State<_DateTimePicker> {
-  DateTime dateTime = DateTime.now();
+final class _DatePickerState extends State<_DatePicker> {
+  var selectedDate = DateTime.now();
 
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => Container(
-        height: 250,
-        padding: const EdgeInsets.only(top: 6.0),
-        // The Bottom margin is provided to align the popup above the system
-        // navigation bar.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        // Provide a background color for the popup.
-        color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
-        child: SafeArea(
-          top: false,
-          child: child,
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        minimumSize: Size.zero,
+        padding: EdgeInsets.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      onPressed: () async {
+        final DateTime? date = await showDatePicker(
+          context: context,
+          firstDate: DateTime(2000),
+          lastDate: DateTime(3000),
+          initialDate: selectedDate,
+        );
+
+        if (date != null) {
+          setState(() {
+            selectedDate = date;
+          });
+        }
+      },
+      child: Text(
+        dateString,
+        style: TextStyle(
+          fontFamily: NanumSquare.bold,
+          color: EBColors.text,
+          fontSize: 13,
         ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
-      builder: (context, state) {
-        return CupertinoButton(
-          onPressed: () => _showDialog(
-            CupertinoDatePicker(
-              initialDateTime: dateTime,
-              use24hFormat: true,
-              onDateTimeChanged: (DateTime newDateTime) {
-                setState(() {
-                  dateTime = newDateTime;
-                });
-                context.read<AddScheduleBloc>().add(ChangeTime(newDateTime));
-              },
-            ),
-          ),
-          child: _DateTimeText(dateTime: dateTime),
-        );
-      },
-    );
+  String get dateString {
+    String year = '${selectedDate.year}년';
+    final m = selectedDate.month;
+    String month = m < 10 ? '0$m' : '$m';
+    month += '월';
+    final d = selectedDate.day;
+    String day = d < 10 ? '0$d' : '$d';
+    day += '일';
+    String weekday = '(${_toWeekDay[selectedDate.weekday]})';
+    return '$year $month $day $weekday';
   }
+
+  final _toWeekDay = {
+    1: '월',
+    2: '화',
+    3: '수',
+    4: '목',
+    5: '금',
+    6: '토',
+    7: '일',
+  };
 }
 
-class _DateTimeText extends StatelessWidget {
-  DateTime dateTime;
+final class _TimePicker extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _TimePickerState();
+}
 
-  _DateTimeText({required this.dateTime});
+final class _TimePickerState extends State<_TimePicker> {
+  var selectedTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          '${dateTime.year}년 ${dateTime.month}월 ${dateTime.day}일 (${weekDay(dateTime.weekday)})',
-          style: TextStyle(
-            fontFamily: NanumSquare.regular,
-            color: EBColors.text,
-            fontSize: 13,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Text(
-          '${dateTime.hour}:${dateTime.minute}',
-          style: TextStyle(
-            fontFamily: NanumSquare.bold,
-            color: EBColors.text,
-            fontSize: 20,
-          ),
-        ),
-      ],
+    return Theme(
+      data: ThemeData(
+        timePickerTheme: _ebTimePickerThemeData,
+        textButtonTheme: _ebTextButtonThemeData,
+      ),
+      child: Builder(
+        builder: (context) {
+          return TextButton(
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            onPressed: () async {
+              final TimeOfDay? time = await showTimePicker(
+                context: context,
+                initialTime: selectedTime,
+              );
+
+              if (time != null) {
+                setState(() {
+                  selectedTime = time;
+                });
+              }
+            },
+            child: Text(
+              timeString,
+              style: TextStyle(
+                fontFamily: NanumSquare.bold,
+                color: EBColors.text,
+                fontSize: 17,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
-  String weekDay(int rawValue) {
-    switch (rawValue) {
-      case (1):
-        return '월';
-      case (2):
-        return '화';
-      case (3):
-        return '수';
-      case (4):
-        return '목';
-      case (5):
-        return '금';
-      case (6):
-        return '토';
-      case (7):
-        return '일';
-      default:
-        return 'error';
-    }
+  TimePickerThemeData get _ebTimePickerThemeData {
+    return TimePickerThemeData(
+      hourMinuteColor: EBColors.purple1.withOpacity(0.3),
+      dayPeriodColor: EBColors.purple2.withOpacity(0.15),
+      dialHandColor: EBColors.purple1,
+    );
+  }
+
+  TextButtonThemeData get _ebTextButtonThemeData {
+    return TextButtonThemeData(
+      style: ButtonStyle(
+        textStyle: WidgetStateProperty.resolveWith((states) {
+          return const TextStyle(
+            fontFamily: NanumSquare.extraBold,
+          );
+        }),
+        foregroundColor: WidgetStateProperty.resolveWith((states) {
+          return EBColors.purple2;
+        }),
+      ),
+    );
+  }
+
+  String get timeString {
+    String meridiem = selectedTime.hour < 12 ? '오전' : '오후';
+    final m = selectedTime.minute;
+    String minute = m < 10 ? '0$m' : '$m';
+    return '$meridiem ${selectedTime.hour}:$minute';
   }
 }
