@@ -17,7 +17,7 @@ class EBAuthRepository {
 }
 
 extension AuthLogin on EBAuthRepository {
-  Future<int?> logIn({
+  Future<int> logIn({
     required String email,
     required String password,
   }) async {
@@ -33,7 +33,7 @@ extension AuthLogin on EBAuthRepository {
 
     final Token token = Token.fromDTO(tokenDTO: tokenDTO);
     controller.add(Authenticated(token: token));
-    return null;
+    return result.statusCode;
   }
 
   void logOut() {
@@ -42,7 +42,7 @@ extension AuthLogin on EBAuthRepository {
 }
 
 extension AuthRegister on EBAuthRepository {
-  Future<int?> register({
+  Future<int> register({
     required String email,
     required String password,
   }) async {
@@ -51,7 +51,7 @@ extension AuthRegister on EBAuthRepository {
     final result = await service.request(request);
     switch (result) {
       case (Success()):
-        return null;
+        return result.statusCode;
       case (Failure()):
         return result.statusCode;
     }

@@ -1,19 +1,24 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'event.dart';
 part 'state.dart';
 
-class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
+final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   late StreamSubscription<Place> sinkPressSelectPlaceButtonForPlace;
   late StreamSubscription<Place> sinkPressSelectPlaceButtonForRoute;
+
+  final ScheduleRepository scheduleRepository;
 
   AddScheduleBloc({
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
+    required this.scheduleRepository,
     AddScheduleState? addScheduleState,
   }) : super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
@@ -91,8 +96,16 @@ extension on AddScheduleBloc {
   void _onPressAddScheduleButton(
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
-  ) {
-    // emit(state);
+  ) async {
+    final int statusCode =
+        await scheduleRepository.addSchedule(scheduleInfo: state.info);
+
+    switch (statusCode) {
+      case (>= 200 && < 300):
+        log('success!!!, statusCode : $statusCode');
+      default:
+        log('fail..., statusCode : $statusCode');
+    }
   }
 }
 
@@ -101,7 +114,7 @@ extension on AddScheduleBloc {
     SelectPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(endPlace: event.place);
+    final ScheduleInfo info = state.info.copyWith(endPlace: event.place);
     emit(state.copyWith(info: info));
   }
 }
@@ -111,7 +124,7 @@ extension on AddScheduleBloc {
     SelectRoute event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(startPlace: event.place);
+    final ScheduleInfo info = state.info.copyWith(startPlace: event.place);
     emit(state.copyWith(info: info));
   }
 }

@@ -22,22 +22,25 @@ final class MockAddSchedule extends StatelessWidget {
 
 final class _MyMockAddSchedule extends StatelessWidget {
   final addScheduleState = AddScheduleState(
-    info: AddScheduleInfo(
+    info: ScheduleInfo(
       endPlace: Place.mockStarBucks(),
     ),
   );
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddScheduleBloc(
-        addScheduleState: addScheduleState,
-        searchPlaceDelegateForPlace:
-            RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
-        searchPlaceDelegateForRoute:
-            RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
-      ),
-      child: const AddScheduleView(),
+    return AddScheduleView(
+      state: addScheduleState,
     );
+    // return BlocProvider(
+    //   create: (context) => AddScheduleBloc(
+    //     addScheduleState: addScheduleState,
+    //     searchPlaceDelegateForPlace:
+    //         RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
+    //     searchPlaceDelegateForRoute:
+    //         RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
+    //   ),
+    //   child: const AddScheduleView(),
+    // );
   }
 }

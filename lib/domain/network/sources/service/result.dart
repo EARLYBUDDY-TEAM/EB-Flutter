@@ -2,18 +2,20 @@ part of 'service.dart';
 
 sealed class NetworkResult {}
 
-class Success<DTO> extends NetworkResult {
-  DTO dto;
+final class Success<DTO> extends NetworkResult {
+  final int statusCode;
+  final DTO dto;
 
-  Success(this.dto);
+  Success({
+    required this.dto,
+    int? statusCode,
+  }) : statusCode = statusCode ?? 200;
 }
 
-class Failure extends NetworkResult {
-  int? statusCode;
-  NetworkError error;
+final class Failure extends NetworkResult {
+  final int statusCode;
+  final NetworkError error;
 
-  Failure({
-    required this.error,
-    required this.statusCode,
-  });
+  Failure({required this.error, int? statusCode})
+      : statusCode = statusCode ?? -1;
 }

@@ -1,15 +1,16 @@
 import 'dart:math';
 
 import 'package:earlybuddy/domain/network/sources/endpoint/response/dto.dart';
-import 'package:earlybuddy/domain/network/sources/endpoint/response/ebroute_dto.dart';
 import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-part 'place/coordi.dart';
-part 'place/place.dart';
+part 'scheduleinfo/coordi.dart';
+part 'scheduleinfo/place.dart';
+part 'scheduleinfo/scheduleinfo.dart';
 part 'auth/ebauth_info.dart';
 part 'auth/ebformz.dart';
 part 'ebroute/ebroute.dart';

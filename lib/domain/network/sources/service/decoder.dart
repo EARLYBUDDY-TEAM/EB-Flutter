@@ -4,6 +4,16 @@ abstract class NetworkDecoderAB {
   P decode<P>(dynamic data, P Function(dynamic data)? converter);
 }
 
+class FoundationDecoder implements NetworkDecoderAB {
+  @override
+  P decode<P>(data, P Function(dynamic data)? converter) {
+    if (converter == null) {
+      throw NetworkError.noConverter;
+    }
+    return converter(data);
+  }
+}
+
 class JsonDecoder implements NetworkDecoderAB {
   @override
   P decode<P>(data, P Function(dynamic data)? converter) {

@@ -26,6 +26,17 @@ final class Place extends Equatable {
         distance = (double.parse(placeDTO.distance) / 1000).toStringAsFixed(1),
         coordi = Coordi.fromDTO(coordiDTO: placeDTO.coordi);
 
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "name": name,
+      "address": address,
+      "category": category,
+      "distance": distance,
+      "coordi": coordi.toMap(),
+    };
+  }
+
   static Place mockView() {
     final random = Random().nextBool();
     final name = random ? '테스트장소이름' : '테스트 장소이름 테스트장소 이름테스트장 소이름';

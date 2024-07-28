@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:earlybuddy/domain/network/sources/endpoint/response/dto.dart';
 import 'package:earlybuddy/shared/eb_env/eb_env.dart';
@@ -24,37 +26,46 @@ final class NetworkService {
     try {
       response = await _client.request(request);
     } on DioException catch (dioException) {
-      if (dioException.response != null) {
-        final statusCode = dioException.response?.statusCode;
-
-        if (statusCode == null) {
-          return Failure(error: NetworkError.unknown, statusCode: null);
-        } else {
-          final failure = checkStatusCode(statusCode);
-          return failure;
-        }
-      } else {
-        return Failure(error: NetworkError.unknown, statusCode: null);
-      }
+      final statusCode = dioException.response?.statusCode;
+      final failure = checkStatusCode(statusCode);
+      log('checkechcl');
+      return failure;
     }
 
-    if ((response.data == null) && (P == EmptyDTO)) {
+    if (P == EmptyDTO && response.data == null) {
       var empty = EmptyDTO() as P;
-      return Success(empty);
+      return Success(
+        dto: empty,
+        statusCode: response.statusCode,
+      );
+    }
+
+    if (response.data == null) {
+      return Failure(
+        error: NetworkError.noResponseData,
+        statusCode: response.statusCode,
+      );
     }
 
     try {
       P model = _decoder.decode(response.data!, request.converter);
-      return Success(model);
+      return Success(
+        dto: model,
+        statusCode: response.statusCode,
+      );
     } on NetworkError catch (error) {
       return Failure(
         error: error,
-        statusCode: response.statusCode ?? 200,
+        statusCode: response.statusCode,
       );
     }
   }
 
-  Failure checkStatusCode(int statusCode) {
+  Failure checkStatusCode(int? statusCode) {
+    if (statusCode == null) {
+      return Failure(error: NetworkError.unknown);
+    }
+
     NetworkError error;
     switch (statusCode) {
       case >= 400 && < 500:

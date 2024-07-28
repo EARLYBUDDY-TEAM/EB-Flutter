@@ -1,5 +1,6 @@
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/view/findroute_view.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
@@ -23,10 +24,31 @@ part 'helper/icon_plus_name.dart';
 part 'helper/round_rect_form.dart';
 part 'addschedulebutton.dart';
 
-class AddScheduleView extends StatelessWidget {
+final class AddScheduleView extends StatelessWidget {
+  AddScheduleState? state;
+
+  AddScheduleView({super.key, this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AddScheduleBloc(
+        addScheduleState: state,
+        searchPlaceDelegateForPlace:
+            RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
+        searchPlaceDelegateForRoute:
+            RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
+        scheduleRepository: RepositoryProvider.of<ScheduleRepository>(context),
+      ),
+      child: const _AddScheduleContent(),
+    );
+  }
+}
+
+final class _AddScheduleContent extends StatelessWidget {
   final double fontSize = 17;
 
-  const AddScheduleView({super.key});
+  const _AddScheduleContent();
 
   @override
   Widget build(BuildContext context) {

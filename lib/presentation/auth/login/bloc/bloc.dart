@@ -55,13 +55,13 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.inputIsValid) {
       emit(state.copyWith(status: LoginStatus.inProgress));
 
-      final int? statusCode = await _authRepository.logIn(
+      final int statusCode = await _authRepository.logIn(
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
 
       switch (statusCode) {
-        case (null):
+        case (>= 200 && < 300):
           emit(state.copyWith(status: LoginStatus.initial));
         default:
           final emailState =

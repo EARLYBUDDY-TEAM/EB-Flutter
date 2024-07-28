@@ -52,7 +52,7 @@ final class _HomeView extends StatelessWidget {
               _ScheduleAddButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AddScheduleView(),
+                    builder: (context) => AddScheduleView(),
                   ),
                 ),
               ),

@@ -6,3 +6,5 @@ part 'register_request.dart';
 part 'login_request.dart';
 part 'searchplace_request.dart';
 part 'findroute_request.dart';
+
+part 'schedule_request/add_schedule.dart';

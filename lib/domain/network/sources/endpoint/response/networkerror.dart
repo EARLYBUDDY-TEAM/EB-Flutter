@@ -3,5 +3,6 @@ enum NetworkError {
   noConverter,
   clientError,
   serverError,
+  noResponseData,
   unknown,
 }
