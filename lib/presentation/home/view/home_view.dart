@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:earlybuddy/domain/delegate/register.dart';
+import 'package:earlybuddy/domain/delegate/login_delegate.dart';
+import 'package:earlybuddy/domain/delegate/register_delegate.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/home/bloc/bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
@@ -29,6 +30,8 @@ final class HomeView extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
+        registerDelegate: RepositoryProvider.of<RegisterDelegate>(context),
+        loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
       ),
       child: const _EBHomeView(),
     );
@@ -40,27 +43,8 @@ final class _EBHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final registerDelegate = RepositoryProvider.of<RegisterDelegate>(context);
-    if (registerDelegate.isFirstLogin) {
-      Future.delayed(const Duration(seconds: 1), () {
-        EBAlert.showModalPopup(
-          context: context,
-          title: '회원가입',
-          content: '성공',
-          actions: [
-            EBAlert.makeAction(
-              name: '확인',
-              onPressed: () {
-                log('checkckck');
-                // context.read<LoginBloc>().add(const PressAlertOkButton());
-                // Navigator.of(context).pop();
-              },
-              isDefaultAction: true,
-            )
-          ],
-        );
-      });
-    }
+    showReigsterAlert(context);
+    showLoginSnackBar(context);
 
     return Stack(
       children: [
@@ -88,6 +72,43 @@ final class _EBHomeView extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void showReigsterAlert(BuildContext context) {
+    final registerDelegate = RepositoryProvider.of<RegisterDelegate>(context);
+    if (registerDelegate.isFirstLogin) {
+      Future.delayed(const Duration(seconds: 1), () {
+        EBAlert.showModalPopup(
+          context: context,
+          title: '얼리버디 회원이 되신걸 축하합니다.',
+          content: '',
+          actions: [
+            EBAlert.makeAction(
+              name: '확인',
+              onPressed: () {
+                context
+                    .read<HomeBloc>()
+                    .add(const PressRegisterAlertOkButton());
+                Navigator.of(context).pop();
+              },
+              isDefaultAction: true,
+            )
+          ],
+        );
+      });
+    }
+  }
+
+  void showLoginSnackBar(BuildContext context) {
+    final loginDelegate = RepositoryProvider.of<LoginDelegate>(context);
+    if (loginDelegate.isSuccess) {
+      Future.delayed(const Duration(seconds: 1), () {
+        final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
+        ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
+          //ㄷㄹ
+        });
+      });
+    }
   }
 }
 

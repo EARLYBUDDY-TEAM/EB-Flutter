@@ -1,9 +1,10 @@
 import 'dart:developer';
 
-import 'package:earlybuddy/domain/delegate/register.dart';
+import 'package:earlybuddy/domain/delegate/login_delegate.dart';
+import 'package:earlybuddy/domain/delegate/register_delegate.dart';
 import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
 import 'package:earlybuddy/presentation/root/bloc/bloc.dart';
-import 'package:earlybuddy/domain/delegate/searchplace.dart';
+import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
@@ -20,6 +21,7 @@ final class RootView extends StatelessWidget {
   final SearchPlaceDelegateForRoute _searchPlaceDelegateForRoute;
   final ScheduleRepository _scheduleRepository;
   final RegisterDelegate _registerDelegate;
+  final LoginDelegate _loginDelegate;
   // searchplace 좀더 하위뷰에서 주입하기..
 
   RootView({
@@ -29,13 +31,15 @@ final class RootView extends StatelessWidget {
     SearchPlaceDelegateForRoute? searchPlaceDelegateForRoute,
     ScheduleRepository? scheduleRepository,
     RegisterDelegate? registerDelegate,
+    LoginDelegate? loginDelegate,
   })  : _ebAuthRepository = ebAuthRepository ?? EBAuthRepository(),
         _searchPlaceDelegateForPlace =
             searchPlaceDelegateForPlace ?? SearchPlaceDelegateForPlace(),
         _searchPlaceDelegateForRoute =
             searchPlaceDelegateForRoute ?? SearchPlaceDelegateForRoute(),
         _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
-        _registerDelegate = registerDelegate ?? RegisterDelegate();
+        _registerDelegate = registerDelegate ?? RegisterDelegate(),
+        _loginDelegate = loginDelegate ?? LoginDelegate();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +50,7 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
         RepositoryProvider.value(value: _scheduleRepository),
         RepositoryProvider.value(value: _registerDelegate),
+        RepositoryProvider.value(value: _loginDelegate),
       ],
       child: const _RootBlocView(),
     );
@@ -92,13 +97,11 @@ final class _RootNaviState extends State<_RootNaviView> {
             AuthStatus status = state.status;
             switch (status) {
               case Authenticated():
-                log('nav route home view!!');
                 _navigator.pushAndRemoveUntil(
                   HomeView.route(),
                   (route) => false,
                 );
               case UnAuthenticated():
-                log('nav route login view!!');
                 _navigator.pushAndRemoveUntil(
                   LoginView.route(),
                   (route) => false,

@@ -1,5 +1,6 @@
-import 'package:earlybuddy/domain/delegate/register.dart';
+import 'package:earlybuddy/domain/delegate/register_delegate.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,15 +124,18 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
       switch (statusCode) {
         case (>= 200 && < 300):
-          final int statusCode = await _authRepository.logIn(
+          final NetworkResult result = await _authRepository.logIn(
             email: state.emailState.email.value,
             password: state.passwordState.password.value,
           );
-          switch (statusCode) {
-            case (>= 200 && < 300):
+
+          switch (result) {
+            case Success():
               emit(state.copyWith(status: RegisterStatus.initial));
+              Token token = result.model;
               _registerDelegate.setFirstLogin();
-            default:
+              _authRepository.addAuthenticate(token);
+            case Failure():
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }
         case (400):

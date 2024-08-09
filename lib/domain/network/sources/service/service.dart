@@ -35,7 +35,7 @@ final class NetworkService {
     if (P == EmptyDTO && response.data == null) {
       var empty = EmptyDTO() as P;
       return Success(
-        dto: empty,
+        model: empty,
         statusCode: response.statusCode,
       );
     }
@@ -50,7 +50,7 @@ final class NetworkService {
     try {
       P model = _decoder.decode(response.data!, request.converter);
       return Success(
-        dto: model,
+        model: model,
         statusCode: response.statusCode,
       );
     } on NetworkError catch (error) {

@@ -26,7 +26,7 @@ final class FindRouteRepository {
     EBRouteDTO ebRouteDTO;
     switch (result) {
       case (Success()):
-        ebRouteDTO = result.dto;
+        ebRouteDTO = result.model;
       case (Failure()):
         throw 'error';
     }

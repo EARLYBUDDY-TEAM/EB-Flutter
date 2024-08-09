@@ -1,6 +1,6 @@
-import 'dart:developer';
-
+import 'package:earlybuddy/domain/delegate/login_delegate.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,10 +12,13 @@ part 'event.dart';
 
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final EBAuthRepository _authRepository;
+  final LoginDelegate _loginDelegate;
 
   LoginBloc({
     required EBAuthRepository authRepository,
+    required LoginDelegate loginDelegate,
   })  : _authRepository = authRepository,
+        _loginDelegate = loginDelegate,
         super(const LoginState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
@@ -57,16 +60,18 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.inputIsValid) {
       emit(state.copyWith(status: LoginStatus.inProgress));
 
-      final int statusCode = await _authRepository.logIn(
+      final NetworkResult result = await _authRepository.logIn(
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
 
-      switch (statusCode) {
-        case (>= 200 && < 300):
-          log('finish login success');
+      switch (result) {
+        case Success():
           emit(state.copyWith(status: LoginStatus.initial));
-        default:
+          Token token = result.model;
+          _loginDelegate.setLoginSuccess();
+          _authRepository.addAuthenticate(token);
+        case Failure():
           final emailState =
               state.emailState.copyWith(status: EmailFormStatus.onError);
           final passwordState =

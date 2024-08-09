@@ -27,7 +27,7 @@ final class SearchPlaceRepository {
     PlaceListDTO placeListDTO;
     switch (result) {
       case (Success()):
-        placeListDTO = result.dto;
+        placeListDTO = result.model;
       case (Failure()):
         throw 'error';
     }

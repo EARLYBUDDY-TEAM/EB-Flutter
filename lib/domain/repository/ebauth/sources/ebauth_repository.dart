@@ -15,36 +15,28 @@ class EBAuthRepository {
   }
 
   void dispose() => controller.close();
-}
 
-extension AuthLogin on EBAuthRepository {
-  Future<int> logIn({
+  Future<NetworkResult> logIn({
     required String email,
     required String password,
   }) async {
     final request = LoginRequest.init(email: email, password: password);
     final result = await service.request(request);
-    TokenDTO tokenDTO;
     switch (result) {
       case (Success()):
-        log('login request success : ${result.dto.toString()}');
-        tokenDTO = result.dto;
+        TokenDTO tokenDTO = result.model;
+        final Token token = Token.fromDTO(tokenDTO: tokenDTO);
+        return Success(model: token, statusCode: result.statusCode);
       case (Failure()):
-        log('login fail, statusCode : ${result.statusCode}');
-        return result.statusCode;
+        log(result.error.toString());
+        return result;
     }
 
-    final Token token = Token.fromDTO(tokenDTO: tokenDTO);
-    controller.add(Authenticated(token: token));
-    return result.statusCode;
+    // final Token token = Token.fromDTO(tokenDTO: tokenDTO);
+    // controller.add(Authenticated(token: token));
+    // return result.statusCode;
   }
 
-  void logOut() {
-    controller.add(UnAuthenticated());
-  }
-}
-
-extension AuthRegister on EBAuthRepository {
   Future<int> register({
     required String email,
     required String password,
@@ -56,7 +48,30 @@ extension AuthRegister on EBAuthRepository {
       case (Success()):
         return result.statusCode;
       case (Failure()):
+        log(result.error.toString());
         return result.statusCode;
     }
   }
+
+  void addAuthenticate(Token token) {
+    controller.add(Authenticated(token: token));
+  }
+
+  void logOut() {
+    controller.add(UnAuthenticated());
+  }
+}
+
+final class MockEBAuthRepository extends EBAuthRepository {
+  Future<void> mockLogin() async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    await logIn(email: 'abc@abc.com', password: 'abcd12');
+  }
+
+  // @override
+  // Stream<AuthStatus> get authInfo async* {
+  //   await Future<void>.delayed(const Duration(seconds: 1));
+  //   yield Authenticated.mock();
+  //   yield* controller.stream;
+  // }
 }

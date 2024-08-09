@@ -1,5 +1,7 @@
 class RegisterDelegate {
-  var isFirstLogin = false;
+  bool isFirstLogin = false;
+
+  RegisterDelegate({bool? isFirstLogin}) : isFirstLogin = isFirstLogin ?? false;
 
   void setFirstLogin() {
     isFirstLogin = true;

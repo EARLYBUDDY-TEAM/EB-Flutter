@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/delegate/searchplace.dart';
+import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/bloc/bloc.dart';

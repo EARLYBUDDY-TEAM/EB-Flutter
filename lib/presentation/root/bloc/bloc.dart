@@ -34,7 +34,6 @@ extension on RootBloc {
     ChangeAuthStatus event,
     Emitter<RootState> emit,
   ) async {
-    log(event.status.toString());
     emit(state.copyWith(status: event.status));
   }
 }

@@ -22,7 +22,7 @@ void main() {
       NetworkResult result = await service.request(request);
       switch (result) {
         case (Success()):
-          expect(result.dto.id, 1);
+          expect(result.model.id, 1);
           return;
         case (Failure()):
           throw 'fail test';
@@ -37,7 +37,7 @@ void main() {
       NetworkResult result = await service.request(request);
       switch (result) {
         case (Success()):
-          expect(result.dto.runtimeType, EmptyDTO);
+          expect(result.model.runtimeType, EmptyDTO);
           return;
         case (Failure()):
           throw 'fail test';

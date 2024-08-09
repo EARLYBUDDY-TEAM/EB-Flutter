@@ -7,10 +7,17 @@ import 'package:flutter/material.dart';
 part 'mock_rootview.dart';
 
 class RootExample extends StatelessWidget {
-  const RootExample({super.key});
+  final MockEBAuthRepository mockEBAuthRepository;
+
+  const RootExample({
+    super.key,
+    required this.mockEBAuthRepository,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return _MockRootView();
+    return _MockRootView(
+      mockEBAuthRepository: mockEBAuthRepository,
+    );
   }
 }

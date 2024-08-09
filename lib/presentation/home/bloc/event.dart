@@ -14,3 +14,11 @@ final class PressAddScheduleButton extends HomeEvent {
 final class PressMenuButton extends HomeEvent {
   const PressMenuButton();
 }
+
+final class PressRegisterAlertOkButton extends HomeEvent {
+  const PressRegisterAlertOkButton();
+}
+
+final class DismissLoginSnackbar extends HomeEvent {
+  const DismissLoginSnackbar();
+}

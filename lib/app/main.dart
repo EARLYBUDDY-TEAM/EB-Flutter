@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:earlybuddy/domain/provider/location/location_provider.dart';
+import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/login/example/login_example.dart';
 import 'package:earlybuddy/presentation/auth/register/example/register_example.dart';
 import 'package:earlybuddy/presentation/root/example/root_example.dart';
@@ -22,7 +23,10 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 void main() async {
   await prepareApp();
 
-  runApp(RootView());
+  // final mockEBAuthRepository = MockEBAuthRepository();
+  // final rootExample = RootExample(mockEBAuthRepository: mockEBAuthRepository);
+  // runApp(rootExample);
+  // mockEBAuthRepository.mockLogin();
 
   // runApp(const KakaoMapExample());
   // await getlocationdda
@@ -31,7 +35,7 @@ void main() async {
   // runApp(const LoginExample());
   // runApp(const RegisterExample());
 
-  // runApp(const HomeExample());
+  runApp(const HomeExample());
 
   // runApp(const EBUIkitExample());
   // runApp(const SearchPlaceExample());

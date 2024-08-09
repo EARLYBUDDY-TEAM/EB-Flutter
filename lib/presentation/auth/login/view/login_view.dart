@@ -1,3 +1,4 @@
+import 'package:earlybuddy/domain/delegate/login_delegate.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/login/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/auth/register/register.dart';
@@ -23,6 +24,7 @@ class LoginView extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
+        loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
       ),
       child: _LoginContent(),
     );

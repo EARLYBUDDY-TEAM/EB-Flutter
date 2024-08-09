@@ -8,7 +8,7 @@ class ENV {
 
   static ENV shared = ENV();
 
-  load() async {
+  Future<void> load() async {
     await dotenv.load(fileName: 'assets/env/.env');
     kakaoAppKey = dotenv.env['kakao_app_key'] ?? '';
     kakaoBaseUrl = dotenv.env['kakao_baseUrl'] ?? '';

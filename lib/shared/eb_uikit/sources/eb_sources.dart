@@ -16,3 +16,4 @@ part 'scrollwithheader.dart';
 part 'expandedsection.dart';
 part 'alert.dart';
 part 'theme.dart';
+part 'snackbar.dart';
