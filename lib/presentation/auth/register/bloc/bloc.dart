@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:earlybuddy/domain/delegate/register.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -11,10 +10,15 @@ part 'state/email_state.dart';
 part 'state/password_state.dart';
 part 'state/passwordconfirm_state.dart';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+  final EBAuthRepository _authRepository;
+  final RegisterDelegate _registerDelegate;
+
   RegisterBloc({
-    required EBAuthRepository authRepository,
-  })  : _authRepository = authRepository,
+    EBAuthRepository? authRepository,
+    RegisterDelegate? registerDelegate,
+  })  : _authRepository = authRepository ?? EBAuthRepository(),
+        _registerDelegate = registerDelegate ?? RegisterDelegate(),
         super(const RegisterState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
@@ -22,8 +26,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<PressRegisterButton>(_onPressRegisterButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
   }
-
-  final EBAuthRepository _authRepository;
 
   void _onChangeEmail(
     ChangeEmail event,
@@ -121,7 +123,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
       switch (statusCode) {
         case (>= 200 && < 300):
-          emit(state.copyWith(status: RegisterStatus.initial));
+          final int statusCode = await _authRepository.logIn(
+            email: state.emailState.email.value,
+            password: state.passwordState.password.value,
+          );
+          switch (statusCode) {
+            case (>= 200 && < 300):
+              emit(state.copyWith(status: RegisterStatus.initial));
+              _registerDelegate.setFirstLogin();
+            default:
+              emit(state.copyWith(status: RegisterStatus.onErrorLogin));
+          }
         case (400):
           emit(state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));
         case (401):

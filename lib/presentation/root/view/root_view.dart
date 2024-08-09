@@ -1,5 +1,8 @@
+import 'dart:developer';
+
+import 'package:earlybuddy/domain/delegate/register.dart';
 import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
-import 'package:earlybuddy/presentation/auth/root/bloc/bloc.dart';
+import 'package:earlybuddy/presentation/root/bloc/bloc.dart';
 import 'package:earlybuddy/domain/delegate/searchplace.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
@@ -16,6 +19,7 @@ final class RootView extends StatelessWidget {
   final SearchPlaceDelegateForPlace _searchPlaceDelegateForPlace;
   final SearchPlaceDelegateForRoute _searchPlaceDelegateForRoute;
   final ScheduleRepository _scheduleRepository;
+  final RegisterDelegate _registerDelegate;
   // searchplace 좀더 하위뷰에서 주입하기..
 
   RootView({
@@ -24,12 +28,14 @@ final class RootView extends StatelessWidget {
     SearchPlaceDelegateForPlace? searchPlaceDelegateForPlace,
     SearchPlaceDelegateForRoute? searchPlaceDelegateForRoute,
     ScheduleRepository? scheduleRepository,
+    RegisterDelegate? registerDelegate,
   })  : _ebAuthRepository = ebAuthRepository ?? EBAuthRepository(),
         _searchPlaceDelegateForPlace =
             searchPlaceDelegateForPlace ?? SearchPlaceDelegateForPlace(),
         _searchPlaceDelegateForRoute =
             searchPlaceDelegateForRoute ?? SearchPlaceDelegateForRoute(),
-        _scheduleRepository = scheduleRepository ?? ScheduleRepository();
+        _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
+        _registerDelegate = registerDelegate ?? RegisterDelegate();
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +45,34 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
         RepositoryProvider.value(value: _scheduleRepository),
+        RepositoryProvider.value(value: _registerDelegate),
       ],
-      child: BlocProvider(
-        create: (context) => RootBloc(authRepository: _ebAuthRepository),
-        child: RootNaviView(),
-      ),
+      child: const _RootBlocView(),
     );
   }
 }
 
-final class RootNaviView extends StatelessWidget {
-  final _navigatorKey = GlobalKey<NavigatorState>();
+final class _RootBlocView extends StatelessWidget {
+  const _RootBlocView({super.key});
 
-  RootNaviView({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => RootBloc(
+        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
+      ),
+      child: _RootNaviView(),
+    );
+  }
+}
+
+final class _RootNaviView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _RootNaviState();
+}
+
+final class _RootNaviState extends State<_RootNaviView> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
@@ -68,13 +89,16 @@ final class RootNaviView extends StatelessWidget {
       builder: (context, child) {
         return BlocListener<RootBloc, RootState>(
           listener: (context, state) {
-            switch (state.status) {
+            AuthStatus status = state.status;
+            switch (status) {
               case Authenticated():
-                _navigator.pushAndRemoveUntil<void>(
-                  EBHomeView.route(),
+                log('nav route home view!!');
+                _navigator.pushAndRemoveUntil(
+                  HomeView.route(),
                   (route) => false,
                 );
               case UnAuthenticated():
+                log('nav route login view!!');
                 _navigator.pushAndRemoveUntil(
                   LoginView.route(),
                   (route) => false,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
 import 'package:earlybuddy/domain/network/sources/service/service.dart';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
@@ -26,8 +27,10 @@ extension AuthLogin on EBAuthRepository {
     TokenDTO tokenDTO;
     switch (result) {
       case (Success()):
+        log('login request success : ${result.dto.toString()}');
         tokenDTO = result.dto;
       case (Failure()):
+        log('login fail, statusCode : ${result.statusCode}');
         return result.statusCode;
     }
 

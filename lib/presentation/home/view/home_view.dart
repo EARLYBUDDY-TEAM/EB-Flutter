@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:earlybuddy/domain/delegate/register.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/home/bloc/bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
@@ -12,11 +15,13 @@ part 'schedule_card.dart';
 part 'transport_card.dart';
 part 'schedule_addbutton.dart';
 
-final class EBHomeView extends StatelessWidget {
-  const EBHomeView({super.key});
+final class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const EBHomeView());
+    return MaterialPageRoute<void>(
+      builder: (_) => const HomeView(),
+    );
   }
 
   @override
@@ -25,16 +30,38 @@ final class EBHomeView extends StatelessWidget {
       create: (context) => HomeBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
       ),
-      child: const _HomeView(),
+      child: const _EBHomeView(),
     );
   }
 }
 
-final class _HomeView extends StatelessWidget {
-  const _HomeView();
+final class _EBHomeView extends StatelessWidget {
+  const _EBHomeView();
 
   @override
   Widget build(BuildContext context) {
+    final registerDelegate = RepositoryProvider.of<RegisterDelegate>(context);
+    if (registerDelegate.isFirstLogin) {
+      Future.delayed(const Duration(seconds: 1), () {
+        EBAlert.showModalPopup(
+          context: context,
+          title: '회원가입',
+          content: '성공',
+          actions: [
+            EBAlert.makeAction(
+              name: '확인',
+              onPressed: () {
+                log('checkckck');
+                // context.read<LoginBloc>().add(const PressAlertOkButton());
+                // Navigator.of(context).pop();
+              },
+              isDefaultAction: true,
+            )
+          ],
+        );
+      });
+    }
+
     return Stack(
       children: [
         Container(color: Colors.white),

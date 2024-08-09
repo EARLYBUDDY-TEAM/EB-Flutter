@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -62,6 +64,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       switch (statusCode) {
         case (>= 200 && < 300):
+          log('finish login success');
           emit(state.copyWith(status: LoginStatus.initial));
         default:
           final emailState =

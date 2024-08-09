@@ -2,9 +2,33 @@ import 'dart:developer';
 import 'package:earlybuddy/domain/domain_model/domain_model.dart';
 import 'package:geolocator/geolocator.dart';
 
+enum LocationStatus {
+  offDeivceGPS,
+  deiniedPermission,
+  active,
+}
+
 // 37.487548, 127.10202381181418, 수서역
 class LocationProvider {
   static final LocationProvider shared = LocationProvider();
+
+  Future<LocationStatus> checkPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    switch (permission) {
+      case (LocationPermission.whileInUse || LocationPermission.always):
+        return LocationStatus.active;
+      default:
+        return LocationStatus.deiniedPermission;
+    }
+  }
+
+  Future<bool> checkOnDeviceGPS() async {
+    bool serviceEnable = await Geolocator.isLocationServiceEnabled();
+    return serviceEnable;
+  }
 
   Future<Coordi> getCurrentLocation() async {
     bool serviceEnable = await Geolocator.isLocationServiceEnabled();

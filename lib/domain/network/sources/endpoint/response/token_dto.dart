@@ -11,8 +11,8 @@ final class TokenDTO {
 
   static TokenDTO fromJson(Map<String, dynamic> j) {
     return TokenDTO(
-      accessToken: j['access_token'],
-      tokenType: j['token_type'],
+      accessToken: j['accessToken'],
+      tokenType: j['tokenType'],
       email: j['email'],
     );
   }

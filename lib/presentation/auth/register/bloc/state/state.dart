@@ -46,5 +46,6 @@ enum RegisterStatus {
 
   onErrorNotCorrectUser,
   onErrorExsitUser,
+  onErrorLogin,
   onErrorUnknown,
 }

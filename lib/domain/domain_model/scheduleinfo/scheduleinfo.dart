@@ -46,25 +46,6 @@ final class ScheduleInfo extends Equatable {
         endPlace,
       ];
 
-//       class Coordi(BaseModel):
-//     x: str
-//     y: str
-
-// class Place(BaseModel):
-//     name: str
-//     address: str
-//     category: str
-//     distance: str
-//     coordi: Coordi
-
-// class Schedule(BaseModel):
-//     title: str
-//     memo: Optional[str] = None
-//     time: datetime
-//     isNotify: bool
-//     startPlace: Optional[Place] = None
-//     endPlace: Optional[Place] = None
-
   Map<String, dynamic> toMap() {
     return {
       "title": title,
