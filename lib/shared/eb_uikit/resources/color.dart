@@ -1,4 +1,4 @@
-part of 'eb_resources.dart';
+part of '../eb_resources.dart';
 
 final class EBColors {
   static Color blue1 = const Color(0xff4DA6FF);

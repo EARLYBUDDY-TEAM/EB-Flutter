@@ -1,4 +1,4 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 final class EBPasswordTextField extends StatefulWidget {
   final String? labelText;

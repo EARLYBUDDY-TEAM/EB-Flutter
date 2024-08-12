@@ -1,4 +1,4 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 final class EBSnackBar extends SnackBar {
   EBSnackBar({super.key, required String text})

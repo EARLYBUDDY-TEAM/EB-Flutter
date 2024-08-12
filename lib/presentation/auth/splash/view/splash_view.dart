@@ -1,4 +1,4 @@
-import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_resources.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatelessWidget {
@@ -13,7 +13,7 @@ class SplashView extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(image: EBImages.splash, fit: BoxFit.fill),
           ),
         ),

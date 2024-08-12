@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
 import 'package:earlybuddy/presentation/schedule/detailroute/view/detailroute_view.dart';
 import 'package:flutter/material.dart';
 

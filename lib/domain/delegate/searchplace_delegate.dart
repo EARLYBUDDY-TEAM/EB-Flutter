@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
 
 class SearchPlaceDelegate {
-  final _selectPlaceController = StreamController<Place>();
+  final _selectPlaceController = StreamController<Place>.broadcast();
 
   SearchPlaceDelegate();
 

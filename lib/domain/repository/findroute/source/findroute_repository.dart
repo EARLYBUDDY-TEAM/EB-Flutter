@@ -1,6 +1,6 @@
-import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/sources/service/service.dart';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
+import 'package:earlybuddy/core/network/sources/service/service.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
 
 final class FindRouteRepository {
   final NetworkService service;

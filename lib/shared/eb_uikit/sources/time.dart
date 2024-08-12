@@ -1,4 +1,4 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 final class EBTime {
   static final EBTime shared = EBTime();

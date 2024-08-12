@@ -1,4 +1,4 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 class WaveBackground extends StatelessWidget {
   const WaveBackground({super.key});

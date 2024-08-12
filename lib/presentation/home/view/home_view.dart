@@ -4,11 +4,11 @@ import 'package:earlybuddy/domain/delegate/login_delegate.dart';
 import 'package:earlybuddy/domain/delegate/register_delegate.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/home/bloc/bloc.dart';
-import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:earlybuddy/shared/eb_uikit/resources/eb_resources.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_resources.dart';
 import 'package:earlybuddy/presentation/schedule/addschedule/addschedule.dart';
 
 part 'calendar.dart';
@@ -63,7 +63,7 @@ final class _EBHomeView extends StatelessWidget {
               _ScheduleAddButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AddScheduleView(),
+                    builder: (_) => AddScheduleView(),
                   ),
                 ),
               ),

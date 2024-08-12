@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:earlybuddy/domain/provider/location/location_provider.dart';
+import 'package:earlybuddy/core/provider/location/location_provider.dart';
 import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/auth/login/example/login_example.dart';
 import 'package:earlybuddy/presentation/auth/register/example/register_example.dart';
@@ -11,7 +11,7 @@ import 'package:earlybuddy/presentation/schedule/addschedule/example/addschedule
 import 'package:earlybuddy/presentation/schedule/detailroute/example/detailroute_example.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/example/searchplace_example.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/example/findroute_example.dart';
-import 'package:earlybuddy/shared/eb_env/eb_env.dart';
+import 'package:earlybuddy/shared/env/env.dart';
 import 'package:earlybuddy/shared/eb_uikit/example/eb_uikit_example.dart';
 
 import 'package:flutter/material.dart';
@@ -23,10 +23,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 void main() async {
   await prepareApp();
 
-  // final mockEBAuthRepository = MockEBAuthRepository();
-  // final rootExample = RootExample(mockEBAuthRepository: mockEBAuthRepository);
-  // runApp(rootExample);
-  // mockEBAuthRepository.mockLogin();
+  await runAppRootExample();
 
   // runApp(const KakaoMapExample());
   // await getlocationdda
@@ -35,7 +32,7 @@ void main() async {
   // runApp(const LoginExample());
   // runApp(const RegisterExample());
 
-  runApp(const HomeExample());
+  // runApp(const HomeExample());
 
   // runApp(const EBUIkitExample());
   // runApp(const SearchPlaceExample());
@@ -61,4 +58,10 @@ void initializeKakaoMap({
     appKey: appKey,
     baseUrl: baseUrl,
   );
+}
+
+Future<void> runAppRootExample() async {
+  final rootExample = RootExample();
+  runApp(rootExample);
+  await rootExample.init();
 }

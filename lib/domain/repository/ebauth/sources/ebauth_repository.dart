@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:earlybuddy/domain/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/domain/network/sources/service/service.dart';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
+import 'package:earlybuddy/core/network/sources/service/service.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
 
 class EBAuthRepository {
   final controller = StreamController<AuthStatus>();
@@ -31,10 +31,6 @@ class EBAuthRepository {
         log(result.error.toString());
         return result;
     }
-
-    // final Token token = Token.fromDTO(tokenDTO: tokenDTO);
-    // controller.add(Authenticated(token: token));
-    // return result.statusCode;
   }
 
   Future<int> register({
@@ -54,24 +50,11 @@ class EBAuthRepository {
   }
 
   void addAuthenticate(Token token) {
+    // save token
     controller.add(Authenticated(token: token));
   }
 
   void logOut() {
     controller.add(UnAuthenticated());
   }
-}
-
-final class MockEBAuthRepository extends EBAuthRepository {
-  Future<void> mockLogin() async {
-    await Future<void>.delayed(const Duration(seconds: 3));
-    await logIn(email: 'abc@abc.com', password: 'abcd12');
-  }
-
-  // @override
-  // Stream<AuthStatus> get authInfo async* {
-  //   await Future<void>.delayed(const Duration(seconds: 1));
-  //   yield Authenticated.mock();
-  //   yield* controller.stream;
-  // }
 }

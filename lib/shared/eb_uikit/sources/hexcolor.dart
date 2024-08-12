@@ -1,4 +1,4 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {

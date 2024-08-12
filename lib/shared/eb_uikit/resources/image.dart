@@ -1,4 +1,4 @@
-part of 'eb_resources.dart';
+part of '../eb_resources.dart';
 
 final class EBImages {
   static const _EBAssetImage splash = _EBAssetImage('splash.png');
