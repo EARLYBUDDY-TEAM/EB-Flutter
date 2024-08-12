@@ -1,7 +1,7 @@
 import 'package:earlybuddy/domain/delegate/login_delegate.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,7 +60,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.inputIsValid) {
       emit(state.copyWith(status: LoginStatus.inProgress));
 
-      final NetworkResult result = await _authRepository.logIn(
+      final Result result = await _authRepository.logIn(
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
@@ -68,7 +68,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
       switch (result) {
         case Success():
           emit(state.copyWith(status: LoginStatus.initial));
-          Token token = result.model;
+          Token token = result.success.model;
           _loginDelegate.setLoginSuccess();
           _authRepository.addAuthenticate(token);
         case Failure():

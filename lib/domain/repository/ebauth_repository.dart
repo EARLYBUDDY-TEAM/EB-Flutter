@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'dart:developer';
-import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
-import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
+part of 'repository.dart';
 
 class EBAuthRepository {
   final controller = StreamController<AuthStatus>();
@@ -16,7 +12,7 @@ class EBAuthRepository {
 
   void dispose() => controller.close();
 
-  Future<NetworkResult> logIn({
+  Future<Result> logIn({
     required String email,
     required String password,
   }) async {
@@ -24,16 +20,21 @@ class EBAuthRepository {
     final result = await service.request(request);
     switch (result) {
       case (Success()):
-        TokenDTO tokenDTO = result.model;
+        TokenDTO tokenDTO = result.success.model;
         final Token token = Token.fromDTO(tokenDTO: tokenDTO);
-        return Success(model: token, statusCode: result.statusCode);
+        return Success(
+          success: SuccessResponse(
+            model: token,
+            statusCode: result.success.statusCode,
+          ),
+        );
       case (Failure()):
-        log(result.error.toString());
+        log(result.failure.error.toString());
         return result;
     }
   }
 
-  Future<int> register({
+  Future<Result> register({
     required String email,
     required String password,
   }) async {
@@ -42,16 +43,20 @@ class EBAuthRepository {
     final result = await service.request(request);
     switch (result) {
       case (Success()):
-        return result.statusCode;
+        return result;
       case (Failure()):
-        log(result.error.toString());
-        return result.statusCode;
+        log(result.failure.error.toString());
+        return result;
     }
   }
 
+  void saveToken(Token token) {
+    //
+  }
+
   void addAuthenticate(Token token) {
-    // save token
-    controller.add(Authenticated(token: token));
+    saveToken(token);
+    controller.add(Authenticated());
   }
 
   void logOut() {

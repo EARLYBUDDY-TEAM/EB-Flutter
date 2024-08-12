@@ -1,7 +1,7 @@
 import 'package:earlybuddy/domain/delegate/register_delegate.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -117,33 +117,36 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     if (state.inputIsValid) {
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
-      final int statusCode = await _authRepository.register(
+      final Result registerResult = await _authRepository.register(
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
 
-      switch (statusCode) {
-        case (>= 200 && < 300):
-          final NetworkResult result = await _authRepository.logIn(
+      switch (registerResult) {
+        case Success():
+          final Result loginResult = await _authRepository.logIn(
             email: state.emailState.email.value,
             password: state.passwordState.password.value,
           );
-
-          switch (result) {
+          switch (loginResult) {
             case Success():
               emit(state.copyWith(status: RegisterStatus.initial));
-              Token token = result.model;
+              Token token = loginResult.success.model;
               _registerDelegate.setFirstLogin();
               _authRepository.addAuthenticate(token);
             case Failure():
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }
-        case (400):
-          emit(state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));
-        case (401):
-          emit(state.copyWith(status: RegisterStatus.onErrorExsitUser));
-        default:
-          emit(state.copyWith(status: RegisterStatus.onErrorUnknown));
+        case Failure():
+          switch (registerResult.failure.statusCode) {
+            case (400):
+              emit(
+                  state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));
+            case (401):
+              emit(state.copyWith(status: RegisterStatus.onErrorExsitUser));
+            default:
+              emit(state.copyWith(status: RegisterStatus.onErrorUnknown));
+          }
       }
     } else {
       emit(state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));

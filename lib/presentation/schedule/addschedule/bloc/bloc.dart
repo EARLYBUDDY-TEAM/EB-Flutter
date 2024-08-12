@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -98,14 +99,14 @@ extension on AddScheduleBloc {
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) async {
-    final int statusCode =
+    final Result result =
         await scheduleRepository.addSchedule(scheduleInfo: state.info);
 
-    switch (statusCode) {
-      case (>= 200 && < 300):
-        log('success!!!, statusCode : $statusCode');
-      default:
-        log('fail..., statusCode : $statusCode');
+    switch (result) {
+      case Success():
+        log('success!!!, statusCode : ${result.success.statusCode}');
+      case Failure():
+        log('fail..., statusCode : ${result.failure.statusCode}');
     }
   }
 }

@@ -1,6 +1,4 @@
-import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
+part of 'repository.dart';
 
 final class ScheduleRepository {
   final NetworkService service;
@@ -9,7 +7,7 @@ final class ScheduleRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService.shared;
 
-  Future<int> addSchedule({
+  Future<Result> addSchedule({
     required ScheduleInfo scheduleInfo,
   }) async {
     final request = AddScheduleRequest.init(scheduleInfo.toMap());
@@ -17,9 +15,10 @@ final class ScheduleRepository {
 
     switch (result) {
       case (Success()):
-        return result.statusCode;
+        return result;
       case (Failure()):
-        return result.statusCode;
+        log(result.failure.error.toString());
+        return result;
     }
   }
 }

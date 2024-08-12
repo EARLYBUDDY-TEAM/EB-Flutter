@@ -15,14 +15,14 @@ final class _MockAutoLoginRootView extends StatelessWidget {
   }
 
   Future<void> setAutoLogin() async {
-    final NetworkResult result = await _authRepository.logIn(
+    final Result result = await _authRepository.logIn(
       email: 'abc@abc.com',
       password: 'abcd12',
     );
 
     switch (result) {
       case Success():
-        final Token token = result.model;
+        final Token token = result.success.model;
         _loginDelegate.setLoginSuccess();
         _authRepository.addAuthenticate(token);
       case Failure():

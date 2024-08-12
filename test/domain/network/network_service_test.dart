@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
+import 'package:earlybuddy/core/network/endpoint/endpoint.dart';
+import 'package:earlybuddy/core/network/service/service.dart';
 import 'package:earlybuddy/shared/eb_error/eb_error.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:test/test.dart';
 import 'endpoint/request/mock_api.dart';
 import 'endpoint/response/mock_dto.dart';
@@ -20,10 +21,10 @@ void main() {
       );
       var request = MockAPI.mockDTORequest();
 
-      NetworkResult result = await service.request(request);
+      Result result = await service.request(request);
       switch (result) {
         case (Success()):
-          expect(result.model.id, 1);
+          expect(result.success.model.id, 1);
           return;
         case (Failure()):
           throw 'fail test';
@@ -35,10 +36,10 @@ void main() {
       var service = NetworkService(client: client);
       var request = MockAPI.emptyDTORequest();
 
-      NetworkResult result = await service.request(request);
+      Result result = await service.request(request);
       switch (result) {
         case (Success()):
-          expect(result.model.runtimeType, EmptyDTO);
+          expect(result.success.model.runtimeType, EmptyDTO);
           return;
         case (Failure()):
           throw 'fail test';
@@ -58,12 +59,12 @@ void main() {
       );
       var request = MockAPI.mockDTORequestNoConverter();
 
-      NetworkResult result = await service.request(request);
+      Result result = await service.request(request);
       switch (result) {
         case (Success()):
           throw 'fail test';
         case (Failure()):
-          expect(result.error, NetworkError.noConverter);
+          expect(result.failure.error, NetworkError.noConverter);
           return;
       }
     });
@@ -78,12 +79,12 @@ void main() {
       );
       var request = MockAPI.mockDTORequest();
 
-      NetworkResult result = await service.request(request);
+      Result result = await service.request(request);
       switch (result) {
         case (Success()):
           throw 'fail test';
         case (Failure()):
-          expect(result.error, NetworkError.jsonDecode);
+          expect(result.failure.error, NetworkError.jsonDecode);
       }
     });
 
@@ -96,13 +97,13 @@ void main() {
       var service = NetworkService(client: client);
       var request = MockAPI.mockDTORequest();
 
-      NetworkResult result = await service.request(request);
+      Result result = await service.request(request);
       switch (result) {
         case (Success()):
           throw 'fail test';
         case (Failure()):
-          expect(result.error, NetworkError.clientError);
-          expect(result.statusCode, statusCode);
+          expect(result.failure.error, NetworkError.clientError);
+          expect(result.failure.statusCode, statusCode);
       }
     });
 
@@ -115,13 +116,13 @@ void main() {
       var service = NetworkService(client: client);
       var request = MockAPI.mockDTORequest();
 
-      NetworkResult result = await service.request(request);
+      Result result = await service.request(request);
       switch (result) {
         case (Success()):
           throw 'fail test';
         case (Failure()):
-          expect(result.error, NetworkError.serverError);
-          expect(result.statusCode, statusCode);
+          expect(result.failure.error, NetworkError.serverError);
+          expect(result.failure.statusCode, statusCode);
       }
     });
   });

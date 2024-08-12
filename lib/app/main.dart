@@ -1,7 +1,6 @@
 import 'dart:developer';
 
-import 'package:earlybuddy/core/provider/location/location_provider.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/core/location/location_provider.dart';
 import 'package:earlybuddy/presentation/auth/login/example/login_example.dart';
 import 'package:earlybuddy/presentation/auth/register/example/register_example.dart';
 import 'package:earlybuddy/presentation/root/example/root_example.dart';

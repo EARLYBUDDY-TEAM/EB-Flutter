@@ -1,7 +1,4 @@
-import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
-import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/core/provider/location/location_provider.dart';
+part of 'repository.dart';
 
 final class SearchPlaceRepository {
   final NetworkService service;
@@ -13,7 +10,7 @@ final class SearchPlaceRepository {
   })  : service = networkService ?? NetworkService.shared,
         locationProvider = locationProvider ?? LocationProvider.shared;
 
-  Future<List<Place>> getPlaces({
+  Future<Result> getPlaces({
     required String searchText,
   }) async {
     final Coordi coordi = await locationProvider.getCurrentLocation();
@@ -24,16 +21,20 @@ final class SearchPlaceRepository {
     );
     final result = await service.request(request);
 
-    PlaceListDTO placeListDTO;
     switch (result) {
       case (Success()):
-        placeListDTO = result.model;
+        final PlaceListDTO dto = result.success.model;
+        final List<Place> placeList =
+            dto.places.map((p) => Place.fromDTO(placeDTO: p)).toList();
+        return Success(
+          success: SuccessResponse(
+            model: placeList,
+            statusCode: result.success.statusCode,
+          ),
+        );
       case (Failure()):
-        throw 'error';
+        log(result.failure.error.toString());
+        return result;
     }
-
-    final List<Place> places =
-        placeListDTO.places.map((p) => Place.fromDTO(placeDTO: p)).toList();
-    return places;
   }
 }

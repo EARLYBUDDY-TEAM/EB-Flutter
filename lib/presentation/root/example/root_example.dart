@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:earlybuddy/domain/delegate/login_delegate.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/presentation/root/view/root_view.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:flutter/material.dart';
 
 part 'mock_rootview.dart';

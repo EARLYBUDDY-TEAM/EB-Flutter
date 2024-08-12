@@ -17,3 +17,4 @@ part 'sources/expandedsection.dart';
 part 'sources/alert.dart';
 part 'sources/theme.dart';
 part 'sources/snackbar.dart';
+part 'sources/result.dart';

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
+import 'package:earlybuddy/core/network/service/service.dart';
 
 final class MockSuccessNetworkClient implements NetworkClientAB {
   dynamic responseData;

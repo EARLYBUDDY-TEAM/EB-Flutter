@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/domain/delegate/login_delegate.dart';
 import 'package:earlybuddy/domain/delegate/register_delegate.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/presentation/home/bloc/bloc.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:flutter/material.dart';

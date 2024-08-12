@@ -1,6 +1,4 @@
-import 'package:earlybuddy/core/network/sources/endpoint/endpoint.dart';
-import 'package:earlybuddy/core/network/sources/service/service.dart';
-import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
+part of 'repository.dart';
 
 final class FindRouteRepository {
   final NetworkService service;
@@ -9,7 +7,7 @@ final class FindRouteRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService.shared;
 
-  Future<EBRoute> getEBRoute({
+  Future<Result> getEBRoute({
     required Place start,
     required Place end,
   }) async {
@@ -23,15 +21,20 @@ final class FindRouteRepository {
     );
 
     final result = await service.request(request);
-    EBRouteDTO ebRouteDTO;
+
     switch (result) {
       case (Success()):
-        ebRouteDTO = result.model;
+        final EBRouteDTO dto = result.success.model;
+        final EBRoute ebRoute = EBRoute.fromDTO(ebRouteDTO: dto);
+        return Success(
+          success: SuccessResponse(
+            model: ebRoute,
+            statusCode: result.success.statusCode,
+          ),
+        );
       case (Failure()):
-        throw 'error';
+        log(result.failure.error.toString());
+        return result;
     }
-
-    final ebRoute = EBRoute.fromDTO(ebRouteDTO: ebRouteDTO);
-    return ebRoute;
   }
 }

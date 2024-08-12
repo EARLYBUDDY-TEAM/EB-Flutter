@@ -1,4 +1,4 @@
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/presentation/auth/register/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

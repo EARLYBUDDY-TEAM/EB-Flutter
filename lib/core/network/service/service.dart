@@ -1,13 +1,13 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:earlybuddy/shared/eb_error/eb_error.dart';
 import 'package:earlybuddy/shared/eb_model/dto/dto.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:earlybuddy/shared/env/env.dart';
+
 part 'client.dart';
 part 'request.dart';
 part 'decoder.dart';
-part 'result.dart';
+part 'response.dart';
 
 final class NetworkService {
   final NetworkClientAB _client;
@@ -21,7 +21,7 @@ final class NetworkService {
   })  : _client = client ?? NetworkClient(),
         _decoder = decoder ?? JsonDecoder();
 
-  Future<NetworkResult> request<P>(NetworkRequestAB<P> request) async {
+  Future<Result> request<P>(NetworkRequestAB<P> request) async {
     Response response;
 
     try {
@@ -29,57 +29,64 @@ final class NetworkService {
     } on DioException catch (dioException) {
       final statusCode = dioException.response?.statusCode;
       final failure = checkStatusCode(statusCode);
-      log('checkechcl');
       return failure;
     }
 
     if (P == EmptyDTO && response.data == null) {
       var empty = EmptyDTO() as P;
       return Success(
-        model: empty,
-        statusCode: response.statusCode,
+        success: SuccessResponse(
+          statusCode: response.statusCode ?? 200,
+          model: empty,
+        ),
       );
     }
 
     if (response.data == null) {
       return Failure(
-        error: NetworkError.noResponseData,
-        statusCode: response.statusCode,
+        failure: FailureResponse(
+          error: NetworkError.noResponseData,
+          statusCode: response.statusCode ?? -1,
+        ),
       );
     }
 
     try {
       P model = _decoder.decode(response.data!, request.converter);
       return Success(
-        model: model,
-        statusCode: response.statusCode,
+        success: SuccessResponse(
+          model: model,
+          statusCode: response.statusCode ?? 200,
+        ),
       );
     } on NetworkError catch (error) {
       return Failure(
-        error: error,
-        statusCode: response.statusCode,
+        failure: FailureResponse(
+          error: error,
+          statusCode: response.statusCode ?? -1,
+        ),
       );
     }
   }
 
   Failure checkStatusCode(int? statusCode) {
-    if (statusCode == null) {
-      return Failure(error: NetworkError.unknown);
+    var error = NetworkError.unknown;
+    if (statusCode != null) {
+      switch (statusCode) {
+        case >= 400 && < 500:
+          error = NetworkError.clientError;
+        case >= 500 && < 600:
+          error = NetworkError.serverError;
+        default:
+          error = NetworkError.unknown;
+      }
     }
 
-    NetworkError error;
-    switch (statusCode) {
-      case >= 400 && < 500:
-        error = NetworkError.clientError;
-      case >= 500 && < 600:
-        error = NetworkError.serverError;
-      default:
-        error = NetworkError.unknown;
-    }
-
-    return Failure(
+    final response = FailureResponse(
+      statusCode: statusCode ?? -1,
       error: error,
-      statusCode: statusCode,
     );
+
+    return Failure(failure: response);
   }
 }

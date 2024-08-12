@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:earlybuddy/domain/delegate/login_delegate.dart';
 import 'package:earlybuddy/domain/delegate/register_delegate.dart';
-import 'package:earlybuddy/domain/repository/schedule/schedule_repository.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/presentation/root/bloc/bloc.dart';
 import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
 import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,7 +1,8 @@
 import 'dart:developer';
 
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
-import 'package:earlybuddy/domain/repository/findroute/findroute_repository.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,51 +42,55 @@ extension on FindRouteBloc {
     FetchFindRouteData event,
     Emitter<FindRouteState> emit,
   ) async {
-    try {
-      // final ebRoute = await _findRouteRepository.getEBRoute(
-      //   start: event.start,
-      //   end: event.end,
-      // );
-      final ebRoute = EBRoute.mock();
-      final transportLineOfRoute =
-          _getTransportLineOfRoute(paths: ebRoute.ebPaths);
-      final findRouteViewState =
-          FindRouteViewState(transportLineOfRoute: transportLineOfRoute);
-      emit(
-        state.copyWith(
-          ebRoute: () => ebRoute,
-          viewState: findRouteViewState,
-          status: FindRouteStatus.selectRoute,
-        ),
-      );
-    } catch (e) {
-      log(e.toString());
-      emit(
-        state.copyWith(
-          ebRoute: () => null,
-          status: FindRouteStatus.nodata,
-        ),
-      );
+    final Result result = await _findRouteRepository.getEBRoute(
+      start: event.start,
+      end: event.end,
+    );
+
+    // final ebRoute = EBRoute.mock();
+
+    switch (result) {
+      case Success():
+        final ebRoute = result.success.model;
+        final transportLineOfRoute =
+            getTransportLineOfRoute(paths: ebRoute.ebPaths);
+        final findRouteViewState =
+            FindRouteViewState(transportLineOfRoute: transportLineOfRoute);
+        emit(
+          state.copyWith(
+            ebRoute: () => ebRoute,
+            viewState: findRouteViewState,
+            status: FindRouteStatus.selectRoute,
+          ),
+        );
+      case Failure():
+        log(result.failure.statusCode.toString());
+        emit(
+          state.copyWith(
+            ebRoute: () => null,
+            status: FindRouteStatus.nodata,
+          ),
+        );
     }
   }
 
-  TransportLineOfRoute _getTransportLineOfRoute({required List<EBPath> paths}) {
+  TransportLineOfRoute getTransportLineOfRoute({required List<EBPath> paths}) {
     final lineOfRoute = paths.map((path) {
-      return _getTransportLineOfPath(ebSubPaths: path.ebSubPaths);
+      return getTransportLineOfPath(ebSubPaths: path.ebSubPaths);
     }).toList();
     return TransportLineOfRoute(lineOfRoute: lineOfRoute);
   }
 
-  TransportLineOfPath _getTransportLineOfPath({
+  TransportLineOfPath getTransportLineOfPath({
     required List<EBSubPath> ebSubPaths,
   }) {
     final lineOfPath = ebSubPaths
-        .map((ebSubPath) => _subPathToLineInfo(ebSubPath: ebSubPath))
+        .map((ebSubPath) => subPathToLineInfo(ebSubPath: ebSubPath))
         .toList();
     return TransportLineOfPath(lineOfPath: lineOfPath);
   }
 
-  TransportLineInfo _subPathToLineInfo({
+  TransportLineInfo subPathToLineInfo({
     required EBSubPath ebSubPath,
   }) {
     String name = '';

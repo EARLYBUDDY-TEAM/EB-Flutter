@@ -1,5 +1,5 @@
 import 'package:earlybuddy/domain/delegate/login_delegate.dart';
-import 'package:earlybuddy/domain/repository/ebauth/ebauth_repository.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
 import 'package:earlybuddy/presentation/auth/login/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/auth/register/register.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
