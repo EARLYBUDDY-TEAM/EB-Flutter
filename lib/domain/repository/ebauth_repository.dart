@@ -1,8 +1,15 @@
 part of 'repository.dart';
 
-class EBAuthRepository {
+final class EBAuthRepository {
   final controller = StreamController<AuthStatus>();
-  final NetworkService service = NetworkService.shared;
+  final NetworkService _networkService;
+  final SecureStorage _secureStorage;
+
+  EBAuthRepository({
+    NetworkService? networkService,
+    SecureStorage? secureStorage,
+  })  : _networkService = networkService ?? NetworkService(),
+        _secureStorage = secureStorage ?? SecureStorage();
 
   Stream<AuthStatus> get authInfo async* {
     await Future<void>.delayed(const Duration(seconds: 1));
@@ -17,7 +24,7 @@ class EBAuthRepository {
     required String password,
   }) async {
     final request = LoginRequest.init(email: email, password: password);
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
     switch (result) {
       case (Success()):
         TokenDTO tokenDTO = result.success.model;
@@ -40,7 +47,7 @@ class EBAuthRepository {
   }) async {
     final request = RegisterRequest.init(email: email, password: password);
 
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
     switch (result) {
       case (Success()):
         return result;
@@ -51,7 +58,8 @@ class EBAuthRepository {
   }
 
   void saveToken(Token token) {
-    //
+    _secureStorage.write(key: 'accessToken', value: token.accessToken);
+    _secureStorage.write(key: 'refreshToken', value: token.refreshToken);
   }
 
   void addAuthenticate(Token token) {
