@@ -1,6 +1,4 @@
-// shrinkWrap: true,
-//                 controller: ModalScrollController.of(childContext2),
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 class ScrollWithHeader extends StatelessWidget {
   Widget header;

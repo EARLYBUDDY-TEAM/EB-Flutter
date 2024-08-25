@@ -1,4 +1,4 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
 class Pair<T1, T2> {
   final T1 a;

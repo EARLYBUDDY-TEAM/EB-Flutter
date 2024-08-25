@@ -1,19 +1,25 @@
 import 'dart:async';
-import 'package:earlybuddy/domain/delegate/searchplace.dart';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'dart:developer';
+import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'event.dart';
 part 'state.dart';
 
-class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
+final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   late StreamSubscription<Place> sinkPressSelectPlaceButtonForPlace;
   late StreamSubscription<Place> sinkPressSelectPlaceButtonForRoute;
+
+  final ScheduleRepository scheduleRepository;
 
   AddScheduleBloc({
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
+    required this.scheduleRepository,
     AddScheduleState? addScheduleState,
   }) : super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
@@ -33,8 +39,9 @@ class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   }
 
   @override
-  Future<void> close() {
-    sinkPressSelectPlaceButtonForPlace.cancel();
+  Future<void> close() async {
+    await sinkPressSelectPlaceButtonForPlace.cancel();
+    await sinkPressSelectPlaceButtonForRoute.cancel();
     return super.close();
   }
 }
@@ -91,8 +98,16 @@ extension on AddScheduleBloc {
   void _onPressAddScheduleButton(
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
-  ) {
-    emit(state);
+  ) async {
+    final Result result =
+        await scheduleRepository.addSchedule(scheduleInfo: state.info);
+
+    switch (result) {
+      case Success():
+        log('success!!!, statusCode : ${result.success.statusCode}');
+      case Failure():
+        log('fail..., statusCode : ${result.failure.statusCode}');
+    }
   }
 }
 
@@ -101,7 +116,7 @@ extension on AddScheduleBloc {
     SelectPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(endPlace: event.place);
+    final ScheduleInfo info = state.info.copyWith(endPlace: event.place);
     emit(state.copyWith(info: info));
   }
 }
@@ -111,7 +126,7 @@ extension on AddScheduleBloc {
     SelectRoute event,
     Emitter<AddScheduleState> emit,
   ) {
-    final AddScheduleInfo info = state.info.copyWith(startPlace: event.place);
+    final ScheduleInfo info = state.info.copyWith(startPlace: event.place);
     emit(state.copyWith(info: info));
   }
 }

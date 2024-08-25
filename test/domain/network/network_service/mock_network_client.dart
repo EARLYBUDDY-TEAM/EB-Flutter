@@ -1,14 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:earlybuddy/domain/network/sources/network_service/network_service.dart';
+import 'package:earlybuddy/core/network/service/service.dart';
 
-final class MockNetworkClient implements NetworkClientAB {
+final class MockSuccessNetworkClient implements NetworkClientAB {
   dynamic responseData;
-  int? statusCode;
 
-  MockNetworkClient({
-    required this.responseData,
-    required this.statusCode,
-  });
+  MockSuccessNetworkClient({required this.responseData});
 
   @override
   Future<Response> request(NetworkRequestAB request) {
@@ -16,7 +12,31 @@ final class MockNetworkClient implements NetworkClientAB {
       return Response(
         data: responseData,
         requestOptions: RequestOptions(),
+        statusCode: 200,
+      );
+    });
+  }
+}
+
+final class MockFailNetworkClient implements NetworkClientAB {
+  dynamic responseData;
+  int? statusCode;
+
+  MockFailNetworkClient({
+    required this.responseData,
+    required this.statusCode,
+  });
+
+  @override
+  Future<Response> request(NetworkRequestAB request) {
+    return Future.delayed(const Duration(seconds: 1), () {
+      final response = Response(
+        requestOptions: RequestOptions(),
         statusCode: statusCode,
+      );
+      throw DioException(
+        requestOptions: RequestOptions(),
+        response: response,
       );
     });
   }

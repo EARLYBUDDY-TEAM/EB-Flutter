@@ -11,7 +11,7 @@ class _RegisterButton extends StatelessWidget {
           name: '시작하기',
           onPressed: state.inputIsValid
               ? () {
-                  context.read<RegisterBloc>().add(const RegisterPressed());
+                  context.read<RegisterBloc>().add(const PressRegisterButton());
                 }
               : null,
         );

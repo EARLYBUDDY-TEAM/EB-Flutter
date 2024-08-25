@@ -1,9 +1,8 @@
-import 'dart:developer';
-import 'package:earlybuddy/domain/delegate/searchplace.dart';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
-import 'package:earlybuddy/domain/repository/searchplace/searchplace_repository.dart';
+import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
+import 'package:earlybuddy/domain/repository/repository.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
+import 'package:earlybuddy/shared/eb_uikit/eb_sources.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -46,38 +45,12 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
 }
 
 extension on SearchPlaceBloc {
-  void _onChangeSearchText(
+  Future<void> _onChangeSearchText(
     ChangeSearchText event,
     Emitter<SearchPlaceState> emit,
   ) async {
     emit(state.copyWith(searchText: event.searchText));
-
-    if (event.searchText.trim().isEmpty) {
-      return;
-    }
-
-    try {
-      final List<Place> places =
-          await _searchPlaceRepository.getPlaces(searchText: event.searchText);
-      final viewState = state.viewState
-          .copyWith(contentStatus: SearchPlaceContentStatus.search);
-      emit(
-        state.copyWith(
-          places: places,
-          viewState: viewState,
-        ),
-      );
-    } catch (e) {
-      log(e.toString());
-      final viewState = state.viewState
-          .copyWith(contentStatus: SearchPlaceContentStatus.search);
-      emit(
-        state.copyWith(
-          places: [],
-          viewState: viewState,
-        ),
-      );
-    }
+    await getPlaces(event.searchText, emit);
   }
 
   EventTransformer<Event> _debounce<Event>(
@@ -103,36 +76,11 @@ extension on SearchPlaceBloc {
 }
 
 extension on SearchPlaceBloc {
-  void _onPressSearchButton(
+  Future<void> _onPressSearchButton(
     PressSearchButton event,
     Emitter<SearchPlaceState> emit,
   ) async {
-    if (state.searchText.trim().isEmpty) {
-      return;
-    }
-
-    try {
-      final List<Place> places =
-          await _searchPlaceRepository.getPlaces(searchText: state.searchText);
-      final viewState =
-          state.viewState.copyWith(contentStatus: SearchPlaceContentStatus.map);
-      emit(
-        state.copyWith(
-          places: places,
-          viewState: viewState,
-        ),
-      );
-    } catch (e) {
-      log(e.toString());
-      final viewState =
-          state.viewState.copyWith(contentStatus: SearchPlaceContentStatus.map);
-      emit(
-        state.copyWith(
-          places: [],
-          viewState: viewState,
-        ),
-      );
-    }
+    await getPlaces(state.searchText, emit);
   }
 }
 
@@ -166,5 +114,41 @@ extension on SearchPlaceBloc {
     Emitter<SearchPlaceState> emit,
   ) {
     cancelAction();
+  }
+}
+
+extension on SearchPlaceBloc {
+  Future<void> getPlaces(
+    String searchText,
+    Emitter<SearchPlaceState> emit,
+  ) async {
+    if (searchText.trim().isEmpty) {
+      return;
+    }
+
+    final Result result =
+        await _searchPlaceRepository.getPlaces(searchText: searchText);
+
+    switch (result) {
+      case Success():
+        final List<Place> places = result.success.model;
+        final viewState = state.viewState
+            .copyWith(contentStatus: SearchPlaceContentStatus.search);
+        emit(
+          state.copyWith(
+            places: places,
+            viewState: viewState,
+          ),
+        );
+      case Failure():
+        final viewState = state.viewState
+            .copyWith(contentStatus: SearchPlaceContentStatus.search);
+        emit(
+          state.copyWith(
+            places: [],
+            viewState: viewState,
+          ),
+        );
+    }
   }
 }

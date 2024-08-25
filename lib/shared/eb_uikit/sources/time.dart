@@ -1,6 +1,6 @@
-part of 'eb_sources.dart';
+part of '../eb_sources.dart';
 
-class EBTime {
+final class EBTime {
   static final EBTime shared = EBTime();
 
   String intToString(int time) {

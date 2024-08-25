@@ -1,4 +1,4 @@
-part of 'eb_resources.dart';
+part of '../eb_resources.dart';
 
 final class NanumSquare {
   static const light = 'NanumSquareLight';

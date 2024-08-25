@@ -1,6 +1,5 @@
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
 import 'package:earlybuddy/shared/eb_uikit/eb_uikit.dart';
-import 'package:earlybuddy/shared/eb_uikit/sources/eb_sources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

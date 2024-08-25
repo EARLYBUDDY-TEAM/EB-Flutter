@@ -1,6 +1,1 @@
-enum NetworkError {
-  noStatusCode,
-  inValidStatusCode,
-  jsonDecode,
-  noConverter;
-}
+part 'network_error.dart';

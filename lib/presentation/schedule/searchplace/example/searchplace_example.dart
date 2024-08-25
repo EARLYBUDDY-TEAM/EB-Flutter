@@ -1,5 +1,5 @@
-import 'package:earlybuddy/domain/delegate/searchplace.dart';
-import 'package:earlybuddy/domain/domain_model/domain_model.dart';
+import 'package:earlybuddy/domain/delegate/searchplace_delegate.dart';
+import 'package:earlybuddy/shared/eb_model/entity/entity.dart';
 import 'package:earlybuddy/presentation/schedule/findroute/findroute.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/bloc/bloc.dart';
 import 'package:earlybuddy/presentation/schedule/searchplace/view/searchplace_view.dart';

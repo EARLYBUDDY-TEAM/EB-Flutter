@@ -1,2 +1,2 @@
-export 'sources/eb_sources.dart';
-export 'resources/eb_resources.dart';
+export 'eb_sources.dart';
+export 'eb_resources.dart';
