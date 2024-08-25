@@ -1,0 +1,37 @@
+name: earlybuddy
+
+packages:
+  - presentation/**
+  - domain/**
+  - core/**
+  - shared/**
+
+command:
+  bootstrap:
+    environment:
+      sdk: ^3.5.0
+      flutter: ">=1.17.0"
+    dependencies:
+      cupertino_icons: ^1.0.6
+      table_calendar: ^3.1.0
+      intl: ^0.19.0
+      equatable: ^2.0.5
+      flutter_bloc: ^8.1.6
+      dio: ^5.4.2+1
+      modal_bottom_sheet: ^3.0.0
+      kakao_map_plugin: ^0.3.0
+      flutter_dotenv: ^5.1.0
+      stream_transform: ^2.1.0
+      geolocator: ^11.0.0
+      flutter_secure_storage: ^9.2.2
+
+scripts:
+  test_all:
+    # Only run the test command when the package has a test directory
+    run: flutter test
+    exec:
+      concurrency: 1
+    packageFilters:
+      flutter: true
+      dirExists: test
+    description: Run `flutter test` in all targets
