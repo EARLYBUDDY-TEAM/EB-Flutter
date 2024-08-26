@@ -3,7 +3,7 @@ import 'package:eb_network/eb_network.dart';
 import 'package:eb_network_interface/network_ab.dart';
 import 'package:eb_network_test/eb_network_testing.dart';
 import 'package:eb_uikit/eb_uikit.dart';
-import 'package:eb_model/dto/dto.dart';
+import 'package:eb_model/dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

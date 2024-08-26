@@ -1,3 +1,5 @@
+part of '../dto.dart';
+
 final class PlaceListDTO {
   final List<PlaceDTO> places;
   final PlaceMetaDTO meta;

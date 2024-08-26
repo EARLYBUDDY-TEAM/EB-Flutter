@@ -1,3 +1,5 @@
+part of '../dto.dart';
+
 final class EBRouteDTO {
   final int type;
   final List<EBPathDTO> ebPaths;

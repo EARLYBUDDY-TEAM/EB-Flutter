@@ -1,2 +1,2 @@
-export 'dto/dto.dart';
-export 'entity/entity.dart';
+export 'dto.dart';
+export 'entity.dart';

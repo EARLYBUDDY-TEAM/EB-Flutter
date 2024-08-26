@@ -1,4 +1,4 @@
-part of '../entity.dart';
+part of '../../entity.dart';
 
 final class Coordi extends Equatable {
   final String x;

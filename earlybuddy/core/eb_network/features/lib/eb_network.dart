@@ -1,2 +1,2 @@
-export 'sources/service/service.dart';
-export 'sources/endpoint/endpoint.dart';
+export 'service.dart';
+export 'endpoint.dart';

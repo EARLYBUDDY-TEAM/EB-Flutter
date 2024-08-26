@@ -1,3 +1,5 @@
+part of '../dto.dart';
+
 final class TokenDTO {
   final String accessToken;
   final String refreshToken;
