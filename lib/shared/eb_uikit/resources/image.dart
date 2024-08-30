@@ -9,5 +9,6 @@ final class EBImages {
 }
 
 class _EBAssetImage extends AssetImage {
-  const _EBAssetImage(String fileName) : super('assets/images/$fileName');
+  const _EBAssetImage(String fileName)
+      : super('packages/eb_resources/assets/images/$fileName');
 }
