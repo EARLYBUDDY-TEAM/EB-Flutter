@@ -1,0 +1,17 @@
+name: eb_delegate_test
+description: A new Flutter package project.
+version: 0.0.1
+homepage: null
+environment:
+  sdk: ^3.5.0
+  flutter: '>=1.17.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  eb_delegate: any
+  eb_delegate_interface: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+flutter: null

@@ -1,0 +1,47 @@
+part of '../eb_home_feature.dart';
+
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final EBAuthRepository _authRepository;
+  final RegisterDelegate _registerDelegate;
+  final LoginDelegate _loginDelegate;
+
+  HomeBloc({
+    required EBAuthRepository authRepository,
+    required RegisterDelegate registerDelegate,
+    required LoginDelegate loginDelegate,
+  })  : _authRepository = authRepository,
+        _registerDelegate = registerDelegate,
+        _loginDelegate = loginDelegate,
+        super(const HomeState()) {
+    on<PressAddScheduleButton>(_onPressAddScheduleButton);
+    on<PressMenuButton>(_onPressMenuButton);
+    on<PressRegisterAlertOkButton>(_onPressRegisterAlertOkButton);
+    on<DismissLoginSnackbar>(_onDismissLoginSnackbar);
+  }
+
+  void _onPressAddScheduleButton(
+    PressAddScheduleButton event,
+    Emitter<HomeState> emit,
+  ) {}
+
+  void _onPressMenuButton(
+    PressMenuButton event,
+    Emitter<HomeState> emit,
+  ) {
+    _authRepository.logOut();
+  }
+
+  void _onPressRegisterAlertOkButton(
+    PressRegisterAlertOkButton event,
+    Emitter<HomeState> emit,
+  ) {
+    _registerDelegate.clearFirstLogin();
+  }
+
+  void _onDismissLoginSnackbar(
+    DismissLoginSnackbar event,
+    Emitter<HomeState> emit,
+  ) {
+    _loginDelegate.clearIsSuccess();
+  }
+}
