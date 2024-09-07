@@ -24,7 +24,7 @@ final class _MockAutoLoginView extends StatelessWidget {
       case Success():
         final Token token = result.success.model;
         _loginDelegate.setLoginSuccess();
-        _authRepository.addAuthenticate(token);
+        await _authRepository.addAuthenticate(token);
       case Failure():
         log('login fail ...');
         return;

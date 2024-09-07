@@ -2,15 +2,25 @@ part of '../eb_repository.dart';
 
 final class ScheduleRepository {
   final NetworkService service;
+  final SecureStorage _secureStorage;
 
   ScheduleRepository({
     NetworkService? networkService,
-  }) : service = networkService ?? NetworkService.shared;
+    SecureStorage? secureStorage,
+  })  : service = networkService ?? NetworkService(),
+        _secureStorage = secureStorage ?? SecureStorage();
 
   Future<Result> addSchedule({
     required ScheduleInfo scheduleInfo,
   }) async {
-    final request = AddScheduleRequest.init(scheduleInfo.toMap());
+    final toUpload = scheduleInfo.toMap();
+    log(toUpload.toString());
+    final userEmail = await _secureStorage.read(key: 'email');
+
+    final request = AddScheduleRequest.init(
+      userEmail: userEmail,
+      scheduleInfo: toUpload,
+    );
     final result = await service.request(request);
 
     switch (result) {

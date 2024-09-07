@@ -28,7 +28,10 @@ final class EBAuthRepository {
     switch (result) {
       case (Success()):
         TokenDTO tokenDTO = result.success.model;
-        final Token token = Token.fromDTO(tokenDTO: tokenDTO);
+        final Token token = Token.fromDTO(
+          email: email,
+          tokenDTO: tokenDTO,
+        );
         return Success(
           success: SuccessResponse(
             model: token,
@@ -57,13 +60,14 @@ final class EBAuthRepository {
     }
   }
 
-  void saveToken(Token token) {
-    _secureStorage.write(key: 'accessToken', value: token.accessToken);
-    _secureStorage.write(key: 'refreshToken', value: token.refreshToken);
+  Future<void> saveToken(Token token) async {
+    await _secureStorage.write(key: 'email', value: token.email);
+    await _secureStorage.write(key: 'accessToken', value: token.accessToken);
+    await _secureStorage.write(key: 'refreshToken', value: token.refreshToken);
   }
 
-  void addAuthenticate(Token token) {
-    saveToken(token);
+  Future<void> addAuthenticate(Token token) async {
+    await saveToken(token);
     controller.add(Authenticated());
   }
 
