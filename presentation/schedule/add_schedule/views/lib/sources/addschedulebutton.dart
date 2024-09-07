@@ -5,12 +5,13 @@ class _AddScheduleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
-      child: BlocSelector<AddScheduleBloc, AddScheduleState, AddScheduleStatus>(
+      child:
+          BlocSelector<AddScheduleBloc, AddScheduleState, ScheduleInfoStatus>(
         selector: (state) => state.status,
         builder: (context, status) {
           return EBButton(
             name: '일정 등록',
-            onPressed: status == AddScheduleStatus.complete
+            onPressed: status == ScheduleInfoStatus.complete
                 ? () {
                     context
                         .read<AddScheduleBloc>()

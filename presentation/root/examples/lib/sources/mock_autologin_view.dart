@@ -14,6 +14,7 @@ final class _MockAutoLoginView extends StatelessWidget {
     );
   }
 
+  // bloc, event 사용하는거는??
   Future<void> setAutoLogin() async {
     final Result result = await _authRepository.logIn(
       email: 'abc@abc.com',

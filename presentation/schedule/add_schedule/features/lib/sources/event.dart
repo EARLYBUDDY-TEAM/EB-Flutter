@@ -71,3 +71,19 @@ final class RemoveRoute extends AddScheduleEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class PressAlertOkButton extends AddScheduleEvent {
+  const PressAlertOkButton();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class SetAddScheduleResult extends AddScheduleEvent {
+  final AddScheduleResult result;
+
+  const SetAddScheduleResult({required this.result});
+
+  @override
+  List<Object?> get props => [result];
+}

@@ -20,12 +20,15 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<SelectPlace>(_onSelectPlace);
     on<SelectRoute>(_onSelectRoute);
     on<RemoveRoute>(_onRemoveRoute);
+    on<PressAlertOkButton>(_onPressAlertOkButton);
     sinkPressSelectPlaceButtonForPlace = searchPlaceDelegateForPlace
         .pressSelectPlaceButton
         .listen((place) => add(SelectPlace(place: place)));
     sinkPressSelectPlaceButtonForRoute = searchPlaceDelegateForRoute
         .pressSelectPlaceButton
         .listen((place) => add(SelectRoute(place: place)));
+
+    on<SetAddScheduleResult>(_onSetAddScheduleResult);
   }
 
   @override
@@ -44,8 +47,8 @@ extension on AddScheduleBloc {
     final title = event.title.trim();
     final newInfo = state.info.copyWith(title: title);
     final newStatus = title.isEmpty
-        ? AddScheduleStatus.inComplete
-        : AddScheduleStatus.complete;
+        ? ScheduleInfoStatus.incomplete
+        : ScheduleInfoStatus.complete;
     emit(state.copyWith(
       info: newInfo,
       status: newStatus,
@@ -94,9 +97,9 @@ extension on AddScheduleBloc {
 
     switch (result) {
       case Success():
-        log('success!!!, statusCode : ${result.success.statusCode}');
+        emit(state.copyWith(result: AddScheduleResult.success));
       case Failure():
-        log('fail..., statusCode : ${result.failure.statusCode}');
+        emit(state.copyWith(result: AddScheduleResult.fail));
     }
   }
 }
@@ -129,5 +132,23 @@ extension on AddScheduleBloc {
     var info = state.info;
     info.startPlace = null;
     emit(state.copyWith(info: info));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onPressAlertOkButton(
+    PressAlertOkButton event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    add(const SetAddScheduleResult(result: AddScheduleResult.init));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onSetAddScheduleResult(
+    SetAddScheduleResult event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    emit(state.copyWith(result: event.result));
   }
 }
