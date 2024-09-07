@@ -7,10 +7,10 @@ import 'package:eb_model/eb_model.dart';
 import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_delegate/eb_delegate.dart';
 
-part 'mock_rootview.dart';
+part 'mock_autologin_view.dart';
 
 class RootExample extends StatelessWidget {
-  final _mockAutoLoginRootView = _MockAutoLoginRootView();
+  final _mockAutoLoginRootView = _MockAutoLoginView();
 
   RootExample({super.key});
 

@@ -8,9 +8,13 @@ import 'package:eb_home/eb_home.dart';
 import 'package:eb_login/eb_login.dart';
 import 'package:eb_root_feature/eb_root_feature.dart';
 import 'package:eb_resource/eb_resource.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:eb_env/eb_env.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:eb_location/eb_location.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 part 'sources/root_view.dart';
 part 'sources/splash_view.dart';
 part 'sources/root_bloc_view.dart';
+part 'sources/prepare_app.dart';

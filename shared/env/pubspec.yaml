@@ -23,7 +23,8 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-  - assets/env/.env
+  - assets/env/.env_dev
+  - assets/env/.env_main
 
   # To add assets to your package, add an assets section, like this:
   # assets:
