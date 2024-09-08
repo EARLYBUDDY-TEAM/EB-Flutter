@@ -4,5 +4,4 @@ import 'sources/addschedule_example.dart';
 void main() async {
   final addScheduleExample = AddScheduleExample();
   runApp(addScheduleExample);
-  await addScheduleExample.setAddScheduleResult();
 }

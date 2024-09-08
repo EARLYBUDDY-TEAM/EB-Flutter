@@ -77,7 +77,9 @@ final class _AddScheduleContent extends StatelessWidget {
           onPressed: () {
             context.read<AddScheduleBloc>().add(const PressAlertOkButton());
             Navigator.of(context).pop();
-            // pop to home
+            if (result == AddScheduleResult.success) {
+              Navigator.of(context).pop();
+            }
           },
           isDefaultAction: true,
         )
