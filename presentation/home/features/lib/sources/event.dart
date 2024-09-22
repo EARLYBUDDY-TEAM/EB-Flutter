@@ -22,3 +22,14 @@ final class PressRegisterAlertOkButton extends HomeEvent {
 final class DismissLoginSnackbar extends HomeEvent {
   const DismissLoginSnackbar();
 }
+
+final class SetLoginStatus extends HomeEvent {
+  final BaseStatus status;
+
+  const SetLoginStatus({
+    required this.status,
+  });
+
+  @override
+  List<Object?> get props => [status];
+}

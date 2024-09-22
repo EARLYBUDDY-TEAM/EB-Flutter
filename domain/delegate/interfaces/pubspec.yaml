@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   eb_model: any
+  eb_uikit: any
 
 dev_dependencies:
   flutter_test:

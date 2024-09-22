@@ -16,6 +16,7 @@ final class HomeView extends StatelessWidget {
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
         registerDelegate: RepositoryProvider.of<RegisterDelegate>(context),
         loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
       ),
       child: const _EBHomeView(),
     );
@@ -27,34 +28,41 @@ final class _EBHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    showReigsterAlert(context);
-    showLoginSnackBar(context);
-
-    return Stack(
-      children: [
-        Container(color: Colors.white),
-        const WaveBackground(),
-        Scaffold(
-          appBar: _HomeAppBar(
-            pressMenuButtonAction: () =>
-                context.read<HomeBloc>().add(const PressMenuButton()),
-          ),
-          backgroundColor: Colors.transparent,
-          body: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              const _HomeContent(),
-              _ScheduleAddButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => AddScheduleView(),
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        showLoginResultSnackBar(
+          context,
+          state.loginStatus,
+        );
+        // showReigsterAlert(context);
+        // showLoginSnackBar(context);
+      },
+      child: Stack(
+        children: [
+          Container(color: Colors.white),
+          const WaveBackground(),
+          Scaffold(
+            appBar: _HomeAppBar(
+              pressMenuButtonAction: () =>
+                  context.read<HomeBloc>().add(const PressMenuButton()),
+            ),
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                const _HomeContent(),
+                _ScheduleAddButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => AddScheduleView(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -83,16 +91,21 @@ final class _EBHomeView extends StatelessWidget {
     }
   }
 
-  void showLoginSnackBar(BuildContext context) {
-    final loginDelegate = RepositoryProvider.of<LoginDelegate>(context);
-    if (loginDelegate.isSuccess) {
-      Future.delayed(const Duration(seconds: 1), () {
-        final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
-        ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-          //ㄷㄹ
-        });
-      });
+  void showLoginResultSnackBar(
+    BuildContext context,
+    BaseStatus loginStatus,
+  ) {
+    if (loginStatus != BaseStatus.success) {
+      return;
     }
+    Future.delayed(const Duration(seconds: 1), () {
+      final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
+      ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
+        context
+            .read<HomeBloc>()
+            .add(const SetLoginStatus(status: BaseStatus.init));
+      });
+    });
   }
 }
 

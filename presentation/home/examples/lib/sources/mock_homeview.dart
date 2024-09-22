@@ -1,10 +1,12 @@
 part of 'home_example.dart';
 
+final homeDelegate = HomeDelegate();
+
 final class _MockAlertHomeView extends StatelessWidget {
   // final _registerDelegate = RegisterDelegate(isFirstLogin: false);
   // final _loginDelegate = LoginDelegate(isSuccess: true);
-  final _registerDelegate = RegisterDelegate(isFirstLogin: true);
-  final _loginDelegate = LoginDelegate(isSuccess: true);
+  final _registerDelegate = RegisterDelegate(isFirstLogin: false);
+  final _loginDelegate = LoginDelegate(isSuccess: false);
   final _ebAuthRepository = EBAuthRepository();
 
   @override
@@ -14,6 +16,7 @@ final class _MockAlertHomeView extends StatelessWidget {
         RepositoryProvider.value(value: _registerDelegate),
         RepositoryProvider.value(value: _loginDelegate),
         RepositoryProvider.value(value: _ebAuthRepository),
+        RepositoryProvider.value(value: homeDelegate),
       ],
       child: _MockAlertHomeViewApp(),
     );
