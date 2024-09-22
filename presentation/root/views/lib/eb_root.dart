@@ -10,11 +10,25 @@ import 'package:eb_root_feature/eb_root_feature.dart';
 import 'package:eb_resource/eb_resource.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:eb_env/eb_env.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:eb_location/eb_location.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:eb_search_place/eb_search_place.dart';
 
 part 'sources/root_view.dart';
 part 'sources/splash_view.dart';
 part 'sources/root_bloc_view.dart';
-part 'sources/prepare_app.dart';
+
+final class PrepareRoot {
+  static Future<void> setup({
+    bool dev = false,
+  }) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await initializeDateFormatting();
+    await PrepareENV.load(dev: true);
+    PrepareEBSearchPlace.initializeKakaoMap(
+      appKey: ENV.shared.kakaoAppKey,
+      baseUrl: ENV.shared.kakaoBaseUrl,
+    );
+    await LocationProvider.shared.checkPermission();
+  }
+}

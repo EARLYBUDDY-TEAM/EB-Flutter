@@ -4,10 +4,12 @@ final class MockAddSchedule extends StatelessWidget {
   final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
   final _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
   final _scheduleRepository = ScheduleRepository();
+  final _ebAuthRepository = EBAuthRepository();
   late final bloc = AddScheduleBloc(
     searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
     searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
     scheduleRepository: _scheduleRepository,
+    ebAuthRepository: _ebAuthRepository,
   );
 
   MockAddSchedule({super.key});

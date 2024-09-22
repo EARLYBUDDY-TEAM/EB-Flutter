@@ -14,11 +14,11 @@ final class ScheduleRepository {
     required ScheduleInfo scheduleInfo,
   }) async {
     final toUpload = scheduleInfo.toMap();
-    log(toUpload.toString());
-    final userEmail = await _secureStorage.read(key: 'email');
+    final accessToken =
+        await _secureStorage.read(key: SecureStorageKey.accessToken);
 
     final request = AddScheduleRequest.init(
-      userEmail: userEmail,
+      accessToken: accessToken,
       scheduleInfo: toUpload,
     );
     final result = await service.request(request);
@@ -27,7 +27,9 @@ final class ScheduleRepository {
       case (Success()):
         return result;
       case (Failure()):
-        log(result.failure.error.toString());
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
         return result;
     }
   }

@@ -46,7 +46,7 @@ final class NetworkService {
       return Failure(
         failure: FailureResponse(
           error: NetworkError.noResponseData,
-          statusCode: response.statusCode ?? -1,
+          statusCode: response.statusCode ?? 599,
         ),
       );
     }
@@ -63,7 +63,7 @@ final class NetworkService {
       return Failure(
         failure: FailureResponse(
           error: error,
-          statusCode: response.statusCode ?? -1,
+          statusCode: response.statusCode ?? 499,
         ),
       );
     }
@@ -83,7 +83,7 @@ final class NetworkService {
     }
 
     final response = FailureResponse(
-      statusCode: statusCode ?? -1,
+      statusCode: statusCode ?? 100,
       error: error,
     );
 

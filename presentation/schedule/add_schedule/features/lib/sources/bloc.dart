@@ -5,11 +5,13 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   late StreamSubscription<Place> sinkPressSelectPlaceButtonForRoute;
 
   final ScheduleRepository scheduleRepository;
+  final EBAuthRepository ebAuthRepository;
 
   AddScheduleBloc({
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
     required this.scheduleRepository,
+    required this.ebAuthRepository,
     AddScheduleState? addScheduleState,
   }) : super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
@@ -92,14 +94,22 @@ extension on AddScheduleBloc {
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) async {
-    final Result result =
+    final Result addScheduleResult =
         await scheduleRepository.addSchedule(scheduleInfo: state.info);
+
+    final Result result =
+        await ebAuthRepository.withCheckToken(addScheduleResult);
 
     switch (result) {
       case Success():
         emit(state.copyWith(result: AddScheduleResult.success));
       case Failure():
-        emit(state.copyWith(result: AddScheduleResult.fail));
+        switch (result.failure.statusCode) {
+          case (490):
+            emit(state.copyWith(result: AddScheduleResult.init));
+          default:
+            emit(state.copyWith(result: AddScheduleResult.fail));
+        }
     }
   }
 }

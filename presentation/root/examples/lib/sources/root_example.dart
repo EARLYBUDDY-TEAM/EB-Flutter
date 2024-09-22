@@ -19,7 +19,7 @@ class RootExample extends StatelessWidget {
     return _mockAutoLoginRootView;
   }
 
-  Future<void> init() async {
+  Future<void> setAutoLogin() async {
     await Future<void>.delayed(const Duration(seconds: 1));
     await _mockAutoLoginRootView.setAutoLogin();
   }

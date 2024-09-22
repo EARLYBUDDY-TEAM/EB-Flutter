@@ -17,8 +17,8 @@ void main() {
   group("SecureStorage Test", () {
     test('read & write', () async {
       // given
-      const String key = "test_key";
-      const String value = "test_value";
+      const key = SecureStorageKey.accessToken;
+      const String value = "access_token";
       await storage.write(key: key, value: value);
 
       // when, then
@@ -32,8 +32,8 @@ void main() {
 
     test('delete', () async {
       // given
-      const String key = "test_key";
-      const String value = "test_value";
+      const key = SecureStorageKey.accessToken;
+      const String value = "access_token";
       await storage.write(key: key, value: value);
 
       // when, then

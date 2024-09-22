@@ -7,3 +7,4 @@ part 'login_request.dart';
 part 'searchplace_request.dart';
 part 'findroute_request.dart';
 part 'add_schedule_request.dart';
+part 'token_request.dart';
