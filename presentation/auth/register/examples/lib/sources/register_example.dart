@@ -9,7 +9,7 @@ part 'mock_registerview.dart';
 
 final class RegisterExample extends StatelessWidget {
   final _ebAuthRepository = EBAuthRepository();
-  final _registerDelegate = RegisterDelegate();
+  final _homeDelegate = HomeDelegate();
 
   RegisterExample({super.key});
 
@@ -18,7 +18,7 @@ final class RegisterExample extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: _ebAuthRepository),
-        RepositoryProvider.value(value: _registerDelegate),
+        RepositoryProvider.value(value: _homeDelegate),
       ],
       child: const MockRegisterApp(),
     );

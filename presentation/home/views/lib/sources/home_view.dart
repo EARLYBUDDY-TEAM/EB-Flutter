@@ -14,8 +14,6 @@ final class HomeView extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
-        registerDelegate: RepositoryProvider.of<RegisterDelegate>(context),
-        loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
       ),
       child: const _EBHomeView(),
@@ -29,13 +27,16 @@ final class _EBHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
-        showLoginResultSnackBar(
+      listener: (context, state) async {
+        await showLoginResultSnackBar(
           context,
           state.loginStatus,
         );
-        // showReigsterAlert(context);
-        // showLoginSnackBar(context);
+
+        await showReigsterResultAlert(
+          context,
+          state.registerStatus,
+        );
       },
       child: Stack(
         children: [
@@ -66,45 +67,50 @@ final class _EBHomeView extends StatelessWidget {
     );
   }
 
-  void showReigsterAlert(BuildContext context) {
-    final registerDelegate = RepositoryProvider.of<RegisterDelegate>(context);
-    if (registerDelegate.isFirstLogin) {
-      Future.delayed(const Duration(seconds: 1), () {
-        EBAlert.showModalPopup(
-          context: context,
-          title: '얼리버디 회원이 되신걸 축하합니다.',
-          content: '',
-          actions: [
-            EBAlert.makeAction(
-              name: '확인',
-              onPressed: () {
-                context
-                    .read<HomeBloc>()
-                    .add(const PressRegisterAlertOkButton());
-                Navigator.of(context).pop();
-              },
-              isDefaultAction: true,
-            )
-          ],
-        );
-      });
+  Future<void> showReigsterResultAlert(
+    BuildContext context,
+    BaseStatus registerStatus,
+  ) async {
+    if (registerStatus != BaseStatus.success) {
+      return;
     }
+
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    EBAlert.showModalPopup(
+      context: context,
+      title: '얼리버디 회원이 되신걸 축하합니다.',
+      content: '',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context
+                .read<HomeBloc>()
+                .add(const SetRegisterStatus(status: BaseStatus.init));
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
+    );
   }
 
-  void showLoginResultSnackBar(
+  Future<void> showLoginResultSnackBar(
     BuildContext context,
     BaseStatus loginStatus,
-  ) {
+  ) async {
     if (loginStatus != BaseStatus.success) {
       return;
     }
-    Future.delayed(const Duration(seconds: 1), () {
-      final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
-      ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-        context
-            .read<HomeBloc>()
-            .add(const SetLoginStatus(status: BaseStatus.init));
-      });
+
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
+    ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
+      context
+          .read<HomeBloc>()
+          .add(const SetLoginStatus(status: BaseStatus.init));
     });
   }
 }

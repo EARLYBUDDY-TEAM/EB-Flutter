@@ -1,6 +1,6 @@
 part of '../eb_login.dart';
 
-class LoginView extends StatelessWidget {
+final class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   static Route<void> route() {
@@ -14,7 +14,7 @@ class LoginView extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
-        loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
       ),
       child: _LoginContent(),
     );

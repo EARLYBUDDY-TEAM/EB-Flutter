@@ -2,7 +2,7 @@ part of 'root_example.dart';
 
 final class _MockAutoLoginView extends StatelessWidget {
   final _authRepository = EBAuthRepository();
-  final _loginDelegate = LoginDelegate();
+  final _homeDelegate = HomeDelegate();
 
   _MockAutoLoginView();
 
@@ -10,7 +10,7 @@ final class _MockAutoLoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RootView(
       ebAuthRepository: _authRepository,
-      loginDelegate: _loginDelegate,
+      homeDelegate: _homeDelegate,
     );
   }
 
@@ -24,7 +24,7 @@ final class _MockAutoLoginView extends StatelessWidget {
     switch (result) {
       case Success():
         final Token token = result.success.model;
-        _loginDelegate.setLoginSuccess();
+        _homeDelegate.loginStatusController.add(BaseStatus.success);
         await _authRepository.addAuthenticate(token);
       case Failure():
         log('login fail ...');

@@ -5,8 +5,6 @@ final class RootView extends StatelessWidget {
   final SearchPlaceDelegateForPlace _searchPlaceDelegateForPlace;
   final SearchPlaceDelegateForRoute _searchPlaceDelegateForRoute;
   final ScheduleRepository _scheduleRepository;
-  final RegisterDelegate _registerDelegate;
-  final LoginDelegate _loginDelegate;
   final HomeDelegate _homeDelegate;
   // searchplace 좀더 하위뷰에서 주입하기..
 
@@ -16,8 +14,6 @@ final class RootView extends StatelessWidget {
     SearchPlaceDelegateForPlace? searchPlaceDelegateForPlace,
     SearchPlaceDelegateForRoute? searchPlaceDelegateForRoute,
     ScheduleRepository? scheduleRepository,
-    RegisterDelegate? registerDelegate,
-    LoginDelegate? loginDelegate,
     HomeDelegate? homeDelegate,
   })  : _ebAuthRepository = ebAuthRepository ?? EBAuthRepository(),
         _searchPlaceDelegateForPlace =
@@ -25,8 +21,6 @@ final class RootView extends StatelessWidget {
         _searchPlaceDelegateForRoute =
             searchPlaceDelegateForRoute ?? SearchPlaceDelegateForRoute(),
         _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
-        _registerDelegate = registerDelegate ?? RegisterDelegate(),
-        _loginDelegate = loginDelegate ?? LoginDelegate(),
         _homeDelegate = homeDelegate ?? HomeDelegate();
 
   @override
@@ -37,8 +31,6 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
         RepositoryProvider.value(value: _scheduleRepository),
-        RepositoryProvider.value(value: _registerDelegate),
-        RepositoryProvider.value(value: _loginDelegate),
         RepositoryProvider.value(value: _homeDelegate),
       ],
       child: const _RootBlocView(),
