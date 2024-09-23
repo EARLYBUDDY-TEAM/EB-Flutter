@@ -10,5 +10,5 @@ void main() async {
   runApp(const HomeExample());
 
   await Future<void>.delayed(const Duration(seconds: 2));
-  homeDelegate.loginStatusController.add(BaseStatus.success);
+  homeDelegate.loginStatus.add(BaseStatus.success);
 }

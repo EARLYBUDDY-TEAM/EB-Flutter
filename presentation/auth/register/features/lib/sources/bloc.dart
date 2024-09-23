@@ -121,7 +121,7 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             case Success():
               emit(state.copyWith(status: RegisterStatus.initial));
               Token token = loginResult.success.model;
-              _homeDelegate.registerStatusController.add(BaseStatus.success);
+              _homeDelegate.registerStatus.add(BaseStatus.success);
               _authRepository.addAuthenticate(token);
             case Failure():
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));

@@ -19,6 +19,7 @@ final class AddScheduleView extends StatelessWidget {
                   RepositoryProvider.of<ScheduleRepository>(context),
               ebAuthRepository:
                   RepositoryProvider.of<EBAuthRepository>(context),
+              loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
             );
       },
       child: const _AddScheduleContent(),

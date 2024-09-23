@@ -4,9 +4,12 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final EBAuthRepository _authRepository;
   final HomeDelegate _homeDelegate;
 
+  late StreamSubscription<BaseStatus> _tokenStatusSubscription;
+
   LoginBloc({
     required EBAuthRepository authRepository,
     required HomeDelegate homeDelegate,
+    required LoginDelegate loginDelegate,
   })  : _authRepository = authRepository,
         _homeDelegate = homeDelegate,
         super(const LoginState()) {
@@ -14,8 +17,21 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<ChangePassword>(_onChangePassword);
     on<PressLoginButton>(_onPressLoginButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
+    on<SetTokenStatus>(_onSetTokenStatus);
+
+    _tokenStatusSubscription = loginDelegate.tokenStatus.listen(
+      (status) => add(SetTokenStatus(status: status)),
+    );
   }
 
+  @override
+  Future<void> close() {
+    _tokenStatusSubscription.cancel();
+    return super.close();
+  }
+}
+
+extension on LoginBloc {
   void _onChangeEmail(
     ChangeEmail event,
     Emitter<LoginState> emit,
@@ -28,21 +44,9 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
     emit(state.copyWith(emailState: emailState));
   }
+}
 
-  void _onChangePassword(
-    ChangePassword event,
-    Emitter<LoginState> emit,
-  ) {
-    final status = event.password.isEmpty
-        ? PasswordFormStatus.initial
-        : PasswordFormStatus.typing;
-    final passwordState = state.passwordState.copyWith(
-      password: Password(value: event.password),
-      status: status,
-    );
-    emit(state.copyWith(passwordState: passwordState));
-  }
-
+extension on LoginBloc {
   Future<void> _onPressLoginButton(
     PressLoginButton event,
     Emitter<LoginState> emit,
@@ -59,8 +63,8 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
         case Success():
           emit(state.copyWith(status: LoginStatus.initial));
           Token token = result.success.model;
-          _homeDelegate.loginStatusController.add(BaseStatus.success);
           _authRepository.addAuthenticate(token);
+          _homeDelegate.loginStatus.add(BaseStatus.success);
         case Failure():
           final emailState =
               state.emailState.copyWith(status: EmailFormStatus.onError);
@@ -88,11 +92,38 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
     }
   }
+}
 
+extension on LoginBloc {
+  void _onChangePassword(
+    ChangePassword event,
+    Emitter<LoginState> emit,
+  ) {
+    final status = event.password.isEmpty
+        ? PasswordFormStatus.initial
+        : PasswordFormStatus.typing;
+    final passwordState = state.passwordState.copyWith(
+      password: Password(value: event.password),
+      status: status,
+    );
+    emit(state.copyWith(passwordState: passwordState));
+  }
+}
+
+extension on LoginBloc {
   void _onPressAlertOkButton(
     PressAlertOkButton event,
     Emitter<LoginState> emit,
   ) {
     emit(state.copyWith(status: LoginStatus.initial));
+  }
+}
+
+extension on LoginBloc {
+  void _onSetTokenStatus(
+    SetTokenStatus event,
+    Emitter<LoginState> emit,
+  ) {
+    emit(state.copyWith(tokenStatus: event.status));
   }
 }

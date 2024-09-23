@@ -7,11 +7,14 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   final ScheduleRepository scheduleRepository;
   final EBAuthRepository ebAuthRepository;
 
+  final LoginDelegate loginDelegate;
+
   AddScheduleBloc({
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
     required this.scheduleRepository,
     required this.ebAuthRepository,
+    required this.loginDelegate,
     AddScheduleState? addScheduleState,
   }) : super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
@@ -107,6 +110,7 @@ extension on AddScheduleBloc {
         switch (result.failure.statusCode) {
           case (490):
             emit(state.copyWith(result: AddScheduleResult.init));
+            loginDelegate.tokenStatusController.add(BaseStatus.fail);
           default:
             emit(state.copyWith(result: AddScheduleResult.fail));
         }

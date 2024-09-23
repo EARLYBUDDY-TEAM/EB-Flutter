@@ -15,6 +15,7 @@ final class LoginView extends StatelessWidget {
       create: (context) => LoginBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+        loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
       ),
       child: _LoginContent(),
     );
@@ -29,6 +30,10 @@ class _LoginContent extends StatelessWidget {
         showLoginFailAlert(
           context,
           state.status,
+        );
+        showExpiredTokenAlert(
+          context,
+          state.tokenStatus,
         );
       },
       child: Scaffold(
@@ -78,6 +83,33 @@ class _LoginContent extends StatelessWidget {
           name: '확인',
           onPressed: () {
             context.read<LoginBloc>().add(const PressAlertOkButton());
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
+    );
+  }
+
+  void showExpiredTokenAlert(
+    BuildContext context,
+    BaseStatus status,
+  ) {
+    if (status != BaseStatus.fail) {
+      return;
+    }
+
+    EBAlert.showModalPopup(
+      context: context,
+      title: '장기간 사용하지 않아 로그아웃 되었습니다.',
+      content: '다시 로그인해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context
+                .read<LoginBloc>()
+                .add(const SetTokenStatus(status: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,

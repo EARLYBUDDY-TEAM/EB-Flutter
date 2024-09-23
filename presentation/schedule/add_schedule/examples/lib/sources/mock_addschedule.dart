@@ -1,15 +1,19 @@
 part of 'addschedule_example.dart';
 
 final class MockAddSchedule extends StatelessWidget {
-  final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
-  final _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
   final _scheduleRepository = ScheduleRepository();
   final _ebAuthRepository = EBAuthRepository();
+
+  final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
+  final _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
+  final _loginDelegate = LoginDelegate();
+
   late final bloc = AddScheduleBloc(
     searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
     searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
     scheduleRepository: _scheduleRepository,
     ebAuthRepository: _ebAuthRepository,
+    loginDelegate: _loginDelegate,
   );
 
   MockAddSchedule({super.key});
@@ -21,6 +25,8 @@ final class MockAddSchedule extends StatelessWidget {
         RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
         RepositoryProvider.value(value: _scheduleRepository),
+        RepositoryProvider.value(value: _ebAuthRepository),
+        RepositoryProvider.value(value: _loginDelegate),
       ],
       child: MaterialApp(
         home: _NaviButton(
