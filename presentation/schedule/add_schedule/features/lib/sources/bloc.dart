@@ -26,11 +26,9 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<SelectRoute>(_onSelectRoute);
     on<RemoveRoute>(_onRemoveRoute);
     on<PressAlertOkButton>(_onPressAlertOkButton);
-    sinkPressSelectPlaceButtonForPlace = searchPlaceDelegateForPlace
-        .pressSelectPlaceButton
+    sinkPressSelectPlaceButtonForPlace = searchPlaceDelegateForPlace.selectPlace
         .listen((place) => add(SelectPlace(place: place)));
-    sinkPressSelectPlaceButtonForRoute = searchPlaceDelegateForRoute
-        .pressSelectPlaceButton
+    sinkPressSelectPlaceButtonForRoute = searchPlaceDelegateForRoute.selectPlace
         .listen((place) => add(SelectRoute(place: place)));
 
     on<SetAddScheduleResult>(_onSetAddScheduleResult);
@@ -110,7 +108,7 @@ extension on AddScheduleBloc {
         switch (result.failure.statusCode) {
           case (490):
             emit(state.copyWith(result: AddScheduleResult.init));
-            loginDelegate.tokenStatusController.add(BaseStatus.fail);
+            loginDelegate.tokenStatus.add(BaseStatus.fail);
           default:
             emit(state.copyWith(result: AddScheduleResult.fail));
         }

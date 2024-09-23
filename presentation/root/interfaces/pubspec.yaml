@@ -21,6 +21,7 @@ dependencies:
   eb_repository: any
   eb_model: any
   eb_uikit: any
+  eb_state: any
   eb_home: any
   eb_login: any
 

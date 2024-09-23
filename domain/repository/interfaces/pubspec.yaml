@@ -15,6 +15,7 @@ dependencies:
   eb_secure_storage: any
   eb_model: any
   eb_uikit: any
+  eb_state: any
 
 
 dev_dependencies:

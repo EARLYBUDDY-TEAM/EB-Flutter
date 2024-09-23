@@ -102,7 +102,7 @@ class _LoginContent extends StatelessWidget {
     EBAlert.showModalPopup(
       context: context,
       title: '장기간 사용하지 않아 로그아웃 되었습니다.',
-      content: '다시 로그인해주세요.',
+      content: '다시 로그인 해주세요.',
       actions: [
         EBAlert.makeAction(
           name: '확인',

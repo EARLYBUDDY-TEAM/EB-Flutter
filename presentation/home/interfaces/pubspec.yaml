@@ -17,6 +17,7 @@ dependencies:
   eb_delegate: any
   eb_repository: any
   eb_uikit: any
+  eb_state: any
   eb_add_schedule: any
 
 dev_dependencies:

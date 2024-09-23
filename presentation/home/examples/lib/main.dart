@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sources/home_example.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:eb_uikit/eb_uikit.dart';
+import 'package:eb_state/eb_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

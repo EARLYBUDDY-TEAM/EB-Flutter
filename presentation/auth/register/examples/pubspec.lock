@@ -193,6 +193,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  eb_state:
+    dependency: "direct overridden"
+    description:
+      path: "../../../../shared/state"
+      relative: true
+    source: path
+    version: "0.0.1"
   eb_uikit:
     dependency: "direct overridden"
     description:

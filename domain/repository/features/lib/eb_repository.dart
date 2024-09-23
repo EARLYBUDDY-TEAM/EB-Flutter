@@ -8,6 +8,7 @@ import 'package:eb_network/eb_network.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
 import 'package:eb_model/eb_model.dart';
 import 'package:eb_uikit/eb_uikit.dart';
+import 'package:eb_state/eb_state.dart';
 
 part 'sources/ebauth_repository.dart';
 part 'sources/findroute_repository.dart';

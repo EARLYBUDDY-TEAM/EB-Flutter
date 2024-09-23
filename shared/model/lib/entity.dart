@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 part 'entity/scheduleinfo/coordi.dart';
 part 'entity/scheduleinfo/place.dart';
 part 'entity/scheduleinfo/scheduleinfo.dart';
-part 'entity/auth/auth_status.dart';
 part 'entity/auth/ebformz.dart';
 part 'entity/auth/token.dart';
 part 'entity/ebroute/ebroute.dart';

@@ -19,4 +19,3 @@ part 'sources/theme.dart';
 part 'sources/snackbar.dart';
 part 'sources/result.dart';
 part 'sources/name_generator.dart';
-part 'sources/base_status.dart';

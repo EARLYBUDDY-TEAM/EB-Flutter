@@ -22,8 +22,8 @@ final class SearchPlaceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
-        delegate: delegate,
-        setting: setting,
+        searchPlacedelegate: delegate,
+        searchPlaceSetting: setting,
         searchPlaceState: searchPlaceState,
         selectAction: selectAction,
         cancelAction: cancelAction,

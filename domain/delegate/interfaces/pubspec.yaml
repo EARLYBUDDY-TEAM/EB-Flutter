@@ -13,7 +13,7 @@ dependencies:
   rxdart: ^0.28.0
 
   eb_model: any
-  eb_uikit: any
+  eb_state: any
 
 dev_dependencies:
   flutter_test:
