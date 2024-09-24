@@ -13,14 +13,15 @@ final class OnboardingView extends StatelessWidget {
 
 final class OnboardingContent extends StatelessWidget {
   final images = Assets.images;
-  final Color color = EBColors.blue3;
-  final double fontSize = 20;
+  final dotColor = EBColors.blue3;
+  final iconColor = EBColors.blue2;
 
   OnboardingContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height * 0.8;
+    final double bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return IntroductionScreen(
       pages: [
@@ -35,23 +36,21 @@ final class OnboardingContent extends StatelessWidget {
       },
       next: Icon(
         Icons.arrow_forward,
-        color: color,
-        size: fontSize,
+        color: iconColor,
+        size: 25,
       ),
       skip: Text("스킵", style: _textStyle()),
       showSkipButton: true,
       curve: Curves.ease,
       dotsDecorator: DotsDecorator(
-        activeColor: EBColors.blue3,
+        activeColor: dotColor,
         activeSize: const Size(22.0, 10.0),
         activeShape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
       ),
       globalBackgroundColor: Colors.white,
-      globalFooter: const SizedBox(
-        height: 30,
-      ),
+      controlsPadding: EdgeInsets.only(bottom: bottomPadding),
       autoScrollDuration: 3000,
       infiniteAutoScroll: true,
     );
@@ -76,9 +75,9 @@ final class OnboardingContent extends StatelessWidget {
 
   TextStyle _textStyle() {
     return TextStyle(
-      color: color,
+      color: iconColor,
       fontFamily: FontFamily.nanumSquareBold,
-      fontSize: fontSize,
+      fontSize: 20,
     );
   }
 }
