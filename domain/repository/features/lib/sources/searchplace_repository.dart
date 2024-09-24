@@ -33,7 +33,9 @@ final class SearchPlaceRepository {
           ),
         );
       case (Failure()):
-        log(result.failure.error.toString());
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
         return result;
     }
   }

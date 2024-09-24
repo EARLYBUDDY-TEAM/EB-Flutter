@@ -8,7 +8,7 @@ part 'mock_loginview.dart';
 
 final class LoginExample extends StatelessWidget {
   final _ebAuthRepository = EBAuthRepository();
-  final _loginDelegate = LoginDelegate();
+  final _homeDelegate = HomeDelegate();
 
   LoginExample({super.key});
 
@@ -17,7 +17,7 @@ final class LoginExample extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: _ebAuthRepository),
-        RepositoryProvider.value(value: _loginDelegate),
+        RepositoryProvider.value(value: _homeDelegate),
       ],
       child: const MaterialApp(
         home: MockLoginView(),

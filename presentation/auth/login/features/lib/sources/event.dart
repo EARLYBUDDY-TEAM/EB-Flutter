@@ -32,3 +32,12 @@ final class PressLoginButton extends LoginEvent {
 final class PressAlertOkButton extends LoginEvent {
   const PressAlertOkButton();
 }
+
+final class SetTokenStatus extends LoginEvent {
+  final BaseStatus status;
+
+  const SetTokenStatus({required this.status});
+
+  @override
+  List<Object?> get props => [status];
+}

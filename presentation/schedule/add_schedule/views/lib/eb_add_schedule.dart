@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:eb_repository/eb_repository.dart';
+import 'package:eb_event/eb_event.dart';
 
 part 'sources/appbar.dart';
 part 'sources/addschedulebutton.dart';

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:eb_resource/eb_resource.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,3 +18,4 @@ part 'sources/alert.dart';
 part 'sources/theme.dart';
 part 'sources/snackbar.dart';
 part 'sources/result.dart';
+part 'sources/name_generator.dart';

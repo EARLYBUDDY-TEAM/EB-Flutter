@@ -1,25 +1,24 @@
 part of '../eb_search_place_feature.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
-  final SearchPlaceDelegate _delegate;
+  final SearchPlaceDelegate _searchPlaceDelegate;
   final SearchPlaceRepository _searchPlaceRepository;
   Function(Place) selectAction;
   Function() cancelAction;
 
   SearchPlaceBloc({
-    required SearchPlaceDelegate delegate,
-    required SearchPlaceSetting setting,
-    SearchPlaceRepository? searchPlaceRepository,
+    required SearchPlaceDelegate searchPlacedelegate,
+    required SearchPlaceSetting searchPlaceSetting,
+    required SearchPlaceRepository searchPlaceRepository,
     SearchPlaceState? searchPlaceState,
     Function(Place)? selectAction,
     Function()? cancelAction,
-  })  : _delegate = delegate,
-        _searchPlaceRepository =
-            searchPlaceRepository ?? SearchPlaceRepository(),
+  })  : _searchPlaceDelegate = searchPlacedelegate,
+        _searchPlaceRepository = searchPlaceRepository,
         selectAction = selectAction ?? ((_) {}),
         cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {
-    final viewState = state.viewState.copyWith(setting: setting);
+    final viewState = state.viewState.copyWith(setting: searchPlaceSetting);
     emit(state.copyWith(viewState: viewState));
 
     on<ChangeSearchText>(
@@ -93,7 +92,7 @@ extension on SearchPlaceBloc {
     PressSelectPlaceButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    _delegate.addPressSelectPlaceButton(event.selectedPlace);
+    _searchPlaceDelegate.selectPlace.add(event.selectedPlace);
     selectAction(event.selectedPlace);
   }
 }

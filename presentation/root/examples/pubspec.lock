@@ -144,6 +144,20 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  eb_event:
+    dependency: "direct overridden"
+    description:
+      path: "../../../domain/event/features"
+      relative: true
+    source: path
+    version: "0.0.1"
+  eb_event_interface:
+    dependency: "direct overridden"
+    description:
+      path: "../../../domain/event/interfaces"
+      relative: true
+    source: path
+    version: "0.0.1"
   eb_find_route:
     dependency: "direct overridden"
     description:
@@ -337,6 +351,13 @@ packages:
     dependency: "direct overridden"
     description:
       path: "../../../core/secure_storage/interfaces"
+      relative: true
+    source: path
+    version: "0.0.1"
+  eb_state:
+    dependency: "direct overridden"
+    description:
+      path: "../../../shared/state"
       relative: true
     source: path
     version: "0.0.1"
@@ -703,6 +724,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.28.0"
   simple_gesture_detector:
     dependency: transitive
     description:

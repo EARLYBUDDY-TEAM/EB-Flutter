@@ -9,8 +9,9 @@ final class Token extends Equatable {
     required this.refreshToken,
   });
 
-  Token.fromDTO({required TokenDTO tokenDTO})
-      : accessToken = tokenDTO.accessToken,
+  Token.fromDTO({
+    required TokenDTO tokenDTO,
+  })  : accessToken = tokenDTO.accessToken,
         refreshToken = tokenDTO.refreshToken;
 
   static Token mock() {

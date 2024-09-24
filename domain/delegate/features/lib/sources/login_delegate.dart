@@ -1,15 +1,9 @@
 part of '../eb_delegate.dart';
 
-class LoginDelegate {
-  bool isSuccess = false;
+final class LoginDelegate {
+  final tokenStatus = BehaviorSubject<BaseStatus>.seeded(BaseStatus.init);
 
-  LoginDelegate({bool? isSuccess}) : isSuccess = isSuccess ?? false;
-
-  void setLoginSuccess() {
-    isSuccess = true;
-  }
-
-  void clearIsSuccess() {
-    isSuccess = false;
+  Future<void> dispose() async {
+    await tokenStatus.close();
   }
 }

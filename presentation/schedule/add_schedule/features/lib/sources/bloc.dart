@@ -1,17 +1,22 @@
 part of '../eb_add_schedule_feature.dart';
 
 final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
-  late StreamSubscription<Place> sinkPressSelectPlaceButtonForPlace;
-  late StreamSubscription<Place> sinkPressSelectPlaceButtonForRoute;
+  late StreamSubscription<Place> selectPlaceSubscriptionForPlace;
+  late StreamSubscription<Place> selectPlaceSubscriptionForRoute;
 
-  final ScheduleRepository scheduleRepository;
+  final ScheduleRepository _scheduleRepository;
+
+  final TokenEvent _tokenEvent;
 
   AddScheduleBloc({
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
-    required this.scheduleRepository,
+    required ScheduleRepository scheduleRepository,
+    required TokenEvent tokenEvent,
     AddScheduleState? addScheduleState,
-  }) : super(addScheduleState ?? AddScheduleState()) {
+  })  : _scheduleRepository = scheduleRepository,
+        _tokenEvent = tokenEvent,
+        super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);
@@ -20,18 +25,19 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<SelectPlace>(_onSelectPlace);
     on<SelectRoute>(_onSelectRoute);
     on<RemoveRoute>(_onRemoveRoute);
-    sinkPressSelectPlaceButtonForPlace = searchPlaceDelegateForPlace
-        .pressSelectPlaceButton
+    on<PressAlertOkButton>(_onPressAlertOkButton);
+    selectPlaceSubscriptionForPlace = searchPlaceDelegateForPlace.selectPlace
         .listen((place) => add(SelectPlace(place: place)));
-    sinkPressSelectPlaceButtonForRoute = searchPlaceDelegateForRoute
-        .pressSelectPlaceButton
+    selectPlaceSubscriptionForRoute = searchPlaceDelegateForRoute.selectPlace
         .listen((place) => add(SelectRoute(place: place)));
+
+    on<SetAddScheduleResult>(_onSetAddScheduleResult);
   }
 
   @override
   Future<void> close() async {
-    await sinkPressSelectPlaceButtonForPlace.cancel();
-    await sinkPressSelectPlaceButtonForRoute.cancel();
+    await selectPlaceSubscriptionForPlace.cancel();
+    await selectPlaceSubscriptionForRoute.cancel();
     return super.close();
   }
 }
@@ -44,8 +50,8 @@ extension on AddScheduleBloc {
     final title = event.title.trim();
     final newInfo = state.info.copyWith(title: title);
     final newStatus = title.isEmpty
-        ? AddScheduleStatus.inComplete
-        : AddScheduleStatus.complete;
+        ? ScheduleInfoStatus.incomplete
+        : ScheduleInfoStatus.complete;
     emit(state.copyWith(
       info: newInfo,
       status: newStatus,
@@ -89,14 +95,19 @@ extension on AddScheduleBloc {
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) async {
-    final Result result =
-        await scheduleRepository.addSchedule(scheduleInfo: state.info);
+    final Result addScheduleResult =
+        await _scheduleRepository.addSchedule(scheduleInfo: state.info);
+
+    final Result result = await _tokenEvent.check(preResult: addScheduleResult);
 
     switch (result) {
       case Success():
-        log('success!!!, statusCode : ${result.success.statusCode}');
+        emit(state.copyWith(result: AddScheduleResult.success));
       case Failure():
-        log('fail..., statusCode : ${result.failure.statusCode}');
+        switch (result.failure.statusCode) {
+          case (!= 490):
+            emit(state.copyWith(result: AddScheduleResult.fail));
+        }
     }
   }
 }
@@ -129,5 +140,23 @@ extension on AddScheduleBloc {
     var info = state.info;
     info.startPlace = null;
     emit(state.copyWith(info: info));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onPressAlertOkButton(
+    PressAlertOkButton event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    add(const SetAddScheduleResult(result: AddScheduleResult.init));
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onSetAddScheduleResult(
+    SetAddScheduleResult event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    emit(state.copyWith(result: event.result));
   }
 }

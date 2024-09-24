@@ -11,13 +11,15 @@ part 'mock_modalsearchplace.dart';
 part 'mock_searchplace.dart';
 part 'mock_ebkakaomap.dart';
 
-class SearchPlaceExample extends StatelessWidget {
-  const SearchPlaceExample({super.key});
+final class SearchPlaceExample extends StatelessWidget {
+  final kakaoMapView = _MockEBKakaoMapView();
+
+  SearchPlaceExample({super.key});
 
   @override
   Widget build(BuildContext context) {
     // return _MockSearchPlace();
-    return _MockModalSearchPlaceForRoute();
-    // // return _MockEBKakaoMapView();
+    // return _MockModalSearchPlaceForRoute();
+    return _MockEBKakaoMapView();
   }
 }

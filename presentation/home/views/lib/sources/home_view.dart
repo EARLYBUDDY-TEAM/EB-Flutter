@@ -12,10 +12,8 @@ final class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(
-        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
-        registerDelegate: RepositoryProvider.of<RegisterDelegate>(context),
-        loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+      create: (_) => HomeBloc(
+        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
       ),
       child: const _EBHomeView(),
     );
@@ -27,72 +25,92 @@ final class _EBHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    showReigsterAlert(context);
-    showLoginSnackBar(context);
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await showLoginResultSnackBar(
+          context,
+          state.loginStatus,
+        );
 
-    return Stack(
-      children: [
-        Container(color: Colors.white),
-        const WaveBackground(),
-        Scaffold(
-          appBar: _HomeAppBar(
-            pressMenuButtonAction: () =>
-                context.read<HomeBloc>().add(const PressMenuButton()),
-          ),
-          backgroundColor: Colors.transparent,
-          body: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              const _HomeContent(),
-              _ScheduleAddButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => AddScheduleView(),
+        await showReigsterResultAlert(
+          context,
+          state.registerStatus,
+        );
+      },
+      child: Stack(
+        children: [
+          Container(color: Colors.white),
+          const WaveBackground(),
+          Scaffold(
+            appBar: _HomeAppBar(
+              pressMenuButtonAction: () =>
+                  context.read<HomeBloc>().add(const PressMenuButton()),
+            ),
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                const _HomeContent(),
+                _ScheduleAddButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => AddScheduleView(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> showReigsterResultAlert(
+    BuildContext context,
+    BaseStatus registerStatus,
+  ) async {
+    if (registerStatus != BaseStatus.success) {
+      return;
+    }
+
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    EBAlert.showModalPopup(
+      context: context,
+      title: '얼리버디 회원이 되신걸 축하합니다.',
+      content: '',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context
+                .read<HomeBloc>()
+                .add(const SetRegisterStatus(status: BaseStatus.init));
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
       ],
     );
   }
 
-  void showReigsterAlert(BuildContext context) {
-    final registerDelegate = RepositoryProvider.of<RegisterDelegate>(context);
-    if (registerDelegate.isFirstLogin) {
-      Future.delayed(const Duration(seconds: 1), () {
-        EBAlert.showModalPopup(
-          context: context,
-          title: '얼리버디 회원이 되신걸 축하합니다.',
-          content: '',
-          actions: [
-            EBAlert.makeAction(
-              name: '확인',
-              onPressed: () {
-                context
-                    .read<HomeBloc>()
-                    .add(const PressRegisterAlertOkButton());
-                Navigator.of(context).pop();
-              },
-              isDefaultAction: true,
-            )
-          ],
-        );
-      });
+  Future<void> showLoginResultSnackBar(
+    BuildContext context,
+    BaseStatus loginStatus,
+  ) async {
+    if (loginStatus != BaseStatus.success) {
+      return;
     }
-  }
 
-  void showLoginSnackBar(BuildContext context) {
-    final loginDelegate = RepositoryProvider.of<LoginDelegate>(context);
-    if (loginDelegate.isSuccess) {
-      Future.delayed(const Duration(seconds: 1), () {
-        final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
-        ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-          //ㄷㄹ
-        });
-      });
-    }
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
+    ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
+      context
+          .read<HomeBloc>()
+          .add(const SetLoginStatus(status: BaseStatus.init));
+    });
   }
 }
 

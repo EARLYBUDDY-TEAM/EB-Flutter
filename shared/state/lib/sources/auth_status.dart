@@ -1,4 +1,4 @@
-part of '../../entity.dart';
+part of '../eb_state.dart';
 
 sealed class AuthStatus extends Equatable {}
 

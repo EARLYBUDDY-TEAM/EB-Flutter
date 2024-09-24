@@ -15,6 +15,7 @@ dependencies:
 
   eb_uikit: any
   eb_model: any
+  eb_state: any
   eb_repository: any
   eb_delegate: any
 

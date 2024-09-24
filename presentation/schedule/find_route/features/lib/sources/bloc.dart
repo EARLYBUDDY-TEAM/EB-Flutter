@@ -6,8 +6,8 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   FindRouteBloc({
     required Place start,
     required Place end,
-    FindRouteRepository? findRouteRepository,
-  })  : _findRouteRepository = findRouteRepository ?? FindRouteRepository(),
+    required FindRouteRepository findRouteRepository,
+  })  : _findRouteRepository = findRouteRepository,
         super(const FindRouteState()) {
     on<FetchFindRouteData>(_onFetchFindRouteData);
     on<setFindRouteStatus>(_onSetFindRouteStatus);

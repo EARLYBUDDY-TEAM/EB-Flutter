@@ -1,5 +1,3 @@
-import 'package:eb_repository_interface/eb_repository_interface.dart';
-
 import 'dart:async';
 import 'dart:developer';
 
@@ -13,3 +11,4 @@ part 'sources/ebauth_repository.dart';
 part 'sources/findroute_repository.dart';
 part 'sources/schedule_repository.dart';
 part 'sources/searchplace_repository.dart';
+part 'sources/token_repository.dart';

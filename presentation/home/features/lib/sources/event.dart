@@ -15,10 +15,24 @@ final class PressMenuButton extends HomeEvent {
   const PressMenuButton();
 }
 
-final class PressRegisterAlertOkButton extends HomeEvent {
-  const PressRegisterAlertOkButton();
+final class SetLoginStatus extends HomeEvent {
+  final BaseStatus status;
+
+  const SetLoginStatus({
+    required this.status,
+  });
+
+  @override
+  List<Object?> get props => [status];
 }
 
-final class DismissLoginSnackbar extends HomeEvent {
-  const DismissLoginSnackbar();
+final class SetRegisterStatus extends HomeEvent {
+  final BaseStatus status;
+
+  const SetRegisterStatus({
+    required this.status,
+  });
+
+  @override
+  List<Object?> get props => [status];
 }

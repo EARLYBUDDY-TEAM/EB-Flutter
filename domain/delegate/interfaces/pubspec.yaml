@@ -10,7 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  rxdart: ^0.28.0
+
   eb_model: any
+  eb_state: any
 
 dev_dependencies:
   flutter_test:
