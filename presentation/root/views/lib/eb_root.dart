@@ -15,10 +15,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
-part 'sources/root_view.dart';
-part 'sources/splash_view.dart';
-part 'sources/root_bloc_view.dart';
+part 'sources/root/root_view.dart';
+part 'sources/splash/splash_view.dart';
+part 'sources/root/root_bloc_view.dart';
+part 'sources/onboarding/onboarding_view.dart';
 
 final class PrepareRoot {
   static Future<void> setup({

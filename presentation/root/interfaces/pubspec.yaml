@@ -16,6 +16,7 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
   intl: ^0.19.0
+  introduction_screen: ^3.1.14
 
   eb_delegate: any
   eb_repository: any

@@ -1,4 +1,4 @@
-part of '../eb_root.dart';
+part of '../../eb_root.dart';
 
 final class _RootBlocView extends StatelessWidget {
   const _RootBlocView({super.key});
@@ -54,7 +54,7 @@ final class _RootNaviState extends State<_RootNaviView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashView.route(),
+      // onGenerateRoute: (_) => SplashView.route(),
     );
   }
 }

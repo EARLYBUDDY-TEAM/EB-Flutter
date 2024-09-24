@@ -1,4 +1,4 @@
-part of '../eb_root.dart';
+part of '../../eb_root.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
