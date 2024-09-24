@@ -144,6 +144,20 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  eb_event:
+    dependency: "direct overridden"
+    description:
+      path: "../../domain/event/features"
+      relative: true
+    source: path
+    version: "0.0.1"
+  eb_event_interface:
+    dependency: "direct overridden"
+    description:
+      path: "../../domain/event/interfaces"
+      relative: true
+    source: path
+    version: "0.0.1"
   eb_find_route:
     dependency: "direct overridden"
     description:

@@ -2,13 +2,19 @@ part of '../eb_register_feature.dart';
 
 final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final EBAuthRepository _authRepository;
+  final TokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
+  final RootDelegate _rootDelegate;
 
   RegisterBloc({
-    EBAuthRepository? authRepository,
-    HomeDelegate? homeDelegate,
-  })  : _authRepository = authRepository ?? EBAuthRepository(),
-        _homeDelegate = homeDelegate ?? HomeDelegate(),
+    required EBAuthRepository authRepository,
+    required TokenRepository tokenRepository,
+    required HomeDelegate homeDelegate,
+    required RootDelegate rootDelegate,
+  })  : _authRepository = authRepository,
+        _tokenRepository = tokenRepository,
+        _homeDelegate = homeDelegate,
+        _rootDelegate = rootDelegate,
         super(const RegisterState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
@@ -122,7 +128,8 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               emit(state.copyWith(status: RegisterStatus.initial));
               Token token = loginResult.success.model;
               _homeDelegate.registerStatus.add(BaseStatus.success);
-              _authRepository.addAuthenticate(token);
+              await _tokenRepository.saveToken(token);
+              _rootDelegate.authStatus.add(Authenticated());
             case Failure():
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }

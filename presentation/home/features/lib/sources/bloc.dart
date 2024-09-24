@@ -1,15 +1,12 @@
 part of '../eb_home_feature.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final EBAuthRepository _authRepository;
   late StreamSubscription<BaseStatus> _loginStatusSubscription;
   late StreamSubscription<BaseStatus> _registerStatusSubscription;
 
   HomeBloc({
-    required EBAuthRepository authRepository,
     required HomeDelegate homeDelegate,
-  })  : _authRepository = authRepository,
-        super(const HomeState()) {
+  }) : super(const HomeState()) {
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
     on<PressMenuButton>(_onPressMenuButton);
     on<SetLoginStatus>(_onSetLoginStatus);
@@ -42,7 +39,7 @@ extension on HomeBloc {
     PressMenuButton event,
     Emitter<HomeState> emit,
   ) {
-    _authRepository.logOut();
+    // _authRepository.logOut();
   }
 }
 

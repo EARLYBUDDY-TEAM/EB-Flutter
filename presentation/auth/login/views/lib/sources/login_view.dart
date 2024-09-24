@@ -14,6 +14,8 @@ final class LoginView extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginBloc(
         authRepository: RepositoryProvider.of<EBAuthRepository>(context),
+        tokenRepository: RepositoryProvider.of<TokenRepository>(context),
+        rootDelegate: RepositoryProvider.of<RootDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
       ),

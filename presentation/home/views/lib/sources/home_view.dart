@@ -13,7 +13,6 @@ final class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => HomeBloc(
-        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
       ),
       child: const _EBHomeView(),

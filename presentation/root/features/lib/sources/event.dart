@@ -9,5 +9,3 @@ final class ChangeAuthStatus extends RootEvent {
 
   const ChangeAuthStatus(this.status);
 }
-
-final class RequestLogout extends RootEvent {}

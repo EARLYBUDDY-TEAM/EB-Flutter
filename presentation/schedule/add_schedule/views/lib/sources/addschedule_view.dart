@@ -17,9 +17,12 @@ final class AddScheduleView extends StatelessWidget {
                   RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
               scheduleRepository:
                   RepositoryProvider.of<ScheduleRepository>(context),
-              ebAuthRepository:
-                  RepositoryProvider.of<EBAuthRepository>(context),
-              loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+              tokenEvent: TokenEvent(
+                rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+                loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+                tokenRepository:
+                    RepositoryProvider.of<TokenRepository>(context),
+              ),
             );
       },
       child: const _AddScheduleContent(),

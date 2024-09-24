@@ -1,19 +1,25 @@
 part of 'addschedule_example.dart';
 
 final class MockAddSchedule extends StatelessWidget {
-  final _scheduleRepository = ScheduleRepository();
-  final _ebAuthRepository = EBAuthRepository();
-
+  final _loginDelegate = LoginDelegate();
+  final _rootDelegate = RootDelegate();
   final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
   final _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
-  final _loginDelegate = LoginDelegate();
+
+  final _scheduleRepository = ScheduleRepository();
+  final _tokenRepository = TokenRepository();
+
+  late final _tokenEvent = TokenEvent(
+    rootDelegate: _rootDelegate,
+    loginDelegate: _loginDelegate,
+    tokenRepository: _tokenRepository,
+  );
 
   late final bloc = AddScheduleBloc(
     searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
     searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
     scheduleRepository: _scheduleRepository,
-    ebAuthRepository: _ebAuthRepository,
-    loginDelegate: _loginDelegate,
+    tokenEvent: _tokenEvent,
   );
 
   MockAddSchedule({super.key});
@@ -22,11 +28,12 @@ final class MockAddSchedule extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider.value(value: _loginDelegate),
+        RepositoryProvider.value(value: _rootDelegate),
         RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
         RepositoryProvider.value(value: _scheduleRepository),
-        RepositoryProvider.value(value: _ebAuthRepository),
-        RepositoryProvider.value(value: _loginDelegate),
+        RepositoryProvider.value(value: _tokenRepository),
       ],
       child: MaterialApp(
         home: _NaviButton(

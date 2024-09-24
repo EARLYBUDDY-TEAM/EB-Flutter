@@ -16,6 +16,8 @@ dependencies:
   eb_uikit: any
   eb_find_route: any
   eb_search_place: any
+  eb_event: any
+  
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
   modal_bottom_sheet: ^3.0.0

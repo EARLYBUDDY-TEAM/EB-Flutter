@@ -9,13 +9,12 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   SearchPlaceBloc({
     required SearchPlaceDelegate searchPlacedelegate,
     required SearchPlaceSetting searchPlaceSetting,
-    SearchPlaceRepository? searchPlaceRepository,
+    required SearchPlaceRepository searchPlaceRepository,
     SearchPlaceState? searchPlaceState,
     Function(Place)? selectAction,
     Function()? cancelAction,
   })  : _searchPlaceDelegate = searchPlacedelegate,
-        _searchPlaceRepository =
-            searchPlaceRepository ?? SearchPlaceRepository(),
+        _searchPlaceRepository = searchPlaceRepository,
         selectAction = selectAction ?? ((_) {}),
         cancelAction = cancelAction ?? (() {}),
         super(searchPlaceState ?? SearchPlaceState()) {

@@ -7,7 +7,7 @@ final class _RootBlocView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RootBloc(
-        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
+        rootDelegate: RepositoryProvider.of<RootDelegate>(context),
       ),
       child: _RootNaviView(),
     );

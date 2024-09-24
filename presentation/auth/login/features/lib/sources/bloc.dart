@@ -2,16 +2,22 @@ part of '../eb_login_feature.dart';
 
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final EBAuthRepository _authRepository;
+  final TokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
+  final RootDelegate _rootDelegate;
 
   late StreamSubscription<BaseStatus> _tokenStatusSubscription;
 
   LoginBloc({
     required EBAuthRepository authRepository,
+    required TokenRepository tokenRepository,
     required HomeDelegate homeDelegate,
     required LoginDelegate loginDelegate,
+    required RootDelegate rootDelegate,
   })  : _authRepository = authRepository,
+        _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
+        _rootDelegate = rootDelegate,
         super(const LoginState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
@@ -63,8 +69,9 @@ extension on LoginBloc {
         case Success():
           emit(state.copyWith(status: LoginStatus.initial));
           Token token = result.success.model;
-          _authRepository.addAuthenticate(token);
+          await _tokenRepository.saveToken(token);
           _homeDelegate.loginStatus.add(BaseStatus.success);
+          _rootDelegate.authStatus.add(Authenticated());
         case Failure():
           final emailState =
               state.emailState.copyWith(status: EmailFormStatus.onError);

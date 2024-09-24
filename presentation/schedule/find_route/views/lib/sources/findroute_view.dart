@@ -22,6 +22,8 @@ final class FindRouteView extends StatelessWidget {
       create: (context) => FindRouteBloc(
         start: start,
         end: end,
+        findRouteRepository:
+            RepositoryProvider.of<FindRouteRepository>(context),
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
