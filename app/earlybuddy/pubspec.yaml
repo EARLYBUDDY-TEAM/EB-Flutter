@@ -35,8 +35,6 @@ dependencies:
 
   eb_root: any
   eb_env: any
-  eb_secure_storage: any
-
   
 
 dev_dependencies:

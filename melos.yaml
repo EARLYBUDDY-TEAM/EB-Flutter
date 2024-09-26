@@ -30,6 +30,7 @@ command:
       rxdart: ^0.28.0
       introduction_screen: ^3.1.14
       flutter_native_splash: ^2.4.1
+      shared_preferences: ^2.3.2
 
 scripts:
   test_all:
