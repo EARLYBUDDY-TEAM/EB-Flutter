@@ -23,11 +23,31 @@ class $AssetsImagesGen {
   /// File path: assets/images/odsay.png
   AssetGenImage get odsay => const AssetGenImage('assets/images/odsay.png');
 
+  /// File path: assets/images/onboarding1.png
+  AssetGenImage get onboarding1 =>
+      const AssetGenImage('assets/images/onboarding1.png');
+
+  /// File path: assets/images/onboarding2.png
+  AssetGenImage get onboarding2 =>
+      const AssetGenImage('assets/images/onboarding2.png');
+
+  /// File path: assets/images/onboarding3.png
+  AssetGenImage get onboarding3 =>
+      const AssetGenImage('assets/images/onboarding3.png');
+
   /// File path: assets/images/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [loginTitle, markFindroute, odsay, splash];
+  List<AssetGenImage> get values => [
+        loginTitle,
+        markFindroute,
+        odsay,
+        onboarding1,
+        onboarding2,
+        onboarding3,
+        splash
+      ];
 }
 
 class Assets {

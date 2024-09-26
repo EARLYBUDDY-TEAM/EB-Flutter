@@ -1,0 +1,1313 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "eb-flutter",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "earlybuddy",
+            "cwd": "app/earlybuddy",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "earlybuddy (profile mode)",
+            "cwd": "app/earlybuddy",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "earlybuddy (release mode)",
+            "cwd": "app/earlybuddy",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "env",
+            "cwd": "shared/env",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "env (profile mode)",
+            "cwd": "shared/env",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "env (release mode)",
+            "cwd": "shared/env",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "model",
+            "cwd": "shared/model",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "model (profile mode)",
+            "cwd": "shared/model",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "model (release mode)",
+            "cwd": "shared/model",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "state",
+            "cwd": "shared/state",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "state (profile mode)",
+            "cwd": "shared/state",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "state (release mode)",
+            "cwd": "shared/state",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "core/location/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "core/location/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "core/location/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "core/location/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "core/location/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "core/location/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "core/location/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "core/location/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "core/location/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "core/network/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "core/network/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "core/network/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "core/network/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "core/network/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "core/network/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "core/network/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "core/network/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "core/network/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "core/secure_storage/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "core/secure_storage/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "core/secure_storage/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "core/secure_storage/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "core/secure_storage/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "core/secure_storage/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "core/secure_storage/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "core/secure_storage/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "core/secure_storage/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "domain/delegate/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "domain/delegate/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "domain/delegate/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "domain/delegate/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "domain/delegate/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "domain/delegate/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "domain/delegate/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "domain/delegate/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "domain/delegate/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "domain/event/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "domain/event/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "domain/event/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "domain/event/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "domain/event/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "domain/event/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "domain/event/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "domain/event/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "domain/event/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "domain/repository/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "domain/repository/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "domain/repository/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "domain/repository/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "domain/repository/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "domain/repository/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "domain/repository/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "domain/repository/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "domain/repository/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/home/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/home/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/home/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/home/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/home/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/home/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/home/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/home/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/home/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/home/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/home/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/home/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/home/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/home/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/home/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/root/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/root/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/root/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/root/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/root/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/root/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/root/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/root/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/root/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/root/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/root/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/root/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/root/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/root/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/root/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "eb_resource",
+            "cwd": "shared/uikit/eb_resource",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "eb_resource (profile mode)",
+            "cwd": "shared/uikit/eb_resource",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "eb_resource (release mode)",
+            "cwd": "shared/uikit/eb_resource",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "eb_uikit",
+            "cwd": "shared/uikit/eb_uikit",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "eb_uikit (profile mode)",
+            "cwd": "shared/uikit/eb_uikit",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "eb_uikit (release mode)",
+            "cwd": "shared/uikit/eb_uikit",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "eb_uikit_examples",
+            "cwd": "shared/uikit/eb_uikit_examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "eb_uikit_examples (profile mode)",
+            "cwd": "shared/uikit/eb_uikit_examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "eb_uikit_examples (release mode)",
+            "cwd": "shared/uikit/eb_uikit_examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/auth/login/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/auth/login/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/auth/login/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/auth/login/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/auth/login/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/auth/login/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/auth/login/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/auth/login/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/auth/login/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/auth/login/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/auth/login/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/auth/login/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/auth/login/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/auth/login/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/auth/login/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/auth/register/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/auth/register/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/auth/register/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/auth/register/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/auth/register/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/auth/register/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/auth/register/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/auth/register/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/auth/register/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/auth/register/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/auth/register/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/auth/register/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/auth/register/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/auth/register/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/auth/register/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/schedule/add_schedule/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/schedule/add_schedule/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/schedule/add_schedule/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/schedule/add_schedule/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/schedule/add_schedule/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/schedule/add_schedule/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/schedule/add_schedule/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/schedule/add_schedule/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/schedule/add_schedule/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/schedule/add_schedule/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/schedule/add_schedule/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/schedule/add_schedule/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/schedule/add_schedule/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/schedule/add_schedule/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/schedule/add_schedule/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/schedule/detail_route/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/schedule/detail_route/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/schedule/detail_route/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/schedule/detail_route/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/schedule/detail_route/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/schedule/detail_route/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/schedule/detail_route/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/schedule/detail_route/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/schedule/detail_route/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/schedule/detail_route/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/schedule/detail_route/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/schedule/detail_route/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/schedule/detail_route/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/schedule/detail_route/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/schedule/detail_route/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/schedule/find_route/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/schedule/find_route/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/schedule/find_route/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/schedule/find_route/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/schedule/find_route/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/schedule/find_route/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/schedule/find_route/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/schedule/find_route/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/schedule/find_route/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/schedule/find_route/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/schedule/find_route/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/schedule/find_route/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/schedule/find_route/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/schedule/find_route/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/schedule/find_route/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "examples",
+            "cwd": "presentation/schedule/search_place/examples",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "examples (profile mode)",
+            "cwd": "presentation/schedule/search_place/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "examples (release mode)",
+            "cwd": "presentation/schedule/search_place/examples",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "features",
+            "cwd": "presentation/schedule/search_place/features",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "features (profile mode)",
+            "cwd": "presentation/schedule/search_place/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "features (release mode)",
+            "cwd": "presentation/schedule/search_place/features",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "interfaces",
+            "cwd": "presentation/schedule/search_place/interfaces",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "interfaces (profile mode)",
+            "cwd": "presentation/schedule/search_place/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "interfaces (release mode)",
+            "cwd": "presentation/schedule/search_place/interfaces",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "tests",
+            "cwd": "presentation/schedule/search_place/tests",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "tests (profile mode)",
+            "cwd": "presentation/schedule/search_place/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "tests (release mode)",
+            "cwd": "presentation/schedule/search_place/tests",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "views",
+            "cwd": "presentation/schedule/search_place/views",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "views (profile mode)",
+            "cwd": "presentation/schedule/search_place/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "views (release mode)",
+            "cwd": "presentation/schedule/search_place/views",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

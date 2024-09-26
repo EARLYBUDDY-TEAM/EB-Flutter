@@ -1,4 +1,4 @@
-part of '../eb_root.dart';
+part of '../../eb_root.dart';
 
 final class RootView extends StatelessWidget {
   final SearchPlaceDelegateForPlace _searchPlaceDelegateForPlace;
