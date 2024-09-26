@@ -31,9 +31,11 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
+  flutter_native_splash: ^2.4.1
 
   eb_root: any
   eb_env: any
+
   
 
 dev_dependencies:
@@ -49,6 +51,9 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_native_splash:
+  background_image: "assets/splash.png"
 
 # The following section is specific to Flutter packages.
 flutter:

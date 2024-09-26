@@ -54,7 +54,7 @@ final class _RootNaviState extends State<_RootNaviView> {
           child: child,
         );
       },
-      // onGenerateRoute: (_) => SplashView.route(),
+      onGenerateRoute: (_) => LoginView.route(),
     );
   }
 }

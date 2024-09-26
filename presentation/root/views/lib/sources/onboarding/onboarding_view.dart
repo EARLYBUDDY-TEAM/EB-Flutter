@@ -31,8 +31,11 @@ final class OnboardingContent extends StatelessWidget {
       ],
       done: Text("완료", style: _textStyle()),
       onDone: () {
-        // Navigator.of(context).pushReplacement(
-        //     MaterialPageRoute(builder: (context) => const MyPage()));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => RootView(),
+          ),
+        );
       },
       next: Icon(
         Icons.arrow_forward,

@@ -21,12 +21,15 @@ part 'sources/root/root_view.dart';
 part 'sources/splash/splash_view.dart';
 part 'sources/root/root_bloc_view.dart';
 part 'sources/onboarding/onboarding_view.dart';
+part 'sources/compose_view.dart';
 
 final class PrepareRoot {
-  static Future<void> setup({
+  static Future<WidgetsBinding> setup({
+    WidgetsBinding? widgetsBinding,
     bool dev = false,
   }) async {
-    WidgetsFlutterBinding.ensureInitialized();
+    final WidgetsBinding myWidgetsBinding =
+        widgetsBinding ?? WidgetsFlutterBinding.ensureInitialized();
     await initializeDateFormatting();
     await PrepareENV.load(dev: true);
     PrepareEBSearchPlace.initializeKakaoMap(
@@ -34,5 +37,7 @@ final class PrepareRoot {
       baseUrl: ENV.shared.kakaoBaseUrl,
     );
     await LocationProvider.shared.checkPermission();
+
+    return myWidgetsBinding;
   }
 }
