@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'sources/root_example.dart';
 
 void main() async {
-  // await PrepareRoot.setup(dev: true);
-  // final rootExample = RootExample();
-  // runApp(rootExample);
-  // await rootExample.setAutoLogin();
-
-  runApp(const OnboardingView());
+  await PrepareRoot.setup(dev: true);
+  final rootExample = RootExample();
+  runApp(rootExample);
+  await rootExample.setAutoLogin();
 }
