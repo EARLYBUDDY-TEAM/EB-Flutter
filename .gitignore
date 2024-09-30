@@ -22,3 +22,5 @@ build/
 
 # Melos
 **/pubspec_overrides.yaml
+
+.flutter-plugins-dependencies
