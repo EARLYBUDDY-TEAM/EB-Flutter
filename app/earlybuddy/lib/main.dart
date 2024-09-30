@@ -6,7 +6,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   widgetsBinding = await PrepareRoot.setup(widgetsBinding: widgetsBinding);
-  final isFirstLaunch = await checkFirstLaunch();
+  final isFirstLaunch = await PrepareRoot.checkFirstLaunch();
   FlutterNativeSplash.remove();
   isFirstLaunch ? runApp(const OnboardingView()) : runApp(RootView());
 }

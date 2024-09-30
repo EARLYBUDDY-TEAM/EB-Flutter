@@ -1,6 +1,7 @@
 part of 'addschedule_example.dart';
 
 final class MockAddSchedule extends StatelessWidget {
+  final _loadingDelegate = LoadingDelegate();
   final _loginDelegate = LoginDelegate();
   final _rootDelegate = RootDelegate();
   final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
@@ -16,6 +17,7 @@ final class MockAddSchedule extends StatelessWidget {
   );
 
   late final bloc = AddScheduleBloc(
+    loadingDelegate: _loadingDelegate,
     searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
     searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
     scheduleRepository: _scheduleRepository,

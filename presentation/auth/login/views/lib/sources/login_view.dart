@@ -18,6 +18,7 @@ final class LoginView extends StatelessWidget {
         rootDelegate: RepositoryProvider.of<RootDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
       ),
       child: _LoginContent(),
     );

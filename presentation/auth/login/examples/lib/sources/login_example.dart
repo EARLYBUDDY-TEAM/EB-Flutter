@@ -6,9 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'mock_loginview.dart';
 
+// required EBAuthRepository authRepository,
+//     required TokenRepository tokenRepository,
+//     required HomeDelegate homeDelegate,
+//     required LoginDelegate loginDelegate,
+//     required RootDelegate rootDelegate,
+
 final class LoginExample extends StatelessWidget {
   final _ebAuthRepository = EBAuthRepository();
+  final _tokenRepository = TokenRepository();
   final _homeDelegate = HomeDelegate();
+  final _loginDelegate = LoginDelegate();
+  final _rootDelegate = RootDelegate();
 
   LoginExample({super.key});
 
@@ -17,7 +26,10 @@ final class LoginExample extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: _ebAuthRepository),
+        RepositoryProvider.value(value: _tokenRepository),
         RepositoryProvider.value(value: _homeDelegate),
+        RepositoryProvider.value(value: _loginDelegate),
+        RepositoryProvider.value(value: _rootDelegate),
       ],
       child: const MaterialApp(
         home: MockLoginView(),

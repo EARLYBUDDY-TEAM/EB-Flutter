@@ -5,16 +5,19 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final TokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
+  final LoadingDelegate _loadingDelegate;
 
   RegisterBloc({
     required EBAuthRepository authRepository,
     required TokenRepository tokenRepository,
     required HomeDelegate homeDelegate,
     required RootDelegate rootDelegate,
+    required LoadingDelegate loadingDelegate,
   })  : _authRepository = authRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
+        _loadingDelegate = loadingDelegate,
         super(const RegisterState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
@@ -110,6 +113,7 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) async {
     if (state.inputIsValid) {
+      _loadingDelegate.set();
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
       final Result registerResult = await _authRepository.register(
@@ -127,13 +131,16 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             case Success():
               emit(state.copyWith(status: RegisterStatus.initial));
               Token token = loginResult.success.model;
-              _homeDelegate.registerStatus.add(BaseStatus.success);
               await _tokenRepository.saveToken(token);
+              _loadingDelegate.dismiss();
               _rootDelegate.authStatus.add(Authenticated());
+              _homeDelegate.registerStatus.add(BaseStatus.success);
             case Failure():
+              _loadingDelegate.dismiss();
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }
         case Failure():
+          _loadingDelegate.dismiss();
           switch (registerResult.failure.statusCode) {
             case (400):
               emit(
