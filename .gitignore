@@ -24,3 +24,4 @@ build/
 **/pubspec_overrides.yaml
 
 .flutter-plugins-dependencies
+pubspec.lock
