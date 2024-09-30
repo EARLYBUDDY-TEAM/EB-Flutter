@@ -11,6 +11,7 @@ final class AddScheduleView extends StatelessWidget {
       create: (context) {
         return bloc ??
             AddScheduleBloc(
+              loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
               searchPlaceDelegateForPlace:
                   RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
               searchPlaceDelegateForRoute:

@@ -4,7 +4,7 @@ import 'package:eb_resource/eb_resource.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' show JSON;
-import 'package:rxdart/subjects.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'sources/textfield.dart';
 part 'sources/button.dart';

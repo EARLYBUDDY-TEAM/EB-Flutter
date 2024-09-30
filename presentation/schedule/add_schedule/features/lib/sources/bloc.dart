@@ -1,20 +1,21 @@
 part of '../eb_add_schedule_feature.dart';
 
 final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
+  final LoadingDelegate _loadingDelegate;
   late StreamSubscription<Place> selectPlaceSubscriptionForPlace;
   late StreamSubscription<Place> selectPlaceSubscriptionForRoute;
-
   final ScheduleRepository _scheduleRepository;
-
   final TokenEvent _tokenEvent;
 
   AddScheduleBloc({
+    required LoadingDelegate loadingDelegate,
     required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
     required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
     required ScheduleRepository scheduleRepository,
     required TokenEvent tokenEvent,
     AddScheduleState? addScheduleState,
-  })  : _scheduleRepository = scheduleRepository,
+  })  : _loadingDelegate = loadingDelegate,
+        _scheduleRepository = scheduleRepository,
         _tokenEvent = tokenEvent,
         super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
@@ -95,10 +96,13 @@ extension on AddScheduleBloc {
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) async {
+    _loadingDelegate.set();
+
     final Result addScheduleResult =
         await _scheduleRepository.addSchedule(scheduleInfo: state.info);
-
     final Result result = await _tokenEvent.check(preResult: addScheduleResult);
+
+    _loadingDelegate.dismiss();
 
     switch (result) {
       case Success():

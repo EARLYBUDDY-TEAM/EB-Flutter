@@ -61,8 +61,8 @@ extension on LoginBloc {
     Emitter<LoginState> emit,
   ) async {
     if (state.inputIsValid) {
-      emit(state.copyWith(status: LoginStatus.inProgress));
       _loadingDelegate.set();
+      emit(state.copyWith(status: LoginStatus.inProgress));
 
       final Result result = await _authRepository.logIn(
         email: state.emailState.email.value,
