@@ -27,7 +27,7 @@ final class _EBPasswordTextFieldState extends State<EBPasswordTextField> {
       onChanged: widget.onChanged,
       cursorColor: widget.color,
       obscureText: isObscure,
-      decoration: _EBPasswordInputDecoration(
+      decoration: EBPasswordInputDecoration(
         widget.labelText,
         widget.errorText,
         widget.color,
@@ -40,11 +40,11 @@ final class _EBPasswordTextFieldState extends State<EBPasswordTextField> {
   }
 }
 
-class _EBPasswordInputDecoration extends _EBInputDecoration {
+class EBPasswordInputDecoration extends EBInputDecoration {
   bool isObscure;
   Function() onPressedEyeButton;
 
-  _EBPasswordInputDecoration(
+  EBPasswordInputDecoration(
     super.labelText,
     super.errorText,
     super.color,
@@ -81,7 +81,7 @@ final class EBTextField extends StatelessWidget {
     return TextField(
       onChanged: onChanged,
       cursorColor: color,
-      decoration: _EBInputDecoration(
+      decoration: EBInputDecoration(
         labelText,
         errorText,
         color,
@@ -90,14 +90,18 @@ final class EBTextField extends StatelessWidget {
   }
 }
 
-class _EBInputDecoration extends InputDecoration {
+class EBInputDecoration extends InputDecoration {
   @override
   String? labelText;
   @override
   String? errorText;
   Color color;
 
-  _EBInputDecoration(this.labelText, this.errorText, this.color);
+  EBInputDecoration(
+    this.labelText,
+    this.errorText,
+    this.color,
+  );
 
   @override
   InputBorder? get focusedBorder => UnderlineInputBorder(

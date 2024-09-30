@@ -19,6 +19,5 @@ part 'sources/alert.dart';
 part 'sources/theme.dart';
 part 'sources/snackbar.dart';
 part 'sources/result.dart';
-part 'sources/name_generator.dart';
 part 'sources/loading_view/loading_view.dart';
 part 'sources/loading_view/loading_delegate.dart';

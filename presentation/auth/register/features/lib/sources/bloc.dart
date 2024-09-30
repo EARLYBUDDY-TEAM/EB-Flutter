@@ -19,11 +19,30 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
         super(const RegisterState()) {
+    on<ChangeName>(_onChangeName);
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
     on<PressRegisterButton>(_onPressRegisterButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
+  }
+
+  void _onChangeName(
+    ChangeName event,
+    Emitter<RegisterState> emit,
+  ) {
+    final name = NameFormz(value: event.name);
+    TextFieldStatus status;
+    if (name.value.isEmpty) {
+      status = TextFieldStatus.initial;
+    } else {
+      status = name.isValid ? TextFieldStatus.typing : TextFieldStatus.onError;
+    }
+    final nameState = state.nameState.copyWith(
+      name: name,
+      status: status,
+    );
+    emit(state.copyWith(nameState: nameState));
   }
 
   void _onChangeEmail(
