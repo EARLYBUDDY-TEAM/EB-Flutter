@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  lottie: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +21,10 @@ flutter_gen:
   assets:
     outputs:
       package_parameter_enabled: true
+  
+  integrations:
+    lottie: true
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -28,6 +33,7 @@ flutter_gen:
 flutter:
   assets:
     - assets/images/
+    - assets/lotties/
   fonts:
   - family: GmarketSansLight
     fonts:

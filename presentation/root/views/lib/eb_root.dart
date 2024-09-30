@@ -40,26 +40,26 @@ final class PrepareRoot {
 
     return myWidgetsBinding;
   }
-}
 
-Future<bool> checkFirstLaunch() async {
-  final List<SecureStorageKey> keysToEliminate = [
-    SecureStorageKey.accessToken,
-    SecureStorageKey.refreshToken,
-  ];
+  static Future<bool> checkFirstLaunch() async {
+    final List<SecureStorageKey> keysToEliminate = [
+      SecureStorageKey.accessToken,
+      SecureStorageKey.refreshToken,
+    ];
 
-  final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
 
-  if (prefs.getBool('first_run') ?? true) {
-    final secureStorage = SecureStorage();
-    await Future.wait(
-      keysToEliminate.map(
-        (key) => secureStorage.delete(key: key),
-      ),
-    );
-    prefs.setBool('first_run', false);
-    return true;
-  } else {
-    return false;
+    if (prefs.getBool('first_run') ?? true) {
+      final secureStorage = SecureStorage();
+      await Future.wait(
+        keysToEliminate.map(
+          (key) => secureStorage.delete(key: key),
+        ),
+      );
+      prefs.setBool('first_run', false);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
