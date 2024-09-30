@@ -35,23 +35,26 @@ final class _RootNaviState extends State<_RootNaviView> {
       theme: EBTheme.light(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
-        return BlocListener<RootBloc, RootState>(
-          listener: (context, state) {
-            AuthStatus status = state.status;
-            switch (status) {
-              case Authenticated():
-                _navigator.pushAndRemoveUntil(
-                  HomeView.route(),
-                  (route) => false,
-                );
-              case UnAuthenticated():
-                _navigator.pushAndRemoveUntil(
-                  LoginView.route(),
-                  (route) => false,
-                );
-            }
-          },
-          child: child,
+        return WithLoadingView(
+          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+          child: BlocListener<RootBloc, RootState>(
+            listener: (context, state) {
+              AuthStatus status = state.status;
+              switch (status) {
+                case Authenticated():
+                  _navigator.pushAndRemoveUntil(
+                    HomeView.route(),
+                    (route) => false,
+                  );
+                case UnAuthenticated():
+                  _navigator.pushAndRemoveUntil(
+                    LoginView.route(),
+                    (route) => false,
+                  );
+              }
+            },
+            child: child,
+          ),
         );
       },
       onGenerateRoute: (_) => LoginView.route(),

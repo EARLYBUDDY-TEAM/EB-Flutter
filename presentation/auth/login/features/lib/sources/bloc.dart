@@ -5,6 +5,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final TokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
+  final LoadingDelegate _loadingDelegate;
 
   late StreamSubscription<BaseStatus> _tokenStatusSubscription;
 
@@ -14,10 +15,12 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     required HomeDelegate homeDelegate,
     required LoginDelegate loginDelegate,
     required RootDelegate rootDelegate,
+    required LoadingDelegate loadingDelegate,
   })  : _authRepository = authRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
+        _loadingDelegate = loadingDelegate,
         super(const LoginState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
@@ -59,6 +62,7 @@ extension on LoginBloc {
   ) async {
     if (state.inputIsValid) {
       emit(state.copyWith(status: LoginStatus.inProgress));
+      _loadingDelegate.set();
 
       final Result result = await _authRepository.logIn(
         email: state.emailState.email.value,
@@ -70,9 +74,11 @@ extension on LoginBloc {
           emit(state.copyWith(status: LoginStatus.initial));
           Token token = result.success.model;
           await _tokenRepository.saveToken(token);
+          _loadingDelegate.dismiss();
           _homeDelegate.loginStatus.add(BaseStatus.success);
           _rootDelegate.authStatus.add(Authenticated());
         case Failure():
+          _loadingDelegate.dismiss();
           final emailState =
               state.emailState.copyWith(status: EmailFormStatus.onError);
           final passwordState =
