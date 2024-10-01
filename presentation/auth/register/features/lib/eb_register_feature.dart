@@ -13,3 +13,4 @@ part 'sources/state/email_state.dart';
 part 'sources/state/password_state.dart';
 part 'sources/state/passwordconfirm_state.dart';
 part 'sources/state/state.dart';
+part 'sources/state/name_state.dart';
