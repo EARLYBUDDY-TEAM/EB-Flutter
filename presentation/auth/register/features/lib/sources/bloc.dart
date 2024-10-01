@@ -26,7 +26,9 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<PressRegisterButton>(_onPressRegisterButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
   }
+}
 
+extension on RegisterBloc {
   void _onChangeName(
     ChangeName event,
     Emitter<RegisterState> emit,
@@ -44,7 +46,9 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     emit(state.copyWith(nameState: nameState));
   }
+}
 
+extension on RegisterBloc {
   void _onChangeEmail(
     ChangeEmail event,
     Emitter<RegisterState> emit,
@@ -62,7 +66,9 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     emit(state.copyWith(emailState: emailState));
   }
+}
 
+extension on RegisterBloc {
   void _onChangePassword(
     ChangePassword event,
     Emitter<RegisterState> emit,
@@ -102,7 +108,9 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ),
     );
   }
+}
 
+extension on RegisterBloc {
   void _onChangePasswordConfirm(
     ChangePasswordConfirm event,
     Emitter<RegisterState> emit,
@@ -126,7 +134,9 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(passwordConfirmState: passwordConfirmState),
     );
   }
+}
 
+extension on RegisterBloc {
   void _onPressRegisterButton(
     PressRegisterButton event,
     Emitter<RegisterState> emit,
@@ -135,7 +145,9 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       _loadingDelegate.set();
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
+      final compressedName = compressName(state.nameState.name.value);
       final Result registerResult = await _authRepository.register(
+        name: compressedName,
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
@@ -175,6 +187,15 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     }
   }
 
+  String compressName(String name) {
+    var newName = name.trim();
+    final whitespaceRE = RegExp(r"(?! )\s+| \s+");
+    newName = newName.split(whitespaceRE).join(" ");
+    return newName;
+  }
+}
+
+extension on RegisterBloc {
   void _onPressAlertOkButton(
     PressAlertOkButton event,
     Emitter<RegisterState> emit,

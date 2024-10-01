@@ -32,10 +32,15 @@ final class EBAuthRepository {
   }
 
   Future<Result> register({
+    required String name,
     required String email,
     required String password,
   }) async {
-    final request = RegisterRequest.init(email: email, password: password);
+    final request = RegisterRequest.init(
+      name: name,
+      email: email,
+      password: password,
+    );
 
     final result = await _networkService.request(request);
     switch (result) {

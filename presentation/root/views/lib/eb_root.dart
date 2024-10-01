@@ -31,10 +31,10 @@ final class PrepareRoot {
     final WidgetsBinding myWidgetsBinding =
         widgetsBinding ?? WidgetsFlutterBinding.ensureInitialized();
     await initializeDateFormatting();
-    await PrepareENV.load(dev: true);
+    await prepareENV(dev: dev);
     PrepareEBSearchPlace.initializeKakaoMap(
-      appKey: ENV.shared.kakaoAppKey,
-      baseUrl: ENV.shared.kakaoBaseUrl,
+      appKey: ENV_KAKAOMAP.appKey,
+      baseUrl: ENV_KAKAOMAP.url,
     );
     await LocationProvider.shared.checkPermission();
 

@@ -29,7 +29,7 @@ final class _NameInput extends StatelessWidget {
   String? _errorText(TextFieldStatus status) {
     switch (status) {
       case TextFieldStatus.onError:
-        return '30자 이하로 입력해주세요';
+        return '50자 이하로 입력해주세요';
       default:
         return null;
     }

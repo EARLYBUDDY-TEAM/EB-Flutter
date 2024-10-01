@@ -6,7 +6,8 @@ final class RegisterState extends Equatable {
   final PasswordState passwordState;
   final PasswordConfirmState passwordConfirmState;
   final RegisterStatus status;
-  bool get inputIsValid => (emailState.email.isValid &&
+  bool get inputIsValid => (nameState.name.isValid &&
+      emailState.email.isValid &&
       passwordState.password.isValid &&
       passwordConfirmState.passwordConfirm.isValid);
 

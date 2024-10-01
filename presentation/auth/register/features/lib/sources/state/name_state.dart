@@ -38,7 +38,7 @@ final class NameFormz extends Equatable implements EBFormzAB {
 
   @override
   bool validator() {
-    if (30 < value.length) {
+    if (50 < value.length) {
       return false;
     }
     return true;

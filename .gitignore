@@ -16,10 +16,6 @@
 .dart_tool/
 build/
 
-# env file
-*.env_dev
-*.env_main
-
 # Melos
 **/pubspec_overrides.yaml
 
