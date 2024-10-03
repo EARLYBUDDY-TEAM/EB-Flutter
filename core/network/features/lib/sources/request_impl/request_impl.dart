@@ -8,3 +8,4 @@ part 'searchplace_request.dart';
 part 'findroute_request.dart';
 part 'add_schedule_request.dart';
 part 'token_request.dart';
+part 'home_request.dart';

@@ -5,6 +5,7 @@ import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_resource/eb_resource.dart';
 import 'package:eb_add_schedule/eb_add_schedule.dart';
 import 'package:eb_state/eb_state.dart';
+import 'package:eb_event/eb_event.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

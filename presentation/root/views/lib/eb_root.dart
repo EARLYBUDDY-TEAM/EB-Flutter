@@ -10,6 +10,7 @@ import 'package:eb_location/eb_location.dart';
 import 'package:eb_search_place/eb_search_place.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
+import 'package:eb_event/eb_event.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -12,3 +12,4 @@ part 'sources/findroute_repository.dart';
 part 'sources/schedule_repository.dart';
 part 'sources/searchplace_repository.dart';
 part 'sources/token_repository.dart';
+part 'sources/home_repository.dart';

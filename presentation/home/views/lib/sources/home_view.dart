@@ -1,20 +1,30 @@
 part of '../eb_home.dart';
 
-final class HomeView extends StatelessWidget {
-  const HomeView({super.key});
-
+final class HomeView extends StatefulWidget {
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const HomeView(),
     );
   }
 
+  const HomeView({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomeViewState();
+}
+
+final class _HomeViewState extends State<HomeView> {
+  _HomeViewState();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => HomeBloc(
+        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-      ),
+        homeRepository: RepositoryProvider.of<HomeRepository>(context),
+        tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+      )..add(const OnAppearHomeView()),
       child: const _EBHomeView(),
     );
   }

@@ -13,6 +13,13 @@ final class RootView extends StatelessWidget {
   final ScheduleRepository _scheduleRepository;
   final SearchPlaceRepository _searchPlaceRepository;
   final TokenRepository _tokenRepository;
+  final HomeRepository _homeRepository;
+
+  late final _tokenEvent = TokenEvent(
+    rootDelegate: _rootDelegate,
+    loginDelegate: _loginDelegate,
+    tokenRepository: _tokenRepository,
+  );
   // 좀더 하위뷰에서 주입하기..
 
   RootView({
@@ -28,6 +35,7 @@ final class RootView extends StatelessWidget {
     ScheduleRepository? scheduleRepository,
     SearchPlaceRepository? searchPlaceRepository,
     TokenRepository? tokenRepository,
+    HomeRepository? homeRepository,
   })  : _searchPlaceDelegateForPlace =
             searchPlaceDelegateForPlace ?? SearchPlaceDelegateForPlace(),
         _searchPlaceDelegateForRoute =
@@ -41,7 +49,8 @@ final class RootView extends StatelessWidget {
         _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
         _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
-        _tokenRepository = tokenRepository ?? TokenRepository();
+        _tokenRepository = tokenRepository ?? TokenRepository(),
+        _homeRepository = homeRepository ?? HomeRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +67,8 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _scheduleRepository),
         RepositoryProvider.value(value: _searchPlaceRepository),
         RepositoryProvider.value(value: _tokenRepository),
+        RepositoryProvider.value(value: _homeRepository),
+        RepositoryProvider.value(value: _tokenEvent),
       ],
       child: const _RootBlocView(),
     );

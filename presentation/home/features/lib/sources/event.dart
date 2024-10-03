@@ -36,3 +36,10 @@ final class SetRegisterStatus extends HomeEvent {
   @override
   List<Object?> get props => [status];
 }
+
+final class OnAppearHomeView extends HomeEvent {
+  const OnAppearHomeView();
+
+  @override
+  List<Object?> get props => [];
+}
