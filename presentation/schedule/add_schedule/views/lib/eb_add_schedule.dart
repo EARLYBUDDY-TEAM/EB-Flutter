@@ -25,4 +25,3 @@ part 'sources/forms/notify.dart';
 part 'sources/forms/place.dart';
 part 'sources/forms/route.dart';
 part 'sources/helper/icon_plus_name.dart';
-part 'sources/helper/round_rect_form.dart';

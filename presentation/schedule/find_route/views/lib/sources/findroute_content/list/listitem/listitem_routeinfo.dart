@@ -45,7 +45,7 @@ extension on _ListItemRouteInfo {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            EBTime.shared.intToString(ebPath.time),
+            EBTime.intToString(ebPath.time),
             style: TextStyle(
               fontFamily: FontFamily.nanumSquareExtraBold,
               color: EBColors.text,
@@ -81,7 +81,7 @@ extension on _ListItemRouteInfo {
   Expanded _routeSpecificInfo() {
     final transitCount = ebPath.busTransitCount + ebPath.subwayTransitCount;
     final payment = ebPath.payment;
-    final walkTime = EBTime.shared.intToString(ebPath.walkTime);
+    final walkTime = EBTime.intToString(ebPath.walkTime);
     return Expanded(
       child: DefaultTextStyle(
         style: const TextStyle(

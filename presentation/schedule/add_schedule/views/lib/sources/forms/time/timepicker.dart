@@ -29,7 +29,7 @@ final class _TimePickerState extends State<_TimePicker> {
         }
       },
       child: Text(
-        timeString,
+        EBTime.toHour(selectedTime),
         style: TextStyle(
           fontFamily: FontFamily.nanumSquareBold,
           color: EBColors.text,
@@ -37,12 +37,5 @@ final class _TimePickerState extends State<_TimePicker> {
         ),
       ),
     );
-  }
-
-  String get timeString {
-    String meridiem = selectedTime.hour < 12 ? '오전' : '오후';
-    final m = selectedTime.minute;
-    String minute = m < 10 ? '0$m' : '$m';
-    return '$meridiem ${selectedTime.hour}:$minute';
   }
 }

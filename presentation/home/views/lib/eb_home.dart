@@ -6,6 +6,7 @@ import 'package:eb_resource/eb_resource.dart';
 import 'package:eb_add_schedule/eb_add_schedule.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_event/eb_event.dart';
+import 'package:eb_model/eb_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 part 'sources/home_view.dart';
 part 'sources/calendar.dart';
-part 'sources/schedule_card.dart';
+part 'sources/top_schedule_card.dart';
 part 'sources/transport_card.dart';
 part 'sources/schedule_addbutton.dart';
+part 'sources/bottom_schedule_card.dart';

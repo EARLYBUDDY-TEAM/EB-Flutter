@@ -151,7 +151,7 @@ final class _HomeContent extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          const _ScheduleCard(),
+          const _TopScheduleCardView(),
           const SizedBox(height: 30),
           const TransportCard(),
           const SizedBox(height: 30),
