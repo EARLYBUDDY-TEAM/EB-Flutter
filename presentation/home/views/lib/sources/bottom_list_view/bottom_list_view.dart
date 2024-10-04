@@ -13,7 +13,9 @@ final class HomeBottomListView extends StatelessWidget {
       selector: (state) => state.scheduleCardList,
       builder: (context, items) {
         return HomeBottomListStateful(
-            horizontalPadding: horizontalPadding, items: items);
+          horizontalPadding: horizontalPadding,
+          items: items,
+        );
       },
     );
   }
@@ -81,9 +83,7 @@ final class HomeBottomListState extends State<HomeBottomListStateful> {
                 ],
               )),
           // background: const Text("삭제"),
-          child: BottomScheduleCardView(
-            scheduleCard: item,
-          ),
+          child: BottomScheduleCardView(scheduleCard: item),
         );
       },
     );

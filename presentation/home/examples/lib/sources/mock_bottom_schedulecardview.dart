@@ -8,7 +8,7 @@ final class MockBottomScheduleCardExample extends StatelessWidget {
     return MaterialApp(
       theme: EBTheme.light(),
       home: Scaffold(
-        body: Center(
+        body: SingleChildScrollView(
           child: _MockBottomScheduleCardListView(),
         ),
       ),
@@ -16,17 +16,34 @@ final class MockBottomScheduleCardExample extends StatelessWidget {
   }
 }
 
+final longTextCard = ScheduleCard(
+  scheduleID: 10,
+  title: "MockTitle" * 20,
+  time: DateTime.now(),
+  endPlaceName: "mockEndPlaceName" * 20,
+);
+
 final class _MockBottomScheduleCardListView extends StatelessWidget {
   final items = List<ScheduleCard>.generate(20, (i) {
     bool flag = (i + 1) % 2 == 0 ? true : false;
-    return flag ? ScheduleCard.mock() : ScheduleCard.mockwithPlace();
+    // return flag ? ScheduleCard.mock() : ScheduleCard.mockwithPlace();
+    // return longTextCard;
+
+    return flag ? longTextCard : ScheduleCard.mockwithPlace();
   });
+  final double horizontalPadding = 20;
 
   @override
   Widget build(BuildContext context) {
-    return HomeBottomListStateful(
-      horizontalPadding: 20,
-      items: items,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 100,
+        horizontal: horizontalPadding,
+      ),
+      child: HomeBottomListStateful(
+        horizontalPadding: horizontalPadding,
+        items: items,
+      ),
     );
   }
 }

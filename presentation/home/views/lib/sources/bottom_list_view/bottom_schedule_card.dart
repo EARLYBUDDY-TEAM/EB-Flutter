@@ -22,7 +22,7 @@ final class BottomScheduleCardView extends StatelessWidget {
             _circleDot(),
             const SizedBox(width: 10),
             _titleAndPlace(),
-            const Spacer(),
+            const SizedBox(width: 10),
             _scheduleTime(),
           ],
         ),
@@ -44,16 +44,19 @@ final class BottomScheduleCardView extends StatelessWidget {
       widgetList.add(_endPlaceName());
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgetList,
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: widgetList,
+      ),
     );
   }
 
   Widget _titleText() {
     return Text(
       scheduleCard.title,
+      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontFamily: FontFamily.gmarketSansRegular,
         fontSize: 16,
@@ -64,6 +67,7 @@ final class BottomScheduleCardView extends StatelessWidget {
   Widget _endPlaceName() {
     return Text(
       scheduleCard.endPlaceName!,
+      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
         color: Colors.black54,
