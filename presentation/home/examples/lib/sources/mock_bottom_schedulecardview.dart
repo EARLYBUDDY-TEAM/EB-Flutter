@@ -24,6 +24,9 @@ final class _MockBottomScheduleCardListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeBottomListView(items: items);
+    return HomeBottomListStateful(
+      horizontalPadding: 20,
+      items: items,
+    );
   }
 }

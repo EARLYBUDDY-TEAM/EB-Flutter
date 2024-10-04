@@ -22,6 +22,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SetLoginStatus>(_onSetLoginStatus);
     on<SetRegisterStatus>(_onSetRegisterStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
+    on<InitHomeState>(_oninitHomeState);
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetLoginStatus(status: status)),
     );
@@ -107,5 +108,15 @@ extension on HomeBloc {
           }
         }
     }
+  }
+}
+
+extension on HomeBloc {
+  Future<void> _oninitHomeState(
+    InitHomeState event,
+    Emitter<HomeState> emit,
+  ) async {
+    await Future.delayed(const Duration(seconds: 1));
+    emit(event.homeState);
   }
 }

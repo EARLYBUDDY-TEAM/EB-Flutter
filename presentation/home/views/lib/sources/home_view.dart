@@ -25,13 +25,13 @@ final class _HomeViewState extends State<HomeView> {
         homeRepository: RepositoryProvider.of<HomeRepository>(context),
         tokenEvent: RepositoryProvider.of<TokenEvent>(context),
       )..add(const OnAppearHomeView()),
-      child: const _EBHomeView(),
+      child: const EBHomeView(),
     );
   }
 }
 
-final class _EBHomeView extends StatelessWidget {
-  const _EBHomeView();
+final class EBHomeView extends StatelessWidget {
+  const EBHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,28 +47,44 @@ final class _EBHomeView extends StatelessWidget {
           state.registerStatus,
         );
       },
+      // child: Stack(
+      //   children: [
+      //     Container(color: Colors.white),
+      //     const WaveBackground(),
+      //     Scaffold(
+      //       appBar: _HomeAppBar(
+      //         pressMenuButtonAction: () =>
+      //             context.read<HomeBloc>().add(const PressMenuButton()),
+      //       ),
+      //       backgroundColor: Colors.transparent,
+      //       body: Stack(
+      //         alignment: Alignment.bottomRight,
+      //         children: [
+      //           const _HomeContent(),
+      //           _ScheduleAddButton(
+      //             onPressed: () => Navigator.of(context).push(
+      //               MaterialPageRoute(
+      //                 builder: (_) => AddScheduleView(),
+      //               ),
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
       child: Stack(
         children: [
           Container(color: Colors.white),
           const WaveBackground(),
           Scaffold(
-            appBar: _HomeAppBar(
-              pressMenuButtonAction: () =>
-                  context.read<HomeBloc>().add(const PressMenuButton()),
-            ),
             backgroundColor: Colors.transparent,
-            body: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                const _HomeContent(),
-                _ScheduleAddButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => AddScheduleView(),
-                    ),
-                  ),
-                ),
-              ],
+            appBar: _HomeAppBar(
+              pressMenuButtonAction: () {},
+            ),
+            body: const SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: _HomeContent(),
             ),
           ),
         ],
@@ -121,43 +137,5 @@ final class _EBHomeView extends StatelessWidget {
           .read<HomeBloc>()
           .add(const SetLoginStatus(status: BaseStatus.init));
     });
-  }
-}
-
-final class _HomeAppBar extends AppBar {
-  final Function() pressMenuButtonAction;
-
-  _HomeAppBar({
-    super.key,
-    required this.pressMenuButtonAction,
-  });
-
-  @override
-  Widget? get leading => IconButton(
-        onPressed: pressMenuButtonAction,
-        icon: const Icon(Icons.menu, color: Colors.white),
-      );
-
-  @override
-  Color? get backgroundColor => Colors.transparent;
-}
-
-final class _HomeContent extends StatelessWidget {
-  const _HomeContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          const _TopScheduleInfoView(),
-          const SizedBox(height: 30),
-          const _MiddleTransportInfoView(),
-          const SizedBox(height: 30),
-          _Calendar(),
-        ],
-      ),
-    );
   }
 }

@@ -13,9 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 part 'sources/home_view.dart';
-part 'sources/calendar.dart';
-part 'sources/top_schedule_info.dart';
-part 'sources/middle_transport_info.dart';
-part 'sources/schedule_addbutton.dart';
+part 'sources/calendar_view/home_calendar.dart';
+part 'sources/top_schedule_info/top_schedule_info.dart';
+part 'sources/middle_transport_info/middle_transport_info.dart';
+part 'sources/home_content/schedule_addbutton.dart';
 part 'sources/bottom_list_view/bottom_schedule_card.dart';
 part 'sources/bottom_list_view/bottom_list_view.dart';
+part 'sources/home_content/home_appbar.dart';
+part 'sources/home_content/home_content.dart';

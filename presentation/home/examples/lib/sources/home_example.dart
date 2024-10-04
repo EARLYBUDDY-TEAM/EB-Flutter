@@ -4,12 +4,14 @@ import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_event/eb_event.dart';
 import 'package:eb_model/entity.dart';
+import 'package:eb_home_feature/eb_home_feature.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'mock_homeview.dart';
+part 'mock_alert_home_view.dart';
 part 'mock_bottom_schedulecardview.dart';
+part 'mock_home_view.dart';
 
 class HomeExample extends StatelessWidget {
   const HomeExample({super.key});

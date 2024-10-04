@@ -1,23 +1,49 @@
 part of '../../eb_home.dart';
 
-final class HomeBottomListView extends StatefulWidget {
-  final List<ScheduleCard> items;
-
+final class HomeBottomListView extends StatelessWidget {
+  final double horizontalPadding;
   const HomeBottomListView({
     super.key,
+    this.horizontalPadding = 20,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<HomeBloc, HomeState, List<ScheduleCard>>(
+      selector: (state) => state.scheduleCardList,
+      builder: (context, items) {
+        return HomeBottomListStateful(
+            horizontalPadding: horizontalPadding, items: items);
+      },
+    );
+  }
+}
+
+final class HomeBottomListStateful extends StatefulWidget {
+  final double horizontalPadding;
+  final List<ScheduleCard> items;
+
+  const HomeBottomListStateful({
+    super.key,
     required this.items,
+    required this.horizontalPadding,
   });
 
   @override
   State<StatefulWidget> createState() => HomeBottomListState();
 }
 
-final class HomeBottomListState extends State<HomeBottomListView> {
-  final double horizontalPadding = 20;
-
+final class HomeBottomListState extends State<HomeBottomListStateful> {
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = ScreenSize.safeArea.bottom(context);
     return ListView.separated(
+      padding: EdgeInsets.only(
+        top: 0,
+        bottom: bottomPadding,
+      ),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.items.length,
       separatorBuilder: (context, index) {
         return const SizedBox(height: 20);
@@ -25,7 +51,6 @@ final class HomeBottomListState extends State<HomeBottomListView> {
       itemBuilder: (contex, index) {
         final item = widget.items[index];
         return Dismissible(
-          // key: Key(item.scheduleID.toString()),
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
@@ -50,23 +75,17 @@ final class HomeBottomListState extends State<HomeBottomListView> {
                     ),
                   ),
                   SizedBox(
-                    width: horizontalPadding + (horizontalPadding / 2),
+                    width: widget.horizontalPadding +
+                        (widget.horizontalPadding / 2),
                   )
                 ],
               )),
           // background: const Text("삭제"),
-          child: _bottomScheduleCardView(item),
+          child: BottomScheduleCardView(
+            scheduleCard: item,
+          ),
         );
       },
-    );
-  }
-
-  Widget _bottomScheduleCardView(ScheduleCard scheduleCard) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-      child: BottomScheduleCardView(
-        scheduleCard: scheduleCard,
-      ),
     );
   }
 }

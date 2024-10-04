@@ -1,12 +1,14 @@
-part of '../eb_home.dart';
+part of '../../eb_home.dart';
 
 final class _TopScheduleInfoView extends StatelessWidget {
+  final textColor = Colors.white;
+
   const _TopScheduleInfoView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           Column(
@@ -16,7 +18,7 @@ final class _TopScheduleInfoView extends StatelessWidget {
                 '다음일정',
                 style: TextStyle(
                   fontFamily: FontFamily.nanumSquareBold,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
               Text(
@@ -24,24 +26,24 @@ final class _TopScheduleInfoView extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: FontFamily.gmarketSansRegular,
                   fontSize: 18,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 '오후 22:00',
                 style: TextStyle(
                   fontFamily: FontFamily.nanumSquareRegular,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
               Text(
                 '강남역 스터디카페',
                 style: TextStyle(
                   fontFamily: FontFamily.nanumSquareRegular,
-                  color: Colors.white,
+                  color: textColor,
                 ),
               ),
             ],

@@ -1,4 +1,4 @@
-part of '../eb_home.dart';
+part of '../../eb_home.dart';
 
 class _MiddleTransportInfoView extends StatelessWidget {
   const _MiddleTransportInfoView({super.key});

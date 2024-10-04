@@ -7,9 +7,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
 
-  runApp(const MockBottomScheduleCardExample());
+  // runApp(const MockBottomScheduleCardExample());
 
   // runApp(const HomeExample());
+
+  runApp(MockHomeView());
 
   // await Future<void>.delayed(const Duration(seconds: 2));
   // homeDelegate.loginStatus.add(BaseStatus.success);
