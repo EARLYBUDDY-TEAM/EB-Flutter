@@ -94,7 +94,6 @@ extension on HomeBloc {
         final List<ScheduleCard> scheduleCardList =
             getAllScheduleCardsResult.success.model;
 
-        log(scheduleCardList.toString());
         emit(
           state.copyWith(
             scheduleCardStatus: BaseStatus.init,

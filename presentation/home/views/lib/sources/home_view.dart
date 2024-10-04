@@ -119,6 +119,8 @@ extension on EBHomeView {
     BuildContext context,
     BaseStatus loginStatus,
   ) async {
+    log("showLoginResultSnackBar, loginStatus : ${loginStatus.toString()}");
+
     if (loginStatus != BaseStatus.success) {
       return;
     }
