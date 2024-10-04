@@ -5,10 +5,6 @@ final class _HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topSafeArea = ScreenSize.safeArea.top(context);
-    final appBarHeight = Scaffold.of(context).appBarMaxHeight ?? 56;
-    final topPadding = topSafeArea + appBarHeight;
-
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(

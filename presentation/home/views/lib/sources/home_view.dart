@@ -47,51 +47,43 @@ final class EBHomeView extends StatelessWidget {
           state.registerStatus,
         );
       },
-      // child: Stack(
-      //   children: [
-      //     Container(color: Colors.white),
-      //     const WaveBackground(),
-      //     Scaffold(
-      //       appBar: _HomeAppBar(
-      //         pressMenuButtonAction: () =>
-      //             context.read<HomeBloc>().add(const PressMenuButton()),
-      //       ),
-      //       backgroundColor: Colors.transparent,
-      //       body: Stack(
-      //         alignment: Alignment.bottomRight,
-      //         children: [
-      //           const _HomeContent(),
-      //           _ScheduleAddButton(
-      //             onPressed: () => Navigator.of(context).push(
-      //               MaterialPageRoute(
-      //                 builder: (_) => AddScheduleView(),
-      //               ),
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
       child: Stack(
+        alignment: Alignment.bottomRight,
         children: [
           Container(color: Colors.white),
           const WaveBackground(),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: _HomeAppBar(
-              pressMenuButtonAction: () {},
-            ),
-            body: const SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: _HomeContent(),
-            ),
-          ),
+          _homeContent(),
+          _addScheduleButton(context),
         ],
       ),
     );
   }
 
+  Widget _addScheduleButton(BuildContext context) {
+    return _ScheduleAddButton(
+      onPressed: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => AddScheduleView(),
+        ),
+      ),
+    );
+  }
+
+  Widget _homeContent() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: _HomeAppBar(
+        pressMenuButtonAction: () {},
+      ),
+      body: const SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: _HomeContent(),
+      ),
+    );
+  }
+}
+
+extension on EBHomeView {
   Future<void> showReigsterResultAlert(
     BuildContext context,
     BaseStatus registerStatus,
@@ -120,7 +112,9 @@ final class EBHomeView extends StatelessWidget {
       ],
     );
   }
+}
 
+extension on EBHomeView {
   Future<void> showLoginResultSnackBar(
     BuildContext context,
     BaseStatus loginStatus,
