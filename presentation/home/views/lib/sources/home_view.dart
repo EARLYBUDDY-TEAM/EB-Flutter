@@ -35,18 +35,25 @@ final class EBHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) async {
-        await showLoginResultSnackBar(
-          context,
-          state.loginStatus,
-        );
-
-        await showReigsterResultAlert(
-          context,
-          state.registerStatus,
-        );
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) async {
+            await showLoginResultSnackBar(context, state.loginStatus);
+          },
+          listenWhen: (previous, current) {
+            return previous.loginStatus != current.loginStatus;
+          },
+        ),
+        BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) async {
+            await showReigsterResultAlert(context, state.registerStatus);
+          },
+          listenWhen: (previous, current) {
+            return previous.registerStatus != previous.loginStatus;
+          },
+        ),
+      ],
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
