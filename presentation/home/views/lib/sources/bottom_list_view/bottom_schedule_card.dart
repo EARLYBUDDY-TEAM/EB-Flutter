@@ -1,4 +1,4 @@
-part of '../eb_home.dart';
+part of '../../eb_home.dart';
 
 final class BottomScheduleCardView extends StatelessWidget {
   final ScheduleCard scheduleCard;

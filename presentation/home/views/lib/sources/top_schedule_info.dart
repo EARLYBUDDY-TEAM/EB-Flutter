@@ -1,7 +1,7 @@
 part of '../eb_home.dart';
 
-final class _TopScheduleCardView extends StatelessWidget {
-  const _TopScheduleCardView({super.key});
+final class _TopScheduleInfoView extends StatelessWidget {
+  const _TopScheduleInfoView({super.key});
 
   @override
   Widget build(BuildContext context) {

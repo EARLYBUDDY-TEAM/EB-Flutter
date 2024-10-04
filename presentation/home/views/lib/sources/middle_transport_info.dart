@@ -1,7 +1,7 @@
 part of '../eb_home.dart';
 
-class TransportCard extends StatelessWidget {
-  const TransportCard({super.key});
+class _MiddleTransportInfoView extends StatelessWidget {
+  const _MiddleTransportInfoView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class TransportCard extends StatelessWidget {
           ),
         ],
       ),
-      child: const _TransportCardContent(),
+      child: const _MiddleTransportInfoContent(),
     );
   }
 }
 
-class _TransportCardContent extends StatelessWidget {
-  const _TransportCardContent({super.key});
+class _MiddleTransportInfoContent extends StatelessWidget {
+  const _MiddleTransportInfoContent({super.key});
 
   @override
   Widget build(BuildContext context) {
