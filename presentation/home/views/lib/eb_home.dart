@@ -9,6 +9,7 @@ import 'package:eb_add_schedule/eb_add_schedule.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_event/eb_event.dart';
 import 'package:eb_model/eb_model.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ part 'sources/calendar_view/home_calendar.dart';
 part 'sources/top_schedule_info/top_schedule_info.dart';
 part 'sources/middle_transport_info/middle_transport_info.dart';
 part 'sources/home_content/schedule_addbutton.dart';
-part 'sources/bottom_list_view/bottom_schedule_card.dart';
-part 'sources/bottom_list_view/bottom_list_view.dart';
+part 'sources/bottom_list_view/home_bottom_schedule_card.dart';
+part 'sources/bottom_list_view/home_bottom_list_view.dart';
 part 'sources/home_content/home_appbar.dart';
 part 'sources/home_content/home_content.dart';

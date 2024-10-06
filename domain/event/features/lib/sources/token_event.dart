@@ -31,7 +31,8 @@ final class TokenEvent {
       case Success():
         return firstResult;
       case Failure():
-        switch (firstResult.failure.statusCode) {
+        final FailureResponse firstFailure = firstResult.failure;
+        switch (firstFailure.statusCode) {
           case (490):
             final recreateTokenResult = await _tokenRepository.recreateToken();
             switch (recreateTokenResult) {
@@ -51,11 +52,10 @@ final class TokenEvent {
   }
 
   void failureAction({
-    required Failure failure,
+    required Failure result,
     required Function() withAction,
   }) {
-    if ((failure.failure is FailureResponse) &&
-        (failure.failure.statusCode != 490)) {
+    if (result.failure.statusCode != 490) {
       withAction();
     }
   }

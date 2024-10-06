@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:eb_model/dto.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_env/eb_env.dart';
-import 'package:eb_network_interface/network_ab.dart';
+import 'package:eb_network_interface/eb_network_interface.dart';
 
 part 'client.dart';
 part 'request.dart';

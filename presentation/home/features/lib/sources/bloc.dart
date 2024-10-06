@@ -19,7 +19,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
         super(HomeState()) {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
-    on<InitHomeState>(_oninitHomeState);
+    on<InitHomeState>(_onInitHomeState);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
@@ -89,7 +89,7 @@ extension on HomeBloc {
         );
       case Failure():
         _tokenEvent.failureAction(
-          failure: getAllScheduleCardsResult.failure,
+          result: getAllScheduleCardsResult,
           withAction: () {
             final homeStatus =
                 state.status.copyWith(getAllScheduleCard: BaseStatus.fail);
@@ -101,7 +101,7 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  Future<void> _oninitHomeState(
+  Future<void> _onInitHomeState(
     InitHomeState event,
     Emitter<HomeState> emit,
   ) async {
@@ -117,7 +117,7 @@ extension on HomeBloc {
   ) async {
     _loadingDelegate.set();
 
-    deleteScheduleCardEvent(String accessToken) async {
+    Future<Result> deleteScheduleCardEvent(String accessToken) async {
       return await _homeRepository.deleteScheduleCard(
         accessToken: accessToken,
         scheduleID: event.scheduleID,
@@ -137,7 +137,7 @@ extension on HomeBloc {
         return;
       case Failure():
         _tokenEvent.failureAction(
-          failure: deleteScheduleCardResult.failure,
+          result: deleteScheduleCardResult,
           withAction: () {
             final homeStatus =
                 state.status.copyWith(deleteScheduleCard: BaseStatus.fail);

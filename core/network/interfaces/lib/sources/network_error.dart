@@ -1,4 +1,4 @@
-part of '../network_ab.dart';
+part of '../eb_network_interface.dart';
 
 enum NetworkError {
   jsonDecode,

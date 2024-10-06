@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:eb_network_interface/network_ab.dart';
+import 'package:eb_network_interface/eb_network_interface.dart';
 
 final class MockSuccessNetworkClient implements NetworkClientAB {
   dynamic responseData;

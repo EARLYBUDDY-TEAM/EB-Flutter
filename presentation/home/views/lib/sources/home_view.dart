@@ -179,7 +179,7 @@ extension on EBHomeView {
 
     EBAlert.showModalPopup(
       context: context,
-      title: '스케줄 정보를 가져오는데 실패했습니다.',
+      title: '일정 정보를 가져오는데 실패했습니다.',
       content: '네트워크 상태를 확인해주세요.',
       actions: [
         EBAlert.makeAction(
