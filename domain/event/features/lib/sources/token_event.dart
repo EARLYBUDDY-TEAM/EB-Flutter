@@ -49,4 +49,14 @@ final class TokenEvent {
         }
     }
   }
+
+  void failureAction({
+    required Failure failure,
+    required Function() withAction,
+  }) {
+    if ((failure.failure is FailureResponse) &&
+        (failure.failure.statusCode != 490)) {
+      withAction();
+    }
+  }
 }

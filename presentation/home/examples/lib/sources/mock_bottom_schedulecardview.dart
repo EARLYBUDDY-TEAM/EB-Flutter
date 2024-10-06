@@ -40,7 +40,7 @@ final class _MockBottomScheduleCardListView extends StatelessWidget {
         vertical: 100,
         horizontal: horizontalPadding,
       ),
-      child: HomeBottomListStateful(
+      child: HomeBottomListContent(
         horizontalPadding: horizontalPadding,
         items: items,
       ),

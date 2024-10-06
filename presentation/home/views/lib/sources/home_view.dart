@@ -37,22 +37,10 @@ final class EBHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) async {
-            await showLoginResultSnackBar(context, state.loginStatus);
-          },
-          listenWhen: (previous, current) {
-            return previous.loginStatus != current.loginStatus;
-          },
-        ),
-        BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) async {
-            await showReigsterResultAlert(context, state.registerStatus);
-          },
-          listenWhen: (previous, current) {
-            return previous.registerStatus != previous.loginStatus;
-          },
-        ),
+        loginResultSnackBarListener(),
+        registerResultAlertListener(),
+        getAllScheduleCardErrorAlertListener(),
+        deleteScheduleCardErrorSnackBarListener(),
       ],
       child: Stack(
         alignment: Alignment.bottomRight,
@@ -91,7 +79,21 @@ final class EBHomeView extends StatelessWidget {
 }
 
 extension on EBHomeView {
-  Future<void> showReigsterResultAlert(
+  BlocListener<HomeBloc, HomeState> registerResultAlertListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _showReigsterResultAlert(
+          context,
+          state.status.register,
+        );
+      },
+      listenWhen: (previous, current) {
+        return previous.status.register != current.status.register;
+      },
+    );
+  }
+
+  Future<void> _showReigsterResultAlert(
     BuildContext context,
     BaseStatus registerStatus,
   ) async {
@@ -111,7 +113,7 @@ extension on EBHomeView {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetRegisterStatus(status: BaseStatus.init));
+                .add(const SetHomeStatus(register: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,
@@ -122,12 +124,21 @@ extension on EBHomeView {
 }
 
 extension on EBHomeView {
-  Future<void> showLoginResultSnackBar(
+  BlocListener<HomeBloc, HomeState> loginResultSnackBarListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _showLoginResultSnackBar(context, state.status.login);
+      },
+      listenWhen: (previous, current) {
+        return previous.status.login != current.status.login;
+      },
+    );
+  }
+
+  Future<void> _showLoginResultSnackBar(
     BuildContext context,
     BaseStatus loginStatus,
   ) async {
-    log("showLoginResultSnackBar, loginStatus : ${loginStatus.toString()}");
-
     if (loginStatus != BaseStatus.success) {
       return;
     }
@@ -136,9 +147,88 @@ extension on EBHomeView {
 
     final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
     ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
+      context.read<HomeBloc>().add(const SetHomeStatus(login: BaseStatus.init));
+    });
+  }
+}
+
+extension on EBHomeView {
+  BlocListener<HomeBloc, HomeState> getAllScheduleCardErrorAlertListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _showGetAllScheduleCardErrorAlert(
+          context,
+          state.status.getAllScheduleCard,
+        );
+      },
+      listenWhen: (previous, current) {
+        return previous.status.getAllScheduleCard !=
+            current.status.getAllScheduleCard;
+      },
+    );
+  }
+
+  Future<void> _showGetAllScheduleCardErrorAlert(
+    BuildContext context,
+    BaseStatus getAllScheduleCardStatus,
+  ) async {
+    if (getAllScheduleCardStatus != BaseStatus.fail) {
+      return;
+    }
+
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    EBAlert.showModalPopup(
+      context: context,
+      title: '스케줄 정보를 가져오는데 실패했습니다.',
+      content: '네트워크 상태를 확인해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context
+                .read<HomeBloc>()
+                .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
+    );
+  }
+}
+
+extension on EBHomeView {
+  BlocListener<HomeBloc, HomeState> deleteScheduleCardErrorSnackBarListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _deleteScheduleCardErrorSnackBar(
+          context,
+          state.status.deleteScheduleCard,
+        );
+      },
+      listenWhen: (previous, current) {
+        return previous.status.deleteScheduleCard !=
+            current.status.deleteScheduleCard;
+      },
+    );
+  }
+
+  Future<void> _deleteScheduleCardErrorSnackBar(
+    BuildContext context,
+    BaseStatus deleteScheduleCard,
+  ) async {
+    if (deleteScheduleCard != BaseStatus.success) {
+      return;
+    }
+
+    await Future<void>.delayed(const Duration(seconds: 1));
+
+    final snackBar = EBSnackBar(text: '스케줄을 삭제했습니다.');
+    ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
       context
           .read<HomeBloc>()
-          .add(const SetLoginStatus(status: BaseStatus.init));
+          .add(const SetHomeStatus(deleteScheduleCard: BaseStatus.init));
     });
   }
 }

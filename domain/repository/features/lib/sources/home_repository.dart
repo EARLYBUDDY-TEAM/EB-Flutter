@@ -38,4 +38,26 @@ final class HomeRepository {
         return result;
     }
   }
+
+  Future<Result> deleteScheduleCard({
+    required String accessToken,
+    required int scheduleID,
+  }) async {
+    final request = HomeRequest.deleteScheduleCard(
+      accessToken: accessToken,
+      scheduleID: scheduleID,
+    );
+
+    final result = await service.request(request);
+
+    switch (result) {
+      case (Success()):
+        return result;
+      case (Failure()):
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
+        return result;
+    }
+  }
 }

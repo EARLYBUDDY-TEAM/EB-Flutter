@@ -15,36 +15,40 @@ class NetworkClient implements NetworkClientAB {
 
   @override
   Future<Response> request(NetworkRequestAB request) async {
+    _dio.options.headers = request.headers;
+    Response response;
+
     switch (request.method) {
       case HTTPMethod.get:
-        _dio.options.headers = request.headers;
-        var response = await _dio.get(
+        response = await _dio.get(
           request.path,
           queryParameters: request.query,
           data: request.requestData,
         );
-        _dio.options.headers = null;
-        return response;
 
       case HTTPMethod.post:
-        _dio.options.headers = request.headers;
-        var response = await _dio.post(
+        response = await _dio.post(
           request.path,
           queryParameters: request.query,
           data: request.requestData,
         );
-        _dio.options.headers = null;
-        return response;
 
       case HTTPMethod.put:
-        _dio.options.headers = request.headers;
-        var response = await _dio.put(
+        response = await _dio.put(
           request.path,
           queryParameters: request.query,
           data: request.requestData,
         );
-        _dio.options.headers = null;
-        return response;
+
+      case HTTPMethod.delete:
+        response = await _dio.delete(
+          request.path,
+          queryParameters: request.query,
+          data: request.requestData,
+        );
     }
+
+    _dio.options.headers = null;
+    return response;
   }
 }

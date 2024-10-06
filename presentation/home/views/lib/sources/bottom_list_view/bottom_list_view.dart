@@ -12,7 +12,7 @@ final class HomeBottomListView extends StatelessWidget {
     return BlocSelector<HomeBloc, HomeState, List<ScheduleCard>>(
       selector: (state) => state.scheduleCardList,
       builder: (context, items) {
-        return HomeBottomListStateful(
+        return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
           items: items,
         );
@@ -21,11 +21,11 @@ final class HomeBottomListView extends StatelessWidget {
   }
 }
 
-final class HomeBottomListStateful extends StatefulWidget {
+final class HomeBottomListContent extends StatefulWidget {
   final double horizontalPadding;
   final List<ScheduleCard> items;
 
-  const HomeBottomListStateful({
+  const HomeBottomListContent({
     super.key,
     required this.items,
     required this.horizontalPadding,
@@ -35,7 +35,7 @@ final class HomeBottomListStateful extends StatefulWidget {
   State<StatefulWidget> createState() => HomeBottomListState();
 }
 
-final class HomeBottomListState extends State<HomeBottomListStateful> {
+final class HomeBottomListState extends State<HomeBottomListContent> {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = ScreenSize.safeArea.bottom(context);
@@ -48,7 +48,7 @@ final class HomeBottomListState extends State<HomeBottomListStateful> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.items.length,
       separatorBuilder: (context, index) {
-        return const SizedBox(height: 20);
+        return SizedBox(height: widget.horizontalPadding);
       },
       itemBuilder: (contex, index) {
         final item = widget.items[index];
@@ -56,36 +56,49 @@ final class HomeBottomListState extends State<HomeBottomListStateful> {
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            setState(() {
-              widget.items.removeAt(index);
-            });
-
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('MockCard $index dismissed')));
+            _onDismissed(
+              context: contex,
+              direction: direction,
+              scheduleID: item.scheduleID,
+            );
           },
-          background: Container(
-              color: Colors.red,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text(
-                    "삭제",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: FontFamily.nanumSquareExtraBold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(
-                    width: widget.horizontalPadding +
-                        (widget.horizontalPadding / 2),
-                  )
-                ],
-              )),
-          // background: const Text("삭제"),
+          background: _swipeDelete(),
           child: BottomScheduleCardView(scheduleCard: item),
         );
       },
+    );
+  }
+
+  void _onDismissed({
+    required BuildContext context,
+    required DismissDirection direction,
+    required int scheduleID,
+  }) {
+    if (direction != DismissDirection.endToStart) {
+      return;
+    }
+    context.read<HomeBloc>().add(DeleteScheduleCard(scheduleID: scheduleID));
+  }
+
+  Widget _swipeDelete() {
+    return Container(
+      color: Colors.red,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Text(
+            "삭제",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: FontFamily.nanumSquareExtraBold,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            width: widget.horizontalPadding + (widget.horizontalPadding / 2),
+          )
+        ],
+      ),
     );
   }
 }

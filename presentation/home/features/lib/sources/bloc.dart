@@ -17,17 +17,17 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _homeRepository = homeRepository,
         _tokenEvent = tokenEvent,
         super(HomeState()) {
-    on<PressAddScheduleButton>(_onPressAddScheduleButton);
-    on<PressMenuButton>(_onPressMenuButton);
-    on<SetLoginStatus>(_onSetLoginStatus);
-    on<SetRegisterStatus>(_onSetRegisterStatus);
+    on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<InitHomeState>(_oninitHomeState);
+    on<DeleteScheduleCard>(_onDeleteScheduleCard);
+
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
-      (status) => add(SetLoginStatus(status: status)),
+      (status) => add(SetHomeStatus(login: status)),
     );
+
     _registerStatusSubscription = homeDelegate.registerStatus.listen(
-      (status) => add(SetRegisterStatus(status: status)),
+      (status) => add(SetHomeStatus(register: status)),
     );
   }
 
@@ -40,34 +40,18 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
 }
 
 extension on HomeBloc {
-  void _onPressAddScheduleButton(
-    PressAddScheduleButton event,
-    Emitter<HomeState> emit,
-  ) {}
-}
-
-extension on HomeBloc {
-  void _onPressMenuButton(
-    PressMenuButton event,
+  void _onSetHomeStatus(
+    SetHomeStatus event,
     Emitter<HomeState> emit,
   ) {
-    // _authRepository.logOut();
-  }
-}
+    final homeStatus = state.status.copyWith(
+      login: event.login,
+      register: event.register,
+      getAllScheduleCard: event.getAllScheduleCard,
+      deleteScheduleCard: event.deleteScheduleCard,
+    );
 
-extension on HomeBloc {
-  void _onSetLoginStatus(
-    SetLoginStatus event,
-    Emitter<HomeState> emit,
-  ) {
-    emit(state.copyWith(loginStatus: event.status));
-  }
-
-  void _onSetRegisterStatus(
-    SetRegisterStatus event,
-    Emitter<HomeState> emit,
-  ) {
-    emit(state.copyWith(registerStatus: event.status));
+    emit(state.copyWith(status: homeStatus));
   }
 }
 
@@ -94,18 +78,24 @@ extension on HomeBloc {
         final List<ScheduleCard> scheduleCardList =
             getAllScheduleCardsResult.success.model;
 
+        final homeStatus =
+            state.status.copyWith(getAllScheduleCard: BaseStatus.init);
+
         emit(
           state.copyWith(
-            scheduleCardStatus: BaseStatus.init,
+            status: homeStatus,
             scheduleCardList: scheduleCardList,
           ),
         );
       case Failure():
-        if (getAllScheduleCardsResult.failure is FailureResponse) {
-          if (getAllScheduleCardsResult.failure.statusCode != 490) {
-            emit(state.copyWith(scheduleCardStatus: BaseStatus.fail));
-          }
-        }
+        _tokenEvent.failureAction(
+          failure: getAllScheduleCardsResult.failure,
+          withAction: () {
+            final homeStatus =
+                state.status.copyWith(getAllScheduleCard: BaseStatus.fail);
+            emit(state.copyWith(status: homeStatus));
+          },
+        );
     }
   }
 }
@@ -117,5 +107,43 @@ extension on HomeBloc {
   ) async {
     await Future.delayed(const Duration(seconds: 1));
     emit(event.homeState);
+  }
+}
+
+extension on HomeBloc {
+  Future<void> _onDeleteScheduleCard(
+    DeleteScheduleCard event,
+    Emitter<HomeState> emit,
+  ) async {
+    _loadingDelegate.set();
+
+    deleteScheduleCardEvent(String accessToken) async {
+      return await _homeRepository.deleteScheduleCard(
+        accessToken: accessToken,
+        scheduleID: event.scheduleID,
+      );
+    }
+
+    final Result deleteScheduleCardResult =
+        await _tokenEvent.checkExpired(withEvent: deleteScheduleCardEvent);
+
+    _loadingDelegate.dismiss();
+
+    switch (deleteScheduleCardResult) {
+      case Success():
+        final homeStatus =
+            state.status.copyWith(deleteScheduleCard: BaseStatus.success);
+        emit(state.copyWith(status: homeStatus));
+        return;
+      case Failure():
+        _tokenEvent.failureAction(
+          failure: deleteScheduleCardResult.failure,
+          withAction: () {
+            final homeStatus =
+                state.status.copyWith(deleteScheduleCard: BaseStatus.fail);
+            emit(state.copyWith(status: homeStatus));
+          },
+        );
+    }
   }
 }
