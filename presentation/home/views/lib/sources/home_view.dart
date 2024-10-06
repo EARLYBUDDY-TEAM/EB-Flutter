@@ -40,7 +40,6 @@ final class EBHomeView extends StatelessWidget {
         loginResultSnackBarListener(),
         registerResultAlertListener(),
         getAllScheduleCardErrorAlertListener(),
-        deleteScheduleCardErrorSnackBarListener(),
       ],
       child: Stack(
         alignment: Alignment.bottomRight,
@@ -195,40 +194,5 @@ extension on EBHomeView {
         )
       ],
     );
-  }
-}
-
-extension on EBHomeView {
-  BlocListener<HomeBloc, HomeState> deleteScheduleCardErrorSnackBarListener() {
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) async {
-        await _deleteScheduleCardErrorSnackBar(
-          context,
-          state.status.deleteScheduleCard,
-        );
-      },
-      listenWhen: (previous, current) {
-        return previous.status.deleteScheduleCard !=
-            current.status.deleteScheduleCard;
-      },
-    );
-  }
-
-  Future<void> _deleteScheduleCardErrorSnackBar(
-    BuildContext context,
-    BaseStatus deleteScheduleCard,
-  ) async {
-    if (deleteScheduleCard != BaseStatus.success) {
-      return;
-    }
-
-    await Future<void>.delayed(const Duration(seconds: 1));
-
-    final snackBar = EBSnackBar(text: '스케줄을 삭제했습니다.');
-    ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-      context
-          .read<HomeBloc>()
-          .add(const SetHomeStatus(deleteScheduleCard: BaseStatus.init));
-    });
   }
 }
