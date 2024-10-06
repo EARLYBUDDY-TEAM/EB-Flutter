@@ -10,7 +10,7 @@ final class _PlaceForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _RoundRectForm(
+    return RoundRectForm(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(

@@ -43,6 +43,7 @@ final class EBAuthRepository {
     );
 
     final result = await _networkService.request(request);
+
     switch (result) {
       case (Success()):
         return result;

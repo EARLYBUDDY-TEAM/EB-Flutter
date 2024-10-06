@@ -1,6 +1,6 @@
 import 'package:eb_model/dto.dart';
 import 'package:eb_network/sources/service/service.dart';
-import 'package:eb_network_interface/network_ab.dart';
+import 'package:eb_network_interface/eb_network_interface.dart';
 import 'package:eb_network_test/endpoint/response/mock_dto.dart';
 
 class MockAPI {

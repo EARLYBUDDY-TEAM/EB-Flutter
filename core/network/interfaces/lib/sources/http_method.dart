@@ -1,9 +1,10 @@
-part of '../network_ab.dart';
+part of '../eb_network_interface.dart';
 
 enum HTTPMethod {
   get,
   post,
-  put;
+  put,
+  delete;
 
   @override
   String toString() {
@@ -14,6 +15,8 @@ enum HTTPMethod {
         return 'PUT';
       case HTTPMethod.post:
         return 'POST';
+      case HTTPMethod.delete:
+        return 'DELETE';
     }
   }
 }

@@ -98,19 +98,26 @@ extension on AddScheduleBloc {
   ) async {
     _loadingDelegate.set();
 
+    addScheduleEvent(String accessToken) async {
+      return await _scheduleRepository.addSchedule(
+        accessToken: accessToken,
+        scheduleInfo: state.info,
+      );
+    }
+
     final Result addScheduleResult =
-        await _scheduleRepository.addSchedule(scheduleInfo: state.info);
-    final Result result = await _tokenEvent.check(preResult: addScheduleResult);
+        await _tokenEvent.checkExpired(withEvent: addScheduleEvent);
 
     _loadingDelegate.dismiss();
 
-    switch (result) {
+    switch (addScheduleResult) {
       case Success():
         emit(state.copyWith(result: AddScheduleResult.success));
       case Failure():
-        switch (result.failure.statusCode) {
-          case (!= 490):
+        if (addScheduleResult.failure is FailureResponse) {
+          if (addScheduleResult.failure.statusCode != 490) {
             emit(state.copyWith(result: AddScheduleResult.fail));
+          }
         }
     }
   }

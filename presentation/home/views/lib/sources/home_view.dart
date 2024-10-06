@@ -1,72 +1,98 @@
 part of '../eb_home.dart';
 
-final class HomeView extends StatelessWidget {
-  const HomeView({super.key});
-
+final class HomeView extends StatefulWidget {
   static Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const HomeView(),
     );
   }
 
+  const HomeView({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomeViewState();
+}
+
+final class _HomeViewState extends State<HomeView> {
+  _HomeViewState();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => HomeBloc(
+        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-      ),
-      child: const _EBHomeView(),
+        homeRepository: RepositoryProvider.of<HomeRepository>(context),
+        tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+      )..add(const OnAppearHomeView()),
+      child: const EBHomeView(),
     );
   }
 }
 
-final class _EBHomeView extends StatelessWidget {
-  const _EBHomeView();
+final class EBHomeView extends StatelessWidget {
+  const EBHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) async {
-        await showLoginResultSnackBar(
-          context,
-          state.loginStatus,
-        );
-
-        await showReigsterResultAlert(
-          context,
-          state.registerStatus,
-        );
-      },
+    return MultiBlocListener(
+      listeners: [
+        loginResultSnackBarListener(),
+        registerResultAlertListener(),
+        getAllScheduleCardErrorAlertListener(),
+      ],
       child: Stack(
+        alignment: Alignment.bottomRight,
         children: [
           Container(color: Colors.white),
           const WaveBackground(),
-          Scaffold(
-            appBar: _HomeAppBar(
-              pressMenuButtonAction: () =>
-                  context.read<HomeBloc>().add(const PressMenuButton()),
-            ),
-            backgroundColor: Colors.transparent,
-            body: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                const _HomeContent(),
-                _ScheduleAddButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => AddScheduleView(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _homeContent(),
+          _addScheduleButton(context),
         ],
       ),
     );
   }
 
-  Future<void> showReigsterResultAlert(
+  Widget _addScheduleButton(BuildContext context) {
+    return _ScheduleAddButton(
+      onPressed: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => AddScheduleView(),
+        ),
+      ),
+    );
+  }
+
+  Widget _homeContent() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: _HomeAppBar(
+        pressMenuButtonAction: () {},
+      ),
+      body: const SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: _HomeContent(),
+      ),
+    );
+  }
+}
+
+extension on EBHomeView {
+  BlocListener<HomeBloc, HomeState> registerResultAlertListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _showReigsterResultAlert(
+          context,
+          state.status.register,
+        );
+      },
+      listenWhen: (previous, current) {
+        return previous.status.register != current.status.register;
+      },
+    );
+  }
+
+  Future<void> _showReigsterResultAlert(
     BuildContext context,
     BaseStatus registerStatus,
   ) async {
@@ -86,7 +112,7 @@ final class _EBHomeView extends StatelessWidget {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetRegisterStatus(status: BaseStatus.init));
+                .add(const SetHomeStatus(register: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,
@@ -94,8 +120,21 @@ final class _EBHomeView extends StatelessWidget {
       ],
     );
   }
+}
 
-  Future<void> showLoginResultSnackBar(
+extension on EBHomeView {
+  BlocListener<HomeBloc, HomeState> loginResultSnackBarListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _showLoginResultSnackBar(context, state.status.login);
+      },
+      listenWhen: (previous, current) {
+        return previous.status.login != current.status.login;
+      },
+    );
+  }
+
+  Future<void> _showLoginResultSnackBar(
     BuildContext context,
     BaseStatus loginStatus,
   ) async {
@@ -107,47 +146,53 @@ final class _EBHomeView extends StatelessWidget {
 
     final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
     ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-      context
-          .read<HomeBloc>()
-          .add(const SetLoginStatus(status: BaseStatus.init));
+      context.read<HomeBloc>().add(const SetHomeStatus(login: BaseStatus.init));
     });
   }
 }
 
-final class _HomeAppBar extends AppBar {
-  final Function() pressMenuButtonAction;
+extension on EBHomeView {
+  BlocListener<HomeBloc, HomeState> getAllScheduleCardErrorAlertListener() {
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        await _showGetAllScheduleCardErrorAlert(
+          context,
+          state.status.getAllScheduleCard,
+        );
+      },
+      listenWhen: (previous, current) {
+        return previous.status.getAllScheduleCard !=
+            current.status.getAllScheduleCard;
+      },
+    );
+  }
 
-  _HomeAppBar({
-    super.key,
-    required this.pressMenuButtonAction,
-  });
+  Future<void> _showGetAllScheduleCardErrorAlert(
+    BuildContext context,
+    BaseStatus getAllScheduleCardStatus,
+  ) async {
+    if (getAllScheduleCardStatus != BaseStatus.fail) {
+      return;
+    }
 
-  @override
-  Widget? get leading => IconButton(
-        onPressed: pressMenuButtonAction,
-        icon: const Icon(Icons.menu, color: Colors.white),
-      );
+    await Future<void>.delayed(const Duration(seconds: 1));
 
-  @override
-  Color? get backgroundColor => Colors.transparent;
-}
-
-final class _HomeContent extends StatelessWidget {
-  const _HomeContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          const _ScheduleCard(),
-          const SizedBox(height: 30),
-          const TransportCard(),
-          const SizedBox(height: 30),
-          _Calendar(),
-        ],
-      ),
+    EBAlert.showModalPopup(
+      context: context,
+      title: '일정 정보를 가져오는데 실패했습니다.',
+      content: '네트워크 상태를 확인해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context
+                .read<HomeBloc>()
+                .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
     );
   }
 }

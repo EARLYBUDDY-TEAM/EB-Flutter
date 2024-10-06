@@ -5,6 +5,7 @@ import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_model/entity.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_event/eb_event.dart';
+import 'package:eb_network/eb_network.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 

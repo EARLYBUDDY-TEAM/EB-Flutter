@@ -20,14 +20,14 @@ final class OnboardingContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height * 0.8;
-    final double bottomPadding = MediaQuery.of(context).padding.bottom;
+    final screenHeight = ScreenSize.height(context);
+    final bottomPadding = ScreenSize.safeArea.bottom(context);
 
     return IntroductionScreen(
       pages: [
-        _onboardingImage(image: images.onboarding1, height: height),
-        _onboardingImage(image: images.onboarding2, height: height),
-        _onboardingImage(image: images.onboarding3, height: height),
+        _onboardingImage(image: images.onboarding1, height: screenHeight),
+        _onboardingImage(image: images.onboarding2, height: screenHeight),
+        _onboardingImage(image: images.onboarding3, height: screenHeight),
       ],
       done: Text("완료", style: _textStyle()),
       onDone: () {

@@ -1,4 +1,4 @@
-part of '../network_ab.dart';
+part of '../eb_network_interface.dart';
 
 abstract class NetworkRequestAB<P> {
   String get path;

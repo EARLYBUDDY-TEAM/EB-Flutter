@@ -19,9 +19,12 @@ final class _MockAutoLoginView extends StatelessWidget {
   }
 
   Future<void> setAutoLogin() async {
+    final email = ENV_TESTUSER.email;
+    final password = ENV_TESTUSER.password;
+
     final Result result = await _authRepository.logIn(
-      email: 'abc@abc.com',
-      password: 'abcd12',
+      email: email,
+      password: password,
     );
 
     switch (result) {
