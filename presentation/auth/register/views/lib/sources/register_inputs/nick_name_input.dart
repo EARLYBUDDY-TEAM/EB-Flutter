@@ -6,16 +6,16 @@ final class _NameInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('이름'),
-        BlocSelector<RegisterBloc, RegisterState, NameState>(
-          selector: (state) => state.nameState,
+        const Text('닉네임'),
+        BlocSelector<RegisterBloc, RegisterState, NickNameState>(
+          selector: (state) => state.nickNameState,
           builder: (context, nameState) {
-            final int lenName = nameState.name.value.length;
+            final int lenNickName = nameState.nickName.value.length;
             final TextFieldStatus status = nameState.status;
 
             return NameTextField(
-              lenName: lenName,
-              labelText: '이름을 입력해주세요.',
+              lenNickName: lenNickName,
+              labelText: '닉네임을 입력해주세요.',
               errorText: _errorText(status),
               onChanged: (name) =>
                   context.read<RegisterBloc>().add(ChangeName(name)),
@@ -37,7 +37,7 @@ final class _NameInput extends StatelessWidget {
 }
 
 final class NameTextField extends StatelessWidget {
-  final int lenName;
+  final int lenNickName;
   final Function(String) onChanged;
   final color = EBColors.blue2;
   final String? labelText;
@@ -45,7 +45,7 @@ final class NameTextField extends StatelessWidget {
 
   NameTextField({
     super.key,
-    required this.lenName,
+    required this.lenNickName,
     required this.onChanged,
     this.errorText,
     this.labelText,
@@ -60,29 +60,29 @@ final class NameTextField extends StatelessWidget {
         labelText,
         errorText,
         color,
-        lenName: _lenName,
+        lenNickName: _lenName,
       ),
     );
   }
 
   String get _lenName {
-    return lenName == 0 ? "" : "  $lenName   ";
+    return lenNickName == 0 ? "" : "  $lenNickName   ";
   }
 }
 
 class NameInputDecoration extends EBInputDecoration {
-  final String lenName;
+  final String lenNickName;
 
   NameInputDecoration(
     super.labelText,
     super.errorText,
     super.color, {
-    required this.lenName,
+    required this.lenNickName,
   });
 
   @override
   Widget? get suffix => Text(
-        lenName,
+        lenNickName,
         style: const TextStyle(
           fontFamily: FontFamily.nanumSquareRegular,
           fontSize: 13,

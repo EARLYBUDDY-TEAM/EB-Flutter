@@ -1,38 +1,38 @@
 part of '../../eb_register_feature.dart';
 
-final class NameState extends Equatable {
-  final NameFormz name;
+final class NickNameState extends Equatable {
+  final NickNameFormz nickName;
   final TextFieldStatus status;
 
-  const NameState({
-    this.name = const NameFormz(),
+  const NickNameState({
+    this.nickName = const NickNameFormz(),
     this.status = TextFieldStatus.initial,
   });
 
-  NameState copyWith({
-    NameFormz? name,
+  NickNameState copyWith({
+    NickNameFormz? nickName,
     TextFieldStatus? status,
   }) {
-    return NameState(
-      name: name ?? this.name,
+    return NickNameState(
+      nickName: nickName ?? this.nickName,
       status: status ?? this.status,
     );
   }
 
   @override
   List<Object?> get props => [
-        name,
+        nickName,
         status,
       ];
 }
 
-final class NameFormz extends Equatable implements EBFormzAB {
+final class NickNameFormz extends Equatable implements EBFormzAB {
   @override
   final String value;
   @override
   bool get isValid => validator();
 
-  const NameFormz({
+  const NickNameFormz({
     this.value = '',
   });
 

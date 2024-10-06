@@ -33,18 +33,18 @@ extension on RegisterBloc {
     ChangeName event,
     Emitter<RegisterState> emit,
   ) {
-    final name = NameFormz(value: event.name);
+    final name = NickNameFormz(value: event.name);
     TextFieldStatus status;
     if (name.value.isEmpty) {
       status = TextFieldStatus.initial;
     } else {
       status = name.isValid ? TextFieldStatus.typing : TextFieldStatus.onError;
     }
-    final nameState = state.nameState.copyWith(
-      name: name,
+    final nameState = state.nickNameState.copyWith(
+      nickName: name,
       status: status,
     );
-    emit(state.copyWith(nameState: nameState));
+    emit(state.copyWith(nickNameState: nameState));
   }
 }
 
@@ -145,7 +145,7 @@ extension on RegisterBloc {
       _loadingDelegate.set();
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
-      final compressedName = compressName(state.nameState.name.value);
+      final compressedName = compressName(state.nickNameState.nickName.value);
       final Result registerResult = await _authRepository.register(
         name: compressedName,
         email: state.emailState.email.value,

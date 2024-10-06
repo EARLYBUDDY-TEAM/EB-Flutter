@@ -1,18 +1,18 @@
 part of '../../eb_register_feature.dart';
 
 final class RegisterState extends Equatable {
-  final NameState nameState;
+  final NickNameState nickNameState;
   final EmailState emailState;
   final PasswordState passwordState;
   final PasswordConfirmState passwordConfirmState;
   final RegisterStatus status;
-  bool get inputIsValid => (nameState.name.isValid &&
+  bool get inputIsValid => (nickNameState.nickName.isValid &&
       emailState.email.isValid &&
       passwordState.password.isValid &&
       passwordConfirmState.passwordConfirm.isValid);
 
   const RegisterState({
-    this.nameState = const NameState(),
+    this.nickNameState = const NickNameState(),
     this.emailState = const EmailState(),
     this.passwordState = const PasswordState(),
     this.passwordConfirmState = const PasswordConfirmState(),
@@ -20,14 +20,14 @@ final class RegisterState extends Equatable {
   });
 
   RegisterState copyWith({
-    NameState? nameState,
+    NickNameState? nickNameState,
     EmailState? emailState,
     PasswordState? passwordState,
     PasswordConfirmState? passwordConfirmState,
     RegisterStatus? status,
   }) {
     return RegisterState(
-      nameState: nameState ?? this.nameState,
+      nickNameState: nickNameState ?? this.nickNameState,
       emailState: emailState ?? this.emailState,
       passwordState: passwordState ?? this.passwordState,
       passwordConfirmState: passwordConfirmState ?? this.passwordConfirmState,
@@ -37,7 +37,7 @@ final class RegisterState extends Equatable {
 
   @override
   List<Object?> get props => [
-        nameState,
+        nickNameState,
         emailState,
         passwordState,
         passwordConfirmState,
