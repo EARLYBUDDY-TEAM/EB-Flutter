@@ -7,13 +7,13 @@ sealed class RegisterEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class ChangeName extends RegisterEvent {
-  final String name;
+final class ChangeNickName extends RegisterEvent {
+  final String nickName;
 
-  const ChangeName(this.name);
+  const ChangeNickName(this.nickName);
 
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [nickName];
 }
 
 final class ChangeEmail extends RegisterEvent {

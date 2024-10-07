@@ -1,25 +1,25 @@
 part of '../eb_register_feature.dart';
 
 final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final EBAuthRepository _authRepository;
+  final EBAuthRepository _ebAuthRepository;
   final TokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
 
   RegisterBloc({
-    required EBAuthRepository authRepository,
+    required EBAuthRepository ebAuthRepository,
     required TokenRepository tokenRepository,
     required HomeDelegate homeDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
-  })  : _authRepository = authRepository,
+  })  : _ebAuthRepository = ebAuthRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
         super(const RegisterState()) {
-    on<ChangeName>(_onChangeName);
+    on<ChangeNickName>(_onChangeName);
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
@@ -30,10 +30,10 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
 extension on RegisterBloc {
   void _onChangeName(
-    ChangeName event,
+    ChangeNickName event,
     Emitter<RegisterState> emit,
   ) {
-    final name = NickNameFormz(value: event.name);
+    final name = NickNameFormz(value: event.nickName);
     TextFieldStatus status;
     if (name.value.isEmpty) {
       status = TextFieldStatus.initial;
@@ -146,15 +146,15 @@ extension on RegisterBloc {
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
       final compressedName = compressName(state.nickNameState.nickName.value);
-      final Result registerResult = await _authRepository.register(
-        name: compressedName,
+      final Result registerResult = await _ebAuthRepository.register(
+        nickName: compressedName,
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
 
       switch (registerResult) {
         case Success():
-          final Result loginResult = await _authRepository.logIn(
+          final Result loginResult = await _ebAuthRepository.logIn(
             email: state.emailState.email.value,
             password: state.passwordState.password.value,
           );

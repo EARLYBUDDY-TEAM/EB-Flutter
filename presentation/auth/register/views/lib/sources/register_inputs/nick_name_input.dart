@@ -17,8 +17,8 @@ final class _NameInput extends StatelessWidget {
               lenNickName: lenNickName,
               labelText: '닉네임을 입력해주세요.',
               errorText: _errorText(status),
-              onChanged: (name) =>
-                  context.read<RegisterBloc>().add(ChangeName(name)),
+              onChanged: (nickName) =>
+                  context.read<RegisterBloc>().add(ChangeNickName(nickName)),
             );
           },
         ),
