@@ -50,3 +50,7 @@ final class PressRegisterButton extends RegisterEvent {
 final class PressAlertOkButton extends RegisterEvent {
   const PressAlertOkButton();
 }
+
+final class PressRecommendNickNameButton extends RegisterEvent {
+  const PressRecommendNickNameButton();
+}

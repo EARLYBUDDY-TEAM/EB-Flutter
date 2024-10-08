@@ -19,17 +19,18 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
         super(const RegisterState()) {
-    on<ChangeNickName>(_onChangeName);
+    on<ChangeNickName>(_onChangeNickName);
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
     on<PressRegisterButton>(_onPressRegisterButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
+    on<PressRecommendNickNameButton>(_onPressRecommendNickNameButton);
   }
 }
 
 extension on RegisterBloc {
-  void _onChangeName(
+  void _onChangeNickName(
     ChangeNickName event,
     Emitter<RegisterState> emit,
   ) {
@@ -201,5 +202,15 @@ extension on RegisterBloc {
     Emitter<RegisterState> emit,
   ) {
     emit(state.copyWith(status: RegisterStatus.initial));
+  }
+}
+
+extension on RegisterBloc {
+  void _onPressRecommendNickNameButton(
+    PressRecommendNickNameButton event,
+    Emitter<RegisterState> emit,
+  ) {
+    final String recommendName = NameGenerator.random();
+    add(ChangeNickName(recommendName));
   }
 }

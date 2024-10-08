@@ -2,7 +2,7 @@ part of '../eb_register_feature.dart';
 
 extension RandomListItem<T> on List<T> {
   T randomItem() {
-    return this[Random().nextInt(length)];
+    return this[math.Random().nextInt(length)];
   }
 }
 
