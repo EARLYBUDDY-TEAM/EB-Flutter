@@ -56,6 +56,7 @@ class EBRoundedButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           minimumSize: Size.zero,
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
           side: const BorderSide(

@@ -32,12 +32,12 @@ final class EBAuthRepository {
   }
 
   Future<Result> register({
-    required String name,
+    required String nickName,
     required String email,
     required String password,
   }) async {
     final request = RegisterRequest.init(
-      name: name,
+      nickName: nickName,
       email: email,
       password: password,
     );
