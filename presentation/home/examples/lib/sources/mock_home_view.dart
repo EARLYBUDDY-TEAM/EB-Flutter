@@ -52,13 +52,6 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
         homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
         tokenEvent: RepositoryProvider.of<TokenEvent>(context),
       )..add(const OnAppearHomeView()),
-      // )..add(
-      //     InitHomeState(
-      //       homeState: HomeState(
-      //         scheduleCardList: mockData(),
-      //       ),
-      //     ),
-      //   ),
       child: _MockHomeAppView(),
     );
   }

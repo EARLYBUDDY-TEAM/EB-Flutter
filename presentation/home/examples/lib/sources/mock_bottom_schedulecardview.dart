@@ -26,9 +26,6 @@ final longTextCard = ScheduleCard(
 final class _MockBottomScheduleCardListView extends StatelessWidget {
   final items = List<ScheduleCard>.generate(20, (i) {
     bool flag = (i + 1) % 2 == 0 ? true : false;
-    // return flag ? ScheduleCard.mock() : ScheduleCard.mockwithPlace();
-    // return longTextCard;
-
     return flag ? longTextCard : ScheduleCard.mockwithPlace();
   });
   final double horizontalPadding = 20;

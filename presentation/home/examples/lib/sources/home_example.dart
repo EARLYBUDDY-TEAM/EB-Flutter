@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'mock_alert_home_view.dart';
 part 'mock_bottom_schedulecardview.dart';
 part 'mock_home_view.dart';
+part 'mock_home_calendar.dart';
 
 class HomeExample extends StatelessWidget {
   const HomeExample({super.key});

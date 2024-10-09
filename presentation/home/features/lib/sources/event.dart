@@ -14,17 +14,6 @@ final class OnAppearHomeView extends HomeEvent {
   List<Object?> get props => [];
 }
 
-final class InitHomeState extends HomeEvent {
-  final HomeState homeState;
-
-  const InitHomeState({
-    required this.homeState,
-  });
-
-  @override
-  List<Object?> get props => [homeState];
-}
-
 final class DeleteScheduleCard extends HomeEvent {
   final int scheduleID;
 

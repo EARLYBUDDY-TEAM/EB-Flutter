@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:eb_repository_interface/eb_repository_interface.dart';
+import 'package:intl/intl.dart';
 
 part 'sources/home_view.dart';
 part 'sources/calendar_view/home_calendar.dart';

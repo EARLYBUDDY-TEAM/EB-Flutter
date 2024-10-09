@@ -13,7 +13,7 @@ final class _HomeContent extends StatelessWidget {
           const SizedBox(height: 30),
           const _MiddleTransportInfoView(),
           const SizedBox(height: 30),
-          _HomeCalendar(),
+          HomeCalendar(),
           const SizedBox(height: 30),
           const HomeBottomListView(),
         ],
