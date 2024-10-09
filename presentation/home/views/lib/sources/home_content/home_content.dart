@@ -13,10 +13,26 @@ final class _HomeContent extends StatelessWidget {
           const SizedBox(height: 30),
           const _MiddleTransportInfoView(),
           const SizedBox(height: 30),
-          HomeCalendar(),
+          _homeCalenDar(),
           const SizedBox(height: 30),
           const HomeBottomListView(),
         ],
+      ),
+    );
+  }
+
+  Widget _homeCalenDar() {
+    return Container(
+      color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            boxShadow: [EBBoxShadow.init()]),
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: HomeCalendar(),
+        ),
       ),
     );
   }

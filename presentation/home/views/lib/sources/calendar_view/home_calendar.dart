@@ -13,6 +13,9 @@ final class _HomeCalendarState extends State<HomeCalendar> {
   final DateTime _lastDay = DateTime.utc(2030, 01, 01);
   DateTime? _selectedDay;
 
+  final double _dayFontSize = 16;
+  final double _weekFontSize = 13;
+
   @override
   void initState() {
     super.initState();
@@ -23,14 +26,18 @@ final class _HomeCalendarState extends State<HomeCalendar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ValueListenableBuilder<DateTime>(
-          valueListenable: _focusedDay,
-          builder: (context, value, _) {
-            return _HomeCalendarHeader(focusedDay: value);
-          },
+        Padding(
+          padding: const EdgeInsets.only(top: 10, left: 10),
+          child: ValueListenableBuilder<DateTime>(
+            valueListenable: _focusedDay,
+            builder: (context, value, _) {
+              return _HomeCalendarHeader(focusedDay: value);
+            },
+          ),
         ),
         const SizedBox(height: 20),
         TableCalendar(
+          daysOfWeekHeight: 40,
           headerVisible: false,
           daysOfWeekStyle: _daysOfWeekStyle,
           focusedDay: _focusedDay.value,
@@ -59,7 +66,7 @@ final class _HomeCalendarState extends State<HomeCalendar> {
         text,
         style: TextStyle(
           fontFamily: FontFamily.gmarketSansRegular,
-          fontSize: 13,
+          fontSize: _dayFontSize,
           color: color,
         ),
       ),
@@ -130,10 +137,10 @@ final class _HomeCalendarState extends State<HomeCalendar> {
   }
 
   DaysOfWeekStyle get _daysOfWeekStyle {
-    const textStyleOfDaysOfWeek = TextStyle(
+    final textStyleOfDaysOfWeek = TextStyle(
       color: Colors.grey,
       fontFamily: FontFamily.gmarketSansRegular,
-      fontSize: 13,
+      fontSize: _weekFontSize,
     );
 
     return DaysOfWeekStyle(

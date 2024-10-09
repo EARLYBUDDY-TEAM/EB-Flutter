@@ -22,3 +22,4 @@ part 'sources/loading_view/loading_view.dart';
 part 'sources/loading_view/loading_delegate.dart';
 part 'sources/round_rect_form.dart';
 part 'sources/screen_size.dart';
+part 'sources/decorations/eb_box_shadow.dart';
