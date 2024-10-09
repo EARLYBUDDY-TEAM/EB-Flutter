@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 part 'sources/textfield.dart';
 part 'sources/button.dart';
 part 'sources/wave_background.dart';
-part 'sources/time.dart';
+part 'sources/ebtime.dart';
 part 'sources/pair.dart';
 part 'sources/dashline.dart';
 part 'sources/scrollwithheader.dart';

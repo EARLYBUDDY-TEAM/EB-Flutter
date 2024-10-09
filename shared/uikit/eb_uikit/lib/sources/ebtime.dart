@@ -1,8 +1,6 @@
 part of '../eb_uikit.dart';
 
 final class EBTime {
-  // static final EBTime shared = EBTime();
-
   static String intToString(int time) {
     if (time <= 0) {
       return '0분';
@@ -25,4 +23,9 @@ final class EBTime {
     String minute = m < 10 ? '0$m' : '$m';
     return '$meridiem ${timeOfDay.hour}:$minute';
   }
+}
+
+enum EBLocale {
+  ko_KR,
+  en_US,
 }

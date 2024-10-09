@@ -18,6 +18,7 @@ import 'package:intl/intl.dart';
 
 part 'sources/home_view.dart';
 part 'sources/calendar_view/home_calendar.dart';
+part 'sources/calendar_view/home_calendar_header.dart';
 part 'sources/top_schedule_info/top_schedule_info.dart';
 part 'sources/middle_transport_info/middle_transport_info.dart';
 part 'sources/home_content/schedule_addbutton.dart';

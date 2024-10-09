@@ -24,19 +24,30 @@ final class _HomeCalendarState extends State<HomeCalendar> {
     return Column(
       children: [
         ValueListenableBuilder<DateTime>(
-            valueListenable: _focusedDay,
-            builder: (context, value, _) {
-              return _HomeCalendarHeader(focusedDay: value);
-            }),
+          valueListenable: _focusedDay,
+          builder: (context, value, _) {
+            return _HomeCalendarHeader(focusedDay: value);
+          },
+        ),
+        const SizedBox(height: 20),
         TableCalendar(
+          headerVisible: false,
+          daysOfWeekStyle: _daysOfWeekStyle,
           focusedDay: _focusedDay.value,
           firstDay: _firstDay,
           lastDay: _lastDay,
-          locale: 'ko_KR',
+          locale: EBLocale.ko_KR.name,
           onDaySelected: _onDaySelected,
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         ),
       ],
+    );
+  }
+
+  DaysOfWeekStyle get _daysOfWeekStyle {
+    return DaysOfWeekStyle(
+      dowTextFormatter: (date, locale) =>
+          DateFormat.E(EBLocale.en_US.name).format(date).toUpperCase(),
     );
   }
 
@@ -49,42 +60,5 @@ final class _HomeCalendarState extends State<HomeCalendar> {
         _focusedDay.value = focusedDay;
       });
     }
-  }
-}
-
-final class _HomeCalendarHeader extends StatelessWidget {
-  final DateTime focusedDay;
-  final double fontSize = 23;
-
-  String get _headerText {
-    final year = "${focusedDay.year}";
-    final month = (1 <= (focusedDay.month / 10))
-        ? "${focusedDay.month}"
-        : "0${focusedDay.month}";
-    return "$year.$month";
-  }
-
-  const _HomeCalendarHeader({
-    super.key,
-    required this.focusedDay,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          _headerText,
-          style: TextStyle(
-            fontFamily: FontFamily.gmarketSansBold,
-            fontSize: fontSize,
-          ),
-        ),
-        Icon(
-          Icons.arrow_forward_ios,
-          size: fontSize,
-        ),
-      ],
-    );
   }
 }
