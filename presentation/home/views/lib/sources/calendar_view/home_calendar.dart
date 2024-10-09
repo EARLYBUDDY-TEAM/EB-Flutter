@@ -15,6 +15,7 @@ final class _HomeCalendarState extends State<HomeCalendar> {
 
   final double _dayFontSize = 16;
   final double _weekFontSize = 13;
+  final double _dayCellTopPadding = 10;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ final class _HomeCalendarState extends State<HomeCalendar> {
         ),
         const SizedBox(height: 20),
         TableCalendar(
+          rowHeight: 70,
           daysOfWeekHeight: 40,
           headerVisible: false,
           daysOfWeekStyle: _daysOfWeekStyle,
@@ -61,15 +63,26 @@ final class _HomeCalendarState extends State<HomeCalendar> {
     required String text,
     required Color color,
   }) {
-    return Center(
-      child: Text(
-        text,
-        style: TextStyle(
-          fontFamily: FontFamily.gmarketSansRegular,
-          fontSize: _dayFontSize,
-          color: color,
-        ),
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: _dayCellTopPadding),
+            child: Text(text, style: _dayTextStyle(color: color)),
+          ),
+        ],
       ),
+    );
+  }
+
+  TextStyle _dayTextStyle({
+    required Color color,
+  }) {
+    return TextStyle(
+      fontFamily: FontFamily.gmarketSansRegular,
+      fontSize: _dayFontSize,
+      color: color,
     );
   }
 
@@ -114,7 +127,7 @@ final class _HomeCalendarState extends State<HomeCalendar> {
     final color = EBColors.blue3;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: _dayCellTopPadding),
       child: ConstrainedBox(
         constraints: const BoxConstraints.expand(),
         child: DecoratedBox(
@@ -127,9 +140,17 @@ final class _HomeCalendarState extends State<HomeCalendar> {
               ),
             ),
           ),
-          child: _dayText(
-            text: "${focusedDay.day}",
-            color: color,
+          child: Stack(
+            alignment: AlignmentDirectional.topCenter,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: _dayCellTopPadding),
+                child: Text(
+                  "${focusedDay.day}",
+                  style: _dayTextStyle(color: color),
+                ),
+              ),
+            ],
           ),
         ),
       ),
