@@ -8,5 +8,5 @@ void main() async {
   await PrepareRoot.checkFirstLaunch();
   final rootExample = RootExample();
   runApp(rootExample);
-  // await rootExample.setAutoLogin();
+  await rootExample.setAutoLogin();
 }

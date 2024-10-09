@@ -13,7 +13,7 @@ final class RootView extends StatelessWidget {
   final ScheduleRepository _scheduleRepository;
   final SearchPlaceRepository _searchPlaceRepository;
   final TokenRepository _tokenRepository;
-  final HomeRepository _homeRepository;
+  final HomeRepositoryAB _homeRepository;
 
   late final _tokenEvent = TokenEvent(
     rootDelegate: _rootDelegate,
@@ -35,7 +35,7 @@ final class RootView extends StatelessWidget {
     ScheduleRepository? scheduleRepository,
     SearchPlaceRepository? searchPlaceRepository,
     TokenRepository? tokenRepository,
-    HomeRepository? homeRepository,
+    HomeRepositoryAB? homeRepository,
   })  : _searchPlaceDelegateForPlace =
             searchPlaceDelegateForPlace ?? SearchPlaceDelegateForPlace(),
         _searchPlaceDelegateForRoute =

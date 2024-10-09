@@ -22,7 +22,7 @@ final class _HomeViewState extends State<HomeView> {
       create: (_) => HomeBloc(
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-        homeRepository: RepositoryProvider.of<HomeRepository>(context),
+        homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
         tokenEvent: RepositoryProvider.of<TokenEvent>(context),
       )..add(const OnAppearHomeView()),
       child: const EBHomeView(),

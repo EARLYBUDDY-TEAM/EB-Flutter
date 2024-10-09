@@ -2,7 +2,7 @@ part of '../eb_home_feature.dart';
 
 final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final LoadingDelegate _loadingDelegate;
-  final HomeRepository _homeRepository;
+  final HomeRepositoryAB _homeRepository;
   final TokenEvent _tokenEvent;
 
   late StreamSubscription<BaseStatus> _loginStatusSubscription;
@@ -11,7 +11,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
-    required HomeRepository homeRepository,
+    required HomeRepositoryAB homeRepository,
     required TokenEvent tokenEvent,
   })  : _loadingDelegate = loadingDelegate,
         _homeRepository = homeRepository,

@@ -1,12 +1,13 @@
-part of '../eb_repository.dart';
+part of '../../eb_repository.dart';
 
-final class HomeRepository {
+final class HomeRepository implements HomeRepositoryAB {
   final NetworkService service;
 
   HomeRepository({
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService();
 
+  @override
   Future<Result> getAllScheduleCards({
     required String accessToken,
   }) async {
@@ -39,6 +40,7 @@ final class HomeRepository {
     }
   }
 
+  @override
   Future<Result> deleteScheduleCard({
     required String accessToken,
     required int scheduleID,

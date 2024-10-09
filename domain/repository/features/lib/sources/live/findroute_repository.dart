@@ -1,4 +1,4 @@
-part of '../eb_repository.dart';
+part of '../../eb_repository.dart';
 
 final class FindRouteRepository {
   final NetworkService service;

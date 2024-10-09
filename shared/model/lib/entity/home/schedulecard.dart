@@ -41,17 +41,23 @@ final class ScheduleCard extends Equatable {
         endPlaceName,
       ];
 
-  static ScheduleCard mockwithPlace() => ScheduleCard(
+  static ScheduleCard mockwithPlace({
+    DateTime? time,
+  }) =>
+      ScheduleCard(
         scheduleID: 10,
         title: "MockTitle",
-        time: DateTime.now(),
+        time: time ?? DateTime.now(),
         endPlaceName: "mockEndPlaceName",
       );
 
-  static ScheduleCard mock() => ScheduleCard(
+  static ScheduleCard mock({
+    DateTime? time,
+  }) =>
+      ScheduleCard(
         scheduleID: 10,
         title: "MockTitle",
-        time: DateTime.now(),
+        time: time ?? DateTime.now(),
         endPlaceName: null,
       );
 }

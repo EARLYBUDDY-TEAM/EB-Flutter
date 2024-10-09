@@ -1,44 +1,5 @@
 part of '../eb_home_feature.dart';
 
-// final class HomeState extends Equatable {
-//   final BaseStatus loginStatus;
-//   final BaseStatus registerStatus;
-//   final BaseStatus getAllScheduleCardStatus;
-//   final List<ScheduleCard> scheduleCardList;
-
-//   HomeState({
-//     BaseStatus? loginStatus,
-//     BaseStatus? registerStatus,
-//     BaseStatus? getAllScheduleCardStatus,
-//     List<ScheduleCard>? scheduleCardList,
-//   })  : getAllScheduleCardStatus = getAllScheduleCardStatus ?? BaseStatus.init,
-//         loginStatus = loginStatus ?? BaseStatus.init,
-//         registerStatus = registerStatus ?? BaseStatus.init,
-//         scheduleCardList = scheduleCardList ?? [];
-
-//   HomeState copyWith({
-//     BaseStatus? loginStatus,
-//     BaseStatus? registerStatus,
-//     BaseStatus? scheduleCardStatus,
-//     List<ScheduleCard>? scheduleCardList,
-//   }) =>
-//       HomeState(
-//         getAllScheduleCardStatus:
-//             scheduleCardStatus ?? getAllScheduleCardStatus,
-//         loginStatus: loginStatus ?? this.loginStatus,
-//         registerStatus: registerStatus ?? this.registerStatus,
-//         scheduleCardList: scheduleCardList ?? this.scheduleCardList,
-//       );
-
-//   @override
-//   List<Object?> get props => [
-//         loginStatus,
-//         registerStatus,
-//         getAllScheduleCardStatus,
-//         scheduleCardList,
-//       ];
-// }
-
 final class HomeState extends Equatable {
   final HomeStatus status;
   final List<ScheduleCard> scheduleCardList;

@@ -1,9 +1,25 @@
 part of 'home_example.dart';
 
+List<ScheduleCard> mockScheduleCardList() {
+  final today = DateTime.now();
+  final List<ScheduleCard> mockScheduleList = [];
+
+  for (int i = 1; i < 20; i++) {
+    final tmpDay = today.add(Duration(days: i));
+    final tmpSchedule = i % 2 == 0
+        ? ScheduleCard.mock(time: tmpDay)
+        : ScheduleCard.mockwithPlace(time: tmpDay);
+    mockScheduleList.add(tmpSchedule);
+  }
+
+  return mockScheduleList;
+}
+
 final class MockHomeView extends StatelessWidget {
   final _homeDelegate = HomeDelegate();
   final _loadingDelegate = LoadingDelegate();
-  final _homeRepository = HomeRepository();
+  final HomeRepositoryAB _homeRepository =
+      TestHomeRepository(scheduleCardList: mockScheduleCardList());
   late final _tokenEvent = TokenEvent(
     rootDelegate: RootDelegate(),
     loginDelegate: LoginDelegate(),
@@ -33,34 +49,18 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
       create: (_) => HomeBloc(
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-        homeRepository: RepositoryProvider.of<HomeRepository>(context),
+        homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
         tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-      )..add(
-          InitHomeState(
-            homeState: HomeState(
-              scheduleCardList: mockData(),
-            ),
-          ),
-        ),
+      )..add(const OnAppearHomeView()),
+      // )..add(
+      //     InitHomeState(
+      //       homeState: HomeState(
+      //         scheduleCardList: mockData(),
+      //       ),
+      //     ),
+      //   ),
       child: _MockHomeAppView(),
     );
-  }
-
-  List<ScheduleCard> mockData() {
-    return [
-      ScheduleCard.mock(),
-      ScheduleCard.mockwithPlace(),
-      ScheduleCard.mock(),
-      ScheduleCard.mockwithPlace(),
-      ScheduleCard.mock(),
-      ScheduleCard.mockwithPlace(),
-      ScheduleCard.mock(),
-      ScheduleCard.mockwithPlace(),
-      ScheduleCard.mock(),
-      ScheduleCard.mockwithPlace(),
-      ScheduleCard.mock(),
-      ScheduleCard.mockwithPlace(),
-    ];
   }
 }
 
