@@ -1,13 +1,46 @@
 part of '../../eb_home.dart';
 
-final class HomeCalendar extends StatefulWidget {
+final class HomeCalendar extends StatelessWidget {
   const HomeCalendar({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) {
+        return previous.scheduleCardMap.data != current.scheduleCardMap.data;
+      },
+      builder: (context, state) {
+        return _HomeCalendarContent();
+      },
+    );
+  }
+}
+
+final class _HomeCalendarContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            boxShadow: [EBBoxShadow.init()]),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          child: _HomeCalendarStateful(),
+        ),
+      ),
+    );
+  }
+}
+
+final class _HomeCalendarStateful extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _HomeCalendarState();
 }
 
-final class _HomeCalendarState extends State<HomeCalendar> {
+final class _HomeCalendarState extends State<_HomeCalendarStateful> {
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   final DateTime _firstDay = DateTime.utc(2020, 01, 01);
   final DateTime _lastDay = DateTime.utc(2030, 01, 01);
@@ -49,9 +82,13 @@ final class _HomeCalendarState extends State<HomeCalendar> {
           firstDay: _firstDay,
           lastDay: _lastDay,
           locale: EBLocale.ko_KR.name,
-          onDaySelected: _onDaySelected,
+          onDaySelected: (
+            DateTime selectedDay,
+            DateTime focusedDay,
+          ) {
+            _onDaySelected(selectedDay, focusedDay, context);
+          },
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-          eventLoader: _eventLoader,
           calendarBuilders: CalendarBuilders(
             selectedBuilder: _selectedBuilder,
             defaultBuilder: _defaultBuilder,
@@ -184,19 +221,25 @@ extension on _HomeCalendarState {
 }
 
 extension on _HomeCalendarState {
-  Widget _markerBuilder(
+  Widget? _markerBuilder(
     BuildContext context,
-    DateTime time,
+    DateTime dateTime,
     List<dynamic> events,
   ) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: _dayCellPadding),
-      child: Icon(
-        Icons.circle,
-        size: 6,
-        color: _dayCellColor,
-      ),
-    );
+    final data = context.read<HomeBloc>().state.scheduleCardMap.data;
+    final dayTime = EBTime.dateTimeToDay(dateTime);
+    if (data.containsKey(dayTime)) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: _dayCellPadding),
+        child: Icon(
+          Icons.circle,
+          size: 6,
+          color: _dayCellColor,
+        ),
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -219,18 +262,18 @@ extension on _HomeCalendarState {
 
 // logic
 extension on _HomeCalendarState {
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  void _onDaySelected(
+    DateTime selectedDay,
+    DateTime focusedDay,
+    BuildContext context,
+  ) {
     if (!isSameDay(_selectedDay, selectedDay)) {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay.value = focusedDay;
       });
-    }
-  }
-}
 
-extension on _HomeCalendarState {
-  List<dynamic> _eventLoader(DateTime time) {
-    return [for (var i = 0; i < 10; i++) i];
+      context.read<HomeBloc>().add(TapCalendarDay(selectedDay: selectedDay));
+    }
   }
 }

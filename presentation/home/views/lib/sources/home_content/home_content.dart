@@ -5,34 +5,18 @@ final class _HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
+    return const Padding(
+      padding: EdgeInsets.all(20),
       child: Column(
         children: [
-          const _TopScheduleInfoView(),
-          const SizedBox(height: 30),
-          const _MiddleTransportInfoView(),
-          const SizedBox(height: 30),
-          _homeCalenDar(),
-          const SizedBox(height: 30),
-          const HomeBottomListView(),
+          _TopScheduleInfoView(),
+          SizedBox(height: 30),
+          _MiddleTransportInfoView(),
+          SizedBox(height: 30),
+          HomeCalendar(),
+          SizedBox(height: 30),
+          HomeBottomListView(),
         ],
-      ),
-    );
-  }
-
-  Widget _homeCalenDar() {
-    return Container(
-      color: Colors.transparent,
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            boxShadow: [EBBoxShadow.init()]),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: HomeCalendar(),
-        ),
       ),
     );
   }

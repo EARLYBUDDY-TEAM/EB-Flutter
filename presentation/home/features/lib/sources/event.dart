@@ -44,3 +44,14 @@ final class SetHomeStatus extends HomeEvent {
         deleteScheduleCard,
       ];
 }
+
+final class TapCalendarDay extends HomeEvent {
+  final DateTime selectedDay;
+
+  const TapCalendarDay({
+    required this.selectedDay,
+  });
+
+  @override
+  List<Object?> get props => [];
+}

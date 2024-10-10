@@ -20,6 +20,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
+    on<TapCalendarDay>(_onTapCalendarDay);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -76,6 +77,8 @@ extension on HomeBloc {
       case Success():
         final List<ScheduleCard> scheduleCardList =
             getAllScheduleCardsResult.success.model;
+        final scheduleCardMap = ScheduleCardMap.initWithCardList(
+            scheduleCardList: scheduleCardList);
 
         final homeStatus =
             state.status.copyWith(getAllScheduleCard: BaseStatus.init);
@@ -83,7 +86,7 @@ extension on HomeBloc {
         emit(
           state.copyWith(
             status: homeStatus,
-            scheduleCardList: scheduleCardList,
+            scheduleCardMap: scheduleCardMap,
           ),
         );
       case Failure():
@@ -134,5 +137,19 @@ extension on HomeBloc {
           },
         );
     }
+  }
+}
+
+extension on HomeBloc {
+  void _onTapCalendarDay(
+    TapCalendarDay event,
+    Emitter<HomeState> emit,
+  ) {
+    final newSelectedDay = EBTime.dateTimeToDay(event.selectedDay);
+    final scheduleCardMap =
+        state.scheduleCardMap.copyWith(selectedDay: newSelectedDay);
+    emit(
+      state.copyWith(scheduleCardMap: scheduleCardMap),
+    );
   }
 }

@@ -23,6 +23,10 @@ final class EBTime {
     String minute = m < 10 ? '0$m' : '$m';
     return '$meridiem ${timeOfDay.hour}:$minute';
   }
+
+  static DateTime dateTimeToDay(DateTime datetime) {
+    return DateTime(datetime.year, datetime.month, datetime.day);
+  }
 }
 
 enum EBLocale {

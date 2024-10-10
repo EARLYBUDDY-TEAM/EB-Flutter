@@ -2,27 +2,28 @@ part of '../eb_home_feature.dart';
 
 final class HomeState extends Equatable {
   final HomeStatus status;
-  final List<ScheduleCard> scheduleCardList;
+  final ScheduleCardMap scheduleCardMap;
 
   HomeState({
     HomeStatus? status,
-    List<ScheduleCard>? scheduleCardList,
+    ScheduleCardMap? scheduleCardMap,
+    DateTime? selectedDay,
   })  : status = status ?? const HomeStatus(),
-        scheduleCardList = scheduleCardList ?? [];
+        scheduleCardMap = scheduleCardMap ?? ScheduleCardMap();
 
   @override
   List<Object?> get props => [
         status,
-        scheduleCardList,
+        scheduleCardMap,
       ];
 
   HomeState copyWith({
     HomeStatus? status,
-    List<ScheduleCard>? scheduleCardList,
+    ScheduleCardMap? scheduleCardMap,
   }) =>
       HomeState(
         status: status ?? this.status,
-        scheduleCardList: scheduleCardList ?? this.scheduleCardList,
+        scheduleCardMap: scheduleCardMap ?? this.scheduleCardMap,
       );
 }
 
@@ -62,4 +63,56 @@ final class HomeStatus extends Equatable {
         getAllScheduleCard: getAllScheduleCard ?? this.getAllScheduleCard,
         deleteScheduleCard: deleteScheduleCard ?? this.deleteScheduleCard,
       );
+}
+
+final class ScheduleCardMap extends Equatable {
+  final DateTime selectedDay;
+  final Map<DateTime, List<ScheduleCard>> data;
+
+  ScheduleCardMap({
+    DateTime? selectedDay,
+    Map<DateTime, List<ScheduleCard>>? data,
+  })  : selectedDay = selectedDay ?? EBTime.dateTimeToDay(DateTime.now()),
+        data = data ?? {};
+
+  ScheduleCardMap copyWith({
+    DateTime? selectedDay,
+    Map<DateTime, List<ScheduleCard>>? data,
+  }) {
+    return ScheduleCardMap(
+      selectedDay: selectedDay ?? this.selectedDay,
+      data: data ?? this.data,
+    );
+  }
+
+  @override
+  List<Object?> get props => [selectedDay, data];
+
+  static ScheduleCardMap initWithCardList({
+    DateTime? selectedDay,
+    List<ScheduleCard>? scheduleCardList,
+  }) {
+    final tmpSelectedDay = selectedDay ?? EBTime.dateTimeToDay(DateTime.now());
+    Map<DateTime, List<ScheduleCard>> tmpData = {};
+    if (scheduleCardList == null) {
+      tmpData = {};
+    } else {
+      for (var scheduleCard in scheduleCardList) {
+        final day = EBTime.dateTimeToDay(scheduleCard.time);
+        if (tmpData.containsKey(day)) {
+          tmpData[day]!.add(scheduleCard);
+        } else {
+          tmpData[day] = [scheduleCard];
+        }
+      }
+    }
+    return ScheduleCardMap(
+      selectedDay: tmpSelectedDay,
+      data: tmpData,
+    );
+  }
+
+  List<ScheduleCard> get getSelectedDayCardList {
+    return data.containsKey(selectedDay) ? data[selectedDay]! : [];
+  }
 }

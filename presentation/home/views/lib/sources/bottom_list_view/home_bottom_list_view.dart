@@ -11,12 +11,12 @@ final class HomeBottomListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) {
-        return previous.scheduleCardList != current.scheduleCardList;
+        return (previous.scheduleCardMap != current.scheduleCardMap);
       },
       builder: (context, state) {
         return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
-          items: state.scheduleCardList,
+          scheduleCardList: state.scheduleCardMap.getSelectedDayCardList,
         );
       },
     );
@@ -25,12 +25,12 @@ final class HomeBottomListView extends StatelessWidget {
 
 final class HomeBottomListContent extends StatefulWidget {
   final double horizontalPadding;
-  final List<ScheduleCard> items;
+  final List<ScheduleCard> scheduleCardList;
 
   const HomeBottomListContent({
     super.key,
     required this.horizontalPadding,
-    required this.items,
+    required this.scheduleCardList,
   });
 
   @override
@@ -49,12 +49,12 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
       ),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.items.length,
+      itemCount: widget.scheduleCardList.length,
       separatorBuilder: (context, index) {
         return SizedBox(height: widget.horizontalPadding);
       },
       itemBuilder: (contex, index) {
-        final item = widget.items[index];
+        final item = widget.scheduleCardList[index];
         return Dismissible(
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
@@ -119,7 +119,7 @@ extension on HomeBottomListContentState {
         case BaseStatus.success:
           _snackBarSuccessDeleteSuccessScheduleCard(context);
           setState(() {
-            widget.items.removeAt(index);
+            widget.scheduleCardList.removeAt(index);
           });
           return true;
         case BaseStatus.fail:
