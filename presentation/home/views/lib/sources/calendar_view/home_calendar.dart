@@ -16,6 +16,8 @@ final class _HomeCalendarState extends State<HomeCalendar> {
   final double _dayFontSize = 16;
   final double _weekFontSize = 13;
   final double _dayCellTopPadding = 10;
+  final double _selectDayCellBordorWidth = 1.5;
+  final _animateDuration = const Duration(milliseconds: 250);
 
   @override
   void initState() {
@@ -51,48 +53,74 @@ final class _HomeCalendarState extends State<HomeCalendar> {
           calendarBuilders: CalendarBuilders(
             selectedBuilder: _selectedBuilder,
             defaultBuilder: _defaultBuilder,
-            todayBuilder: _todayBuilder,
-            outsideBuilder: _outsideBuilder,
+            // todayBuilder: _todayBuilder,
+            // outsideBuilder: _outsideBuilder,
+            // disabledBuilder: _defaultBuilder,
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _dayText({
-    required String text,
+// ui
+extension on _HomeCalendarState {
+  Widget _dayCell({
+    required DateTime dayTime,
     required Color color,
   }) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: _dayCellTopPadding),
-            child: Text(text, style: _dayTextStyle(color: color)),
-          ),
-        ],
+    final padding =
+        EdgeInsets.only(top: _dayCellTopPadding + _selectDayCellBordorWidth);
+    const alignment = Alignment.topCenter;
+    final margin = EdgeInsets.only(
+      left: _dayCellTopPadding,
+      right: _dayCellTopPadding,
+      bottom: _dayCellTopPadding * 2,
+    );
+
+    const decoration = ShapeDecoration(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+          bottom: Radius.circular(20),
+        ),
+      ),
+    );
+
+    return AnimatedContainer(
+      duration: _animateDuration,
+      margin: margin,
+      decoration: decoration,
+      padding: padding,
+      alignment: alignment,
+      child: _dayText(dayTime: dayTime, color: color),
+    );
+  }
+
+  Text _dayText({
+    required DateTime dayTime,
+    required Color color,
+  }) {
+    final text = "${dayTime.day}";
+    return Text(
+      text,
+      style: TextStyle(
+        fontFamily: FontFamily.gmarketSansRegular,
+        fontSize: _dayFontSize,
+        color: color,
       ),
     );
   }
+}
 
-  TextStyle _dayTextStyle({
-    required Color color,
-  }) {
-    return TextStyle(
-      fontFamily: FontFamily.gmarketSansRegular,
-      fontSize: _dayFontSize,
-      color: color,
-    );
-  }
-
+extension on _HomeCalendarState {
   Widget _outsideBuilder(
     BuildContext context,
     DateTime day,
     DateTime focusedDay,
   ) {
-    return _dayText(
-      text: "${day.day}",
+    return _dayCell(
+      dayTime: day,
       color: Colors.grey,
     );
   }
@@ -102,8 +130,8 @@ final class _HomeCalendarState extends State<HomeCalendar> {
     DateTime day,
     DateTime focusedDay,
   ) {
-    return _dayText(
-      text: "${day.day}",
+    return _dayCell(
+      dayTime: day,
       color: Colors.black,
     );
   }
@@ -113,50 +141,47 @@ final class _HomeCalendarState extends State<HomeCalendar> {
     DateTime day,
     DateTime focusedDay,
   ) {
-    return _dayText(
-      text: "${day.day}",
+    return _dayCell(
+      dayTime: day,
       color: Colors.black,
     );
   }
+}
 
+extension on _HomeCalendarState {
   Widget _selectedBuilder(
     BuildContext context,
     DateTime day,
     DateTime focusedDay,
   ) {
     final color = EBColors.blue3;
+    final dayTime = focusedDay.day != day.day ? day : focusedDay;
+    final margin = EdgeInsets.symmetric(horizontal: _dayCellTopPadding);
+    final padding = EdgeInsets.only(top: _dayCellTopPadding);
+    const alignment = Alignment.topCenter;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: _dayCellTopPadding),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints.expand(),
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: color, width: 1.5),
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(20),
-                bottom: Radius.circular(20),
-              ),
-            ),
-          ),
-          child: Stack(
-            alignment: AlignmentDirectional.topCenter,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: _dayCellTopPadding),
-                child: Text(
-                  "${focusedDay.day}",
-                  style: _dayTextStyle(color: color),
-                ),
-              ),
-            ],
-          ),
+    final decoration = ShapeDecoration(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: color, width: _selectDayCellBordorWidth),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(20),
+          bottom: Radius.circular(20),
         ),
       ),
     );
-  }
 
+    return AnimatedContainer(
+      duration: _animateDuration,
+      margin: margin,
+      padding: padding,
+      decoration: decoration,
+      alignment: alignment,
+      child: _dayText(dayTime: dayTime, color: color),
+    );
+  }
+}
+
+extension on _HomeCalendarState {
   DaysOfWeekStyle get _daysOfWeekStyle {
     final textStyleOfDaysOfWeek = TextStyle(
       color: Colors.grey,
@@ -173,11 +198,10 @@ final class _HomeCalendarState extends State<HomeCalendar> {
   }
 }
 
+// logic
 extension on _HomeCalendarState {
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, selectedDay)) {
-      log("Selected Day : ${selectedDay.toString()}");
-      log("Focused Day : ${focusedDay.toString()}");
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay.value = focusedDay;
