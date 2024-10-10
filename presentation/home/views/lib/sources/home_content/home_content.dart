@@ -30,7 +30,7 @@ final class _HomeContent extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             boxShadow: [EBBoxShadow.init()]),
         child: const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: HomeCalendar(),
         ),
       ),

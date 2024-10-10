@@ -53,9 +53,8 @@ final class _HomeCalendarState extends State<HomeCalendar> {
           calendarBuilders: CalendarBuilders(
             selectedBuilder: _selectedBuilder,
             defaultBuilder: _defaultBuilder,
-            // todayBuilder: _todayBuilder,
-            // outsideBuilder: _outsideBuilder,
-            // disabledBuilder: _defaultBuilder,
+            todayBuilder: _todayBuilder,
+            outsideBuilder: _outsideBuilder,
           ),
         ),
       ],
