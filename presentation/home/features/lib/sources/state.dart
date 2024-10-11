@@ -7,7 +7,6 @@ final class HomeState extends Equatable {
   HomeState({
     HomeStatus? status,
     ScheduleCardMap? scheduleCardMap,
-    DateTime? selectedDay,
   })  : status = status ?? const HomeStatus(),
         scheduleCardMap = scheduleCardMap ?? ScheduleCardMap();
 
@@ -20,6 +19,7 @@ final class HomeState extends Equatable {
   HomeState copyWith({
     HomeStatus? status,
     ScheduleCardMap? scheduleCardMap,
+    List<ScheduleCard>? allSchedule,
   }) =>
       HomeState(
         status: status ?? this.status,
@@ -114,5 +114,19 @@ final class ScheduleCardMap extends Equatable {
 
   List<ScheduleCard> get getSelectedDayCardList {
     return data.containsKey(selectedDay) ? data[selectedDay]! : [];
+  }
+
+  ScheduleCardMap delete(ScheduleCard card) {
+    final key = EBTime.dateTimeToDay(card.time);
+    if (data.containsKey(key)) {
+      final scheduleCardList = data[key]!;
+      scheduleCardList.remove(card);
+      log("delete success !!!");
+    }
+
+    return ScheduleCardMap(
+      data: data,
+      selectedDay: selectedDay,
+    );
   }
 }

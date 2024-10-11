@@ -11,9 +11,20 @@ final class HomeBottomListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) {
-        return (previous.scheduleCardMap != current.scheduleCardMap);
+        final flagSelectDay = (previous.scheduleCardMap.selectedDay !=
+            current.scheduleCardMap.selectedDay);
+
+        final flagGetAllScheduleCard =
+            current.status.getAllScheduleCard == BaseStatus.success;
+
+        return flagSelectDay || flagGetAllScheduleCard;
       },
       builder: (context, state) {
+        context
+            .read<HomeBloc>()
+            .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
+
+        log("view reload ... ");
         return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
           scheduleCardList: state.scheduleCardMap.getSelectedDayCardList,
@@ -37,6 +48,7 @@ final class HomeBottomListContent extends StatefulWidget {
   State<StatefulWidget> createState() => HomeBottomListContentState();
 }
 
+// Future Builder ??
 final class HomeBottomListContentState extends State<HomeBottomListContent> {
   @override
   Widget build(BuildContext context) {
@@ -59,12 +71,16 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
           confirmDismiss: (direction) async {
-            if (direction != DismissDirection.endToStart) {
-              return false;
-            }
-            final bool swipeResult =
-                await _swipeDeleteAction(contex, item, index);
-            return swipeResult;
+            return await _confirmDismiss(
+              context: contex,
+              direction: direction,
+              item: item,
+            );
+          },
+          onDismissed: (direction) {
+            setState(() {
+              widget.scheduleCardList.removeAt(index);
+            });
           },
           background: _swipeDeleteWidget(),
           child: BottomScheduleCardView(scheduleCard: item),
@@ -96,43 +112,59 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
   }
 }
 
+// logic
 extension on HomeBottomListContentState {
-  Future<bool> _swipeDeleteAction(
-    BuildContext context,
-    ScheduleCard item,
-    int index,
-  ) async {
+  Future<bool> _confirmDismiss({
+    required BuildContext context,
+    required DismissDirection direction,
+    required ScheduleCard item,
+  }) async {
+    if (direction != DismissDirection.endToStart) {
+      return false;
+    }
+
     final isDelete = await _alertConfirmDeleteScheduleCard(
       context,
       item.title,
     );
 
-    if ((isDelete != null) && isDelete) {
-      final homeBloc = context.read<HomeBloc>()
-        ..add(DeleteScheduleCard(scheduleID: item.scheduleID));
-
-      final homeState = await homeBloc.stream.firstWhere((state) {
-        return state.status.deleteScheduleCard != BaseStatus.init;
-      });
-      final deleteResult = homeState.status.deleteScheduleCard;
-      switch (deleteResult) {
-        case BaseStatus.success:
-          _snackBarSuccessDeleteSuccessScheduleCard(context);
-          setState(() {
-            widget.scheduleCardList.removeAt(index);
-          });
-          return true;
-        case BaseStatus.fail:
-          _alertFailDeleteFailScheduleCard(context);
-          return false;
-        default:
-          return false;
-      }
+    if (isDelete != true) {
+      return false;
     }
-    return false;
+
+    final bool swipeResult = await _getDeleteScheduleResult(context, item);
+
+    switch (swipeResult) {
+      case true:
+        _snackBarSuccessDeleteSuccessScheduleCard(context);
+      case false:
+        _alertFailDeleteFailScheduleCard(context);
+    }
+
+    return swipeResult;
+  }
+
+  Future<bool> _getDeleteScheduleResult(
+    BuildContext context,
+    ScheduleCard item,
+  ) async {
+    final homeBloc = context.read<HomeBloc>()
+      ..add(DeleteScheduleCard(scheduleCard: item));
+
+    final homeState = await homeBloc.stream.firstWhere((state) {
+      return state.status.deleteScheduleCard != BaseStatus.init;
+    });
+    final deleteResult = homeState.status.deleteScheduleCard;
+    switch (deleteResult) {
+      case BaseStatus.success:
+        return true;
+      default:
+        return false;
+    }
   }
 }
 
+// alert
 extension on HomeBottomListContentState {
   Future<bool?> _alertConfirmDeleteScheduleCard(
     BuildContext context,

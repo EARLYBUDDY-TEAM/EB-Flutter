@@ -7,9 +7,13 @@ List<ScheduleCard> mockScheduleCardList() {
   for (int i = 1; i < 20; i++) {
     final tmpDay = today.add(Duration(days: i));
     final tmpSchedule = i % 2 == 0
-        ? ScheduleCard.mock(time: tmpDay)
-        : ScheduleCard.mockwithPlace(time: tmpDay);
+        ? ScheduleCard.mock(id: i, time: tmpDay)
+        : ScheduleCard.mockwithPlace(id: i, time: tmpDay);
     mockScheduleList.add(tmpSchedule);
+  }
+
+  for (int i = 1; i < 10; i++) {
+    mockScheduleList.add(ScheduleCard.mockwithPlace());
   }
 
   return mockScheduleList;

@@ -78,10 +78,11 @@ extension on HomeBloc {
         final List<ScheduleCard> scheduleCardList =
             getAllScheduleCardsResult.success.model;
         final scheduleCardMap = ScheduleCardMap.initWithCardList(
-            scheduleCardList: scheduleCardList);
+          scheduleCardList: scheduleCardList,
+        );
 
         final homeStatus =
-            state.status.copyWith(getAllScheduleCard: BaseStatus.init);
+            state.status.copyWith(getAllScheduleCard: BaseStatus.success);
 
         emit(
           state.copyWith(
@@ -112,7 +113,7 @@ extension on HomeBloc {
     Future<Result> deleteScheduleCardEvent(String accessToken) async {
       return await _homeRepository.deleteScheduleCard(
         accessToken: accessToken,
-        scheduleID: event.scheduleID,
+        scheduleID: event.scheduleCard.scheduleID,
       );
     }
 
@@ -125,7 +126,14 @@ extension on HomeBloc {
       case Success():
         final homeStatus =
             state.status.copyWith(deleteScheduleCard: BaseStatus.success);
-        emit(state.copyWith(status: homeStatus));
+        final scheduleCardMap =
+            state.scheduleCardMap.delete(event.scheduleCard);
+        emit(
+          state.copyWith(
+            status: homeStatus,
+            scheduleCardMap: scheduleCardMap,
+          ),
+        );
         return;
       case Failure():
         _tokenEvent.failureAction(
