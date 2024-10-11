@@ -2,18 +2,20 @@ part of 'home_example.dart';
 
 List<ScheduleCard> mockScheduleCardList() {
   final today = DateTime.now();
+  final nextDay = today.add(const Duration(days: 1));
   final List<ScheduleCard> mockScheduleList = [];
 
   for (int i = 1; i < 20; i++) {
     final tmpDay = today.add(Duration(days: i));
     final tmpSchedule = i % 2 == 0
-        ? ScheduleCard.mock(id: i, time: tmpDay)
-        : ScheduleCard.mockwithPlace(id: i, time: tmpDay);
+        ? ScheduleCard.mock(time: tmpDay)
+        : ScheduleCard.mockwithPlace(time: tmpDay);
     mockScheduleList.add(tmpSchedule);
   }
 
   for (int i = 1; i < 10; i++) {
-    mockScheduleList.add(ScheduleCard.mockwithPlace());
+    mockScheduleList.add(ScheduleCard.mockwithPlace(time: today));
+    mockScheduleList.add(ScheduleCard.mockwithPlace(time: nextDay));
   }
 
   return mockScheduleList;

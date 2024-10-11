@@ -78,9 +78,7 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
             );
           },
           onDismissed: (direction) {
-            setState(() {
-              widget.scheduleCardList.removeAt(index);
-            });
+            _onDismissed(context: contex, direction: direction);
           },
           background: _swipeDeleteWidget(),
           child: BottomScheduleCardView(scheduleCard: item),
@@ -114,6 +112,17 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
 
 // logic
 extension on HomeBottomListContentState {
+  void _onDismissed({
+    required BuildContext context,
+    required DismissDirection direction,
+  }) {
+    context
+        .read<HomeBloc>()
+        .add(const SetHomeStatus(deleteScheduleCard: BaseStatus.init));
+    setState(() {});
+    _snackBarSuccessDeleteSuccessScheduleCard(context);
+  }
+
   Future<bool> _confirmDismiss({
     required BuildContext context,
     required DismissDirection direction,
@@ -132,16 +141,14 @@ extension on HomeBottomListContentState {
       return false;
     }
 
-    final bool swipeResult = await _getDeleteScheduleResult(context, item);
+    final bool deleteScheduleResult =
+        await _getDeleteScheduleResult(context, item);
 
-    switch (swipeResult) {
-      case true:
-        _snackBarSuccessDeleteSuccessScheduleCard(context);
-      case false:
-        _alertFailDeleteFailScheduleCard(context);
+    if (deleteScheduleResult == false) {
+      _alertFailDeleteFailScheduleCard(context);
     }
 
-    return swipeResult;
+    return deleteScheduleResult;
   }
 
   Future<bool> _getDeleteScheduleResult(
