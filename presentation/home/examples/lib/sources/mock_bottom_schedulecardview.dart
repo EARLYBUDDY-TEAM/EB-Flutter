@@ -16,17 +16,17 @@ final class MockBottomScheduleCardExample extends StatelessWidget {
   }
 }
 
-final longTextCard = ScheduleCard(
-  scheduleID: 10,
+final longTitleSchedule = Schedule(
+  id: 10,
   title: "MockTitle" * 20,
   time: DateTime.now(),
-  endPlaceName: "mockEndPlaceName" * 20,
+  endPlace: Place.mockView(),
 );
 
 final class _MockBottomScheduleCardListView extends StatelessWidget {
-  final items = List<ScheduleCard>.generate(20, (i) {
+  final items = List<Schedule>.generate(20, (i) {
     bool flag = (i + 1) % 2 == 0 ? true : false;
-    return flag ? longTextCard : ScheduleCard.mockwithPlace();
+    return flag ? longTitleSchedule : Schedule.mock();
   });
   final double horizontalPadding = 20;
 
@@ -39,7 +39,7 @@ final class _MockBottomScheduleCardListView extends StatelessWidget {
       ),
       child: HomeBottomListContent(
         horizontalPadding: horizontalPadding,
-        scheduleCardList: items,
+        scheduleList: items,
       ),
     );
   }

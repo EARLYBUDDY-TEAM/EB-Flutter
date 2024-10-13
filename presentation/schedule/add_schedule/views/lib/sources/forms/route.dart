@@ -39,7 +39,7 @@ class _RouteState extends State<_RouteSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AddScheduleBloc, AddScheduleState, ScheduleInfo>(
+    return BlocSelector<AddScheduleBloc, AddScheduleState, Schedule>(
       selector: (state) {
         return state.info;
       },

@@ -9,7 +9,7 @@ final class ScheduleRepository {
 
   Future<Result> addSchedule({
     required String accessToken,
-    required ScheduleInfo scheduleInfo,
+    required Schedule scheduleInfo,
   }) async {
     final uploadScheduleInfo = scheduleInfo.toMap();
     final request = AddScheduleRequest.init(

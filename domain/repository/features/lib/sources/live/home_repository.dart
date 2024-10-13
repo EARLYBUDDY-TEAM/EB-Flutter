@@ -8,10 +8,10 @@ final class HomeRepository implements HomeRepositoryAB {
   }) : service = networkService ?? NetworkService();
 
   @override
-  Future<Result> getAllScheduleCards({
+  Future<Result> getAllSchedules({
     required String accessToken,
   }) async {
-    final request = HomeRequest.getAllScheduleCards(
+    final request = HomeRequest.getAllSchedules(
       accessToken: accessToken,
     );
     final result = await service.request(request);
@@ -19,16 +19,15 @@ final class HomeRepository implements HomeRepositoryAB {
     switch (result) {
       case (Success()):
         final SuccessResponse successResponse = result.success;
-        final ScheduleCardListDTO scheduleCardListDTO = successResponse.model;
-        final List<ScheduleCard> scheduleCardList =
-            scheduleCardListDTO.scheduleCardList
-                .map(
-                  (dto) => ScheduleCard.fromDTO(scheduleCardDTO: dto),
-                )
-                .toList();
+        final ScheduleListDTO scheduleListDTO = successResponse.model;
+        final List<Schedule> scheduleList = scheduleListDTO.allScheduleDTO
+            .map(
+              (dto) => Schedule.fromDTO(scheduleDTO: dto),
+            )
+            .toList();
         final newSuccessResponse = SuccessResponse(
           statusCode: successResponse.statusCode,
-          model: scheduleCardList,
+          model: scheduleList,
         );
         final newResult = Success(success: newSuccessResponse);
         return newResult;

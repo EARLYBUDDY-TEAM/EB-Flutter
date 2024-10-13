@@ -1,16 +1,16 @@
 part of '../../eb_repository.dart';
 
 final class TestHomeRepository implements HomeRepositoryAB {
-  final List<ScheduleCard> scheduleCardList;
+  final List<Schedule> scheduleList;
 
   TestHomeRepository({
-    required this.scheduleCardList,
+    required this.scheduleList,
   });
 
   @override
-  Future<Result> getAllScheduleCards({required String accessToken}) async {
+  Future<Result> getAllSchedules({required String accessToken}) async {
     final successResponse =
-        SuccessResponse(statusCode: 200, model: scheduleCardList);
+        SuccessResponse(statusCode: 200, model: scheduleList);
     return Success(success: successResponse);
   }
 

@@ -1,20 +1,20 @@
 part of '../eb_add_schedule_feature.dart';
 
 final class AddScheduleState extends Equatable {
-  final ScheduleInfo info;
+  final Schedule info;
   final ScheduleInfoStatus status;
   final AddScheduleResult result;
 
   AddScheduleState({
-    ScheduleInfo? info,
+    Schedule? info,
     ScheduleInfoStatus? status,
     AddScheduleResult? result,
-  })  : info = info ?? ScheduleInfo(),
+  })  : info = info ?? Schedule(),
         status = status ?? ScheduleInfoStatus.init,
         result = result ?? AddScheduleResult.init;
 
   AddScheduleState copyWith({
-    ScheduleInfo? info,
+    Schedule? info,
     ScheduleInfoStatus? status,
     AddScheduleResult? result,
   }) =>

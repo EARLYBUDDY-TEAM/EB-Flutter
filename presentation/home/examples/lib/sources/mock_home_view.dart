@@ -1,23 +1,29 @@
 part of 'home_example.dart';
 
-List<ScheduleCard> mockScheduleCardList() {
+List<Schedule> mockScheduleCardList() {
+  final List<Schedule> mockScheduleList = [];
   final today = DateTime.now();
-  final nextDay = today.add(const Duration(days: 1));
-  final List<ScheduleCard> mockScheduleList = [];
+  final yesterday = today.add(const Duration(days: -1));
+  // final nextDay = today.add(const Duration(days: 1));
 
-  for (int i = 1; i < 20; i++) {
-    final tmpDay = today.add(Duration(days: i));
-    final tmpSchedule = i % 2 == 0
-        ? ScheduleCard.mock(time: tmpDay)
-        : ScheduleCard.mockwithPlace(time: tmpDay);
-    mockScheduleList.add(tmpSchedule);
-  }
+  // for (int i = 1; i < 20; i++) {
+  //   final tmpDay = today.add(Duration(days: i));
+  //   final tmpSchedule = i % 2 == 0
+  //       ? ScheduleCard.mock(time: tmpDay)
+  //       : ScheduleCard.mockwithPlace(time: tmpDay);
+  //   mockScheduleList.add(tmpSchedule);
+  // }
+
+  // for (int i = 1; i < 10; i++) {
+  //   mockScheduleList.add(ScheduleCard.mockwithPlace(time: today));
+  //   mockScheduleList.add(ScheduleCard.mockwithPlace(time: nextDay));
+  // }
+
+  // return mockScheduleList;
 
   for (int i = 1; i < 10; i++) {
-    mockScheduleList.add(ScheduleCard.mockwithPlace(time: today));
-    mockScheduleList.add(ScheduleCard.mockwithPlace(time: nextDay));
+    mockScheduleList.add(Schedule.mock(time: yesterday));
   }
-
   return mockScheduleList;
 }
 
@@ -25,7 +31,7 @@ final class MockHomeView extends StatelessWidget {
   final _homeDelegate = HomeDelegate();
   final _loadingDelegate = LoadingDelegate();
   final HomeRepositoryAB _homeRepository =
-      TestHomeRepository(scheduleCardList: mockScheduleCardList());
+      TestHomeRepository(scheduleList: mockScheduleCardList());
   late final _tokenEvent = TokenEvent(
     rootDelegate: RootDelegate(),
     loginDelegate: LoginDelegate(),

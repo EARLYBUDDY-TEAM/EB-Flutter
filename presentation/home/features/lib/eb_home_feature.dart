@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,4 +11,7 @@ import 'package:eb_repository_interface/eb_repository_interface.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
-part 'sources/state.dart';
+part 'sources/state/home_state.dart';
+part 'sources/state/home_status.dart';
+part 'sources/state/bottom_schedule_list_state.dart';
+part 'sources/state/top_schedule_info_state.dart';

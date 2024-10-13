@@ -63,22 +63,22 @@ extension on HomeBloc {
     _loadingDelegate.set();
 
     getAllScheduleCardsEvent(String accessToken) async {
-      return await _homeRepository.getAllScheduleCards(
+      return await _homeRepository.getAllSchedules(
         accessToken: accessToken,
       );
     }
 
-    final Result getAllScheduleCardsResult =
+    final Result getAllSchedulesResult =
         await _tokenEvent.checkExpired(withEvent: getAllScheduleCardsEvent);
 
     _loadingDelegate.dismiss();
 
-    switch (getAllScheduleCardsResult) {
+    switch (getAllSchedulesResult) {
       case Success():
-        final List<ScheduleCard> scheduleCardList =
-            getAllScheduleCardsResult.success.model;
-        final scheduleCardMap = ScheduleCardMap.initWithCardList(
-          scheduleCardList: scheduleCardList,
+        final List<Schedule> scheduleList = getAllSchedulesResult.success.model;
+        final bottomScheduleListState =
+            BottomScheduleListState.initWithSchedules(
+          scheduleCardList: scheduleList,
         );
 
         final homeStatus =
@@ -87,12 +87,12 @@ extension on HomeBloc {
         emit(
           state.copyWith(
             status: homeStatus,
-            scheduleCardMap: scheduleCardMap,
+            bottomScheduleListState: bottomScheduleListState,
           ),
         );
       case Failure():
         _tokenEvent.failureAction(
-          result: getAllScheduleCardsResult,
+          result: getAllSchedulesResult,
           withAction: () {
             final homeStatus =
                 state.status.copyWith(getAllScheduleCard: BaseStatus.fail);
@@ -104,16 +104,28 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
+  void _failActionOnDeleteScheduleCard({
+    required Emitter<HomeState> emit,
+  }) {
+    final homeStatus =
+        state.status.copyWith(deleteScheduleCard: BaseStatus.fail);
+    emit(state.copyWith(status: homeStatus));
+  }
+
   Future<void> _onDeleteScheduleCard(
     DeleteScheduleCard event,
     Emitter<HomeState> emit,
   ) async {
+    if (event.schedule.id == null) {
+      _failActionOnDeleteScheduleCard(emit: emit);
+    }
+
     _loadingDelegate.set();
 
     Future<Result> deleteScheduleCardEvent(String accessToken) async {
       return await _homeRepository.deleteScheduleCard(
         accessToken: accessToken,
-        scheduleID: event.scheduleCard.scheduleID,
+        scheduleID: event.schedule.id!,
       );
     }
 
@@ -126,23 +138,19 @@ extension on HomeBloc {
       case Success():
         final homeStatus =
             state.status.copyWith(deleteScheduleCard: BaseStatus.success);
-        final scheduleCardMap =
-            state.scheduleCardMap.delete(event.scheduleCard);
+        final bottomScheduleListState =
+            state.bottomScheduleListState.delete(event.schedule);
         emit(
           state.copyWith(
             status: homeStatus,
-            scheduleCardMap: scheduleCardMap,
+            bottomScheduleListState: bottomScheduleListState,
           ),
         );
         return;
       case Failure():
         _tokenEvent.failureAction(
           result: deleteScheduleCardResult,
-          withAction: () {
-            final homeStatus =
-                state.status.copyWith(deleteScheduleCard: BaseStatus.fail);
-            emit(state.copyWith(status: homeStatus));
-          },
+          withAction: () => _failActionOnDeleteScheduleCard(emit: emit),
         );
     }
   }
@@ -154,10 +162,10 @@ extension on HomeBloc {
     Emitter<HomeState> emit,
   ) {
     final newSelectedDay = EBTime.dateTimeToDay(event.selectedDay);
-    final scheduleCardMap =
-        state.scheduleCardMap.copyWith(selectedDay: newSelectedDay);
+    final bottomScheduleListState =
+        state.bottomScheduleListState.copyWith(selectedDay: newSelectedDay);
     emit(
-      state.copyWith(scheduleCardMap: scheduleCardMap),
+      state.copyWith(bottomScheduleListState: bottomScheduleListState),
     );
   }
 }

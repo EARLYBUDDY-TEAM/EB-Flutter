@@ -11,8 +11,8 @@ final class HomeBottomListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) {
-        final flagSelectDay = (previous.scheduleCardMap.selectedDay !=
-            current.scheduleCardMap.selectedDay);
+        final flagSelectDay = (previous.bottomScheduleListState.selectedDay !=
+            current.bottomScheduleListState.selectedDay);
 
         final flagGetAllScheduleCard =
             current.status.getAllScheduleCard == BaseStatus.success;
@@ -27,7 +27,7 @@ final class HomeBottomListView extends StatelessWidget {
         log("view reload ... ");
         return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
-          scheduleCardList: state.scheduleCardMap.getSelectedDayCardList,
+          scheduleList: state.bottomScheduleListState.getSelectedDayCardList,
         );
       },
     );
@@ -36,12 +36,12 @@ final class HomeBottomListView extends StatelessWidget {
 
 final class HomeBottomListContent extends StatefulWidget {
   final double horizontalPadding;
-  final List<ScheduleCard> scheduleCardList;
+  final List<Schedule> scheduleList;
 
   const HomeBottomListContent({
     super.key,
     required this.horizontalPadding,
-    required this.scheduleCardList,
+    required this.scheduleList,
   });
 
   @override
@@ -61,12 +61,12 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
       ),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.scheduleCardList.length,
+      itemCount: widget.scheduleList.length,
       separatorBuilder: (context, index) {
         return SizedBox(height: widget.horizontalPadding);
       },
       itemBuilder: (contex, index) {
-        final item = widget.scheduleCardList[index];
+        final item = widget.scheduleList[index];
         return Dismissible(
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
@@ -81,7 +81,7 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
             _onDismissed(context: contex, direction: direction);
           },
           background: _swipeDeleteWidget(),
-          child: BottomScheduleCardView(scheduleCard: item),
+          child: BottomScheduleCardView(schedule: item),
         );
       },
     );
@@ -126,7 +126,7 @@ extension on HomeBottomListContentState {
   Future<bool> _confirmDismiss({
     required BuildContext context,
     required DismissDirection direction,
-    required ScheduleCard item,
+    required Schedule item,
   }) async {
     if (direction != DismissDirection.endToStart) {
       return false;
@@ -153,10 +153,10 @@ extension on HomeBottomListContentState {
 
   Future<bool> _getDeleteScheduleResult(
     BuildContext context,
-    ScheduleCard item,
+    Schedule item,
   ) async {
     final homeBloc = context.read<HomeBloc>()
-      ..add(DeleteScheduleCard(scheduleCard: item));
+      ..add(DeleteScheduleCard(schedule: item));
 
     final homeState = await homeBloc.stream.firstWhere((state) {
       return state.status.deleteScheduleCard != BaseStatus.init;

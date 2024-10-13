@@ -11,7 +11,7 @@ final class PlaceListDTO {
 
   static PlaceListDTO fromJson(Map<String, dynamic> j) {
     final placeList = j['documents'] as List;
-    final places = placeList.map((p) => PlaceDTO.fromJson(p)).toList();
+    final places = placeList.map((p) => PlaceDTO.fromKakaoJson(p)).toList();
     final meta = PlaceMetaDTO.fromJson(j['meta']);
     return PlaceListDTO(places: places, meta: meta);
   }
@@ -44,7 +44,7 @@ final class PlaceDTO {
     required this.coordi,
   });
 
-  static PlaceDTO fromJson(Map<String, dynamic> j) {
+  static PlaceDTO fromKakaoJson(Map<String, dynamic> j) {
     return PlaceDTO(
       id: j['id'],
       name: j['place_name'],
@@ -57,6 +57,20 @@ final class PlaceDTO {
       ),
     );
   }
+
+  static PlaceDTO fromEBServerJson(Map<String, dynamic> j) {
+    final Map<String, dynamic> coordiJson = j['coordi'];
+    final coordi = CoordiDTO.fromEBServerJson(coordiJson);
+
+    return PlaceDTO(
+      id: j['id'],
+      name: j['name'],
+      address: j['address'],
+      category: j['category'],
+      distance: j['distance'],
+      coordi: coordi,
+    );
+  }
 }
 
 final class CoordiDTO {
@@ -67,4 +81,11 @@ final class CoordiDTO {
     required this.x,
     required this.y,
   });
+
+  static CoordiDTO fromEBServerJson(Map<String, dynamic> j) {
+    return CoordiDTO(
+      x: j['x'],
+      y: j['y'],
+    );
+  }
 }
