@@ -15,3 +15,5 @@ part 'sources/state/home_state.dart';
 part 'sources/state/home_status.dart';
 part 'sources/state/bottom_schedule_list_state.dart';
 part 'sources/state/top_schedule_info_state.dart';
+part 'sources/state/day_schedule.dart';
+part 'sources/state/calendar_state.dart';

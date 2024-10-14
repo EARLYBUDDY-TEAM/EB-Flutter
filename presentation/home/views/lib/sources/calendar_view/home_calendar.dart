@@ -7,8 +7,7 @@ final class HomeCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) {
-        return previous.bottomScheduleListState.data !=
-            current.bottomScheduleListState.data;
+        return previous.daySchedule != current.daySchedule;
       },
       builder: (context, state) {
         return _HomeCalendarContent();
@@ -227,9 +226,11 @@ extension on _HomeCalendarState {
     DateTime dateTime,
     List<dynamic> events,
   ) {
-    final data = context.read<HomeBloc>().state.bottomScheduleListState.data;
-    final dayTime = EBTime.dateTimeToDay(dateTime);
-    if (data.containsKey(dayTime)) {
+    final checkSchedule =
+        context.read<HomeBloc>().state.daySchedule.checkSchedule(
+              dateTime: dateTime,
+            );
+    if (checkSchedule) {
       return Padding(
         padding: EdgeInsets.only(bottom: _dayCellPadding),
         child: Icon(

@@ -11,13 +11,8 @@ final class HomeBottomListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) {
-        final flagSelectDay = (previous.bottomScheduleListState.selectedDay !=
-            current.bottomScheduleListState.selectedDay);
-
-        final flagGetAllScheduleCard =
-            current.status.getAllScheduleCard == BaseStatus.success;
-
-        return flagSelectDay || flagGetAllScheduleCard;
+        return previous.bottomScheduleListState !=
+            current.bottomScheduleListState;
       },
       builder: (context, state) {
         context
@@ -27,7 +22,7 @@ final class HomeBottomListView extends StatelessWidget {
         log("view reload ... ");
         return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
-          scheduleList: state.bottomScheduleListState.getSelectedDayCardList,
+          scheduleList: state.bottomScheduleListState.selectedSchedules,
         );
       },
     );

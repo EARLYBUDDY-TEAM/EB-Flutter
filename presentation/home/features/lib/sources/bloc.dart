@@ -75,18 +75,30 @@ extension on HomeBloc {
 
     switch (getAllSchedulesResult) {
       case Success():
-        final List<Schedule> scheduleList = getAllSchedulesResult.success.model;
-        final bottomScheduleListState =
-            BottomScheduleListState.initWithSchedules(
-          scheduleCardList: scheduleList,
-        );
-
         final homeStatus =
             state.status.copyWith(getAllScheduleCard: BaseStatus.success);
+
+        final List<Schedule> allSchedules = getAllSchedulesResult.success.model;
+        final daySchedule = DaySchedule.initWithAllSchedules(
+          allSchedules: allSchedules,
+        );
+
+        final calendarState = CalendarState(
+          selectedDay: DateTime.now(),
+        );
+
+        final List<Schedule> selectedSchedules = daySchedule.get(
+          selectedDay: calendarState.selectedDay,
+        );
+        final bottomScheduleListState = BottomScheduleListState(
+          selectedSchedules: selectedSchedules,
+        );
 
         emit(
           state.copyWith(
             status: homeStatus,
+            daySchedule: daySchedule,
+            calendarState: calendarState,
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
@@ -136,13 +148,25 @@ extension on HomeBloc {
 
     switch (deleteScheduleCardResult) {
       case Success():
-        final homeStatus =
-            state.status.copyWith(deleteScheduleCard: BaseStatus.success);
-        final bottomScheduleListState =
-            state.bottomScheduleListState.delete(event.schedule);
+        final homeStatus = state.status.copyWith(
+          deleteScheduleCard: BaseStatus.success,
+        );
+
+        final daySchedule = state.daySchedule.delete(
+          schedule: event.schedule,
+        );
+
+        final selectedSchedules = daySchedule.get(
+          selectedDay: state.calendarState.selectedDay,
+        );
+        final bottomScheduleListState = BottomScheduleListState(
+          selectedSchedules: selectedSchedules,
+        );
+
         emit(
           state.copyWith(
             status: homeStatus,
+            daySchedule: daySchedule,
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
@@ -161,11 +185,21 @@ extension on HomeBloc {
     TapCalendarDay event,
     Emitter<HomeState> emit,
   ) {
-    final newSelectedDay = EBTime.dateTimeToDay(event.selectedDay);
-    final bottomScheduleListState =
-        state.bottomScheduleListState.copyWith(selectedDay: newSelectedDay);
+    final calendarState = CalendarState(
+      selectedDay: event.selectedDay,
+    );
+
+    final List<Schedule> selectedSchedules = state.daySchedule.get(
+      selectedDay: event.selectedDay,
+    );
+    final bottomScheduleListState = BottomScheduleListState(
+      selectedSchedules: selectedSchedules,
+    );
     emit(
-      state.copyWith(bottomScheduleListState: bottomScheduleListState),
+      state.copyWith(
+        calendarState: calendarState,
+        bottomScheduleListState: bottomScheduleListState,
+      ),
     );
   }
 }
