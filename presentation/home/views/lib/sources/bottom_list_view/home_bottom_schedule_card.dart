@@ -1,11 +1,11 @@
 part of '../../eb_home.dart';
 
 final class BottomScheduleCardView extends StatelessWidget {
-  final ScheduleCard scheduleCard;
+  final Schedule schedule;
 
   const BottomScheduleCardView({
     super.key,
-    required this.scheduleCard,
+    required this.schedule,
   });
 
   @override
@@ -40,8 +40,8 @@ final class BottomScheduleCardView extends StatelessWidget {
 
   Widget _titleAndPlace() {
     List<Widget> widgetList = [_titleText()];
-    if (scheduleCard.endPlaceName != null) {
-      widgetList.add(_endPlaceName());
+    if (schedule.endPlace?.name != null) {
+      widgetList.add(_endPlaceText(name: schedule.endPlace!.name));
     }
 
     return Expanded(
@@ -55,7 +55,7 @@ final class BottomScheduleCardView extends StatelessWidget {
 
   Widget _titleText() {
     return Text(
-      scheduleCard.title,
+      schedule.title,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontFamily: FontFamily.gmarketSansRegular,
@@ -64,9 +64,11 @@ final class BottomScheduleCardView extends StatelessWidget {
     );
   }
 
-  Widget _endPlaceName() {
+  Widget _endPlaceText({
+    required String name,
+  }) {
     return Text(
-      scheduleCard.endPlaceName!,
+      name,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
@@ -76,7 +78,7 @@ final class BottomScheduleCardView extends StatelessWidget {
   }
 
   Widget _scheduleTime() {
-    final timeOfDay = EBTime.dateTimeToTimeOfDay(scheduleCard.time);
+    final timeOfDay = EBTime.dateTimeToTimeOfDay(schedule.time);
     final text = EBTime.toHour(timeOfDay);
     return Text(
       text,

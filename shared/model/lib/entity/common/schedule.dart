@@ -1,6 +1,7 @@
 part of '../../entity.dart';
 
-final class ScheduleInfo extends Equatable {
+final class Schedule extends Equatable {
+  final int? id;
   final String title;
   final String? memo;
   final DateTime time;
@@ -8,7 +9,8 @@ final class ScheduleInfo extends Equatable {
   Place? startPlace;
   final Place? endPlace;
 
-  ScheduleInfo({
+  Schedule({
+    this.id,
     String? title,
     this.memo,
     DateTime? time,
@@ -19,7 +21,8 @@ final class ScheduleInfo extends Equatable {
         time = time ?? DateTime.now(),
         isNotify = isNotify ?? false;
 
-  ScheduleInfo copyWith({
+  Schedule copyWith({
+    int? id,
     String? title,
     String? memo,
     DateTime? time,
@@ -27,7 +30,8 @@ final class ScheduleInfo extends Equatable {
     Place? startPlace,
     Place? endPlace,
   }) =>
-      ScheduleInfo(
+      Schedule(
+        id: id ?? this.id,
         title: title ?? this.title,
         memo: memo ?? this.memo,
         time: time ?? this.time,
@@ -38,6 +42,7 @@ final class ScheduleInfo extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         title,
         memo,
         time,
@@ -46,8 +51,23 @@ final class ScheduleInfo extends Equatable {
         endPlace,
       ];
 
+  Schedule.fromDTO({
+    required ScheduleDTO scheduleDTO,
+  })  : id = scheduleDTO.id,
+        title = scheduleDTO.title,
+        memo = scheduleDTO.memo,
+        time = DateTime.parse(scheduleDTO.time),
+        isNotify = scheduleDTO.isNotify,
+        startPlace = (scheduleDTO.startPlaceDTO != null)
+            ? Place.fromDTO(placeDTO: scheduleDTO.startPlaceDTO!)
+            : null,
+        endPlace = (scheduleDTO.endPlaceDTO != null)
+            ? Place.fromDTO(placeDTO: scheduleDTO.endPlaceDTO!)
+            : null;
+
   Map<String, dynamic> toMap() {
     return {
+      "id": null,
       "title": title,
       "memo": memo,
       "time": time.toIso8601String(),
@@ -55,5 +75,19 @@ final class ScheduleInfo extends Equatable {
       "startPlace": startPlace?.toMap(),
       "endPlace": endPlace?.toMap(),
     };
+  }
+
+  static Schedule mock({
+    DateTime? time,
+  }) {
+    return Schedule(
+      id: 10,
+      title: "mockwithPlace",
+      memo: "memo",
+      time: time ?? DateTime.now(),
+      isNotify: false,
+      startPlace: Place.mockStart(),
+      endPlace: Place.mockEnd(),
+    );
   }
 }

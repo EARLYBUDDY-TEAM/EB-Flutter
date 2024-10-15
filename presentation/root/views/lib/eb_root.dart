@@ -1,5 +1,6 @@
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_repository/eb_repository.dart';
+import 'package:eb_repository_interface/eb_repository_interface.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_home/eb_home.dart';
 import 'package:eb_login/eb_login.dart';

@@ -1,4 +1,4 @@
-part of '../eb_repository.dart';
+part of '../../eb_repository.dart';
 
 final class ScheduleRepository {
   final NetworkService service;
@@ -9,7 +9,7 @@ final class ScheduleRepository {
 
   Future<Result> addSchedule({
     required String accessToken,
-    required ScheduleInfo scheduleInfo,
+    required Schedule scheduleInfo,
   }) async {
     final uploadScheduleInfo = scheduleInfo.toMap();
     final request = AddScheduleRequest.init(

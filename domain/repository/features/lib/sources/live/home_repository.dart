@@ -1,16 +1,17 @@
-part of '../eb_repository.dart';
+part of '../../eb_repository.dart';
 
-final class HomeRepository {
+final class HomeRepository implements HomeRepositoryAB {
   final NetworkService service;
 
   HomeRepository({
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService();
 
-  Future<Result> getAllScheduleCards({
+  @override
+  Future<Result> getAllSchedules({
     required String accessToken,
   }) async {
-    final request = HomeRequest.getAllScheduleCards(
+    final request = HomeRequest.getAllSchedules(
       accessToken: accessToken,
     );
     final result = await service.request(request);
@@ -18,16 +19,15 @@ final class HomeRepository {
     switch (result) {
       case (Success()):
         final SuccessResponse successResponse = result.success;
-        final ScheduleCardListDTO scheduleCardListDTO = successResponse.model;
-        final List<ScheduleCard> scheduleCardList =
-            scheduleCardListDTO.scheduleCardList
-                .map(
-                  (dto) => ScheduleCard.fromDTO(scheduleCardDTO: dto),
-                )
-                .toList();
+        final ScheduleListDTO scheduleListDTO = successResponse.model;
+        final List<Schedule> scheduleList = scheduleListDTO.allScheduleDTO
+            .map(
+              (dto) => Schedule.fromDTO(scheduleDTO: dto),
+            )
+            .toList();
         final newSuccessResponse = SuccessResponse(
           statusCode: successResponse.statusCode,
-          model: scheduleCardList,
+          model: scheduleList,
         );
         final newResult = Success(success: newSuccessResponse);
         return newResult;
@@ -39,6 +39,7 @@ final class HomeRepository {
     }
   }
 
+  @override
   Future<Result> deleteScheduleCard({
     required String accessToken,
     required int scheduleID,

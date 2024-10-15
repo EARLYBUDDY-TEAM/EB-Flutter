@@ -39,6 +39,7 @@ class EBRoundedButton extends StatelessWidget {
   final String text;
   final double? height;
   final double fontSize;
+  final Color color;
   final Function()? onPressed;
 
   const EBRoundedButton({
@@ -46,6 +47,7 @@ class EBRoundedButton extends StatelessWidget {
     required this.text,
     this.height,
     this.fontSize = 14,
+    this.color = Colors.grey,
     this.onPressed,
   });
 
@@ -59,16 +61,16 @@ class EBRoundedButton extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           minimumSize: Size.zero,
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-          side: const BorderSide(
+          side: BorderSide(
             width: 1,
-            color: Colors.grey,
+            color: color,
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
-            color: Colors.grey,
+            color: color,
             fontSize: fontSize,
           ),
         ),
