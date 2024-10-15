@@ -18,29 +18,34 @@ final class DaySchedule extends Equatable {
     );
   }
 
-  static DaySchedule initWithAllSchedules({
+  static DaySchedule init({
     required List<Schedule> allSchedules,
   }) {
     DayScheduleMap tmpData = {};
     for (var schedule in allSchedules) {
-      final day = EBTime.dateTimeToDay(schedule.time);
-      if (tmpData.containsKey(day)) {
-        tmpData[day]!.add(schedule);
+      final date = schedule.time.toDate();
+      if (tmpData.containsKey(date)) {
+        tmpData[date]!.add(schedule);
       } else {
-        tmpData[day] = [schedule];
+        tmpData[date] = [schedule];
       }
     }
 
     return DaySchedule(data: tmpData);
   }
 
-  List<Schedule> get({required DateTime selectedDay}) {
-    final key = EBTime.dateTimeToDay(selectedDay);
+  List<Schedule> getValue({required DateTime selectedDay}) {
+    final key = selectedDay.toDate();
     return data.containsKey(key) ? data[key]! : [];
   }
 
+  List<DateTime> getKeyList() {
+    final keyList = data.keys.toList()..sort();
+    return keyList;
+  }
+
   DaySchedule delete({required Schedule schedule}) {
-    final key = EBTime.dateTimeToDay(schedule.time);
+    final key = schedule.time.toDate();
     if (data.containsKey(key)) {
       final scheduleList = data[key]!;
       scheduleList.remove(schedule);
@@ -49,8 +54,8 @@ final class DaySchedule extends Equatable {
     return DaySchedule(data: data);
   }
 
-  bool checkSchedule({required DateTime dateTime}) {
-    final key = EBTime.dateTimeToDay(dateTime);
+  bool isExistSchedule({required DateTime dateTime}) {
+    final key = dateTime.toDate();
     return data.containsKey(key);
   }
 }

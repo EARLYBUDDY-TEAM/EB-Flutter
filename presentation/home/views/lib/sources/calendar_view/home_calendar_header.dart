@@ -5,10 +5,8 @@ final class _HomeCalendarHeader extends StatelessWidget {
 
   String get _headerText {
     final year = "${focusedDay.year}";
-    final month = (1 <= (focusedDay.month / 10))
-        ? "${focusedDay.month}"
-        : "0${focusedDay.month}";
-    return "$year.$month";
+    final monthString = focusedDay.addZeroToMonth();
+    return "$year.$monthString";
   }
 
   const _HomeCalendarHeader({

@@ -15,11 +15,11 @@ final class HomeBottomListView extends StatelessWidget {
             current.bottomScheduleListState;
       },
       builder: (context, state) {
-        context
-            .read<HomeBloc>()
-            .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
+        // 필요함?
+        // context
+        //     .read<HomeBloc>()
+        //     .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
 
-        log("view reload ... ");
         return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
           scheduleList: state.bottomScheduleListState.selectedSchedules,

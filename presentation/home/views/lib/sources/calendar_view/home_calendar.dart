@@ -226,11 +226,12 @@ extension on _HomeCalendarState {
     DateTime dateTime,
     List<dynamic> events,
   ) {
-    final checkSchedule =
-        context.read<HomeBloc>().state.daySchedule.checkSchedule(
+    final isExistSchedule =
+        context.read<HomeBloc>().state.daySchedule.isExistSchedule(
               dateTime: dateTime,
             );
-    if (checkSchedule) {
+
+    if (isExistSchedule) {
       return Padding(
         padding: EdgeInsets.only(bottom: _dayCellPadding),
         child: Icon(

@@ -2,9 +2,9 @@ part of 'home_example.dart';
 
 List<Schedule> mockScheduleCardList() {
   final List<Schedule> mockScheduleList = [];
-  final today = DateTime.now();
+  final today = DateTime.now().add(const Duration(minutes: 10));
   final yesterday = today.add(const Duration(days: -1));
-  // final nextDay = today.add(const Duration(days: 1));
+  final nextDay = today.add(const Duration(days: 1));
 
   // for (int i = 1; i < 20; i++) {
   //   final tmpDay = today.add(Duration(days: i));
@@ -23,6 +23,11 @@ List<Schedule> mockScheduleCardList() {
 
   for (int i = 1; i < 10; i++) {
     mockScheduleList.add(Schedule.mock(time: yesterday));
+    mockScheduleList.add(Schedule.mock(time: today));
+    mockScheduleList.add(Schedule.mock(time: nextDay));
+
+    final tmpDay = nextDay.add(Duration(days: i));
+    mockScheduleList.add(Schedule.mock(time: tmpDay));
   }
   return mockScheduleList;
 }

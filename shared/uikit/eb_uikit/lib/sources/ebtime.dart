@@ -1,6 +1,67 @@
 part of '../eb_uikit.dart';
 
-final class EBTime {
+extension EBTime on DateTime {
+  DateTime toDate() {
+    return DateTime(year, month, day);
+  }
+
+  String addZeroToMonth() {
+    final monthString = (1 <= (month / 10)) ? "$month" : "0$month";
+    return monthString;
+  }
+
+  String addZeroToDay() {
+    final dayString = (1 <= (day / 10)) ? "$day" : "0$day";
+    return dayString;
+  }
+
+  String addZeroToHour() {
+    final hourString = (1 <= (hour / 10)) ? "$hour" : "0$hour";
+    return hourString;
+  }
+
+  String addZeroToMinute() {
+    final minuteString = (1 <= (minute / 10)) ? "$minute" : "0$minute";
+    return minuteString;
+  }
+
+  String toMeridiem() {
+    final meridiem = hour < 12 ? '오전' : '오후';
+    return meridiem;
+  }
+
+  static CompareDateResult compare({
+    required DateTime left,
+    required DateTime right,
+  }) {
+    final compareResult = left.compareTo(right);
+
+    switch (compareResult) {
+      case < 0:
+        return CompareDateResult.right;
+      case > 0:
+        return CompareDateResult.left;
+      default:
+        return CompareDateResult.same;
+    }
+  }
+
+  static CompareDateResult compareDate({
+    required DateTime left,
+    required DateTime right,
+  }) {
+    final compareResult = left.toDate().compareTo(right.toDate());
+
+    switch (compareResult) {
+      case < 0:
+        return CompareDateResult.right;
+      case > 0:
+        return CompareDateResult.left;
+      default:
+        return CompareDateResult.same;
+    }
+  }
+
   static String intToString(int time) {
     if (time <= 0) {
       return '0분';
@@ -23,10 +84,12 @@ final class EBTime {
     String minute = m < 10 ? '0$m' : '$m';
     return '$meridiem ${timeOfDay.hour}:$minute';
   }
+}
 
-  static DateTime dateTimeToDay(DateTime datetime) {
-    return DateTime(datetime.year, datetime.month, datetime.day);
-  }
+enum CompareDateResult {
+  same,
+  left,
+  right,
 }
 
 enum EBLocale {
