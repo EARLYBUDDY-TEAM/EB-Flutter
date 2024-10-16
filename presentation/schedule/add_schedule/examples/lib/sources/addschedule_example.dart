@@ -10,12 +10,10 @@ import 'package:eb_uikit/eb_uikit.dart';
 part 'mock_addschedule.dart';
 
 final class AddScheduleExample extends StatelessWidget {
-  // final mockAddSchedule = MockAddSchedule();
-
   const AddScheduleExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Text("");
+    return MockAddSchedule();
   }
 }

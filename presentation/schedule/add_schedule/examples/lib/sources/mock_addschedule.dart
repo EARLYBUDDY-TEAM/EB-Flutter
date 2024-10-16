@@ -1,84 +1,72 @@
 part of 'addschedule_example.dart';
 
-// final class MockAddSchedule extends StatelessWidget {
-//   final _loadingDelegate = LoadingDelegate();
-//   final _loginDelegate = LoginDelegate();
-//   final _rootDelegate = RootDelegate();
-//   final _searchPlaceDelegateForPlace = SearchPlaceDelegateForEnd();
-//   final _searchPlaceDelegateForRoute = SearchPlaceDelegateForStart();
+final class MockAddSchedule extends StatelessWidget {
+  final loadingDelegate = LoadingDelegate();
+  final rootDelegate = RootDelegate();
+  final loginDelegate = LoginDelegate();
+  final addScheduleDelegate = AddScheduleDelegate();
+  final scheduleRepository = ScheduleRepository();
+  final tokenRepository = TokenRepository();
 
-//   final _scheduleRepository = ScheduleRepository();
-//   final _tokenRepository = TokenRepository();
+  final searchPlaceDelegate = SearchPlaceDelegate();
+  final searchPlaceRepository = SearchPlaceRepository();
 
-//   late final _tokenEvent = TokenEvent(
-//     rootDelegate: _rootDelegate,
-//     loginDelegate: _loginDelegate,
-//     tokenRepository: _tokenRepository,
-//   );
+  late final tokenEvent = TokenEvent(
+    rootDelegate: rootDelegate,
+    loginDelegate: loginDelegate,
+    tokenRepository: tokenRepository,
+  );
 
-//   late final bloc = AddScheduleBloc(
-//     loadingDelegate: _loadingDelegate,
-//     searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
-//     searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
-//     scheduleRepository: _scheduleRepository,
-//     tokenEvent: _tokenEvent,
-//   );
+  MockAddSchedule({super.key});
 
-//   MockAddSchedule({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: loadingDelegate),
+        RepositoryProvider.value(value: rootDelegate),
+        RepositoryProvider.value(value: loginDelegate),
+        RepositoryProvider.value(value: addScheduleDelegate),
+        RepositoryProvider.value(value: scheduleRepository),
+        RepositoryProvider.value(value: tokenEvent),
+        RepositoryProvider.value(value: searchPlaceDelegate),
+        RepositoryProvider.value(value: searchPlaceRepository),
+      ],
+      child: MaterialApp(
+        home: _NaviButton(
+          toShow: const AddScheduleView(),
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiRepositoryProvider(
-//       providers: [
-//         RepositoryProvider.value(value: _loginDelegate),
-//         RepositoryProvider.value(value: _rootDelegate),
-//         RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
-//         RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
-//         RepositoryProvider.value(value: _scheduleRepository),
-//         RepositoryProvider.value(value: _tokenRepository),
-//       ],
-//       child: MaterialApp(
-//         home: _NaviButton(
-//           toShow: AddScheduleView(bloc: bloc),
-//           onPressed: () async {
-//             await setAddScheduleResult();
-//           },
-//         ),
-//       ),
-//     );
-//   }
+final class _NaviButton extends StatelessWidget {
+  final StatelessWidget toShow;
+  final Function() onPressed;
 
-//   Future<void> setAddScheduleResult() async {
-//     await Future<void>.delayed(const Duration(seconds: 2));
-//     bloc.add(const SetAddScheduleResult(result: AddScheduleResult.fail));
-//   }
-// }
+  const _NaviButton({
+    required this.toShow,
+    required this.onPressed,
+  });
 
-// final class _NaviButton extends StatelessWidget {
-//   final StatelessWidget toShow;
-//   final Function() onPressed;
-
-//   const _NaviButton({
-//     required this.toShow,
-//     required this.onPressed,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: TextButton(
-//           onPressed: () {
-//             onPressed();
-//             Navigator.of(context).push(
-//               MaterialPageRoute(
-//                 builder: (_) => toShow,
-//               ),
-//             );
-//           },
-//           child: const Text('Navi AddScheduleView'),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          onPressed: () {
+            onPressed();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => toShow,
+              ),
+            );
+          },
+          child: const Text('Navi AddScheduleView'),
+        ),
+      ),
+    );
+  }
+}

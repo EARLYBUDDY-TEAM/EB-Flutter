@@ -1,27 +1,23 @@
 part of '../eb_add_schedule.dart';
 
 final class AddScheduleView extends StatelessWidget {
-  AddScheduleBloc? bloc;
-
-  AddScheduleView({super.key, this.bloc});
+  const AddScheduleView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return bloc ??
-            AddScheduleBloc(
-              loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
-              addScheduleDelegate:
-                  RepositoryProvider.of<AddScheduleDelegate>(context),
-              scheduleRepository:
-                  RepositoryProvider.of<ScheduleRepository>(context),
-              tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-              cancelEndSearchPlaceViewAction: () => Navigator.of(context).pop(),
-              cancelStartSearchPlaceViewAction: () =>
-                  Navigator.of(context).pop(),
-              cancelFindRouteViewAction: () => Navigator.of(context).pop(),
-            );
+        return AddScheduleBloc(
+          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+          addScheduleDelegate:
+              RepositoryProvider.of<AddScheduleDelegate>(context),
+          scheduleRepository:
+              RepositoryProvider.of<ScheduleRepository>(context),
+          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+          cancelEndSearchPlaceViewAction: () => Navigator.of(context).pop(),
+          cancelStartSearchPlaceViewAction: () => Navigator.of(context).pop(),
+          cancelFindRouteViewAction: () => Navigator.of(context).pop(),
+        );
       },
       child: const _AddScheduleContent(),
     );
