@@ -18,7 +18,13 @@ final class _SearchPlaceListView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ListView.separated(
               itemBuilder: (context, index) {
-                return _SearchPlaceListItem(place: places[index]);
+                final place = places[index];
+                return _SearchPlaceListItem(
+                  onTap: () => context
+                      .read<SearchPlaceBloc>()
+                      .add(PressListItem(place: place)),
+                  place: place,
+                );
               },
               separatorBuilder: (context, index) {
                 return _divider();

@@ -3,7 +3,9 @@ part of '../../../eb_search_place.dart';
 final class _EBKakaoMapPlaceInfo extends StatelessWidget {
   final Place place;
 
-  const _EBKakaoMapPlaceInfo({required this.place});
+  const _EBKakaoMapPlaceInfo({
+    required this.place,
+  });
 
   @override
   Widget build(BuildContext context) {

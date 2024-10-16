@@ -47,14 +47,12 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
         builder: (context, state) {
           final contentStatus = state.contentStatus;
           switch (contentStatus) {
-            case SearchPlaceContentStatus.search:
-              return _SearchPlaceListView(places: state.places);
-            case SearchPlaceContentStatus.map:
-              if (state.selectedPlace != null) {
-                return EBKakaoMapView(place: state.selectedPlace!);
-              } else {
-                return const Text('Empty Data');
-              }
+            case ListSearchPlaceContent():
+              return _SearchPlaceListView(places: contentStatus.placeList);
+            case MapSearchPlaceContent():
+              return EBKakaoMapView(
+                place: contentStatus.selectedPlace,
+              );
           }
         },
       ),

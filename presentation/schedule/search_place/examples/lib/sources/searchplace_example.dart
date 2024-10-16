@@ -19,10 +19,11 @@ final class SearchPlaceExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _EmptyView();
+    // return _MockModalSearchPlaceView();
+    // return _EmptyView();
     // return _MockSearchPlace();
     // return _MockModalSearchPlaceForRoute();
-    // return _MockEBKakaoMapView();
+    return _MockEBKakaoMapView();
   }
 }
 

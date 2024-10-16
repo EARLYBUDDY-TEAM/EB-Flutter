@@ -59,10 +59,12 @@ extension on SearchPlaceBloc {
     PressListItem event,
     Emitter<SearchPlaceState> emit,
   ) {
-    emit(state.copyWith(
-      selectedPlace: event.place,
-      contentStatus: SearchPlaceContentStatus.map,
-    ));
+    final contentStatus = MapSearchPlaceContent(selectedPlace: event.place);
+    emit(
+      state.copyWith(
+        contentStatus: contentStatus,
+      ),
+    );
   }
 }
 
@@ -80,8 +82,9 @@ extension on SearchPlaceBloc {
     PressResetButton event,
     Emitter<SearchPlaceState> emit,
   ) {
+    final contentStatus = ListSearchPlaceContent();
     emit(state.copyWith(
-      contentStatus: SearchPlaceContentStatus.search,
+      contentStatus: contentStatus,
       searchText: "",
     ));
   }
@@ -129,20 +132,11 @@ extension on SearchPlaceBloc {
 
     switch (result) {
       case Success():
-        final List<Place> places = result.success.model;
-        emit(
-          state.copyWith(
-            places: places,
-            contentStatus: SearchPlaceContentStatus.search,
-          ),
-        );
+        final List<Place> placeList = result.success.model;
+        final contentStatus = ListSearchPlaceContent(placeList: placeList);
+        emit(state.copyWith(contentStatus: contentStatus));
       case Failure():
-        emit(
-          state.copyWith(
-            places: [],
-            contentStatus: SearchPlaceContentStatus.search,
-          ),
-        );
+        emit(state.copyWith(contentStatus: ListSearchPlaceContent()));
     }
   }
 }

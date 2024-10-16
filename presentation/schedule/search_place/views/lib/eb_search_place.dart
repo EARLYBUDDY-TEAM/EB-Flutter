@@ -15,8 +15,8 @@ part 'sources/content/searchbar.dart';
 part 'sources/content/list/searchplace_listview.dart';
 part 'sources/content/list/searchplace_listitem.dart';
 part 'sources/content/ebkakaomap/ebkakaomap_view.dart';
-part 'sources/content/ebkakaomap/placeinfo.dart';
-part 'sources/content/ebkakaomap/content.dart';
+part 'sources/content/ebkakaomap/ebkakao_placeinfo.dart';
+part 'sources/content/ebkakaomap/ebkakao_content.dart';
 
 final class PrepareEBSearchPlace {
   static void initializeKakaoMap({

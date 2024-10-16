@@ -1,30 +1,44 @@
 part of 'searchplace_example.dart';
 
-class _MockEBKakaoMapView extends StatelessWidget {
+final class _MockEBKakaoMapView extends StatelessWidget {
+  final searchPlaceDelegate = SearchPlaceDelegate();
+  final addScheduleDelegate = AddScheduleDelegate();
+  final searchPlaceRepository = SearchPlaceRepository();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: _MockEBKakaoMapScaffold(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: searchPlaceDelegate),
+        RepositoryProvider.value(value: addScheduleDelegate),
+        RepositoryProvider.value(value: searchPlaceRepository),
+      ],
+      child: MaterialApp(
+        home: _MockEBKakaoMapBlocView(),
+      ),
     );
   }
 }
 
-class _MockEBKakaoMapScaffold extends StatelessWidget {
+final class _MockEBKakaoMapBlocView extends StatelessWidget {
+  final searchPlaceState = SearchPlaceState(setting: EndSearchPlaceSetting());
+  final mockPlace = Place.mockStarBucks();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    EBKakaoMapView(place: Place.mockStarBucks()),
-              ),
-            );
-          },
-          child: const Text('Push EBKakaoMapView'),
-        ),
+    return BlocProvider(
+      create: (context) => SearchPlaceBloc(
+        backFindRouteViewAction: () => Navigator.of(context).pop(),
+        searchPlaceDelegate:
+            RepositoryProvider.of<SearchPlaceDelegate>(context),
+        addScheduleDelegate:
+            RepositoryProvider.of<AddScheduleDelegate>(context),
+        searchPlaceRepository:
+            RepositoryProvider.of<SearchPlaceRepository>(context),
+        searchPlaceState: searchPlaceState,
+      ),
+      child: EBKakaoMapView(
+        place: mockPlace,
       ),
     );
   }
