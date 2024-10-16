@@ -16,6 +16,8 @@ final class HomeView extends StatefulWidget {
 final class _HomeViewState extends State<HomeView> {
   _HomeViewState();
 
+  // onappearhomeview 체킄채크
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

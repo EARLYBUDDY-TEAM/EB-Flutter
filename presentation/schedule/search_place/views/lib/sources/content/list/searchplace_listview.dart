@@ -37,13 +37,4 @@ final class _SearchPlaceListView extends StatelessWidget {
       thickness: 0.5,
     );
   }
-
-  // Iterable<Widget> tiles({
-  //   required List<Place> places,
-  // }) {
-  //   return List.generate(
-  //     places.length,
-  //     (index) => _SearchPlaceListItem(place: places[index]),
-  //   );
-  // }
 }

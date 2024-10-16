@@ -7,6 +7,8 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final setting = context.read<SearchPlaceBloc>().state.setting;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -47,26 +49,19 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            BlocSelector<SearchPlaceBloc, SearchPlaceState, SearchPlaceSetting>(
-              selector: (state) {
-                return state.viewState.setting;
-              },
-              builder: (context, setting) {
-                return FilledButton(
-                  onPressed: () => selectAction(context),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: EBColors.blue3,
-                  ),
-                  child: Text(
-                    setting == SearchPlaceSetting.start ? '출발' : '선택',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: FontFamily.nanumSquareBold,
-                    ),
-                  ),
-                );
-              },
+            FilledButton(
+              onPressed: () => _selectAction(context),
+              style: FilledButton.styleFrom(
+                backgroundColor: EBColors.blue3,
+              ),
+              child: Text(
+                setting == EndSearchPlaceSetting() ? '선택' : '출발',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontFamily: FontFamily.nanumSquareBold,
+                ),
+              ),
             ),
           ],
         ),
@@ -76,9 +71,26 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
 }
 
 extension on _EBKakaoMapPlaceInfo {
-  void selectAction(BuildContext context) {
+  void _selectAction(BuildContext context) {
     context
         .read<SearchPlaceBloc>()
         .add(PressSelectPlaceButton(selectedPlace: place));
+
+    final state = context.read<SearchPlaceBloc>().state;
+    final setting = state.setting;
+    if (setting is StartSearchPlaceSetting) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FindRouteView(
+            start: place,
+            end: setting.endPlace,
+            parentName: '출발 장소',
+            backAction: () => Navigator.of(context).pop(),
+            cancelAction: () => Navigator.of(context).pop(),
+          ),
+        ),
+      );
+    }
   }
 }

@@ -3,20 +3,20 @@ part of '../eb_add_schedule_feature.dart';
 final class AddScheduleState extends Equatable {
   final Schedule info;
   final ScheduleInfoStatus status;
-  final AddScheduleResult result;
+  final BaseStatus result;
 
   AddScheduleState({
     Schedule? info,
     ScheduleInfoStatus? status,
-    AddScheduleResult? result,
+    BaseStatus? result,
   })  : info = info ?? Schedule(),
         status = status ?? ScheduleInfoStatus.init,
-        result = result ?? AddScheduleResult.init;
+        result = result ?? BaseStatus.init;
 
   AddScheduleState copyWith({
     Schedule? info,
     ScheduleInfoStatus? status,
-    AddScheduleResult? result,
+    BaseStatus? result,
   }) =>
       AddScheduleState(
         info: info ?? this.info,
@@ -32,10 +32,4 @@ enum ScheduleInfoStatus {
   init,
   complete,
   incomplete;
-}
-
-enum AddScheduleResult {
-  init,
-  success,
-  fail;
 }

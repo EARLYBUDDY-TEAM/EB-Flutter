@@ -8,5 +8,6 @@ import 'package:eb_uikit/eb_uikit.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
-part 'sources/state.dart';
-part 'sources/viewstate.dart';
+part 'sources/state/state.dart';
+part 'sources/state/searchplace_setting.dart';
+part 'sources/state/searchplace_content_status.dart';

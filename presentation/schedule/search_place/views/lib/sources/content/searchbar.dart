@@ -17,7 +17,7 @@ final class _SearchBar extends StatelessWidget {
     return BlocSelector<SearchPlaceBloc, SearchPlaceState,
         SearchPlaceContentStatus>(
       selector: (state) {
-        return state.viewState.contentStatus;
+        return state.contentStatus;
       },
       builder: (context, status) {
         return Container(

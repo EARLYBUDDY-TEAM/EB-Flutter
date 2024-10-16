@@ -1,43 +1,36 @@
-part of '../eb_search_place_feature.dart';
+part of '../../eb_search_place_feature.dart';
 
 final class SearchPlaceState extends Equatable {
+  final SearchPlaceSetting setting;
   final String searchText;
   final List<Place> places;
   final Place? selectedPlace;
-  final SearchPlaceViewState viewState;
+  final SearchPlaceContentStatus contentStatus;
 
   SearchPlaceState({
+    required this.setting,
     String? searchText,
     List<Place>? places,
     Place? selectedPlace,
-    SearchPlaceViewState? viewState,
+    SearchPlaceContentStatus? contentStatus,
   })  : searchText = searchText ?? '',
         places = places ?? [],
         selectedPlace = selectedPlace,
-        viewState = viewState ?? const SearchPlaceViewState();
+        contentStatus = contentStatus ?? SearchPlaceContentStatus.search;
 
   SearchPlaceState copyWith({
     String? searchText,
     List<Place>? places,
     Place? selectedPlace,
-    SearchPlaceViewState? viewState,
+    SearchPlaceContentStatus? contentStatus,
   }) {
     return SearchPlaceState(
+      setting: setting,
       searchText: searchText ?? this.searchText,
       places: places ?? this.places,
       selectedPlace: selectedPlace ?? this.selectedPlace,
-      viewState: viewState ?? this.viewState,
+      contentStatus: contentStatus ?? this.contentStatus,
     );
-  }
-
-  static SearchPlaceState mockView() {
-    final places = List<Place>.generate(100, (index) => Place.mockView());
-    return SearchPlaceState(places: places);
-  }
-
-  static SearchPlaceState mockStarBucks() {
-    final places = List<Place>.generate(100, (index) => Place.mockStarBucks());
-    return SearchPlaceState(places: places);
   }
 
   @override
@@ -45,6 +38,7 @@ final class SearchPlaceState extends Equatable {
         places,
         searchText,
         selectedPlace,
-        viewState,
+        setting,
+        contentStatus,
       ];
 }

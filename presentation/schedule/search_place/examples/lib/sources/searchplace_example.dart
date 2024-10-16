@@ -1,5 +1,6 @@
 import 'package:eb_find_route/eb_find_route.dart';
 import 'package:eb_delegate/eb_delegate.dart';
+import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_model/entity.dart';
 import 'package:eb_search_place/eb_search_place.dart';
 import 'package:eb_search_place_feature/eb_search_place_feature.dart';
@@ -18,8 +19,22 @@ final class SearchPlaceExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _EmptyView();
     // return _MockSearchPlace();
     // return _MockModalSearchPlaceForRoute();
-    return _MockEBKakaoMapView();
+    // return _MockEBKakaoMapView();
+  }
+}
+
+final class _EmptyView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text("empty view"),
+        ),
+      ),
+    );
   }
 }

@@ -2,43 +2,58 @@ part of '../eb_add_schedule_feature.dart';
 
 final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   final LoadingDelegate _loadingDelegate;
-  late StreamSubscription<Place> selectPlaceSubscriptionForPlace;
-  late StreamSubscription<Place> selectPlaceSubscriptionForRoute;
   final ScheduleRepository _scheduleRepository;
   final TokenEvent _tokenEvent;
 
+  final Function() _cancelEndViewAction;
+  final Function() _cancelStartViewAction;
+
+  late StreamSubscription<Place> selectPlaceSubscriptionForEnd;
+  late StreamSubscription<Place> selectPlaceSubscriptionForStart;
+  late StreamSubscription<void> cancelEndViewSubscription;
+  late StreamSubscription<void> cancelStartViewSubscription;
+
   AddScheduleBloc({
     required LoadingDelegate loadingDelegate,
-    required SearchPlaceDelegateForPlace searchPlaceDelegateForPlace,
-    required SearchPlaceDelegateForRoute searchPlaceDelegateForRoute,
+    required AddScheduleDelegate addScheduleDelegate,
     required ScheduleRepository scheduleRepository,
     required TokenEvent tokenEvent,
+    required void Function() cancelEndViewAction,
+    required void Function() cancelStartViewAction,
     AddScheduleState? addScheduleState,
   })  : _loadingDelegate = loadingDelegate,
         _scheduleRepository = scheduleRepository,
         _tokenEvent = tokenEvent,
+        _cancelEndViewAction = cancelEndViewAction,
+        _cancelStartViewAction = cancelStartViewAction,
         super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);
     on<ChangeNotify>(_onChangeNotify);
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
-    on<SelectPlace>(_onSelectPlace);
-    on<SelectRoute>(_onSelectRoute);
+    on<SelectEndPlace>(_onSelectEndPlace);
+    on<SelectStartPlace>(_onSelectStartPlace);
     on<RemoveRoute>(_onRemoveRoute);
     on<PressAlertOkButton>(_onPressAlertOkButton);
-    selectPlaceSubscriptionForPlace = searchPlaceDelegateForPlace.selectPlace
-        .listen((place) => add(SelectPlace(place: place)));
-    selectPlaceSubscriptionForRoute = searchPlaceDelegateForRoute.selectPlace
-        .listen((place) => add(SelectRoute(place: place)));
+
+    selectPlaceSubscriptionForEnd = addScheduleDelegate.selectEndPlace
+        .listen((place) => add(SelectEndPlace(place: place)));
+    selectPlaceSubscriptionForStart = addScheduleDelegate.selectStartPlace
+        .listen((place) => add(SelectStartPlace(place: place)));
+
+    cancelEndViewSubscription =
+        addScheduleDelegate.cancelEndView.listen((_) => _cancelEndViewAction());
+    cancelStartViewSubscription = addScheduleDelegate.cancelStartView
+        .listen((_) => _cancelStartViewAction());
 
     on<SetAddScheduleResult>(_onSetAddScheduleResult);
   }
 
   @override
   Future<void> close() async {
-    await selectPlaceSubscriptionForPlace.cancel();
-    await selectPlaceSubscriptionForRoute.cancel();
+    await selectPlaceSubscriptionForEnd.cancel();
+    await selectPlaceSubscriptionForStart.cancel();
     return super.close();
   }
 }
@@ -112,11 +127,11 @@ extension on AddScheduleBloc {
 
     switch (addScheduleResult) {
       case Success():
-        emit(state.copyWith(result: AddScheduleResult.success));
+        emit(state.copyWith(result: BaseStatus.success));
       case Failure():
         if (addScheduleResult.failure is FailureResponse) {
           if (addScheduleResult.failure.statusCode != 490) {
-            emit(state.copyWith(result: AddScheduleResult.fail));
+            emit(state.copyWith(result: BaseStatus.fail));
           }
         }
     }
@@ -124,8 +139,8 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onSelectPlace(
-    SelectPlace event,
+  void _onSelectEndPlace(
+    SelectEndPlace event,
     Emitter<AddScheduleState> emit,
   ) {
     final Schedule info = state.info.copyWith(endPlace: event.place);
@@ -134,8 +149,8 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onSelectRoute(
-    SelectRoute event,
+  void _onSelectStartPlace(
+    SelectStartPlace event,
     Emitter<AddScheduleState> emit,
   ) {
     final Schedule info = state.info.copyWith(startPlace: event.place);
@@ -159,7 +174,7 @@ extension on AddScheduleBloc {
     PressAlertOkButton event,
     Emitter<AddScheduleState> emit,
   ) {
-    add(const SetAddScheduleResult(result: AddScheduleResult.init));
+    add(const SetAddScheduleResult(result: BaseStatus.init));
   }
 }
 

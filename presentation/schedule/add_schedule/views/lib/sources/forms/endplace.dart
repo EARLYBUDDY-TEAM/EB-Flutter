@@ -50,24 +50,12 @@ final class _PlaceForm extends StatelessWidget {
   }
 
   Builder _searchPlaceView(BuildContext context) {
-    cancelAction() {
-      Navigator.of(context).pop();
-    }
-
-    selectAction(Place start) {
-      Navigator.of(context).pop();
-    }
-
     return Builder(
       builder: (context) => Navigator(
         onGenerateRoute: (context) => MaterialPageRoute(
           builder: (context) => Builder(
             builder: (context) => SearchPlaceView(
-              delegate:
-                  RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
-              setting: SearchPlaceSetting.end,
-              selectAction: selectAction,
-              cancelAction: cancelAction,
+              setting: EndSearchPlaceSetting(),
             ),
           ),
         ),

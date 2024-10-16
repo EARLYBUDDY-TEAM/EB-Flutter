@@ -12,13 +12,13 @@ final class AddScheduleView extends StatelessWidget {
         return bloc ??
             AddScheduleBloc(
               loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
-              searchPlaceDelegateForPlace:
-                  RepositoryProvider.of<SearchPlaceDelegateForPlace>(context),
-              searchPlaceDelegateForRoute:
-                  RepositoryProvider.of<SearchPlaceDelegateForRoute>(context),
+              addScheduleDelegate:
+                  RepositoryProvider.of<AddScheduleDelegate>(context),
               scheduleRepository:
                   RepositoryProvider.of<ScheduleRepository>(context),
               tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+              cancelEndViewAction: () => Navigator.of(context).pop(),
+              cancelStartViewAction: () => Navigator.of(context).pop(),
             );
       },
       child: const _AddScheduleContent(),
@@ -54,16 +54,16 @@ final class _AddScheduleContent extends StatelessWidget {
 
   void showAddScheduleResultAlert(
     BuildContext context,
-    AddScheduleResult result,
+    BaseStatus result,
   ) {
-    if (result == AddScheduleResult.init) {
+    if (result == BaseStatus.init) {
       return;
     }
 
     String title;
     String? content;
     switch (result) {
-      case (AddScheduleResult.success):
+      case (BaseStatus.success):
         title = "일정을 등록했습니다!";
       default:
         title = "일정등록에 실패했습니다.";
@@ -79,7 +79,7 @@ final class _AddScheduleContent extends StatelessWidget {
           onPressed: () {
             context.read<AddScheduleBloc>().add(const PressAlertOkButton());
             Navigator.of(context).pop();
-            if (result == AddScheduleResult.success) {
+            if (result == BaseStatus.success) {
               Navigator.of(context).pop();
             }
           },

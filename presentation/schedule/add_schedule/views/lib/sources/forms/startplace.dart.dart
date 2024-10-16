@@ -84,7 +84,7 @@ class _RouteState extends State<_RouteSwitch> {
           context: context,
           expand: true,
           backgroundColor: Colors.white,
-          builder: (_) => _searchPlaceView(context),
+          builder: (_) => _searchPlaceView(context, endPlace),
         );
       }
     } else {
@@ -100,6 +100,7 @@ class _RouteState extends State<_RouteSwitch> {
 extension on _RouteState {
   Material _searchPlaceView(
     BuildContext addScheduleContext,
+    Place endPlace,
   ) {
     cancelAction(BuildContext addScheduleContext) {
       Navigator.of(addScheduleContext).pop();
@@ -134,12 +135,10 @@ extension on _RouteState {
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => Builder(
             builder: (searchPlaceContext) => SearchPlaceView(
-              setting: SearchPlaceSetting.start,
-              delegate: RepositoryProvider.of<SearchPlaceDelegateForRoute>(
-                  addScheduleContext),
-              selectAction: (start) =>
-                  selectAction(start, addScheduleContext, searchPlaceContext),
-              cancelAction: () => cancelAction(addScheduleContext),
+              setting: StartSearchPlaceSetting(endPlace: endPlace),
+              // selectAction: (start) =>
+              //     selectAction(start, addScheduleContext, searchPlaceContext),
+              // cancelAction: () => cancelAction(addScheduleContext),
             ),
           ),
         ),

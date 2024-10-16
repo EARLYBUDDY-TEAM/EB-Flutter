@@ -41,8 +41,12 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
     return SizedBox(
       height: height,
       child: BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+        buildWhen: (previous, current) {
+          return previous.contentStatus != current.contentStatus;
+        },
         builder: (context, state) {
-          switch (state.viewState.contentStatus) {
+          final contentStatus = state.contentStatus;
+          switch (contentStatus) {
             case SearchPlaceContentStatus.search:
               return _SearchPlaceListView(places: state.places);
             case SearchPlaceContentStatus.map:
