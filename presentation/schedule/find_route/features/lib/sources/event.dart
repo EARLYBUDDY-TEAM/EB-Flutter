@@ -4,25 +4,26 @@ sealed class FindRouteEvent extends Equatable {
   const FindRouteEvent();
 }
 
-final class FetchFindRouteData extends FindRouteEvent {
-  final Place start;
-  final Place end;
+final class GetRouteData extends FindRouteEvent {
+  const GetRouteData();
 
-  const FetchFindRouteData({
-    required this.start,
-    required this.end,
+  @override
+  List<Object?> get props => [];
+}
+
+final class SetFindRouteStatus extends FindRouteEvent {
+  final FindRouteStatus status;
+
+  const SetFindRouteStatus({
+    required this.status,
   });
 
   @override
-  List<Object?> get props => [start, end];
+  List<Object?> get props => [];
 }
 
-final class setFindRouteStatus extends FindRouteEvent {
-  final FindRouteStatus status;
-
-  const setFindRouteStatus({
-    required this.status,
-  });
+final class OnAppearFindRouteView extends FindRouteEvent {
+  const OnAppearFindRouteView();
 
   @override
   List<Object?> get props => [];

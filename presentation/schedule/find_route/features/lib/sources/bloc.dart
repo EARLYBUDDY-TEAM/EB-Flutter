@@ -4,21 +4,20 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final FindRouteRepository _findRouteRepository;
 
   FindRouteBloc({
-    required Place start,
-    required Place end,
+    required Place startPlace,
+    required Place endPlace,
     required FindRouteRepository findRouteRepository,
   })  : _findRouteRepository = findRouteRepository,
-        super(const FindRouteState()) {
-    on<FetchFindRouteData>(_onFetchFindRouteData);
-    on<setFindRouteStatus>(_onSetFindRouteStatus);
-
-    add(FetchFindRouteData(start: start, end: end));
+        super(FindRouteState(startPlace: startPlace, endPlace: endPlace)) {
+    on<GetRouteData>(_onFetchFindRouteData);
+    on<SetFindRouteStatus>(_onSetFindRouteStatus);
+    on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
   }
 }
 
 extension on FindRouteBloc {
   void _onSetFindRouteStatus(
-    setFindRouteStatus event,
+    SetFindRouteStatus event,
     Emitter<FindRouteState> emit,
   ) {
     emit(state.copyWith(status: event.status));
@@ -27,15 +26,13 @@ extension on FindRouteBloc {
 
 extension on FindRouteBloc {
   void _onFetchFindRouteData(
-    FetchFindRouteData event,
+    GetRouteData event,
     Emitter<FindRouteState> emit,
   ) async {
     final Result result = await _findRouteRepository.getEBRoute(
-      start: event.start,
-      end: event.end,
+      start: state.startPlace,
+      end: state.endPlace,
     );
-
-    // final ebRoute = EBRoute.mock();
 
     switch (result) {
       case Success():
@@ -105,5 +102,14 @@ extension on FindRouteBloc {
       time: ebSubPath.time,
       color: color,
     );
+  }
+}
+
+extension on FindRouteBloc {
+  void _onOnAppearFindRouteView(
+    OnAppearFindRouteView event,
+    Emitter<FindRouteState> emit,
+  ) {
+    add(const GetRouteData());
   }
 }

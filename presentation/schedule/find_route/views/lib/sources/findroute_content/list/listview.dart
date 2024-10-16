@@ -63,7 +63,7 @@ class _DetailRouteList extends StatelessWidget {
               child: DetailRouteListItem(ebSubPath: subPaths[index]),
               onTap: () {
                 BlocProvider.of<FindRouteBloc>(context).add(
-                  const setFindRouteStatus(
+                  const SetFindRouteStatus(
                     status: FindRouteStatus.selectRoute,
                   ),
                 );
@@ -113,7 +113,7 @@ class _FindRouteList extends StatelessWidget {
               ),
               onTap: () {
                 BlocProvider.of<FindRouteBloc>(parent).add(
-                    const setFindRouteStatus(
+                    const SetFindRouteStatus(
                         status: FindRouteStatus.detailRoute));
                 Navigator.push(
                   child,

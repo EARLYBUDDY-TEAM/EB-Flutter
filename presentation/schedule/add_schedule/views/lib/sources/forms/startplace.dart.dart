@@ -119,8 +119,8 @@ extension on _RouteState {
           searchPlaceContext,
           MaterialPageRoute(
             builder: (searchPlaceContext) => FindRouteView(
-              start: start,
-              end: end,
+              startPlace: start,
+              endPlace: end,
               parentName: '출발 장소',
               backAction: () => Navigator.of(searchPlaceContext).pop(),
               cancelAction: () => Navigator.of(addScheduleContext).pop(),

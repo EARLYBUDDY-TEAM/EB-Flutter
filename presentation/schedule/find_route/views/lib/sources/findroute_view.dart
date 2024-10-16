@@ -1,16 +1,16 @@
 part of '../eb_find_route.dart';
 
 final class FindRouteView extends StatelessWidget {
-  final Place start;
-  final Place end;
+  final Place startPlace;
+  final Place endPlace;
   final String? parentName;
   Function()? backAction;
   Function()? cancelAction;
 
   FindRouteView({
     super.key,
-    required this.start,
-    required this.end,
+    required this.startPlace,
+    required this.endPlace,
     this.parentName,
     this.backAction,
     this.cancelAction,
@@ -20,11 +20,11 @@ final class FindRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
-        start: start,
-        end: end,
+        startPlace: startPlace,
+        endPlace: endPlace,
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
-      ),
+      )..add(const OnAppearFindRouteView()),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: _FindRouteAppBar(
@@ -35,8 +35,8 @@ final class FindRouteView extends StatelessWidget {
         body: Column(
           children: [
             _FindRouteInfoView(
-              startName: start.name,
-              endName: end.name,
+              startName: startPlace.name,
+              endName: endPlace.name,
             ),
             const _FindRouteListView(),
           ],
@@ -45,3 +45,10 @@ final class FindRouteView extends StatelessWidget {
     );
   }
 }
+
+// final class FindRouteScaffold extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+//   }
+// }
