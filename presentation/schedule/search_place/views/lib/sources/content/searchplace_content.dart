@@ -48,7 +48,9 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
           final contentStatus = state.contentStatus;
           switch (contentStatus) {
             case ListSearchPlaceContent():
-              return _SearchPlaceListView(places: contentStatus.placeList);
+              return _SearchPlaceListView(
+                placeList: contentStatus.placeList,
+              );
             case MapSearchPlaceContent():
               return EBKakaoMapView(
                 place: contentStatus.selectedPlace,
