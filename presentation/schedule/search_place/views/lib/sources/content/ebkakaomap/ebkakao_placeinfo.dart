@@ -91,6 +91,8 @@ extension on _EBKakaoMapPlaceInfo {
           ),
         ),
       );
+    } else {
+      context.read<SearchPlaceBloc>().add(PressCancelButton());
     }
   }
 }
