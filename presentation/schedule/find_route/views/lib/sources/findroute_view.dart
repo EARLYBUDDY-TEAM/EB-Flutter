@@ -4,16 +4,12 @@ final class FindRouteView extends StatelessWidget {
   final Place startPlace;
   final Place endPlace;
   final String? parentName;
-  Function()? backAction;
-  Function()? cancelAction;
 
-  FindRouteView({
+  const FindRouteView({
     super.key,
     required this.startPlace,
     required this.endPlace,
     this.parentName,
-    this.backAction,
-    this.cancelAction,
   });
 
   @override
@@ -22,6 +18,10 @@ final class FindRouteView extends StatelessWidget {
       create: (context) => FindRouteBloc(
         startPlace: startPlace,
         endPlace: endPlace,
+        searchPlaceDelegate:
+            RepositoryProvider.of<SearchPlaceDelegate>(context),
+        addScheduleDelegate:
+            RepositoryProvider.of<AddScheduleDelegate>(context),
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
       )..add(const OnAppearFindRouteView()),
@@ -29,8 +29,10 @@ final class FindRouteView extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: _FindRouteAppBar(
           parentName: parentName,
-          backAction: backAction,
-          cancelAction: cancelAction,
+          backAction: () =>
+              context.read<FindRouteBloc>().add(const BackViewAction()),
+          cancelAction: () =>
+              context.read<FindRouteBloc>().add(const CancelViewAction()),
         ),
         body: Column(
           children: [
@@ -45,10 +47,3 @@ final class FindRouteView extends StatelessWidget {
     );
   }
 }
-
-// final class FindRouteScaffold extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return 
-//   }
-// }

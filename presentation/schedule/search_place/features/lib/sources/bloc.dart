@@ -4,12 +4,19 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final AddScheduleDelegate _addScheduleDelegate;
   final SearchPlaceRepository _searchPlaceRepository;
 
+  final Function() _backFindRouteViewAction;
+
+  late StreamSubscription<void> _backFindRouteViewSubscription;
+
   SearchPlaceBloc({
+    required SearchPlaceDelegate searchPlaceDelegate,
     required AddScheduleDelegate addScheduleDelegate,
     required SearchPlaceRepository searchPlaceRepository,
     required SearchPlaceState searchPlaceState,
+    required Function() backFindRouteViewAction,
   })  : _addScheduleDelegate = addScheduleDelegate,
         _searchPlaceRepository = searchPlaceRepository,
+        _backFindRouteViewAction = backFindRouteViewAction,
         super(searchPlaceState) {
     on<ChangeSearchText>(
       _onChangeSearchText,
@@ -20,6 +27,15 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     on<PressResetButton>(_onPressResetButton);
     on<PressSelectPlaceButton>(_onPressSelectPlaceButton);
     on<PressCancelButton>(_onPressCancelButton);
+
+    _backFindRouteViewSubscription = searchPlaceDelegate.backFindRouteView
+        .listen((_) => _backFindRouteViewAction());
+  }
+
+  @override
+  Future<void> close() async {
+    await _backFindRouteViewSubscription.cancel();
+    await super.close();
   }
 }
 
@@ -92,9 +108,9 @@ extension on SearchPlaceBloc {
   ) {
     switch (state.setting) {
       case EndSearchPlaceSetting():
-        _addScheduleDelegate.cancelEndView.add(());
+        _addScheduleDelegate.cancelEndSearchPlaceView.add(());
       case StartSearchPlaceSetting():
-        _addScheduleDelegate.cancelStartView.add(());
+        _addScheduleDelegate.cancelStartSearchPlaceView.add(());
     }
   }
 }

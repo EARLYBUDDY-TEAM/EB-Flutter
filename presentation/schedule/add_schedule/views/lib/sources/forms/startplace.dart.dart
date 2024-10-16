@@ -102,43 +102,14 @@ extension on _RouteState {
     BuildContext addScheduleContext,
     Place endPlace,
   ) {
-    cancelAction(BuildContext addScheduleContext) {
-      Navigator.of(addScheduleContext).pop();
-    }
-
-    selectAction(
-      Place start,
-      BuildContext addScheduleContext,
-      BuildContext searchPlaceContext,
-    ) {
-      final info =
-          BlocProvider.of<AddScheduleBloc>(addScheduleContext).state.info;
-      final Place? end = info.endPlace;
-      if (end != null) {
-        Navigator.push(
-          searchPlaceContext,
-          MaterialPageRoute(
-            builder: (searchPlaceContext) => FindRouteView(
-              startPlace: start,
-              endPlace: end,
-              parentName: '출발 장소',
-              backAction: () => Navigator.of(searchPlaceContext).pop(),
-              cancelAction: () => Navigator.of(addScheduleContext).pop(),
-            ),
-          ),
-        );
-      }
-    }
-
     return Material(
       child: Navigator(
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => Builder(
             builder: (searchPlaceContext) => SearchPlaceView(
-              setting: StartSearchPlaceSetting(endPlace: endPlace),
-              // selectAction: (start) =>
-              //     selectAction(start, addScheduleContext, searchPlaceContext),
-              // cancelAction: () => cancelAction(addScheduleContext),
+              setting: StartSearchPlaceSetting(
+                endPlace: endPlace,
+              ),
             ),
           ),
         ),

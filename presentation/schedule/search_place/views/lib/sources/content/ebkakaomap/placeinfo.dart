@@ -86,8 +86,6 @@ extension on _EBKakaoMapPlaceInfo {
             startPlace: place,
             endPlace: setting.endPlace,
             parentName: '출발 장소',
-            backAction: () => Navigator.of(context).pop(),
-            cancelAction: () => Navigator.of(context).pop(),
           ),
         ),
       );

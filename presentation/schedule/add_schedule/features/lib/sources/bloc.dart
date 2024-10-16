@@ -5,27 +5,31 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   final ScheduleRepository _scheduleRepository;
   final TokenEvent _tokenEvent;
 
-  final Function() _cancelEndViewAction;
-  final Function() _cancelStartViewAction;
+  final Function() _cancelEndSearchPlaceViewAction;
+  final Function() _cancelStartSearchPlaceViewAction;
+  final Function() _cancelFindRouteViewAction;
 
   late StreamSubscription<Place> selectPlaceSubscriptionForEnd;
   late StreamSubscription<Place> selectPlaceSubscriptionForStart;
   late StreamSubscription<void> cancelEndViewSubscription;
   late StreamSubscription<void> cancelStartViewSubscription;
+  late StreamSubscription<void> cancelFindRouteViewSubscription;
 
   AddScheduleBloc({
     required LoadingDelegate loadingDelegate,
     required AddScheduleDelegate addScheduleDelegate,
     required ScheduleRepository scheduleRepository,
     required TokenEvent tokenEvent,
-    required void Function() cancelEndViewAction,
-    required void Function() cancelStartViewAction,
+    required void Function() cancelEndSearchPlaceViewAction,
+    required void Function() cancelStartSearchPlaceViewAction,
+    required void Function() cancelFindRouteViewAction,
     AddScheduleState? addScheduleState,
   })  : _loadingDelegate = loadingDelegate,
         _scheduleRepository = scheduleRepository,
         _tokenEvent = tokenEvent,
-        _cancelEndViewAction = cancelEndViewAction,
-        _cancelStartViewAction = cancelStartViewAction,
+        _cancelEndSearchPlaceViewAction = cancelEndSearchPlaceViewAction,
+        _cancelStartSearchPlaceViewAction = cancelStartSearchPlaceViewAction,
+        _cancelFindRouteViewAction = cancelFindRouteViewAction,
         super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
@@ -42,10 +46,12 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     selectPlaceSubscriptionForStart = addScheduleDelegate.selectStartPlace
         .listen((place) => add(SelectStartPlace(place: place)));
 
-    cancelEndViewSubscription =
-        addScheduleDelegate.cancelEndView.listen((_) => _cancelEndViewAction());
-    cancelStartViewSubscription = addScheduleDelegate.cancelStartView
-        .listen((_) => _cancelStartViewAction());
+    cancelEndViewSubscription = addScheduleDelegate.cancelEndSearchPlaceView
+        .listen((_) => _cancelEndSearchPlaceViewAction());
+    cancelStartViewSubscription = addScheduleDelegate.cancelStartSearchPlaceView
+        .listen((_) => _cancelStartSearchPlaceViewAction());
+    cancelFindRouteViewSubscription = addScheduleDelegate.cancelFindRouteView
+        .listen((_) => _cancelFindRouteViewAction());
 
     on<SetAddScheduleResult>(_onSetAddScheduleResult);
   }
@@ -54,7 +60,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   Future<void> close() async {
     await selectPlaceSubscriptionForEnd.cancel();
     await selectPlaceSubscriptionForStart.cancel();
-    return super.close();
+    await super.close();
   }
 }
 
