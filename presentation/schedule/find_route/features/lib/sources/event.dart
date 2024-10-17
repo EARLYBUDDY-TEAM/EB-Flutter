@@ -11,11 +11,11 @@ final class GetRouteData extends FindRouteEvent {
   List<Object?> get props => [];
 }
 
-final class SetFindRouteStatus extends FindRouteEvent {
-  final FindRouteStatus status;
+final class SetFindRouteContentStatus extends FindRouteEvent {
+  final SealedFindRouteContentStatus contentStatus;
 
-  const SetFindRouteStatus({
-    required this.status,
+  const SetFindRouteContentStatus({
+    required this.contentStatus,
   });
 
   @override

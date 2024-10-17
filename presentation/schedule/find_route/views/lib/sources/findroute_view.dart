@@ -41,21 +41,50 @@ final class _FindRouteScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _FindRouteAppBar(
-        parentName: parentName,
-        backAction: () =>
-            context.read<FindRouteBloc>().add(const BackViewAction()),
-        cancelAction: () =>
-            context.read<FindRouteBloc>().add(const CancelViewAction()),
-      ),
-      body: Column(
-        children: [
-          _FindRouteInfoView(),
-          const _FindRouteListView(),
-        ],
-      ),
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _FindRouteAppBar(
+            parentName: parentName,
+            backAction: _backAction(
+              contentStatus: state.contentStatus,
+              context: context,
+            ),
+            cancelAction: () =>
+                context.read<FindRouteBloc>().add(const CancelViewAction()),
+          ),
+          body: Column(
+            children: [
+              _FindRouteInfoView(),
+              const _FindRouteListView(),
+            ],
+          ),
+        );
+      },
     );
+  }
+
+  Function() _backAction({
+    required BuildContext context,
+    required SealedFindRouteContentStatus contentStatus,
+  }) {
+    switch (contentStatus) {
+      case DetailFindRouteStatus():
+        return () => _showSelectRouteView(context);
+      default:
+        return () => _popFindRouteViewInNav(context);
+    }
+  }
+
+  void _popFindRouteViewInNav(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  void _showSelectRouteView(BuildContext context) {
+    // context.read<FindRouteBloc>().add()
   }
 }

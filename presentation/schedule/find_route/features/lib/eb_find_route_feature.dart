@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
-part 'sources/state.dart';
-part 'sources/viewstate/transportlineinfo.dart';
-part 'sources/viewstate/viewstate.dart';
+part 'sources/state/state.dart';
+part 'sources/state/content_status.dart';
+part 'sources/state/viewstate/transportlineinfo.dart';
+part 'sources/state/viewstate/viewstate.dart';

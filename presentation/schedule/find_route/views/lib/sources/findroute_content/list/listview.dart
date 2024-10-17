@@ -10,29 +10,45 @@ class _FindRouteListView extends StatelessWidget {
     return BlocBuilder<FindRouteBloc, FindRouteState>(
       builder: (context, findRouteState) {
         final ebRoute = findRouteState.ebRoute;
-        final status = findRouteState.status;
-        if (status == FindRouteStatus.nodata && ebRoute == null) {
+        final contentStatus = findRouteState.contentStatus;
+
+        if (ebRoute == null) {
           return const SizedBox();
-        } else {
-          final ebPaths = ebRoute!.ebPaths;
-          final lineOfPaths =
-              findRouteState.viewState.transportLineOfRoute.lineOfRoute;
-          return Expanded(
-            child: ScrollWithHeader(
-              header: _FindRouteSortView(
-                height: headerHeight,
-              ),
-              headerHeight: headerHeight,
-              list: [
-                _FindRouteList(
-                  ebPaths: ebPaths,
-                  lineOfPaths: lineOfPaths,
-                )
-              ],
-            ),
-          );
+        }
+
+        switch (contentStatus) {
+          case EmptyDataFindRouteStatus():
+            return const SizedBox();
+          default:
+            final lineOfPaths =
+                findRouteState.viewState.transportLineOfRoute.lineOfRoute;
+            return _content(
+              ebRoute: ebRoute,
+              lineOfPaths: lineOfPaths,
+            );
         }
       },
+    );
+  }
+
+  Widget _content({
+    required EBRoute ebRoute,
+    required List<TransportLineOfPath> lineOfPaths,
+  }) {
+    final ebPaths = ebRoute.ebPaths;
+    return Expanded(
+      child: ScrollWithHeader(
+        header: _FindRouteHeaderSortView(
+          height: headerHeight,
+        ),
+        headerHeight: headerHeight,
+        list: [
+          _FindRouteList(
+            ebPaths: ebPaths,
+            lineOfPaths: lineOfPaths,
+          )
+        ],
+      ),
     );
   }
 }
@@ -60,11 +76,16 @@ class _DetailRouteList extends StatelessWidget {
             InkWell(
               child: DetailRouteListItem(ebSubPath: subPaths[index]),
               onTap: () {
-                BlocProvider.of<FindRouteBloc>(context).add(
-                  const SetFindRouteStatus(
-                    status: FindRouteStatus.selectRoute,
-                  ),
-                );
+                context.read<FindRouteBloc>().add(
+                      SetFindRouteContentStatus(
+                        contentStatus: SelectFindRouteStatus(),
+                      ),
+                    );
+                // BlocProvider.of<FindRouteBloc>(context).add(
+                //   const SetFindRouteContentStatus(
+                //     status: FindRouteStatus.selectRoute,
+                //   ),
+                // );
                 Navigator.of(context).pop();
               },
             ),
@@ -111,8 +132,10 @@ class _FindRouteList extends StatelessWidget {
               ),
               onTap: () {
                 BlocProvider.of<FindRouteBloc>(parent).add(
-                    const SetFindRouteStatus(
-                        status: FindRouteStatus.detailRoute));
+                  SetFindRouteContentStatus(
+                    contentStatus: DetailFindRouteStatus(),
+                  ),
+                );
                 Navigator.push(
                   child,
                   MaterialPageRoute(

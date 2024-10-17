@@ -1,9 +1,9 @@
 part of '../../../eb_find_route.dart';
 
-final class _FindRouteSortView extends StatelessWidget {
+final class _FindRouteHeaderSortView extends StatelessWidget {
   final double height;
 
-  const _FindRouteSortView({
+  const _FindRouteHeaderSortView({
     super.key,
     required this.height,
   });
@@ -23,27 +23,34 @@ final class _FindRouteSortView extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: BlocSelector<FindRouteBloc, FindRouteState, FindRouteStatus>(
-          selector: (state) {
-            return state.status;
-          },
-          builder: (context, status) {
-            return Row(
-              children: _content(status),
-            );
-          },
-        ),
+        child: _FindRouteHeaderSortContent(),
       ),
     );
   }
+}
 
-  List<Widget> _content(FindRouteStatus status) {
+final class _FindRouteHeaderSortContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        return Row(
+          children: _children(state.contentStatus),
+        );
+      },
+    );
+  }
+
+  List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
     List<Widget> content = [
       _arrivalInfo(),
       const Spacer(),
     ];
 
-    if (status == FindRouteStatus.detailRoute) {
+    if (contentStatus is DetailFindRouteStatus) {
       content.add(_pathInfo());
     }
 

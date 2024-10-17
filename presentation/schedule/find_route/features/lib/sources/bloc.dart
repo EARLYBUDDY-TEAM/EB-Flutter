@@ -1,6 +1,6 @@
 part of '../eb_find_route_feature.dart';
 
-class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
+final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final AddScheduleDelegate _addScheduleDelegate;
   final SearchPlaceDelegate _searchPlaceDelegate;
   final FindRouteRepository _findRouteRepository;
@@ -16,7 +16,7 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
         _findRouteRepository = findRouteRepository,
         super(FindRouteState(startPlace: startPlace, endPlace: endPlace)) {
     on<GetRouteData>(_onFetchFindRouteData);
-    on<SetFindRouteStatus>(_onSetFindRouteStatus);
+    on<SetFindRouteContentStatus>(_onSetFindRouteContentStatus);
     on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
     on<BackViewAction>(_onBackViewAction);
     on<CancelViewAction>(_onCancelViewAction);
@@ -24,11 +24,11 @@ class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
 }
 
 extension on FindRouteBloc {
-  void _onSetFindRouteStatus(
-    SetFindRouteStatus event,
+  void _onSetFindRouteContentStatus(
+    SetFindRouteContentStatus event,
     Emitter<FindRouteState> emit,
   ) {
-    emit(state.copyWith(status: event.status));
+    emit(state.copyWith(contentStatus: event.contentStatus));
   }
 }
 
@@ -53,7 +53,7 @@ extension on FindRouteBloc {
           state.copyWith(
             ebRoute: () => ebRoute,
             viewState: findRouteViewState,
-            status: FindRouteStatus.selectRoute,
+            contentStatus: SelectFindRouteStatus(),
           ),
         );
       case Failure():
@@ -61,7 +61,7 @@ extension on FindRouteBloc {
         emit(
           state.copyWith(
             ebRoute: () => null,
-            status: FindRouteStatus.nodata,
+            contentStatus: EmptyDataFindRouteStatus(),
           ),
         );
     }

@@ -1,37 +1,35 @@
-part of '../../eb_find_route_feature.dart';
-
-enum FindRouteStatus { nodata, selectRoute, detailRoute }
+part of '../../../eb_find_route_feature.dart';
 
 final class FindRouteState extends Equatable {
   final Place startPlace;
   final Place endPlace;
   final EBRoute? ebRoute;
   final FindRouteViewState viewState;
-  final FindRouteStatus status;
+  final SealedFindRouteContentStatus contentStatus;
 
-  const FindRouteState({
+  FindRouteState({
     required this.startPlace,
     required this.endPlace,
     EBRoute? ebRoute,
     FindRouteViewState? viewState,
-    FindRouteStatus? status,
+    SealedFindRouteContentStatus? contentStatus,
   })  : ebRoute = ebRoute,
         viewState = viewState ?? const FindRouteViewState(),
-        status = status ?? FindRouteStatus.nodata;
+        contentStatus = contentStatus ?? EmptyDataFindRouteStatus();
 
   FindRouteState copyWith({
     Place? startPlace,
     Place? endPlace,
     EBRoute? Function()? ebRoute,
     FindRouteViewState? viewState,
-    FindRouteStatus? status,
+    SealedFindRouteContentStatus? contentStatus,
   }) {
     return FindRouteState(
       startPlace: startPlace ?? this.startPlace,
       endPlace: endPlace ?? this.endPlace,
       ebRoute: ebRoute != null ? ebRoute() : this.ebRoute,
       viewState: viewState ?? this.viewState,
-      status: status ?? this.status,
+      contentStatus: contentStatus ?? this.contentStatus,
     );
   }
 
@@ -41,6 +39,6 @@ final class FindRouteState extends Equatable {
         endPlace,
         ebRoute,
         viewState,
-        status,
+        contentStatus,
       ];
 }
