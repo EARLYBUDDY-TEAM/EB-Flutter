@@ -25,24 +25,36 @@ final class FindRouteView extends StatelessWidget {
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
       )..add(const OnAppearFindRouteView()),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _FindRouteAppBar(
-          parentName: parentName,
-          backAction: () =>
-              context.read<FindRouteBloc>().add(const BackViewAction()),
-          cancelAction: () =>
-              context.read<FindRouteBloc>().add(const CancelViewAction()),
-        ),
-        body: Column(
-          children: [
-            _FindRouteInfoView(
-              startName: startPlace.name,
-              endName: endPlace.name,
-            ),
-            const _FindRouteListView(),
-          ],
-        ),
+      child: _FindRouteScaffold(
+        parentName: parentName,
+      ),
+    );
+  }
+}
+
+final class _FindRouteScaffold extends StatelessWidget {
+  final String? parentName;
+
+  const _FindRouteScaffold({
+    required this.parentName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _FindRouteAppBar(
+        parentName: parentName,
+        backAction: () =>
+            context.read<FindRouteBloc>().add(const BackViewAction()),
+        cancelAction: () =>
+            context.read<FindRouteBloc>().add(const CancelViewAction()),
+      ),
+      body: Column(
+        children: [
+          _FindRouteInfoView(),
+          const _FindRouteListView(),
+        ],
       ),
     );
   }

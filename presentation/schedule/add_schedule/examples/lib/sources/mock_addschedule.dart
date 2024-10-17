@@ -11,6 +11,8 @@ final class MockAddSchedule extends StatelessWidget {
   final searchPlaceDelegate = SearchPlaceDelegate();
   final searchPlaceRepository = SearchPlaceRepository();
 
+  final findRouteRepository = FindRouteRepository();
+
   late final tokenEvent = TokenEvent(
     rootDelegate: rootDelegate,
     loginDelegate: loginDelegate,
@@ -31,6 +33,7 @@ final class MockAddSchedule extends StatelessWidget {
         RepositoryProvider.value(value: tokenEvent),
         RepositoryProvider.value(value: searchPlaceDelegate),
         RepositoryProvider.value(value: searchPlaceRepository),
+        RepositoryProvider.value(value: findRouteRepository),
       ],
       child: MaterialApp(
         home: _NaviButton(
@@ -60,7 +63,7 @@ final class _NaviButton extends StatelessWidget {
             onPressed();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => toShow,
+                builder: (contxt) => toShow,
               ),
             );
           },

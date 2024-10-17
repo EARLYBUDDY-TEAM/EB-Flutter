@@ -1,20 +1,20 @@
 part of '../../../eb_find_route.dart';
 
 final class _FindRouteInfoView extends StatelessWidget {
-  final String startName;
-  final String endName;
   final double horizontalInset = 15;
-
-  const _FindRouteInfoView({
-    required this.startName,
-    required this.endName,
-  });
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<FindRouteBloc>().state;
+    final startPlaceName = state.startPlace.name;
+    final endPlaceName = state.endPlace.name;
+
     return Padding(
       padding: EdgeInsets.only(
-          left: horizontalInset, right: horizontalInset, bottom: 20),
+        left: horizontalInset,
+        right: horizontalInset,
+        bottom: 20,
+      ),
       child: Row(
         children: [
           infoImage(),
@@ -23,9 +23,9 @@ final class _FindRouteInfoView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _departure(),
+                _start(startPlaceName),
                 _divider(),
-                _arrival(),
+                _end(endPlaceName),
               ],
             ),
           ),
@@ -42,11 +42,11 @@ final class _FindRouteInfoView extends StatelessWidget {
     );
   }
 
-  Row _departure() {
+  Row _start(String startPlaceName) {
     return Row(
       children: [
         Text(
-          startName,
+          startPlaceName,
           style: TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
             color: EBColors.text,
@@ -69,9 +69,9 @@ final class _FindRouteInfoView extends StatelessWidget {
     );
   }
 
-  Text _arrival() {
+  Text _end(String endPlaceName) {
     return Text(
-      endName,
+      endPlaceName,
       style: TextStyle(
         fontFamily: FontFamily.nanumSquareExtraBold,
         color: Colors.grey.withOpacity(0.7),

@@ -13,7 +13,6 @@ final class SearchPlaceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
-        backFindRouteViewAction: () => Navigator.of(context).pop(),
         searchPlaceDelegate:
             RepositoryProvider.of<SearchPlaceDelegate>(context),
         addScheduleDelegate:
@@ -21,6 +20,7 @@ final class SearchPlaceView extends StatelessWidget {
         searchPlaceRepository:
             RepositoryProvider.of<SearchPlaceRepository>(context),
         searchPlaceState: SearchPlaceState(setting: setting),
+        backFromFindRouteViewAction: () => Navigator.of(context).pop(),
       ),
       child: const SearchPlaceScaffold(),
     );

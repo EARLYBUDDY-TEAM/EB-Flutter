@@ -127,7 +127,7 @@ extension on FindRouteBloc {
     BackViewAction event,
     Emitter<FindRouteState> emit,
   ) {
-    _searchPlaceDelegate.backFindRouteView.add(());
+    _searchPlaceDelegate.backFromFindRouteView.add(());
   }
 }
 
@@ -136,6 +136,6 @@ extension on FindRouteBloc {
     CancelViewAction event,
     Emitter<FindRouteState> emit,
   ) {
-    _addScheduleDelegate.cancelFindRouteView.add(());
+    _addScheduleDelegate.cancelModalView.add(());
   }
 }

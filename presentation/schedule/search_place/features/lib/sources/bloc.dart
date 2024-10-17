@@ -4,19 +4,19 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final AddScheduleDelegate _addScheduleDelegate;
   final SearchPlaceRepository _searchPlaceRepository;
 
-  final Function() _backFindRouteViewAction;
+  final Function() _backFromFindRouteViewAction;
 
-  late StreamSubscription<void> _backFindRouteViewSubscription;
+  late StreamSubscription<void> _backFromFindRouteViewSubscription;
 
   SearchPlaceBloc({
     required SearchPlaceDelegate searchPlaceDelegate,
     required AddScheduleDelegate addScheduleDelegate,
     required SearchPlaceRepository searchPlaceRepository,
     required SearchPlaceState searchPlaceState,
-    required Function() backFindRouteViewAction,
+    required Function() backFromFindRouteViewAction,
   })  : _addScheduleDelegate = addScheduleDelegate,
         _searchPlaceRepository = searchPlaceRepository,
-        _backFindRouteViewAction = backFindRouteViewAction,
+        _backFromFindRouteViewAction = backFromFindRouteViewAction,
         super(searchPlaceState) {
     on<ChangeSearchText>(
       _onChangeSearchText,
@@ -28,13 +28,14 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     on<PressSelectPlaceButton>(_onPressSelectPlaceButton);
     on<PressCancelButton>(_onPressCancelButton);
 
-    _backFindRouteViewSubscription = searchPlaceDelegate.backFindRouteView
-        .listen((_) => _backFindRouteViewAction());
+    _backFromFindRouteViewSubscription = searchPlaceDelegate
+        .backFromFindRouteView
+        .listen((_) => _backFromFindRouteViewAction());
   }
 
   @override
   Future<void> close() async {
-    await _backFindRouteViewSubscription.cancel();
+    await _backFromFindRouteViewSubscription.cancel();
     await super.close();
   }
 }
@@ -109,12 +110,7 @@ extension on SearchPlaceBloc {
     PressCancelButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    switch (state.setting) {
-      case EndSearchPlaceSetting():
-        _addScheduleDelegate.cancelEndSearchPlaceView.add(());
-      case StartSearchPlaceSetting():
-        _addScheduleDelegate.cancelStartSearchPlaceView.add(());
-    }
+    _addScheduleDelegate.cancelModalView.add(());
   }
 }
 

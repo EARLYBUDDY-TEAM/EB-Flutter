@@ -1,9 +1,9 @@
 part of '../eb_delegate.dart';
 
 final class SearchPlaceDelegate {
-  final backFindRouteView = PublishSubject<void>();
+  final backFromFindRouteView = PublishSubject<void>();
 
   Future<void> dispose() async {
-    await backFindRouteView.close();
+    await backFromFindRouteView.close();
   }
 }

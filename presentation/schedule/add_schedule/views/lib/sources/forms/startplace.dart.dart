@@ -78,7 +78,7 @@ class _RouteState extends State<_RouteSwitch> {
   ) {
     if (startPlace == null) {
       if (endPlace == null) {
-        showNoDestinationAlert(context: context);
+        showNoEndPlaceDataAlert(context: context);
       } else {
         showCupertinoModalBottomSheet(
           context: context,
@@ -119,25 +119,22 @@ extension on _RouteState {
 }
 
 extension on _RouteState {
-  void showNoDestinationAlert({
+  void showNoEndPlaceDataAlert({
     required BuildContext context,
   }) {
-    Widget ok = TextButton(
-      child: const Text('확인'),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text('장소(목적지) 데이터가 없습니다.'),
-      content: const Text('장소를 먼저 정해주세요.'),
-      actions: [ok],
-    );
-
-    showDialog(
+    EBAlert.showModalPopup(
       context: context,
-      builder: (BuildContext context) => alert,
+      title: '장소(목적지) 데이터가 없습니다.',
+      content: '장소를 먼저 정해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
     );
   }
 
@@ -145,35 +142,27 @@ extension on _RouteState {
     required BuildContext context,
     required Function() removeAction,
   }) {
-    Widget remove = TextButton(
-      child: const Text(
-        '지우기',
-        style: TextStyle(
-          color: Colors.red,
-        ),
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-        removeAction();
-      },
-    );
-
-    Widget cancel = TextButton(
-      child: const Text('취소'),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: const Text('경로설정을 취소할까요?'),
-      content: const Text('설정한 경로 데이터가 사라집니다.'),
-      actions: [remove, cancel],
-    );
-
-    showDialog(
+    EBAlert.showModalPopup(
       context: context,
-      builder: (BuildContext context) => alert,
+      title: '경로설정을 취소할까요?',
+      content: '설정한 경로 데이터가 사라집니다.',
+      actions: [
+        EBAlert.makeAction(
+          name: '지우기',
+          onPressed: () {
+            Navigator.of(context).pop();
+            removeAction();
+          },
+          isDestructiveAction: true,
+        ),
+        EBAlert.makeAction(
+          name: '취소',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        ),
+      ],
     );
   }
 }

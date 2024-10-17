@@ -28,7 +28,7 @@ final class _MockEBKakaoMapBlocView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
-        backFindRouteViewAction: () => Navigator.of(context).pop(),
+        backFromFindRouteViewAction: () => Navigator.of(context).pop(),
         searchPlaceDelegate:
             RepositoryProvider.of<SearchPlaceDelegate>(context),
         addScheduleDelegate:

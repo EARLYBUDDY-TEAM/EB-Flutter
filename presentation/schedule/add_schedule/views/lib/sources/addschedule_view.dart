@@ -14,9 +14,7 @@ final class AddScheduleView extends StatelessWidget {
           scheduleRepository:
               RepositoryProvider.of<ScheduleRepository>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-          cancelEndSearchPlaceViewAction: () => Navigator.of(context).pop(),
-          cancelStartSearchPlaceViewAction: () => Navigator.of(context).pop(),
-          cancelFindRouteViewAction: () => Navigator.of(context).pop(),
+          cancelModalViewAction: () => Navigator.of(context).pop(),
         );
       },
       child: const _AddScheduleContent(),

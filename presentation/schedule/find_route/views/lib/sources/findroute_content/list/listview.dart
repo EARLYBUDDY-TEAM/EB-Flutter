@@ -12,9 +12,7 @@ class _FindRouteListView extends StatelessWidget {
         final ebRoute = findRouteState.ebRoute;
         final status = findRouteState.status;
         if (status == FindRouteStatus.nodata && ebRoute == null) {
-          return const Center(
-            child: Text('Empty Route...'),
-          );
+          return const SizedBox();
         } else {
           final ebPaths = ebRoute!.ebPaths;
           final lineOfPaths =
