@@ -17,7 +17,9 @@ final class SelectFindRouteStatus extends SealedFindRouteContentStatus {
 }
 
 final class DetailFindRouteStatus extends SealedFindRouteContentStatus {
-  DetailFindRouteStatus();
+  final List<EBSubPath> subPaths;
+
+  DetailFindRouteStatus({required this.subPaths});
 
   @override
   List<Object?> get props => [];

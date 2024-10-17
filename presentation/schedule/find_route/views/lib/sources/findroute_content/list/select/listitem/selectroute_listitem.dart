@@ -1,10 +1,10 @@
-part of '../../../../eb_find_route.dart';
+part of '../../../../../eb_find_route.dart';
 
-final class FindRouteListItem extends StatelessWidget {
+final class SelectRouteListItem extends StatelessWidget {
   final EBPath ebPath;
   final TransportLineOfPath lineOfPath;
 
-  const FindRouteListItem({
+  const SelectRouteListItem({
     super.key,
     required this.ebPath,
     required this.lineOfPath,
@@ -17,7 +17,10 @@ final class FindRouteListItem extends StatelessWidget {
       child: Column(
         children: [
           _listItemRouteInfo(),
-          _RouteLine(lineOfPath: lineOfPath, pathTime: ebPath.time)
+          _SelectRouteItemLine(
+            lineOfPath: lineOfPath,
+            pathTime: ebPath.time,
+          )
         ],
       ),
     );
@@ -29,7 +32,7 @@ final class FindRouteListItem extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20, left: 20, right: 10),
         child: Row(
           children: [
-            _ListItemRouteInfo(ebPath: ebPath),
+            _SelectRouteItemInfo(ebPath: ebPath),
             const Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,

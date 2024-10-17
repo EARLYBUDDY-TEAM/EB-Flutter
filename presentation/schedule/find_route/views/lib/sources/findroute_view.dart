@@ -60,7 +60,7 @@ final class _FindRouteScaffold extends StatelessWidget {
           body: Column(
             children: [
               _FindRouteInfoView(),
-              const _FindRouteListView(),
+              const _FindRouteSwitchContent(),
             ],
           ),
         );
@@ -85,7 +85,10 @@ final class _FindRouteScaffold extends StatelessWidget {
   }
 
   void _showSelectRouteView(BuildContext context) {
-    Navigator.of(context).pop();
-    // context.read<FindRouteBloc>().add()
+    context.read<FindRouteBloc>().add(
+          SetFindRouteContentStatus(
+            contentStatus: SelectFindRouteStatus(),
+          ),
+        );
   }
 }

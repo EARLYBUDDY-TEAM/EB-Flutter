@@ -1,9 +1,9 @@
-part of '../../../../eb_find_route.dart';
+part of '../../../../../eb_find_route.dart';
 
-final class _ListItemRouteInfo extends StatelessWidget {
+final class _SelectRouteItemInfo extends StatelessWidget {
   final EBPath ebPath;
 
-  const _ListItemRouteInfo({
+  const _SelectRouteItemInfo({
     required this.ebPath,
   });
 
@@ -23,7 +23,7 @@ final class _ListItemRouteInfo extends StatelessWidget {
   }
 }
 
-extension on _ListItemRouteInfo {
+extension on _SelectRouteItemInfo {
   Expanded _routeState() {
     return Expanded(
       child: Text(
@@ -38,7 +38,7 @@ extension on _ListItemRouteInfo {
   }
 }
 
-extension on _ListItemRouteInfo {
+extension on _SelectRouteItemInfo {
   Expanded _routeTimeTrasport() {
     return Expanded(
       child: Row(
@@ -77,7 +77,7 @@ extension on _ListItemRouteInfo {
   }
 }
 
-extension on _ListItemRouteInfo {
+extension on _SelectRouteItemInfo {
   Expanded _routeSpecificInfo() {
     final transitCount = ebPath.busTransitCount + ebPath.subwayTransitCount;
     final payment = ebPath.payment;

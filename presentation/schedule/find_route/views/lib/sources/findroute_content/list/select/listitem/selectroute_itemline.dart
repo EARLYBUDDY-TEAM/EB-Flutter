@@ -1,11 +1,41 @@
 part of '../../../../../eb_find_route.dart';
 
-class _TransportLine extends StatelessWidget {
+class _SelectRouteItemLine extends StatelessWidget {
+  final TransportLineOfPath lineOfPath;
+  final int pathTime;
+  final double height = 2;
+
+  const _SelectRouteItemLine({
+    super.key,
+    required this.lineOfPath,
+    required this.pathTime,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 35, // transport textsize 구해서 적용하기
+      ),
+      child: HDashLine(
+        stackLine: _SelectRouteTransportLine(
+          height: height,
+          lineOfPath: lineOfPath,
+          totalTime: pathTime,
+        ),
+      ),
+    );
+  }
+}
+
+final class _SelectRouteTransportLine extends StatelessWidget {
   final double height;
   final TransportLineOfPath lineOfPath;
   final int totalTime;
 
-  const _TransportLine({
+  const _SelectRouteTransportLine({
     required height,
     required this.lineOfPath,
     required this.totalTime,
