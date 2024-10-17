@@ -27,3 +27,4 @@ part 'sources/findroute_content/list/detail/info/endinfo.dart';
 part 'sources/findroute_content/list/detail/info/laneinfo.dart';
 part 'sources/findroute_content/list/detail/info/startinfo.dart';
 part 'sources/findroute_content/list/detail/icon/icontransport.dart';
+part 'sources/findroute_content/list/empty/empty_data_view.dart';

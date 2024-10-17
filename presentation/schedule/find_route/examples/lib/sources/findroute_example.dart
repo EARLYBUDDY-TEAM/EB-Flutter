@@ -9,12 +9,14 @@ import 'package:eb_repository/eb_repository.dart';
 
 part 'mock_findroute.dart';
 part 'mock_findtroute_listitem.dart';
+part 'mock_emptydataview.dart';
 
 final class FindRouteExample extends StatelessWidget {
   const FindRouteExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _MockFindRouteView();
+    // return _MockFindRouteView();
+    return const MockEmptyDataView();
   }
 }

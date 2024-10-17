@@ -39,7 +39,7 @@ final class _FindRouteSwitchContent extends StatelessWidget {
 
     switch (contentStatus) {
       case EmptyDataFindRouteStatus():
-        return const SizedBox();
+        return const EmptyDataView();
 
       case SelectFindRouteStatus():
         return _SelectRouteListView(
