@@ -1,10 +1,10 @@
 part of '../../../../eb_find_route.dart';
 
-final class SelectRouteListView extends StatelessWidget {
+final class _SelectRouteListView extends StatelessWidget {
   final List<EBPath> ebPaths;
   final List<TransportLineOfPath> lineOfPaths;
 
-  const SelectRouteListView(
+  const _SelectRouteListView(
       {super.key, required this.ebPaths, required this.lineOfPaths});
 
   @override

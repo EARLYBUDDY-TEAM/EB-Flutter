@@ -22,7 +22,7 @@ final class _FindRouteAppBar extends AppBar {
   @override
   bool get automaticallyImplyLeading => false;
   @override
-  double? get leadingWidth => 130; // dynamic하게 적용법?
+  double? get leadingWidth => 150; // dynamic하게 적용법?
 
   @override
   Widget? get leading => Padding(
