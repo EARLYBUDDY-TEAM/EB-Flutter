@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
-  eb_detail_route: any
   eb_uikit: any
   eb_model: any
   eb_repository: any

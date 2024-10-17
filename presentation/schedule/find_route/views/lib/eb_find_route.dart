@@ -1,10 +1,10 @@
 import 'package:eb_delegate/eb_delegate.dart';
-import 'package:eb_detail_route/eb_detail_route.dart';
 import 'package:eb_find_route_feature/eb_find_route_feature.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_resource/eb_resource.dart';
 import 'package:eb_model/entity.dart';
 import 'package:eb_repository/eb_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,3 +20,10 @@ part 'sources/findroute_content/list/select/listitem/selectroute_listitem.dart';
 part 'sources/findroute_content/list/select/listitem/selectroute_iteminfo.dart';
 part 'sources/findroute_content/list/select/listitem/selectroute_itemline.dart';
 part 'sources/findroute_content/list/detail/detailroute_listview.dart';
+part 'sources/findroute_content/list/detail/listitem_other.dart';
+part 'sources/findroute_content/list/detail/listitem_walk.dart';
+part 'sources/findroute_content/list/detail/listitem.dart';
+part 'sources/findroute_content/list/detail/info/endinfo.dart';
+part 'sources/findroute_content/list/detail/info/laneinfo.dart';
+part 'sources/findroute_content/list/detail/info/startinfo.dart';
+part 'sources/findroute_content/list/detail/icon/icontransport.dart';
