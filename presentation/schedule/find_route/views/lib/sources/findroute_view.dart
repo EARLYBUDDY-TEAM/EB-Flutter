@@ -85,6 +85,7 @@ final class _FindRouteScaffold extends StatelessWidget {
   }
 
   void _showSelectRouteView(BuildContext context) {
+    Navigator.of(context).pop();
     // context.read<FindRouteBloc>().add()
   }
 }

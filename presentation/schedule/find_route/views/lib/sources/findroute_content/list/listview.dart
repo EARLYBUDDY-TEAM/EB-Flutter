@@ -81,11 +81,6 @@ class _DetailRouteList extends StatelessWidget {
                         contentStatus: SelectFindRouteStatus(),
                       ),
                     );
-                // BlocProvider.of<FindRouteBloc>(context).add(
-                //   const SetFindRouteContentStatus(
-                //     status: FindRouteStatus.selectRoute,
-                //   ),
-                // );
                 Navigator.of(context).pop();
               },
             ),

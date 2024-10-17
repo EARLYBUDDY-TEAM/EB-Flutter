@@ -6,8 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:eb_location/eb_location.dart';
 
 void main() async {
-  await prepareENV(dev: true);
   WidgetsFlutterBinding.ensureInitialized();
+  await prepareENV(dev: true);
   PrepareEBSearchPlace.initializeKakaoMap(
     appKey: ENV_KAKAOMAP.appKey,
     baseUrl: ENV_KAKAOMAP.url,
