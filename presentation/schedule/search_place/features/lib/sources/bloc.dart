@@ -2,21 +2,20 @@ part of '../eb_search_place_feature.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
   final AddScheduleDelegate _addScheduleDelegate;
+  final FindRouteDelegate _findRouteDelegate;
   final SearchPlaceRepository _searchPlaceRepository;
-
-  final Function() _backFromFindRouteViewAction;
-
-  late StreamSubscription<void> _backFromFindRouteViewSubscription;
+  final Function() _navigatorOfPopAction;
 
   SearchPlaceBloc({
-    required SearchPlaceDelegate searchPlaceDelegate,
     required AddScheduleDelegate addScheduleDelegate,
+    required FindRouteDelegate findRouteDelegate,
     required SearchPlaceRepository searchPlaceRepository,
     required SearchPlaceState searchPlaceState,
-    required Function() backFromFindRouteViewAction,
-  })  : _addScheduleDelegate = addScheduleDelegate,
+    required Function() navigatorOfPopAction,
+  })  : _findRouteDelegate = findRouteDelegate,
+        _addScheduleDelegate = addScheduleDelegate,
         _searchPlaceRepository = searchPlaceRepository,
-        _backFromFindRouteViewAction = backFromFindRouteViewAction,
+        _navigatorOfPopAction = navigatorOfPopAction,
         super(searchPlaceState) {
     on<ChangeSearchText>(
       _onChangeSearchText,
@@ -27,15 +26,10 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     on<PressResetButton>(_onPressResetButton);
     on<PressSelectPlaceButton>(_onPressSelectPlaceButton);
     on<PressCancelButton>(_onPressCancelButton);
-
-    _backFromFindRouteViewSubscription = searchPlaceDelegate
-        .backFromFindRouteView
-        .listen((_) => _backFromFindRouteViewAction());
   }
 
   @override
   Future<void> close() async {
-    await _backFromFindRouteViewSubscription.cancel();
     await super.close();
   }
 }
@@ -101,6 +95,10 @@ extension on SearchPlaceBloc {
         _addScheduleDelegate.selectEndPlace.add(event.selectedPlace);
       case StartSearchPlaceSetting():
         _addScheduleDelegate.selectStartPlace.add(event.selectedPlace);
+      case ChangeEndSearchPlaceSetting():
+        _findRouteDelegate.changeEndPlace.add(event.selectedPlace);
+      case ChangeStartSearchPlaceSetting():
+        _findRouteDelegate.changeStartPlace.add(event.selectedPlace);
     }
   }
 }
@@ -110,7 +108,12 @@ extension on SearchPlaceBloc {
     PressCancelButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    _addScheduleDelegate.cancelModalView.add(());
+    switch (state.setting) {
+      case (EndSearchPlaceSetting() || StartSearchPlaceSetting()):
+        _addScheduleDelegate.cancelModalView.add(());
+      default:
+        _navigatorOfPopAction();
+    }
   }
 }
 

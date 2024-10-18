@@ -25,29 +25,9 @@ final class _FindRouteAppBar extends AppBar {
   double? get leadingWidth => 150; // dynamic하게 적용법?
 
   @override
-  Widget? get leading => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: TextButton(
-          onPressed: backAction,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.arrow_back_ios_new,
-                color: color,
-              ),
-              const SizedBox(width: 5),
-              Text(
-                parentName ?? '',
-                style: TextStyle(
-                  color: color,
-                  fontFamily: fontFamily,
-                  fontSize: fontSize,
-                ),
-              ),
-            ],
-          ),
-        ),
+  Widget? get leading => NaviBackButton(
+        parentViewName: parentName ?? '',
+        onPressed: backAction,
       );
 
   @override

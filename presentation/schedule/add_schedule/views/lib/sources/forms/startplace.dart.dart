@@ -84,7 +84,7 @@ class _RouteState extends State<_RouteSwitch> {
           context: context,
           expand: true,
           backgroundColor: Colors.white,
-          builder: (_) => _searchPlaceView(context, endPlace),
+          builder: (_) => _searchPlaceView(endPlace),
         );
       }
     } else {
@@ -99,16 +99,19 @@ class _RouteState extends State<_RouteSwitch> {
 
 extension on _RouteState {
   Material _searchPlaceView(
-    BuildContext addScheduleContext,
     Place endPlace,
   ) {
     return Material(
       child: Navigator(
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => Builder(
-            builder: (searchPlaceContext) => SearchPlaceView(
+            builder: (context) => SearchPlaceView(
               setting: StartSearchPlaceSetting(
                 endPlace: endPlace,
+                pageFindRoute: (startPlace) => _pageFindRoute(
+                  startPlace: startPlace,
+                  endPlace: endPlace,
+                ),
               ),
             ),
           ),
@@ -116,6 +119,37 @@ extension on _RouteState {
       ),
     );
   }
+
+  MaterialPageRoute _pageFindRoute({
+    required Place startPlace,
+    required Place endPlace,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
+        pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
+        parentName: '출발 장소',
+      ),
+    );
+  }
+
+  // MaterialPageRoute _pageChangeStartPlace(BuildContext context) {
+  //   return MaterialPageRoute(
+  //     builder: (context) => SearchPlaceView(
+  //       setting: ChangeStartSearchPlaceSetting(),
+  //     ),
+  //   );
+  // }
+
+  // MaterialPageRoute _pageChangeEndPlace(BuildContext context) {
+  //   return MaterialPageRoute(
+  //     builder: (context) => SearchPlaceView(
+  //       setting: ChangeEndSearchPlaceSetting(),
+  //     ),
+  //   );
+  // }
 }
 
 extension on _RouteState {

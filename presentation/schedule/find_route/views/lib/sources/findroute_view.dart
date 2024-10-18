@@ -3,27 +3,35 @@ part of '../eb_find_route.dart';
 final class FindRouteView extends StatelessWidget {
   final Place startPlace;
   final Place endPlace;
+  final MaterialPageRoute Function(BuildContext) pageChangeStartPlace;
+  final MaterialPageRoute Function(BuildContext) pageChangeEndPlace;
   final String? parentName;
 
   const FindRouteView({
     super.key,
+    this.parentName,
     required this.startPlace,
     required this.endPlace,
-    this.parentName,
+    required this.pageChangeStartPlace,
+    required this.pageChangeEndPlace,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
-        startPlace: startPlace,
-        endPlace: endPlace,
-        searchPlaceDelegate:
-            RepositoryProvider.of<SearchPlaceDelegate>(context),
         addScheduleDelegate:
             RepositoryProvider.of<AddScheduleDelegate>(context),
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
+        findRouteState: FindRouteState(
+          searchPlaceInfo: SearchPlaceInfo(
+            startPlace: startPlace,
+            endPlace: endPlace,
+            pageChangeStartPlace: pageChangeStartPlace,
+            pageChangeEndPlace: pageChangeEndPlace,
+          ),
+        ),
       )..add(const OnAppearFindRouteView()),
       child: _FindRouteScaffold(
         parentName: parentName,

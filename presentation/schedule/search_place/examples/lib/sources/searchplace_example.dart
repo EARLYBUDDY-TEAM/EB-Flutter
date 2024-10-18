@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 part 'mock_modalsearchplace.dart';
-part 'mock_searchplace.dart';
 part 'mock_ebkakaomap.dart';
 
 final class SearchPlaceExample extends StatelessWidget {

@@ -6,8 +6,8 @@ final class _FindRouteInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.read<FindRouteBloc>().state;
-    final startPlaceName = state.startPlace.name;
-    final endPlaceName = state.endPlace.name;
+    final startPlaceName = state.searchPlaceInfo.startPlace.name;
+    final endPlaceName = state.searchPlaceInfo.endPlace.name;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -23,9 +23,9 @@ final class _FindRouteInfoView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _start(startPlaceName),
+                _start(context, startPlaceName),
                 _divider(),
-                _end(endPlaceName),
+                _end(context, endPlaceName),
               ],
             ),
           ),
@@ -42,7 +42,51 @@ final class _FindRouteInfoView extends StatelessWidget {
     );
   }
 
-  Row _start(String startPlaceName) {
+  Widget _divider() {
+    return Divider(
+      color: Colors.grey.withOpacity(0.5),
+      thickness: 1,
+    );
+  }
+
+  Widget _end(
+    BuildContext context,
+    String endPlaceName,
+  ) {
+    return Row(
+      children: [
+        Text(
+          endPlaceName,
+          style: TextStyle(
+            fontFamily: FontFamily.nanumSquareExtraBold,
+            color: Colors.grey.withOpacity(0.7),
+            fontSize: 15,
+          ),
+        ),
+        const Spacer(),
+        EBRoundedButton(
+          text: '변경',
+          height: 25,
+          onPressed: () {
+            final pageChangeEndPlace = context
+                .read<FindRouteBloc>()
+                .state
+                .searchPlaceInfo
+                .pageChangeEndPlace;
+            Navigator.push(
+              context,
+              pageChangeEndPlace(context),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _start(
+    BuildContext context,
+    String startPlaceName,
+  ) {
     return Row(
       children: [
         Text(
@@ -54,29 +98,23 @@ final class _FindRouteInfoView extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        const EBRoundedButton(
+        EBRoundedButton(
           text: '변경',
           height: 25,
+          onPressed: () {
+            final pageChangeStartPlace = context
+                .read<FindRouteBloc>()
+                .state
+                .searchPlaceInfo
+                .pageChangeStartPlace;
+
+            Navigator.push(
+              context,
+              pageChangeStartPlace(context),
+            );
+          },
         ),
       ],
-    );
-  }
-
-  Divider _divider() {
-    return Divider(
-      color: Colors.grey.withOpacity(0.5),
-      thickness: 1,
-    );
-  }
-
-  Text _end(String endPlaceName) {
-    return Text(
-      endPlaceName,
-      style: TextStyle(
-        fontFamily: FontFamily.nanumSquareExtraBold,
-        color: Colors.grey.withOpacity(0.7),
-        fontSize: 15,
-      ),
     );
   }
 }

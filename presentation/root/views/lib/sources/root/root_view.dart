@@ -6,7 +6,7 @@ final class RootView extends StatelessWidget {
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
   final AddScheduleDelegate _addScheduleDelegate;
-  final SearchPlaceDelegate _searchPlaceDelegate;
+  final FindRouteDelegate _findRouteDelegate;
 
   final EBAuthRepository _ebAuthRepository;
   final FindRouteRepository _findRouteRepository;
@@ -29,7 +29,7 @@ final class RootView extends StatelessWidget {
     LoginDelegate? loginDelegate,
     LoadingDelegate? loadingDelegate,
     AddScheduleDelegate? addScheduleDelegate,
-    SearchPlaceDelegate? searchPlaceDelegate,
+    FindRouteDelegate? findRouteDelegate,
     EBAuthRepository? ebAuthRepository,
     FindRouteRepository? findRouteRepository,
     ScheduleRepository? scheduleRepository,
@@ -41,7 +41,7 @@ final class RootView extends StatelessWidget {
         _rootDelegate = rootDelegate ?? RootDelegate(),
         _loadingDelegate = loadingDelegate ?? LoadingDelegate(),
         _addScheduleDelegate = addScheduleDelegate ?? AddScheduleDelegate(),
-        _searchPlaceDelegate = searchPlaceDelegate ?? SearchPlaceDelegate(),
+        _findRouteDelegate = findRouteDelegate ?? FindRouteDelegate(),
         _ebAuthRepository = ebAuthRepository ?? EBAuthRepository(),
         _findRouteRepository = findRouteRepository ?? FindRouteRepository(),
         _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
@@ -59,7 +59,7 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _loginDelegate),
         RepositoryProvider.value(value: _loadingDelegate),
         RepositoryProvider.value(value: _addScheduleDelegate),
-        RepositoryProvider.value(value: _searchPlaceDelegate),
+        RepositoryProvider.value(value: _findRouteDelegate),
         RepositoryProvider.value(value: _ebAuthRepository),
         RepositoryProvider.value(value: _findRouteRepository),
         RepositoryProvider.value(value: _scheduleRepository),

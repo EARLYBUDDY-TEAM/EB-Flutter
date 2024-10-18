@@ -1,7 +1,7 @@
 part of 'searchplace_example.dart';
 
 final class _MockEBKakaoMapView extends StatelessWidget {
-  final searchPlaceDelegate = SearchPlaceDelegate();
+  final findRouteDelegate = FindRouteDelegate();
   final addScheduleDelegate = AddScheduleDelegate();
   final searchPlaceRepository = SearchPlaceRepository();
 
@@ -9,7 +9,7 @@ final class _MockEBKakaoMapView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(value: searchPlaceDelegate),
+        RepositoryProvider.value(value: findRouteDelegate),
         RepositoryProvider.value(value: addScheduleDelegate),
         RepositoryProvider.value(value: searchPlaceRepository),
       ],
@@ -28,14 +28,13 @@ final class _MockEBKakaoMapBlocView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchPlaceBloc(
-        backFromFindRouteViewAction: () => Navigator.of(context).pop(),
-        searchPlaceDelegate:
-            RepositoryProvider.of<SearchPlaceDelegate>(context),
+        findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
         addScheduleDelegate:
             RepositoryProvider.of<AddScheduleDelegate>(context),
         searchPlaceRepository:
             RepositoryProvider.of<SearchPlaceRepository>(context),
         searchPlaceState: searchPlaceState,
+        navigatorOfPopAction: () => Navigator.of(context).pop(),
       ),
       child: EBKakaoMapView(
         place: mockPlace,

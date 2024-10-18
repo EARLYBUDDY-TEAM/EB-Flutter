@@ -2,23 +2,18 @@ part of '../eb_find_route_feature.dart';
 
 final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final AddScheduleDelegate _addScheduleDelegate;
-  final SearchPlaceDelegate _searchPlaceDelegate;
   final FindRouteRepository _findRouteRepository;
 
   FindRouteBloc({
-    required Place startPlace,
-    required Place endPlace,
     required AddScheduleDelegate addScheduleDelegate,
-    required SearchPlaceDelegate searchPlaceDelegate,
     required FindRouteRepository findRouteRepository,
+    required FindRouteState findRouteState,
   })  : _addScheduleDelegate = addScheduleDelegate,
-        _searchPlaceDelegate = searchPlaceDelegate,
         _findRouteRepository = findRouteRepository,
-        super(FindRouteState(startPlace: startPlace, endPlace: endPlace)) {
+        super(findRouteState) {
     on<GetRouteData>(_onFetchFindRouteData);
     on<SetFindRouteContentStatus>(_onSetFindRouteContentStatus);
     on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
-    on<BackViewAction>(_onBackViewAction);
     on<CancelViewAction>(_onCancelViewAction);
   }
 }
@@ -38,8 +33,8 @@ extension on FindRouteBloc {
     Emitter<FindRouteState> emit,
   ) async {
     final Result result = await _findRouteRepository.getEBRoute(
-      start: state.startPlace,
-      end: state.endPlace,
+      start: state.searchPlaceInfo.startPlace,
+      end: state.searchPlaceInfo.endPlace,
     );
 
     switch (result) {
@@ -119,15 +114,6 @@ extension on FindRouteBloc {
     Emitter<FindRouteState> emit,
   ) {
     add(const GetRouteData());
-  }
-}
-
-extension on FindRouteBloc {
-  void _onBackViewAction(
-    BackViewAction event,
-    Emitter<FindRouteState> emit,
-  ) {
-    _searchPlaceDelegate.backFromFindRouteView.add(());
   }
 }
 

@@ -2,7 +2,6 @@ part of 'findroute_example.dart';
 
 final class _MockFindRouteView extends StatelessWidget {
   final addScheduleDelegate = AddScheduleDelegate();
-  final searchPlaceDelegate = SearchPlaceDelegate();
   final findRouteRepository = FindRouteRepository();
 
   @override
@@ -10,7 +9,6 @@ final class _MockFindRouteView extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: addScheduleDelegate),
-        RepositoryProvider.value(value: searchPlaceDelegate),
         RepositoryProvider.value(value: findRouteRepository),
       ],
       child: MaterialApp(
@@ -62,6 +60,38 @@ final class _MockFindRouteContent extends StatelessWidget {
       parentName: "naviButton",
       startPlace: startPlace,
       endPlace: endPlace,
+      pageChangeStartPlace: _MockPageChangeSearchView.start,
+      pageChangeEndPlace: _MockPageChangeSearchView.end,
+    );
+  }
+}
+
+final class _MockPageChangeSearchView extends StatelessWidget {
+  final String title;
+
+  static MaterialPageRoute Function(BuildContext) get start {
+    return (context) => MaterialPageRoute(
+          builder: (context) => const _MockPageChangeSearchView(title: "start"),
+        );
+  }
+
+  static MaterialPageRoute Function(BuildContext) get end {
+    return (context) => MaterialPageRoute(
+          builder: (context) => const _MockPageChangeSearchView(title: "end"),
+        );
+  }
+
+  const _MockPageChangeSearchView({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(title),
+      ),
     );
   }
 }

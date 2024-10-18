@@ -5,12 +5,11 @@ final class MockAddSchedule extends StatelessWidget {
   final rootDelegate = RootDelegate();
   final loginDelegate = LoginDelegate();
   final addScheduleDelegate = AddScheduleDelegate();
+  final findRouteDelegate = FindRouteDelegate();
+
   final scheduleRepository = ScheduleRepository();
   final tokenRepository = TokenRepository();
-
-  final searchPlaceDelegate = SearchPlaceDelegate();
   final searchPlaceRepository = SearchPlaceRepository();
-
   final findRouteRepository = FindRouteRepository();
 
   late final tokenEvent = TokenEvent(
@@ -29,9 +28,9 @@ final class MockAddSchedule extends StatelessWidget {
         RepositoryProvider.value(value: rootDelegate),
         RepositoryProvider.value(value: loginDelegate),
         RepositoryProvider.value(value: addScheduleDelegate),
+        RepositoryProvider.value(value: findRouteDelegate),
         RepositoryProvider.value(value: scheduleRepository),
         RepositoryProvider.value(value: tokenEvent),
-        RepositoryProvider.value(value: searchPlaceDelegate),
         RepositoryProvider.value(value: searchPlaceRepository),
         RepositoryProvider.value(value: findRouteRepository),
       ],

@@ -29,13 +29,6 @@ final class OnAppearFindRouteView extends FindRouteEvent {
   List<Object?> get props => [];
 }
 
-final class BackViewAction extends FindRouteEvent {
-  const BackViewAction();
-
-  @override
-  List<Object?> get props => [];
-}
-
 final class CancelViewAction extends FindRouteEvent {
   const CancelViewAction();
 

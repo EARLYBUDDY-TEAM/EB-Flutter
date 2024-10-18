@@ -78,21 +78,15 @@ extension on _EBKakaoMapPlaceInfo {
         .read<SearchPlaceBloc>()
         .add(PressSelectPlaceButton(selectedPlace: place));
 
-    final state = context.read<SearchPlaceBloc>().state;
-    final setting = state.setting;
-    if (setting is StartSearchPlaceSetting) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => FindRouteView(
-            startPlace: place,
-            endPlace: setting.endPlace,
-            parentName: '출발 장소',
-          ),
-        ),
-      );
-    } else {
-      context.read<SearchPlaceBloc>().add(PressCancelButton());
+    final setting = context.read<SearchPlaceBloc>().state.setting;
+
+    switch (setting) {
+      case (StartSearchPlaceSetting()):
+        Navigator.of(context).push(setting.pageFindRoute(place));
+      case (EndSearchPlaceSetting()):
+        context.read<SearchPlaceBloc>().add(PressCancelButton());
+      default:
+        Navigator.of(context).pop();
     }
   }
 }

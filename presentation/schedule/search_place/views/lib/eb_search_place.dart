@@ -7,6 +7,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_find_route/eb_find_route.dart';
+import 'package:eb_uikit/eb_uikit.dart';
 
 part 'sources/searchplace_view.dart';
 part 'sources/appbar.dart';
