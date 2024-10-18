@@ -17,10 +17,13 @@ final class SelectRouteListItem extends StatelessWidget {
       child: Column(
         children: [
           _listItemRouteInfo(),
-          _SelectRouteItemLine(
-            lineOfPath: lineOfPath,
-            pathTime: ebPath.time,
-          )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SelectRouteItemLine(
+              lineOfPath: lineOfPath,
+              pathTime: ebPath.time,
+            ),
+          ),
         ],
       ),
     );

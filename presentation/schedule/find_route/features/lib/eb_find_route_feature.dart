@@ -8,11 +8,11 @@ import 'package:eb_uikit/eb_uikit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eb_state/eb_state.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
 part 'sources/state/state.dart';
 part 'sources/state/content_status.dart';
 part 'sources/state/searchplace_info.dart';
-part 'sources/state/viewstate/transportlineinfo.dart';
-part 'sources/state/viewstate/viewstate.dart';
+part 'sources/state/viewstate.dart';

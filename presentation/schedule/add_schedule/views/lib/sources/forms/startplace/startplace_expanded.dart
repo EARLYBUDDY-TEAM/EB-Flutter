@@ -5,14 +5,25 @@ final class StartPlaceExpanded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _divider(),
-        _requiredTime(),
-        _transportLine(),
-        _expectStartTime(),
-        _endPlaceInfo(address: "강남구"),
-      ],
+    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            const SizedBox(height: 10),
+            _divider(),
+            const SizedBox(height: 10),
+            _requiredTime(),
+            const SizedBox(height: 10),
+            _transportLine(
+              lineOfPath: TransportLineOfPath.mock(),
+              pathTime: EBPath.mock().time,
+            ),
+            _expectStartTime(),
+            const SizedBox(height: 10),
+            _endPlaceInfo(address: "강남구"),
+          ],
+        );
+      },
     );
   }
 
@@ -48,8 +59,14 @@ final class StartPlaceExpanded extends StatelessWidget {
     );
   }
 
-  Widget _transportLine() {
-    return const Text("trnasportline");
+  Widget _transportLine({
+    required TransportLineOfPath lineOfPath,
+    required int pathTime,
+  }) {
+    return SelectRouteItemLine(
+      lineOfPath: lineOfPath,
+      pathTime: pathTime,
+    );
   }
 
   Widget _expectStartTime() {
