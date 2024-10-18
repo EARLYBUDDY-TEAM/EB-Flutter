@@ -18,7 +18,7 @@ class _AddScheduleForms extends StatelessWidget {
             const SizedBox(height: 20),
             _PlaceForm(fontSize: fontSize),
             const SizedBox(height: 20),
-            _RouteForm(fontSize: fontSize),
+            StartPlaceForm(fontSize: fontSize),
             const SizedBox(height: 200),
           ],
         ),

@@ -1,65 +1,90 @@
-part of '../../eb_add_schedule.dart';
+part of '../../../eb_add_schedule.dart';
 
-class _RouteForm extends StatelessWidget {
+class StartPlaceForm extends StatelessWidget {
   final double fontSize;
 
-  const _RouteForm({
+  const StartPlaceForm({
+    super.key,
     required this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return RoundRectForm(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          children: [
-            _IconPlusName(
-              name: '경로',
-              iconData: Icons.map_outlined,
-              fontSize: fontSize,
-              isActive: true,
+    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
+      buildWhen: (previous, current) {
+        return previous.startPlaceState != current.startPlaceState;
+      },
+      builder: (context, state) {
+        return RoundRectForm(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: _children(state.startPlaceState),
             ),
-            const Spacer(),
-            _RouteSwitch(),
-          ],
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> _children(SealedStartPlaceState startPlaceState) {
+    final List<Widget> listWidget = [
+      _startPlaceForm(),
+    ];
+
+    if (startPlaceState is SelectedStartPlaceState) {
+      listWidget.add(const StartPlaceExpanded());
+    }
+
+    return listWidget;
+  }
+
+  Widget _startPlaceForm() {
+    return Row(
+      children: [
+        _IconPlusName(
+          name: '경로',
+          iconData: Icons.map_outlined,
+          fontSize: fontSize,
+          isActive: true,
         ),
-      ),
+        const Spacer(),
+        _StartPlaceSwitch(),
+      ],
     );
   }
 }
 
-class _RouteSwitch extends StatefulWidget {
+final class _StartPlaceSwitch extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _RouteState();
+  State<StatefulWidget> createState() => _StartPlaceSwitchState();
 }
 
-class _RouteState extends State<_RouteSwitch> {
+final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
   var _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AddScheduleBloc, AddScheduleState, Schedule>(
-      selector: (state) {
-        return state.info;
+    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
+      buildWhen: (previous, current) {
+        return previous.startPlaceState != current.startPlaceState;
       },
-      builder: (context, info) {
+      builder: (context, state) {
+        final startPlaceState = state.startPlaceState;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          checkRoute(info.startPlace);
+          setState(() {
+            _isChecked =
+                (startPlaceState is SelectedStartPlaceState) ? true : false;
+          });
         });
-        return Row(
-          children: [
-            Text(info.startPlace?.name ?? 'no data'),
-            CupertinoSwitch(
-              value: _isChecked,
-              activeColor: EBColors.blue2,
-              onChanged: (_) => _onChanged(
-                context,
-                info.startPlace,
-                info.endPlace,
-              ),
-            ),
-          ],
+        return CupertinoSwitch(
+          value: _isChecked,
+          activeColor: EBColors.blue2,
+          onChanged: (_) => _onChanged(
+            context: context,
+            startPlaceState: startPlaceState,
+            endPlace: state.info.endPlace,
+          ),
         );
       },
     );
@@ -71,12 +96,12 @@ class _RouteState extends State<_RouteSwitch> {
     });
   }
 
-  void _onChanged(
-    BuildContext context,
-    Place? startPlace,
-    Place? endPlace,
-  ) {
-    if (startPlace == null) {
+  void _onChanged({
+    required BuildContext context,
+    required SealedStartPlaceState startPlaceState,
+    required Place? endPlace,
+  }) {
+    if (startPlaceState is EmptyStartPlaceState) {
       if (endPlace == null) {
         showNoEndPlaceDataAlert(context: context);
       } else {
@@ -91,13 +116,13 @@ class _RouteState extends State<_RouteSwitch> {
       showRemoveRouteAlert(
         context: context,
         removeAction: () =>
-            context.read<AddScheduleBloc>().add(const RemoveRoute()),
+            context.read<AddScheduleBloc>().add(const RemoveStartPlace()),
       );
     }
   }
 }
 
-extension on _RouteState {
+extension on _StartPlaceSwitchState {
   Material _searchPlaceView(
     Place endPlace,
   ) {
@@ -134,25 +159,9 @@ extension on _RouteState {
       ),
     );
   }
-
-  // MaterialPageRoute _pageChangeStartPlace(BuildContext context) {
-  //   return MaterialPageRoute(
-  //     builder: (context) => SearchPlaceView(
-  //       setting: ChangeStartSearchPlaceSetting(),
-  //     ),
-  //   );
-  // }
-
-  // MaterialPageRoute _pageChangeEndPlace(BuildContext context) {
-  //   return MaterialPageRoute(
-  //     builder: (context) => SearchPlaceView(
-  //       setting: ChangeEndSearchPlaceSetting(),
-  //     ),
-  //   );
-  // }
 }
 
-extension on _RouteState {
+extension on _StartPlaceSwitchState {
   void showNoEndPlaceDataAlert({
     required BuildContext context,
   }) {

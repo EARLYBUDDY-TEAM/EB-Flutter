@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 
 part 'mock_addschedule.dart';
+part 'mock_startplace_form.dart';
 
 final class AddScheduleExample extends StatelessWidget {
   const AddScheduleExample({super.key});

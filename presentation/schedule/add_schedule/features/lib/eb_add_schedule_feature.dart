@@ -14,4 +14,5 @@ import 'package:equatable/equatable.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
-part 'sources/state.dart';
+part 'sources/state/state.dart';
+part 'sources/state/startplace_state.dart';

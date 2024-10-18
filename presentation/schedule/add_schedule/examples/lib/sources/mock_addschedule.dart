@@ -34,11 +34,14 @@ final class MockAddSchedule extends StatelessWidget {
         RepositoryProvider.value(value: searchPlaceRepository),
         RepositoryProvider.value(value: findRouteRepository),
       ],
-      child: MaterialApp(
-        home: _NaviButton(
-          toShow: const AddScheduleView(),
-          onPressed: () {},
-        ),
+      // child: MaterialApp(
+      //   home: _NaviButton(
+      //     toShow: const AddScheduleView(),
+      //     onPressed: () {},
+      //   ),
+      // ),
+      child: const MaterialApp(
+        home: MockAddScheduleBlocView(),
       ),
     );
   }

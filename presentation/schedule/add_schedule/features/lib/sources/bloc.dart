@@ -30,7 +30,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
     on<SelectEndPlace>(_onSelectEndPlace);
     on<SelectStartPlace>(_onSelectStartPlace);
-    on<RemoveRoute>(_onRemoveRoute);
+    on<RemoveStartPlace>(_onRemoveStartPlace);
     on<PressAlertOkButton>(_onPressAlertOkButton);
     on<SetAddScheduleResult>(_onSetAddScheduleResult);
 
@@ -153,13 +153,15 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onRemoveRoute(
-    RemoveRoute event,
+  void _onRemoveStartPlace(
+    RemoveStartPlace event,
     Emitter<AddScheduleState> emit,
   ) {
     var info = state.info;
     info.startPlace = null;
     emit(state.copyWith(info: info));
+
+    // 수정ㅈ수젓ㅈ수ㅜ정
   }
 }
 

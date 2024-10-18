@@ -65,8 +65,8 @@ final class SelectStartPlace extends AddScheduleEvent {
   List<Object?> get props => [place];
 }
 
-final class RemoveRoute extends AddScheduleEvent {
-  const RemoveRoute();
+final class RemoveStartPlace extends AddScheduleEvent {
+  const RemoveStartPlace();
 
   @override
   List<Object?> get props => [];
