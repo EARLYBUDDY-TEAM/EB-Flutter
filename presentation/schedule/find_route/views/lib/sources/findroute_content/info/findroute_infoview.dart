@@ -5,32 +5,48 @@ final class _FindRouteInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<FindRouteBloc>().state;
-    final startPlaceName = state.searchPlaceInfo.startPlace.name;
-    final endPlaceName = state.searchPlaceInfo.endPlace.name;
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.searchPlaceInfo != current.searchPlaceInfo;
+      },
+      builder: (context, state) {
+        final startPlaceName = state.searchPlaceInfo.startPlace.name;
+        final endPlaceName = state.searchPlaceInfo.endPlace.name;
+        final pageChangeStartPlace = state.searchPlaceInfo.pageChangeStartPlace;
+        final pageChangeEndPlace = state.searchPlaceInfo.pageChangeEndPlace;
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: horizontalInset,
-        right: horizontalInset,
-        bottom: 20,
-      ),
-      child: Row(
-        children: [
-          infoImage(),
-          SizedBox(width: horizontalInset),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _start(context, startPlaceName),
-                _divider(),
-                _end(context, endPlaceName),
-              ],
-            ),
+        return Padding(
+          padding: EdgeInsets.only(
+            left: horizontalInset,
+            right: horizontalInset,
+            bottom: 20,
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              infoImage(),
+              SizedBox(width: horizontalInset),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _start(
+                      context,
+                      startPlaceName,
+                      pageChangeStartPlace,
+                    ),
+                    _divider(),
+                    _end(
+                      context,
+                      endPlaceName,
+                      pageChangeEndPlace,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -49,14 +65,39 @@ final class _FindRouteInfoView extends StatelessWidget {
     );
   }
 
+  Widget _start(
+    BuildContext context,
+    String startPlaceName,
+    MaterialPageRoute<dynamic> Function(BuildContext) pageChangeStartPlace,
+  ) {
+    return _placeText(
+      context,
+      startPlaceName,
+      pageChangeStartPlace,
+    );
+  }
+
   Widget _end(
     BuildContext context,
     String endPlaceName,
+    MaterialPageRoute<dynamic> Function(BuildContext) pageChangeEndPlace,
+  ) {
+    return _placeText(
+      context,
+      endPlaceName,
+      pageChangeEndPlace,
+    );
+  }
+
+  Widget _placeText(
+    BuildContext context,
+    String placeName,
+    MaterialPageRoute<dynamic> Function(BuildContext) pageRoute,
   ) {
     return Row(
       children: [
         Text(
-          endPlaceName,
+          placeName,
           style: TextStyle(
             fontFamily: FontFamily.nanumSquareExtraBold,
             color: Colors.grey.withOpacity(0.7),
@@ -68,49 +109,9 @@ final class _FindRouteInfoView extends StatelessWidget {
           text: '변경',
           height: 25,
           onPressed: () {
-            final pageChangeEndPlace = context
-                .read<FindRouteBloc>()
-                .state
-                .searchPlaceInfo
-                .pageChangeEndPlace;
             Navigator.push(
               context,
-              pageChangeEndPlace(context),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _start(
-    BuildContext context,
-    String startPlaceName,
-  ) {
-    return Row(
-      children: [
-        Text(
-          startPlaceName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            color: EBColors.text,
-            fontSize: 15,
-          ),
-        ),
-        const Spacer(),
-        EBRoundedButton(
-          text: '변경',
-          height: 25,
-          onPressed: () {
-            final pageChangeStartPlace = context
-                .read<FindRouteBloc>()
-                .state
-                .searchPlaceInfo
-                .pageChangeStartPlace;
-
-            Navigator.push(
-              context,
-              pageChangeStartPlace(context),
+              pageRoute(context),
             );
           },
         ),

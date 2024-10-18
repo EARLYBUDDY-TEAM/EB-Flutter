@@ -20,6 +20,7 @@ final class FindRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
+        findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
         addScheduleDelegate:
             RepositoryProvider.of<AddScheduleDelegate>(context),
         findRouteRepository:

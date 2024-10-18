@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:eb_delegate/eb_delegate.dart';
@@ -12,5 +13,6 @@ part 'sources/bloc.dart';
 part 'sources/event.dart';
 part 'sources/state/state.dart';
 part 'sources/state/content_status.dart';
+part 'sources/state/searchplace_info.dart';
 part 'sources/state/viewstate/transportlineinfo.dart';
 part 'sources/state/viewstate/viewstate.dart';

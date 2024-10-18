@@ -22,6 +22,22 @@ final class SetFindRouteContentStatus extends FindRouteEvent {
   List<Object?> get props => [];
 }
 
+final class SetSearchPlaceInfo extends FindRouteEvent {
+  final Place? startPlace;
+  final Place? endPlace;
+
+  const SetSearchPlaceInfo({
+    this.startPlace,
+    this.endPlace,
+  });
+
+  @override
+  List<Object?> get props => [
+        startPlace,
+        endPlace,
+      ];
+}
+
 final class OnAppearFindRouteView extends FindRouteEvent {
   const OnAppearFindRouteView();
 

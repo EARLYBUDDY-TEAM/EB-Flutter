@@ -4,8 +4,12 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final AddScheduleDelegate _addScheduleDelegate;
   final FindRouteRepository _findRouteRepository;
 
+  late StreamSubscription<Place> changeStartPlaceSubscription;
+  late StreamSubscription<Place> changeEndPlaceSubscription;
+
   FindRouteBloc({
     required AddScheduleDelegate addScheduleDelegate,
+    required FindRouteDelegate findRouteDelegate,
     required FindRouteRepository findRouteRepository,
     required FindRouteState findRouteState,
   })  : _addScheduleDelegate = addScheduleDelegate,
@@ -15,6 +19,21 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
     on<SetFindRouteContentStatus>(_onSetFindRouteContentStatus);
     on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
     on<CancelViewAction>(_onCancelViewAction);
+    on<SetSearchPlaceInfo>(_onSetSearchPlaceInfo);
+
+    changeStartPlaceSubscription = findRouteDelegate.changeStartPlace.listen(
+      (startPlace) => add(SetSearchPlaceInfo(startPlace: startPlace)),
+    );
+    changeEndPlaceSubscription = findRouteDelegate.changeEndPlace.listen(
+      (endPlace) => add(SetSearchPlaceInfo(endPlace: endPlace)),
+    );
+  }
+
+  @override
+  Future<void> close() async {
+    await changeStartPlaceSubscription.cancel();
+    await changeEndPlaceSubscription.cancel();
+    await super.close();
   }
 }
 
@@ -123,5 +142,23 @@ extension on FindRouteBloc {
     Emitter<FindRouteState> emit,
   ) {
     _addScheduleDelegate.cancelModalView.add(());
+  }
+}
+
+extension on FindRouteBloc {
+  void _onSetSearchPlaceInfo(
+    SetSearchPlaceInfo event,
+    Emitter<FindRouteState> emit,
+  ) {
+    final searchPlaceInfo = state.searchPlaceInfo.copyWith(
+      startPlace: event.startPlace,
+      endPlace: event.endPlace,
+    );
+    emit(
+      state.copyWith(
+        searchPlaceInfo: searchPlaceInfo,
+      ),
+    );
+    add(const GetRouteData());
   }
 }

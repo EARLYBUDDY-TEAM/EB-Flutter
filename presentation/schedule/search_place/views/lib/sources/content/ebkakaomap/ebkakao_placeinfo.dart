@@ -57,7 +57,7 @@ final class _EBKakaoMapPlaceInfo extends StatelessWidget {
                 backgroundColor: EBColors.blue3,
               ),
               child: Text(
-                setting == EndSearchPlaceSetting() ? '선택' : '출발',
+                (setting is StartSearchPlaceSetting) ? '출발' : '선택',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
