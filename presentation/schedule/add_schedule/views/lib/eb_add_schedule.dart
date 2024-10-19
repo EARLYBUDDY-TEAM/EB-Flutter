@@ -24,6 +24,7 @@ part 'sources/forms/time/datepicker.dart';
 part 'sources/forms/time/timepicker.dart';
 part 'sources/forms/notify_schedule/notify_schedule_form.dart';
 part 'sources/forms/notify_schedule/notify_schedule_expanded.dart';
+part 'sources/forms/notify_schedule/dropdown_notify_schedule.dart';
 part 'sources/forms/endplace_form.dart';
 part 'sources/forms/startplace/startplace_form.dart';
 part 'sources/forms/startplace/startplace_expanded.dart';

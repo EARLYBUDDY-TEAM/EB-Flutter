@@ -7,7 +7,9 @@ final class NotifyScheduleExpanded extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 10),
         _divider(),
+        const SizedBox(height: 10),
         _selectBeforeNotifyMinuteView(),
       ],
     );
@@ -24,12 +26,14 @@ final class NotifyScheduleExpanded extends StatelessWidget {
     return const Row(
       children: [
         Text(
-          '일정 시작 알림',
+          ' 일정 시작 알림',
           style: TextStyle(
             fontFamily: FontFamily.nanumSquareRegular,
             color: Colors.black87,
           ),
         ),
+        Spacer(),
+        DropdownNotifySchedule(),
       ],
     );
   }
