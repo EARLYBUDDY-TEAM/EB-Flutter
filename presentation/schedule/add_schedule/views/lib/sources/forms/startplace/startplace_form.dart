@@ -111,7 +111,13 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
           context: context,
           expand: true,
           backgroundColor: Colors.white,
-          builder: (_) => _searchPlaceView(endPlace),
+          builder: builderModalBottomSheet(
+            context: context,
+            onGenerateRoute: _pageStartsearchPlace(
+              context: context,
+              endPlace: endPlace,
+            ),
+          ),
         );
       }
     } else {
@@ -125,21 +131,17 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
 }
 
 extension on _StartPlaceSwitchState {
-  Material _searchPlaceView(
-    Place endPlace,
-  ) {
-    return Material(
-      child: Navigator(
-        onGenerateRoute: (_) => MaterialPageRoute(
-          builder: (context) => SearchPlaceView(
-            setting: StartSearchPlaceSetting(
-              endPlace: endPlace,
-              pageFindRoute: (startPlace) => AddScheduleView.pageFindRoute(
-                startPlace: startPlace,
-                endPlace: endPlace,
-              ),
-            ),
-          ),
+  MaterialPageRoute _pageStartsearchPlace({
+    required BuildContext context,
+    required Place endPlace,
+  }) {
+    return SearchPlaceView.pageStartSearchPlace(
+      context: context,
+      setting: StartSearchPlaceSetting(
+        endPlace: endPlace,
+        pageFindRoute: (startPlace) => AddScheduleView.pageFindRoute(
+          startPlace: startPlace,
+          endPlace: endPlace,
         ),
       ),
     );

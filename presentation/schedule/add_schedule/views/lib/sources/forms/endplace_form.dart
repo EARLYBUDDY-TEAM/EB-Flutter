@@ -27,7 +27,10 @@ final class _PlaceForm extends StatelessWidget {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.white,
-                builder: _searchPlaceView,
+                builder: builderModalBottomSheet(
+                  context: context,
+                  onGenerateRoute: SearchPlaceView.pageEndSearchPlace(context),
+                ),
               ),
               child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
                 selector: (state) => unwrapPlace(state.info.endPlace),
@@ -44,20 +47,6 @@ final class _PlaceForm extends StatelessWidget {
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  Builder _searchPlaceView(BuildContext context) {
-    return Builder(
-      builder: (context) => Navigator(
-        onGenerateRoute: (context) => MaterialPageRoute(
-          builder: (context) => Builder(
-            builder: (context) => SearchPlaceView(
-              setting: EndSearchPlaceSetting(),
-            ),
-          ),
         ),
       ),
     );

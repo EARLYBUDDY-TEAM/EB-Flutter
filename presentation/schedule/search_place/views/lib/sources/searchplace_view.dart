@@ -3,22 +3,31 @@ part of '../eb_search_place.dart';
 final class SearchPlaceView extends StatelessWidget {
   final SearchPlaceSetting setting;
 
-  // MaterialPageRoute(
-  //         builder: (_) => Builder(
-  //           builder: (context) => SearchPlaceView(
-  //             setting: StartSearchPlaceSetting(
-  //               endPlace: endPlace,
-  //               pageFindRoute: (startPlace) => AddScheduleView.pageFindRoute(
-  //                 startPlace: startPlace,
-  //                 endPlace: endPlace,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       )
+  static MaterialPageRoute Function({
+    required BuildContext context,
+    required StartSearchPlaceSetting setting,
+  }) get pageStartSearchPlace {
+    return ({
+      required BuildContext context,
+      required StartSearchPlaceSetting setting,
+    }) =>
+        MaterialPageRoute(
+          builder: (context) => SearchPlaceView(
+            setting: setting,
+          ),
+        );
+  }
+
+  static MaterialPageRoute Function(BuildContext) get pageEndSearchPlace {
+    return (BuildContext context) => MaterialPageRoute(
+          builder: (context) => SearchPlaceView(
+            setting: EndSearchPlaceSetting(),
+          ),
+        );
+  }
 
   static MaterialPageRoute Function(BuildContext) get pageChangeStartPlace {
-    return (context) => MaterialPageRoute(
+    return (BuildContext context) => MaterialPageRoute(
           builder: (context) => SearchPlaceView(
             setting: ChangeStartSearchPlaceSetting(),
           ),
@@ -26,7 +35,7 @@ final class SearchPlaceView extends StatelessWidget {
   }
 
   static MaterialPageRoute Function(BuildContext) get pageChangeEndPlace {
-    return (context) => MaterialPageRoute(
+    return (BuildContext context) => MaterialPageRoute(
           builder: (context) => SearchPlaceView(
             setting: ChangeEndSearchPlaceSetting(),
           ),

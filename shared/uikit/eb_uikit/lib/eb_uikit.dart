@@ -23,3 +23,4 @@ part 'sources/loading_view/loading_delegate.dart';
 part 'sources/round_rect_form.dart';
 part 'sources/screen_size.dart';
 part 'sources/decorations/eb_box_shadow.dart';
+part 'sources/builder_modal_bottom_sheet.dart';
