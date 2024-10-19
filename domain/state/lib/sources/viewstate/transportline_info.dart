@@ -1,4 +1,4 @@
-part of '../eb_state.dart';
+part of '../../eb_state.dart';
 
 class TransportLineOfRoute extends Equatable {
   final List<TransportLineOfPath> lineOfRoute;

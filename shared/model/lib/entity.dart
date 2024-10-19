@@ -18,4 +18,3 @@ part 'entity/ebroute/transport/transport.dart';
 part 'entity/ebroute/transport/subway.dart';
 part 'entity/ebroute/transport/bus.dart';
 part 'entity/ebroute/transport/walk.dart';
-// part 'entity/home/schedulecard.dart';

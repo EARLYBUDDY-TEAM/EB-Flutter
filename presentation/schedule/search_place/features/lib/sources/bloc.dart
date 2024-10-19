@@ -93,12 +93,11 @@ extension on SearchPlaceBloc {
     switch (state.setting) {
       case EndSearchPlaceSetting():
         _addScheduleDelegate.selectEndPlace.add(event.selectedPlace);
-      case StartSearchPlaceSetting():
-        _addScheduleDelegate.selectStartPlace.add(event.selectedPlace);
       case ChangeEndSearchPlaceSetting():
         _findRouteDelegate.changeEndPlace.add(event.selectedPlace);
       case ChangeStartSearchPlaceSetting():
         _findRouteDelegate.changeStartPlace.add(event.selectedPlace);
+      default:
     }
   }
 }

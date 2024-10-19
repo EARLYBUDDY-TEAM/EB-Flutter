@@ -36,6 +36,7 @@ final class _FindRouteSwitchContent extends StatelessWidget {
     }
 
     final lineOfPaths = state.viewState.transportLineOfRoute.lineOfRoute;
+    final ebPaths = ebRoute.ebPaths;
 
     switch (contentStatus) {
       case EmptyDataFindRouteStatus():
@@ -43,12 +44,12 @@ final class _FindRouteSwitchContent extends StatelessWidget {
 
       case SelectFindRouteStatus():
         return _SelectRouteListView(
-          ebPaths: ebRoute.ebPaths,
+          ebPaths: ebPaths,
           lineOfPaths: lineOfPaths,
         );
 
       case DetailFindRouteStatus():
-        final subPaths = contentStatus.subPaths;
+        final subPaths = ebPaths[contentStatus.selectedIndex].ebSubPaths;
         return _DetailRouteListView(
           subPaths: subPaths,
         );

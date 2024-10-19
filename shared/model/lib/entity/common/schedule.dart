@@ -6,7 +6,7 @@ final class Schedule extends Equatable {
   final String? memo;
   final DateTime time;
   final bool isNotify;
-  Place? startPlace;
+  final Place? startPlace;
   final Place? endPlace;
 
   Schedule({
@@ -27,8 +27,8 @@ final class Schedule extends Equatable {
     String? memo,
     DateTime? time,
     bool? isNotify,
-    Place? startPlace,
-    Place? endPlace,
+    Place? Function()? startPlace,
+    Place? Function()? endPlace,
   }) =>
       Schedule(
         id: id ?? this.id,
@@ -36,8 +36,8 @@ final class Schedule extends Equatable {
         memo: memo ?? this.memo,
         time: time ?? this.time,
         isNotify: isNotify ?? this.isNotify,
-        startPlace: startPlace ?? this.startPlace,
-        endPlace: endPlace ?? this.endPlace,
+        startPlace: startPlace != null ? startPlace() : this.startPlace,
+        endPlace: endPlace != null ? endPlace() : this.endPlace,
       );
 
   @override

@@ -20,6 +20,7 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
     on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
     on<CancelViewAction>(_onCancelViewAction);
     on<SetSearchPlaceInfo>(_onSetSearchPlaceInfo);
+    on<PressSelectRouteButton>(_onPressSelectRouteButton);
 
     changeStartPlaceSubscription = findRouteDelegate.changeStartPlace.listen(
       (startPlace) => add(SetSearchPlaceInfo(startPlace: startPlace)),
@@ -160,5 +161,34 @@ extension on FindRouteBloc {
       ),
     );
     add(const GetRouteData());
+  }
+}
+
+extension on FindRouteBloc {
+  void _onPressSelectRouteButton(
+    PressSelectRouteButton event,
+    Emitter<FindRouteState> emit,
+  ) {
+    final contentStatus = state.contentStatus;
+
+    if ((contentStatus is! DetailFindRouteStatus) || (state.ebRoute == null)) {
+      return;
+    }
+
+    final startPlace = state.searchPlaceInfo.startPlace;
+    final endPlace = state.searchPlaceInfo.endPlace;
+    final index = contentStatus.selectedIndex;
+    final lineOfPath =
+        state.viewState.transportLineOfRoute.lineOfRoute[index].lineOfPath;
+    final transportLineOfPath = TransportLineOfPath(lineOfPath: lineOfPath);
+    final ebPath = state.ebRoute!.ebPaths[index];
+    final pathInfo = PathInfo(
+      startPlace: startPlace,
+      endPlace: endPlace,
+      transportLineOfPath: transportLineOfPath,
+      ebPath: ebPath,
+    );
+    _addScheduleDelegate.selectStartPlace.add(pathInfo);
+    _addScheduleDelegate.cancelModalView.add(());
   }
 }

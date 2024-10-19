@@ -57,12 +57,12 @@ final class SelectEndPlace extends AddScheduleEvent {
 }
 
 final class SelectStartPlace extends AddScheduleEvent {
-  final Place place;
+  final PathInfo pathInfo;
 
-  const SelectStartPlace({required this.place});
+  const SelectStartPlace({required this.pathInfo});
 
   @override
-  List<Object?> get props => [place];
+  List<Object?> get props => [pathInfo];
 }
 
 final class RemoveStartPlace extends AddScheduleEvent {

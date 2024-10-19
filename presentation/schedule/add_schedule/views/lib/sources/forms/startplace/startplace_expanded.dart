@@ -6,59 +6,88 @@ final class StartPlaceExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddScheduleBloc, AddScheduleState>(
+      buildWhen: (previous, current) {
+        final flag1 = (previous.startPlaceState != current.startPlaceState);
+        final flag2 = (current.startPlaceState is SelectedStartPlaceState);
+        return (flag1 && flag2);
+      },
       builder: (context, state) {
+        final selectedStartPlaceState =
+            state.startPlaceState as SelectedStartPlaceState;
+        final pathInfo = selectedStartPlaceState.pathInfo;
+        final pathTime = pathInfo.ebPath.time;
+        final pathType = pathInfo.ebPath.type;
+        final lineOfPath = pathInfo.transportLineOfPath;
+        final address = pathInfo.startPlace.address;
+
         return Column(
           children: [
             const SizedBox(height: 10),
             _divider(),
             const SizedBox(height: 10),
-            _requiredTime(),
+            _requiredTime(pathTime: pathTime, pathType: pathType),
             const SizedBox(height: 10),
-            _transportLine(
-              lineOfPath: TransportLineOfPath.mock(),
-              pathTime: EBPath.mock().time,
-            ),
+            _transportLine(lineOfPath: lineOfPath, pathTime: pathTime),
             _expectStartTime(),
             const SizedBox(height: 10),
-            _endPlaceInfo(address: "강남구"),
+            _endPlaceInfo(address: address),
           ],
         );
       },
     );
   }
+}
 
+extension on StartPlaceExpanded {
   Widget _divider() {
     return const Divider(
       color: Colors.grey,
       thickness: 0.5,
     );
   }
+}
 
-  Widget _requiredTime() {
-    return const Row(
+extension on StartPlaceExpanded {
+  Widget _requiredTime({
+    required int pathTime,
+    required int pathType,
+  }) {
+    return Row(
       children: [
         Text(
-          "1시간 30분",
-          style: TextStyle(
+          EBTime.intToString(pathTime),
+          style: const TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
             fontSize: 20,
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Text(
-          "버스 + 지하철",
-          style: TextStyle(
+          _stringPathType(pathType),
+          style: const TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
             fontSize: 13,
             color: Colors.black87,
           ),
         ),
-        Spacer(),
-        EBRoundedButton(text: "경로 변경"),
+        const Spacer(),
+        const EBRoundedButton(text: "경로 변경"),
       ],
     );
   }
 
+  String _stringPathType(int pathType) {
+    if (pathType == 1) {
+      return '지하철';
+    } else if (pathType == 2) {
+      return '버스';
+    } else {
+      return '지하철 + 버스';
+    }
+  }
+}
+
+extension on StartPlaceExpanded {
   Widget _transportLine({
     required TransportLineOfPath lineOfPath,
     required int pathTime,
@@ -68,7 +97,9 @@ final class StartPlaceExpanded extends StatelessWidget {
       pathTime: pathTime,
     );
   }
+}
 
+extension on StartPlaceExpanded {
   Widget _expectStartTime() {
     return const Row(
       children: [
@@ -91,7 +122,9 @@ final class StartPlaceExpanded extends StatelessWidget {
       ],
     );
   }
+}
 
+extension on StartPlaceExpanded {
   Widget _endPlaceInfo({
     required String address,
   }) {

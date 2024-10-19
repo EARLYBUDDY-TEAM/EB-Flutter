@@ -67,7 +67,9 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
   Widget build(BuildContext context) {
     return BlocBuilder<AddScheduleBloc, AddScheduleState>(
       buildWhen: (previous, current) {
-        return previous.startPlaceState != current.startPlaceState;
+        final flag1 = previous.startPlaceState != current.startPlaceState;
+        final flag2 = current.info.endPlace != null;
+        return (flag1 || flag2);
       },
       builder: (context, state) {
         final startPlaceState = state.startPlaceState;

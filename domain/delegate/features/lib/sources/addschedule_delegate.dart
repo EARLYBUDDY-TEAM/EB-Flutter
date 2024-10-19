@@ -2,7 +2,7 @@ part of '../eb_delegate.dart';
 
 final class AddScheduleDelegate {
   final selectEndPlace = PublishSubject<Place>();
-  final selectStartPlace = PublishSubject<Place>();
+  final selectStartPlace = PublishSubject<PathInfo>();
 
   final cancelModalView = PublishSubject<void>();
 

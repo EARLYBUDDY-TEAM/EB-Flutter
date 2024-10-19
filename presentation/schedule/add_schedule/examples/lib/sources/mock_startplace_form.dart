@@ -1,7 +1,14 @@
 part of 'addschedule_example.dart';
 
 final class MockAddScheduleBlocView extends StatelessWidget {
-  const MockAddScheduleBlocView({super.key});
+  final pathInfo = PathInfo(
+    startPlace: Place.mockStart(),
+    endPlace: Place.mockEnd(),
+    transportLineOfPath: TransportLineOfPath.mock(),
+    ebPath: EBPath.mock(),
+  );
+
+  MockAddScheduleBlocView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +22,11 @@ final class MockAddScheduleBlocView extends StatelessWidget {
               RepositoryProvider.of<ScheduleRepository>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           cancelModalViewAction: () => Navigator.of(context).pop(),
-          addScheduleState:
-              AddScheduleState(startPlaceState: SelectedStartPlaceState()),
+          addScheduleState: AddScheduleState(
+            startPlaceState: SelectedStartPlaceState(
+              pathInfo: pathInfo,
+            ),
+          ),
         );
       },
       child: const MockStartPlaceForm(),

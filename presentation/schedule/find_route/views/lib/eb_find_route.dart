@@ -11,6 +11,7 @@ import 'package:eb_state/eb_state.dart';
 
 part 'sources/findroute_view.dart';
 part 'sources/findroute_appbar.dart';
+part 'sources/select_route_button.dart';
 part 'sources/findroute_content/info/findroute_infoview.dart';
 part 'sources/findroute_content/list/header_sort_view.dart';
 part 'sources/findroute_content/list/common/list_divider.dart';

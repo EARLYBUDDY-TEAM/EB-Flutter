@@ -20,11 +20,10 @@ final class _SelectRouteListView extends StatelessWidget {
                 lineOfPath: lineOfPaths[index],
               ),
               onTap: () {
-                final subPaths = ebPaths[index].ebSubPaths;
                 context.read<FindRouteBloc>().add(
                       SetFindRouteContentStatus(
                         contentStatus: DetailFindRouteStatus(
-                          subPaths: subPaths,
+                          selectedIndex: index,
                         ),
                       ),
                     );

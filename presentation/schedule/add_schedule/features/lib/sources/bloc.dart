@@ -8,7 +8,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   final Function() _cancelModalViewAction;
 
   late StreamSubscription<Place> selectPlaceSubscriptionForEnd;
-  late StreamSubscription<Place> selectPlaceSubscriptionForStart;
+  late StreamSubscription<PathInfo> selectPlaceSubscriptionForStart;
   late StreamSubscription<void> cancelModalViewSubscription;
 
   AddScheduleBloc({
@@ -37,7 +37,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     selectPlaceSubscriptionForEnd = addScheduleDelegate.selectEndPlace
         .listen((place) => add(SelectEndPlace(place: place)));
     selectPlaceSubscriptionForStart = addScheduleDelegate.selectStartPlace
-        .listen((place) => add(SelectStartPlace(place: place)));
+        .listen((pathInfo) => add(SelectStartPlace(pathInfo: pathInfo)));
 
     cancelModalViewSubscription = addScheduleDelegate.cancelModalView
         .listen((_) => _cancelModalViewAction());
@@ -137,8 +137,8 @@ extension on AddScheduleBloc {
     SelectEndPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final Schedule info = state.info.copyWith(endPlace: event.place);
-    emit(state.copyWith(info: info));
+    final schedule = state.info.copyWith(endPlace: () => event.place);
+    emit(state.copyWith(info: schedule));
   }
 }
 
@@ -147,8 +147,14 @@ extension on AddScheduleBloc {
     SelectStartPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final Schedule info = state.info.copyWith(startPlace: event.place);
-    emit(state.copyWith(info: info));
+    final startPlace = event.pathInfo.startPlace;
+    final endPlace = event.pathInfo.endPlace;
+    final schedule = state.info.copyWith(
+      startPlace: () => startPlace,
+      endPlace: () => endPlace,
+    );
+    final startPlaceState = SelectedStartPlaceState(pathInfo: event.pathInfo);
+    emit(state.copyWith(info: schedule, startPlaceState: startPlaceState));
   }
 }
 
@@ -157,11 +163,15 @@ extension on AddScheduleBloc {
     RemoveStartPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    var info = state.info;
-    info.startPlace = null;
-    emit(state.copyWith(info: info));
+    final schedule = state.info.copyWith(startPlace: () => null);
+    final startPlaceState = EmptyStartPlaceState();
 
-    // 수정ㅈ수젓ㅈ수ㅜ정
+    emit(
+      state.copyWith(
+        info: schedule,
+        startPlaceState: startPlaceState,
+      ),
+    );
   }
 }
 

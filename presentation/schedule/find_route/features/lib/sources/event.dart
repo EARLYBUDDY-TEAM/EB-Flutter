@@ -51,3 +51,10 @@ final class CancelViewAction extends FindRouteEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class PressSelectRouteButton extends FindRouteEvent {
+  const PressSelectRouteButton();
+
+  @override
+  List<Object?> get props => [];
+}
