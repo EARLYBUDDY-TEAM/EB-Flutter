@@ -12,7 +12,7 @@ class _AddScheduleButton extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
           child: EBButton(
             name: '일정 등록',
-            onPressed: state.status == ScheduleInfoStatus.complete
+            onPressed: state.status == FormStatus.complete
                 ? () {
                     context
                         .read<AddScheduleBloc>()

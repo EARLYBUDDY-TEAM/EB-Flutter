@@ -26,7 +26,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);
-    on<ChangeNotify>(_onChangeNotify);
+    on<ChangeNotifySchedule>(_onChangeScheduleNotify);
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
     on<SelectEndPlace>(_onSelectEndPlace);
     on<SelectStartPlace>(_onSelectStartPlace);
@@ -59,9 +59,8 @@ extension on AddScheduleBloc {
   ) {
     final title = event.title.trim();
     final newInfo = state.info.copyWith(title: title);
-    final newStatus = title.isEmpty
-        ? ScheduleInfoStatus.incomplete
-        : ScheduleInfoStatus.complete;
+    final newStatus =
+        title.isEmpty ? FormStatus.inComplete : FormStatus.complete;
     emit(state.copyWith(
       info: newInfo,
       status: newStatus,
@@ -91,12 +90,19 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onChangeNotify(
-    ChangeNotify event,
+  void _onChangeScheduleNotify(
+    ChangeNotifySchedule event,
     Emitter<AddScheduleState> emit,
   ) {
-    final newInfo = state.info.copyWith(isNotify: event.isNotify);
-    emit(state.copyWith(info: newInfo));
+    final isNotify =
+        (event.notifyScheduleState is TrueNotifyScheduleState) ? true : false;
+    final newInfo = state.info.copyWith(isNotify: isNotify);
+    emit(
+      state.copyWith(
+        info: newInfo,
+        notifyScheduleState: event.notifyScheduleState,
+      ),
+    );
   }
 }
 

@@ -15,4 +15,5 @@ import 'package:equatable/equatable.dart';
 part 'sources/bloc.dart';
 part 'sources/event.dart';
 part 'sources/state/state.dart';
-part 'sources/state/startplace_state.dart';
+part 'sources/state/sealed_startplace.dart';
+part 'sources/state/sealed_notify_schedule.dart';

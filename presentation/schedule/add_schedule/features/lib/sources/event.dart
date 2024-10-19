@@ -31,13 +31,13 @@ final class ChangeTime extends AddScheduleEvent {
   List<Object?> get props => [time];
 }
 
-final class ChangeNotify extends AddScheduleEvent {
-  final bool isNotify;
+final class ChangeNotifySchedule extends AddScheduleEvent {
+  final SealedNotifyScheduleState notifyScheduleState;
 
-  const ChangeNotify(this.isNotify);
+  const ChangeNotifySchedule({required this.notifyScheduleState});
 
   @override
-  List<Object?> get props => [isNotify];
+  List<Object?> get props => [notifyScheduleState];
 }
 
 final class PressAddScheduleButton extends AddScheduleEvent {
