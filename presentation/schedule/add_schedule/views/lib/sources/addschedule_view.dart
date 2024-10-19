@@ -20,6 +20,21 @@ final class AddScheduleView extends StatelessWidget {
       child: const _AddScheduleContent(),
     );
   }
+
+  static MaterialPageRoute pageFindRoute({
+    required Place startPlace,
+    required Place endPlace,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
+        pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
+        parentName: '출발 장소',
+      ),
+    );
+  }
 }
 
 final class _AddScheduleContent extends StatelessWidget {

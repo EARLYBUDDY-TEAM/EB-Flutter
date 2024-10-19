@@ -71,8 +71,15 @@ extension on StartPlaceExpanded {
           ),
         ),
         const Spacer(),
-        const EBRoundedButton(text: "경로 변경"),
+        _changeRouteButton(),
       ],
+    );
+  }
+
+  Widget _changeRouteButton() {
+    return EBRoundedButton(
+      text: "경로 변경",
+      onPressed: () {},
     );
   }
 
@@ -150,3 +157,24 @@ extension on StartPlaceExpanded {
     );
   }
 }
+
+// final class ChangeRouteButton extends StatelessWidget {
+//   const ChangeRouteButton({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return EBRoundedButton(
+//       text: "경로 변경",
+//       onPressed: () => _onPressed(context),
+//     );
+//   }
+
+//   void _onPressed(BuildContext context) {
+//     showCupertinoModalBottomSheet(
+//       context: context,
+//       expand: true,
+//       backgroundColor: Colors.white,
+//       builder: (_) => _searchPlaceView(endPlace),
+//     );
+//   }
+// }

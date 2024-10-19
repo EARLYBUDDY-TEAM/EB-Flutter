@@ -131,33 +131,16 @@ extension on _StartPlaceSwitchState {
     return Material(
       child: Navigator(
         onGenerateRoute: (_) => MaterialPageRoute(
-          builder: (_) => Builder(
-            builder: (context) => SearchPlaceView(
-              setting: StartSearchPlaceSetting(
+          builder: (context) => SearchPlaceView(
+            setting: StartSearchPlaceSetting(
+              endPlace: endPlace,
+              pageFindRoute: (startPlace) => AddScheduleView.pageFindRoute(
+                startPlace: startPlace,
                 endPlace: endPlace,
-                pageFindRoute: (startPlace) => _pageFindRoute(
-                  startPlace: startPlace,
-                  endPlace: endPlace,
-                ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  MaterialPageRoute _pageFindRoute({
-    required Place startPlace,
-    required Place endPlace,
-  }) {
-    return MaterialPageRoute(
-      builder: (_) => FindRouteView(
-        startPlace: startPlace,
-        endPlace: endPlace,
-        pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
-        pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
-        parentName: '출발 장소',
       ),
     );
   }

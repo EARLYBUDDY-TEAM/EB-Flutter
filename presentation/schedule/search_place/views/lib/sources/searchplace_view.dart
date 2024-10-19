@@ -3,6 +3,20 @@ part of '../eb_search_place.dart';
 final class SearchPlaceView extends StatelessWidget {
   final SearchPlaceSetting setting;
 
+  // MaterialPageRoute(
+  //         builder: (_) => Builder(
+  //           builder: (context) => SearchPlaceView(
+  //             setting: StartSearchPlaceSetting(
+  //               endPlace: endPlace,
+  //               pageFindRoute: (startPlace) => AddScheduleView.pageFindRoute(
+  //                 startPlace: startPlace,
+  //                 endPlace: endPlace,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       )
+
   static MaterialPageRoute Function(BuildContext) get pageChangeStartPlace {
     return (context) => MaterialPageRoute(
           builder: (context) => SearchPlaceView(
