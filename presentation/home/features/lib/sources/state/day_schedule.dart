@@ -4,17 +4,24 @@ typedef DayScheduleMap = Map<DateTime, List<Schedule>>;
 
 final class DaySchedule extends Equatable {
   final DayScheduleMap data;
+  final bool reloadTrigger;
 
-  DaySchedule({DayScheduleMap? data}) : data = data ?? {};
+  DaySchedule({
+    DayScheduleMap? data,
+    bool? reloadTrigger,
+  })  : data = data ?? {},
+        reloadTrigger = reloadTrigger ?? false;
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [data, reloadTrigger];
 
   DaySchedule copyWith({
     DayScheduleMap? data,
+    bool? reloadTrigger,
   }) {
     return DaySchedule(
       data: data ?? this.data,
+      reloadTrigger: reloadTrigger ?? this.reloadTrigger,
     );
   }
 
@@ -49,9 +56,15 @@ final class DaySchedule extends Equatable {
     if (data.containsKey(key)) {
       final scheduleList = data[key]!;
       scheduleList.remove(schedule);
+      if (scheduleList.isEmpty) {
+        data.remove(key);
+      }
     }
 
-    return DaySchedule(data: data);
+    return DaySchedule(
+      data: data,
+      reloadTrigger: !reloadTrigger,
+    );
   }
 
   bool isExistSchedule({required DateTime dateTime}) {

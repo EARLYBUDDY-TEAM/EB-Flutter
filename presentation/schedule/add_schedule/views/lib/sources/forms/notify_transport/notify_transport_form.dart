@@ -1,9 +1,10 @@
 part of '../../../eb_add_schedule.dart';
 
-final class _NotifyScheduleForm extends StatelessWidget {
+final class _NotifyTransportForm extends StatelessWidget {
   final double fontSize;
 
-  const _NotifyScheduleForm({
+  const _NotifyTransportForm({
+    super.key,
     required this.fontSize,
   });
 
@@ -11,14 +12,14 @@ final class _NotifyScheduleForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AddScheduleBloc, AddScheduleState>(
       buildWhen: (previous, current) {
-        return previous.notifyScheduleState != current.notifyScheduleState;
+        return previous.notifyTransportState != current.notifyTransportState;
       },
       builder: (context, state) {
         return RoundRectForm(
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-              children: _children(state.notifyScheduleState),
+              children: _children(state.notifyTransportState),
             ),
           ),
         );
@@ -26,11 +27,11 @@ final class _NotifyScheduleForm extends StatelessWidget {
     );
   }
 
-  List<Widget> _children(SealedNotifyScheduleState notifyScheduleState) {
+  List<Widget> _children(SealedNotifyTransportState notifyTransportState) {
     final List<Widget> listWidget = [_titleAndSwitch()];
 
-    if (notifyScheduleState is TrueNotifyScheduleState) {
-      listWidget.add(const NotifyScheduleExpanded());
+    if (notifyTransportState is TrueNotifyTransportState) {
+      listWidget.add(const NotifyTransportExpanded());
     }
 
     return listWidget;
@@ -40,24 +41,26 @@ final class _NotifyScheduleForm extends StatelessWidget {
     return Row(
       children: [
         _IconPlusName(
-          name: '일정알림',
+          name: '배차알림',
           iconData: CupertinoIcons.bell,
           fontSize: fontSize,
           isActive: true,
         ),
         const Spacer(),
-        _NotifyScheduleSwitch()
+        const _NotifyTransportSwitch()
       ],
     );
   }
 }
 
-final class _NotifyScheduleSwitch extends StatefulWidget {
+final class _NotifyTransportSwitch extends StatefulWidget {
+  const _NotifyTransportSwitch({super.key});
+
   @override
-  State<StatefulWidget> createState() => _NotifyScheduleState();
+  State<StatefulWidget> createState() => _NotifyTransportState();
 }
 
-final class _NotifyScheduleState extends State<_NotifyScheduleSwitch> {
+final class _NotifyTransportState extends State<_NotifyTransportSwitch> {
   var _isNotify = false;
 
   @override
@@ -69,11 +72,12 @@ final class _NotifyScheduleState extends State<_NotifyScheduleSwitch> {
         setState(() {
           _isNotify = isNotify;
         });
-        final notifyScheduleState = isNotify
-            ? TrueNotifyScheduleState(beforeNotifyMinute: 10)
-            : FalseNotifyScheduleState();
+        final notifyTransportState =
+            isNotify ? TrueNotifyTransportState() : FalseNotifyTransportState();
         context.read<AddScheduleBloc>().add(
-              ChangeNotifySchedule(notifyScheduleState: notifyScheduleState),
+              ChangeNotifyTransport(
+                notifyTransportState: notifyTransportState,
+              ),
             );
       },
     );

@@ -27,6 +27,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);
     on<ChangeNotifySchedule>(_onChangeScheduleNotify);
+    on<ChangeNotifyTransport>(_onChangeNotifyTransport);
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
     on<SelectEndPlace>(_onSelectEndPlace);
     on<SelectStartPlace>(_onSelectStartPlace);
@@ -101,6 +102,19 @@ extension on AddScheduleBloc {
       state.copyWith(
         info: newInfo,
         notifyScheduleState: event.notifyScheduleState,
+      ),
+    );
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onChangeNotifyTransport(
+    ChangeNotifyTransport event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        notifyTransportState: event.notifyTransportState,
       ),
     );
   }

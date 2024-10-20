@@ -44,6 +44,8 @@ final class _AddScheduleContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomSafe = ScreenSize.safeArea.bottom(context);
+
     return BlocListener<AddScheduleBloc, AddScheduleState>(
       listener: (context, state) {
         showAddScheduleResultAlert(context, state.result);
@@ -54,8 +56,8 @@ final class _AddScheduleContent extends StatelessWidget {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              _AddScheduleForms(),
-              _AddScheduleButton(),
+              _AddScheduleForms(bottomPadding: bottomSafe + 40 + 20),
+              _AddScheduleButton(bottomPadding: bottomSafe),
             ],
           ),
         ),

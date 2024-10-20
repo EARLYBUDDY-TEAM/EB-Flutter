@@ -1,16 +1,43 @@
 part of '../../../eb_add_schedule.dart';
 
-final listDropdownNotifySchedule = [for (var i = 1; i <= 12; i++) i * 10];
+final class DropdownNotify extends StatelessWidget {
+  final String title;
+  final double fontSize;
+
+  const DropdownNotify({
+    super.key,
+    required this.title,
+    required this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _IconPlusName(
+          name: '일정알림',
+          iconData: CupertinoIcons.bell,
+          fontSize: fontSize,
+          isActive: true,
+        ),
+        const Spacer(),
+        _NotifyScheduleSwitch()
+      ],
+    );
+  }
+}
 
 final class DropdownNotifySchedule extends StatefulWidget {
-  const DropdownNotifySchedule({super.key});
+  final listDropdownNotifySchedule = [for (var i = 1; i <= 12; i++) i * 10];
+
+  DropdownNotifySchedule({super.key});
 
   @override
   State<DropdownNotifySchedule> createState() => _DropdownNotifyScheduleState();
 }
 
-class _DropdownNotifyScheduleState extends State<DropdownNotifySchedule> {
-  int dropdownValue = listDropdownNotifySchedule.first;
+final class _DropdownNotifyScheduleState extends State<DropdownNotifySchedule> {
+  late int dropdownValue = widget.listDropdownNotifySchedule.first;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +67,7 @@ class _DropdownNotifyScheduleState extends State<DropdownNotifySchedule> {
   }
 
   List<DropdownMenuItem<int>>? get _items {
-    return listDropdownNotifySchedule.map<DropdownMenuItem<int>>(
+    return widget.listDropdownNotifySchedule.map<DropdownMenuItem<int>>(
       (int value) {
         return DropdownMenuItem<int>(
           value: value,

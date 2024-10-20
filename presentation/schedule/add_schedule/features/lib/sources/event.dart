@@ -40,6 +40,17 @@ final class ChangeNotifySchedule extends AddScheduleEvent {
   List<Object?> get props => [notifyScheduleState];
 }
 
+final class ChangeNotifyTransport extends AddScheduleEvent {
+  final SealedNotifyTransportState notifyTransportState;
+
+  const ChangeNotifyTransport({
+    required this.notifyTransportState,
+  });
+
+  @override
+  List<Object?> get props => [notifyTransportState];
+}
+
 final class PressAddScheduleButton extends AddScheduleEvent {
   const PressAddScheduleButton();
 

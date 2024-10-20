@@ -1,6 +1,13 @@
 part of '../eb_add_schedule.dart';
 
-class _AddScheduleButton extends StatelessWidget {
+final class _AddScheduleButton extends StatelessWidget {
+  final double bottomPadding;
+
+  const _AddScheduleButton({
+    super.key,
+    required this.bottomPadding,
+  });
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddScheduleBloc, AddScheduleState>(
@@ -9,7 +16,11 @@ class _AddScheduleButton extends StatelessWidget {
       },
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: bottomPadding,
+          ),
           child: EBButton(
             name: '일정 등록',
             onPressed: state.status == FormStatus.complete

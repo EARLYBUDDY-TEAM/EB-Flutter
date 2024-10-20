@@ -23,16 +23,16 @@ final class NotifyScheduleExpanded extends StatelessWidget {
   }
 
   Widget _selectBeforeNotifyMinuteView() {
-    return const Row(
+    return Row(
       children: [
-        Text(
+        const Text(
           ' 일정 시작 알림',
           style: TextStyle(
             fontFamily: FontFamily.nanumSquareRegular,
             color: Colors.black87,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         DropdownNotifySchedule(),
       ],
     );

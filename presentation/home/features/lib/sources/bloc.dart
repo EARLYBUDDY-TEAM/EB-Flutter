@@ -172,7 +172,6 @@ extension on HomeBloc {
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
-        return;
       case Failure():
         _tokenEvent.failureAction(
           result: deleteScheduleCardResult,

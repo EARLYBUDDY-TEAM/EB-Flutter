@@ -5,20 +5,6 @@ final class HomeCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (previous, current) {
-        return previous.daySchedule != current.daySchedule;
-      },
-      builder: (context, state) {
-        return _HomeCalendarContent();
-      },
-    );
-  }
-}
-
-final class _HomeCalendarContent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -28,14 +14,35 @@ final class _HomeCalendarContent extends StatelessWidget {
             boxShadow: [EBBoxShadow.init()]),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: _HomeCalendarStateful(),
+          child: _HomeCalendarContent(),
         ),
       ),
     );
   }
 }
 
+final class _HomeCalendarContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) {
+        return previous.daySchedule != current.daySchedule;
+      },
+      builder: (context, state) {
+        return _HomeCalendarStateful(daySchedule: state.daySchedule);
+      },
+    );
+  }
+}
+
 final class _HomeCalendarStateful extends StatefulWidget {
+  final DaySchedule daySchedule;
+
+  const _HomeCalendarStateful({
+    super.key,
+    required this.daySchedule,
+  });
+
   @override
   State<StatefulWidget> createState() => _HomeCalendarState();
 }
@@ -226,10 +233,13 @@ extension on _HomeCalendarState {
     DateTime dateTime,
     List<dynamic> events,
   ) {
+    // final isExistSchedule =
+    //     context.read<HomeBloc>().state.daySchedule.isExistSchedule(
+    //           dateTime: dateTime,
+    //         );
+
     final isExistSchedule =
-        context.read<HomeBloc>().state.daySchedule.isExistSchedule(
-              dateTime: dateTime,
-            );
+        widget.daySchedule.isExistSchedule(dateTime: dateTime);
 
     if (isExistSchedule) {
       return Padding(
