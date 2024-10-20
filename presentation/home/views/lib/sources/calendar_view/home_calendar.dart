@@ -22,6 +22,8 @@ final class HomeCalendar extends StatelessWidget {
 }
 
 final class _HomeCalendarContent extends StatelessWidget {
+  final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
@@ -29,18 +31,60 @@ final class _HomeCalendarContent extends StatelessWidget {
         return previous.daySchedule != current.daySchedule;
       },
       builder: (context, state) {
-        return _HomeCalendarStateful(daySchedule: state.daySchedule);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _HomeCalendarHeader(focusedDay: _focusedDay),
+            _HomeCalendarBlocStateful(
+              daySchedule: state.daySchedule,
+              focusedDay: _focusedDay,
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+final class _HomeCalendarBlocStateful extends StatelessWidget {
+  final ValueNotifier<DateTime> focusedDay;
+  final DaySchedule daySchedule;
+
+  const _HomeCalendarBlocStateful({
+    super.key,
+    required this.focusedDay,
+    required this.daySchedule,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) {
+        return previous.calendarState != current.calendarState;
+      },
+      builder: (context, state) {
+        final initialDate = state.calendarState.selectedDay;
+        log("_HomeCalendarBlocStateful : ${initialDate.toString()}");
+        return _HomeCalendarStateful(
+          initialDate: initialDate,
+          daySchedule: daySchedule,
+          focusedDay: focusedDay,
+        );
       },
     );
   }
 }
 
 final class _HomeCalendarStateful extends StatefulWidget {
+  final DateTime initialDate;
   final DaySchedule daySchedule;
+  final ValueNotifier<DateTime> focusedDay;
 
   const _HomeCalendarStateful({
     super.key,
+    required this.initialDate,
     required this.daySchedule,
+    required this.focusedDay,
   });
 
   @override
@@ -48,10 +92,10 @@ final class _HomeCalendarStateful extends StatefulWidget {
 }
 
 final class _HomeCalendarState extends State<_HomeCalendarStateful> {
-  final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
+  DateTime? _selectedDay;
+
   final DateTime _firstDay = DateTime.utc(2020, 01, 01);
   final DateTime _lastDay = DateTime.utc(2030, 01, 01);
-  DateTime? _selectedDay;
 
   final double _dayFontSize = 16;
   final double _weekFontSize = 13;
@@ -60,49 +104,52 @@ final class _HomeCalendarState extends State<_HomeCalendarStateful> {
   final _animateDuration = const Duration(milliseconds: 250);
   final _dayCellColor = EBColors.blue3;
 
+  void _setSelectDay() {
+    _selectedDay = widget.initialDate;
+  }
+
+  @override
+  void didUpdateWidget(covariant _HomeCalendarStateful oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialDate != widget.initialDate) {
+      _setSelectDay();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay.value;
+    _setSelectDay();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ValueListenableBuilder(
-          valueListenable: _focusedDay,
-          builder: (context, value, _) {
-            return _HomeCalendarHeader(focusedDay: value);
-          },
-        ),
-        const SizedBox(height: 20),
-        TableCalendar(
-          rowHeight: 60,
-          daysOfWeekHeight: 40,
-          headerVisible: false,
-          daysOfWeekStyle: _daysOfWeekStyle,
-          focusedDay: _focusedDay.value,
-          firstDay: _firstDay,
-          lastDay: _lastDay,
-          locale: EBLocale.ko_KR.name,
-          onDaySelected: (
-            DateTime selectedDay,
-            DateTime focusedDay,
-          ) {
-            _onDaySelected(selectedDay, focusedDay, context);
-          },
-          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-          calendarBuilders: CalendarBuilders(
-            selectedBuilder: _selectedBuilder,
-            defaultBuilder: _defaultBuilder,
-            todayBuilder: _todayBuilder,
-            outsideBuilder: _outsideBuilder,
-            markerBuilder: _markerBuilder,
-          ),
-        ),
-      ],
+    return TableCalendar(
+      rowHeight: 60,
+      daysOfWeekHeight: 40,
+      headerVisible: false,
+      daysOfWeekStyle: _daysOfWeekStyle,
+      focusedDay: widget.focusedDay.value,
+      firstDay: _firstDay,
+      lastDay: _lastDay,
+      locale: EBLocale.ko_KR.name,
+      onDaySelected: (
+        DateTime selectedDay,
+        DateTime focusedDay,
+      ) {
+        _onDaySelected(selectedDay, focusedDay, context);
+      },
+      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+      calendarBuilders: CalendarBuilders(
+        selectedBuilder: _selectedBuilder,
+        defaultBuilder: _defaultBuilder,
+        todayBuilder: _todayBuilder,
+        outsideBuilder: _outsideBuilder,
+        markerBuilder: _markerBuilder,
+      ),
+      onPageChanged: (focusedDay) {
+        widget.focusedDay.value = focusedDay;
+      },
     );
   }
 }
@@ -276,10 +323,14 @@ extension on _HomeCalendarState {
     if (!isSameDay(_selectedDay, selectedDay)) {
       setState(() {
         _selectedDay = selectedDay;
-        _focusedDay.value = focusedDay;
+        widget.focusedDay.value = focusedDay;
       });
 
-      context.read<HomeBloc>().add(TapCalendarDay(selectedDay: selectedDay));
+      context.read<HomeBloc>().add(
+            SetCalendarState(
+              calendarState: CalendarState(selectedDay: selectedDay),
+            ),
+          );
     }
   }
 }

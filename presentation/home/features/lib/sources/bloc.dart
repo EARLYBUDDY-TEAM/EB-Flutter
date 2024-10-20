@@ -20,7 +20,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
-    on<TapCalendarDay>(_onTapCalendarDay);
+    on<SetCalendarState>(_onSetCalendarState);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -182,21 +182,18 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  void _onTapCalendarDay(
-    TapCalendarDay event,
+  void _onSetCalendarState(
+    SetCalendarState event,
     Emitter<HomeState> emit,
   ) {
-    final calendarState = state.calendarState.copyWith(
-      selectedDay: event.selectedDay,
-    );
-
     final bottomScheduleListState = BottomScheduleListState.init(
-      calendarState: calendarState,
+      calendarState: event.calendarState,
       daySchedule: state.daySchedule,
     );
+
     emit(
       state.copyWith(
-        calendarState: calendarState,
+        calendarState: event.calendarState,
         bottomScheduleListState: bottomScheduleListState,
       ),
     );
