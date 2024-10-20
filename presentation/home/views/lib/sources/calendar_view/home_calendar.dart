@@ -69,15 +69,13 @@ final class _HomeCalendarState extends State<_HomeCalendarStateful> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 10, left: 10),
-          child: ValueListenableBuilder<DateTime>(
-            valueListenable: _focusedDay,
-            builder: (context, value, _) {
-              return _HomeCalendarHeader(focusedDay: value);
-            },
-          ),
+        ValueListenableBuilder(
+          valueListenable: _focusedDay,
+          builder: (context, value, _) {
+            return _HomeCalendarHeader(focusedDay: value);
+          },
         ),
         const SizedBox(height: 20),
         TableCalendar(
@@ -233,11 +231,6 @@ extension on _HomeCalendarState {
     DateTime dateTime,
     List<dynamic> events,
   ) {
-    // final isExistSchedule =
-    //     context.read<HomeBloc>().state.daySchedule.isExistSchedule(
-    //           dateTime: dateTime,
-    //         );
-
     final isExistSchedule =
         widget.daySchedule.isExistSchedule(dateTime: dateTime);
 

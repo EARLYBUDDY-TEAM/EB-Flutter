@@ -19,7 +19,7 @@ part 'sources/addschedulebutton.dart';
 part 'sources/addschedule_view.dart';
 part 'sources/forms/addschedule_forms.dart';
 part 'sources/forms/name_form.dart';
-part 'sources/forms/time/time.dart';
+part 'sources/forms/time/time_form.dart';
 part 'sources/forms/time/datepicker.dart';
 part 'sources/forms/time/timepicker.dart';
 part 'sources/forms/notify_schedule/notify_schedule_form.dart';

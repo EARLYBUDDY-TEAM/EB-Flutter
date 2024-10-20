@@ -1,6 +1,6 @@
 part of '../../../eb_add_schedule.dart';
 
-class _TimeForm extends StatelessWidget {
+final class _TimeForm extends StatelessWidget {
   final double fontSize;
 
   const _TimeForm({
