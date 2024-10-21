@@ -20,6 +20,7 @@ final class FindRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
+        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
         findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
         addScheduleDelegate:
             RepositoryProvider.of<AddScheduleDelegate>(context),
@@ -66,7 +67,9 @@ final class _FindRouteScaffold extends StatelessWidget {
             cancelAction: () =>
                 context.read<FindRouteBloc>().add(const CancelViewAction()),
           ),
-          body: Stack(children: _children(state.contentStatus)),
+          body: Stack(
+            children: _children(state.contentStatus),
+          ),
         );
       },
     );
@@ -75,17 +78,12 @@ final class _FindRouteScaffold extends StatelessWidget {
   List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
     final List<Widget> listWidget = [
       Column(
-        children: [
-          _FindRouteInfoView(),
-          const _FindRouteSwitchContent(),
-        ],
+        children: [_FindRouteSwitchContent()],
       ),
     ];
 
-    switch (contentStatus) {
-      case DetailFindRouteStatus():
-        listWidget.add(_SelectRouteButton());
-      default:
+    if (contentStatus is DetailFindRouteStatus) {
+      listWidget.add(_SelectRouteButton());
     }
 
     return listWidget;
@@ -113,5 +111,32 @@ final class _FindRouteScaffold extends StatelessWidget {
             contentStatus: SelectFindRouteStatus(),
           ),
         );
+  }
+}
+
+final class _FindRouteSwitchContent extends StatelessWidget {
+  final double headerHeight = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        final cotentStatus = state.contentStatus;
+
+        switch (cotentStatus) {
+          case EmptyDataFindRouteStatus():
+            return _FindRouteEmptyDataView(
+              headerHeight: headerHeight,
+            );
+          default:
+            return _FindRouteScrollView(
+              headerHeight: headerHeight,
+            );
+        }
+      },
+    );
   }
 }

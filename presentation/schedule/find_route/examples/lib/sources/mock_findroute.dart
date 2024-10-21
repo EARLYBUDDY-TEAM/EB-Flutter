@@ -1,6 +1,7 @@
 part of 'findroute_example.dart';
 
 final class _MockFindRouteView extends StatelessWidget {
+  final loadingDelegate = LoadingDelegate();
   final addScheduleDelegate = AddScheduleDelegate();
   final findRouteDelegate = FindRouteDelegate();
   final findRouteRepository = FindRouteRepository();
@@ -9,6 +10,7 @@ final class _MockFindRouteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider.value(value: loadingDelegate),
         RepositoryProvider.value(value: addScheduleDelegate),
         RepositoryProvider.value(value: findRouteDelegate),
         RepositoryProvider.value(value: findRouteRepository),

@@ -1,6 +1,7 @@
 part of '../eb_find_route_feature.dart';
 
 final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
+  final LoadingDelegate _loadingDelegate;
   final AddScheduleDelegate _addScheduleDelegate;
   final FindRouteRepository _findRouteRepository;
 
@@ -8,14 +9,16 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   late StreamSubscription<Place> changeEndPlaceSubscription;
 
   FindRouteBloc({
+    required LoadingDelegate loadingDelegate,
     required AddScheduleDelegate addScheduleDelegate,
     required FindRouteDelegate findRouteDelegate,
     required FindRouteRepository findRouteRepository,
     required FindRouteState findRouteState,
-  })  : _addScheduleDelegate = addScheduleDelegate,
+  })  : _loadingDelegate = loadingDelegate,
+        _addScheduleDelegate = addScheduleDelegate,
         _findRouteRepository = findRouteRepository,
         super(findRouteState) {
-    on<GetRouteData>(_onFetchFindRouteData);
+    on<GetRouteData>(_onGetRouteData);
     on<SetFindRouteContentStatus>(_onSetFindRouteContentStatus);
     on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
     on<CancelViewAction>(_onCancelViewAction);
@@ -48,10 +51,12 @@ extension on FindRouteBloc {
 }
 
 extension on FindRouteBloc {
-  void _onFetchFindRouteData(
+  void _onGetRouteData(
     GetRouteData event,
     Emitter<FindRouteState> emit,
   ) async {
+    _loadingDelegate.set();
+
     final Result result = await _findRouteRepository.getEBRoute(
       start: state.searchPlaceInfo.startPlace,
       end: state.searchPlaceInfo.endPlace,
@@ -80,6 +85,8 @@ extension on FindRouteBloc {
           ),
         );
     }
+
+    _loadingDelegate.dismiss();
   }
 
   TransportLineOfRoute getTransportLineOfRoute({required List<EBPath> paths}) {

@@ -14,7 +14,7 @@ final class RootBloc extends Bloc<RootEvent, RootState> {
   @override
   Future<void> close() async {
     await _authStatusSubscription.cancel();
-    return super.close();
+    await super.close();
   }
 }
 

@@ -67,13 +67,17 @@ final class Schedule extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
+      // "id": id,
       "id": null,
       "title": title,
       "memo": memo,
       "time": time.toIso8601String(),
       "isNotify": isNotify,
-      "startPlace": startPlace?.toMap(),
-      "endPlace": endPlace?.toMap(),
+      // "startPlaceInfo": startPlace ?? startPlace!.toMap(),
+      // "endPlaceInfo": endPlace ?? endPlace!.toMap(),
+
+      "startPlaceInfo": null,
+      "endPlaceInfo": null,
     };
   }
 

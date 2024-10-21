@@ -32,10 +32,10 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   @override
-  Future<void> close() {
-    _loginStatusSubscription.cancel();
-    _registerStatusSubscription.cancel();
-    return super.close();
+  Future<void> close() async {
+    await _loginStatusSubscription.cancel();
+    await _registerStatusSubscription.cancel();
+    await super.close();
   }
 }
 
