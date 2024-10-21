@@ -23,11 +23,11 @@ class _DetailRouteListView extends StatelessWidget {
             InkWell(
               child: DetailRouteListItem(ebSubPath: subPaths[index]),
               onTap: () {
-                context.read<FindRouteBloc>().add(
-                      SetFindRouteContentStatus(
-                        contentStatus: SelectFindRouteStatus(),
-                      ),
-                    );
+                // context.read<FindRouteBloc>().add(
+                //       SetFindRouteContentStatus(
+                //         contentStatus: SelectFindRouteStatus(),
+                //       ),
+                //     );
               },
             ),
             _ListDivider(),

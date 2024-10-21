@@ -18,7 +18,7 @@ final class EBKakaoMapView extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: SizedBox(
                 height: constraints.maxHeight * 0.8,
-                child: _EBKakaoMapContent(place: place),
+                child: EBKakaoMapContent(place: place),
               ),
             ),
             Align(

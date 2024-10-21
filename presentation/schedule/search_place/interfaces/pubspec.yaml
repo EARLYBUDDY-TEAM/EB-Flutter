@@ -15,7 +15,6 @@ dependencies:
   kakao_map_plugin: ^0.3.0
   stream_transform: ^2.1.0
   modal_bottom_sheet: ^3.0.0
-  eb_find_route: any
   eb_delegate: any
   eb_repository: any
   eb_model: any

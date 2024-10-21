@@ -4,6 +4,7 @@ final class EBSubPath extends Equatable {
   final int type;
   final int time;
   final String startName;
+  final Coordi? startCoordi;
   final String endName;
   final int distance;
   final List<Transport> transports;
@@ -13,6 +14,7 @@ final class EBSubPath extends Equatable {
     required this.type,
     required this.time,
     required this.startName,
+    required this.startCoordi,
     required this.endName,
     required this.distance,
     required this.transports,
@@ -23,6 +25,7 @@ final class EBSubPath extends Equatable {
     int? type,
     int? time,
     String? startName,
+    Coordi? Function()? startCoordi,
     String? endName,
     int? distance,
     List<Transport>? transports,
@@ -32,6 +35,7 @@ final class EBSubPath extends Equatable {
       type: type ?? this.type,
       time: time ?? this.time,
       startName: startName ?? this.startName,
+      startCoordi: startCoordi != null ? startCoordi() : this.startCoordi,
       endName: endName ?? this.endName,
       distance: distance ?? this.distance,
       transports: transports ?? this.transports,
@@ -44,6 +48,7 @@ final class EBSubPath extends Equatable {
         type,
         time,
         startName,
+        startCoordi,
         endName,
         distance,
         transports,
@@ -64,10 +69,19 @@ final class EBSubPath extends Equatable {
           .toList();
     }
 
+    Coordi? startCoordi;
+    if ((ebSubPathDTO.startX != null) && (ebSubPathDTO.startY != null)) {
+      startCoordi = Coordi(
+        x: ebSubPathDTO.startX!,
+        y: ebSubPathDTO.startY!,
+      );
+    }
+
     return EBSubPath(
       type: ebSubPathDTO.type,
       time: ebSubPathDTO.time,
       startName: ebSubPathDTO.startName,
+      startCoordi: startCoordi,
       endName: ebSubPathDTO.endName,
       distance: ebSubPathDTO.distance,
       transports: transports,
@@ -80,6 +94,7 @@ final class EBSubPath extends Equatable {
       type: 3,
       time: 3,
       startName: '수서역',
+      startCoordi: null,
       endName: '스타벅스 수서역 R점',
       distance: 365,
       transports: [Transport.walk()],
@@ -92,6 +107,7 @@ final class EBSubPath extends Equatable {
       type: 1,
       time: 32,
       startName: '수서역',
+      startCoordi: Coordi.mockStart(),
       endName: '이태원',
       distance: 13929,
       transports: [Transport.mockSubway()],
@@ -110,6 +126,7 @@ final class EBSubPath extends Equatable {
       type: 2,
       time: 48,
       startName: '수서역',
+      startCoordi: Coordi.mockStart(),
       endName: '이태원',
       distance: 13929,
       transports: [Transport.mockBus()],

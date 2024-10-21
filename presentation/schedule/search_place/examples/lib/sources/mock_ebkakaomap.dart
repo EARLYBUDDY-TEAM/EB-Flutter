@@ -1,5 +1,22 @@
 part of 'searchplace_example.dart';
 
+final class _MockEBKakaoContentView extends StatelessWidget {
+  final place = Place.mockStarBucks();
+
+  _MockEBKakaoContentView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: EBKakaoMapContent(
+          place: place,
+        ),
+      ),
+    );
+  }
+}
+
 final class _MockEBKakaoMapView extends StatelessWidget {
   final findRouteDelegate = FindRouteDelegate();
   final addScheduleDelegate = AddScheduleDelegate();

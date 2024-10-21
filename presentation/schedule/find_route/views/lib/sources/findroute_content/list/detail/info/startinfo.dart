@@ -2,13 +2,11 @@ part of '../../../../../eb_find_route.dart';
 
 final class _StartInfo extends StatelessWidget {
   final EBSubPath ebSubPath;
-  final Function() showMapAction;
   final double fontSize = 20;
 
   const _StartInfo({
     super.key,
     required this.ebSubPath,
-    required this.showMapAction,
   });
 
   @override
@@ -18,15 +16,15 @@ final class _StartInfo extends StatelessWidget {
         return _StartInfoOther.subway(
           subway: ebSubPath.transports[0].subway!,
           startName: ebSubPath.startName,
+          startCoordi: ebSubPath.startCoordi!,
           fontSize: fontSize,
-          showMapAction: showMapAction,
         );
       case (2):
         return _StartInfoOther.bus(
           bus: ebSubPath.transports[0].bus!,
           startName: ebSubPath.startName,
+          startCoordi: ebSubPath.startCoordi!,
           fontSize: fontSize,
-          showMapAction: showMapAction,
         );
       default:
         return _StartInfoWalk(
@@ -64,7 +62,7 @@ final class _StartInfoOther extends StatelessWidget {
   final String transNumber;
   final Color color;
   final String startName;
-  final Function() showMapAction;
+  final Coordi startCoordi;
   final double fontSize;
 
   const _StartInfoOther({
@@ -73,7 +71,7 @@ final class _StartInfoOther extends StatelessWidget {
     required this.color,
     required this.startName,
     required this.fontSize,
-    required this.showMapAction,
+    required this.startCoordi,
   });
 
   @override
@@ -99,7 +97,9 @@ final class _StartInfoOther extends StatelessWidget {
         EBRoundedButton(
           text: '지도보기',
           height: 25,
-          onPressed: showMapAction,
+          onPressed: () {
+            log("StartCoordi : ${startCoordi.toString()}");
+          },
         ),
       ],
     );
@@ -108,30 +108,30 @@ final class _StartInfoOther extends StatelessWidget {
   factory _StartInfoOther.bus({
     required Bus bus,
     required String startName,
+    required Coordi startCoordi,
     required double fontSize,
-    required Function() showMapAction,
   }) {
     return _StartInfoOther(
       transNumber: bus.number,
       color: bus.color(),
       startName: startName,
+      startCoordi: startCoordi,
       fontSize: fontSize,
-      showMapAction: showMapAction,
     );
   }
 
   factory _StartInfoOther.subway({
     required Subway subway,
     required String startName,
+    required Coordi startCoordi,
     required double fontSize,
-    required Function() showMapAction,
   }) {
     return _StartInfoOther(
       transNumber: subway.type,
       color: subway.color(),
       startName: startName,
+      startCoordi: startCoordi,
       fontSize: fontSize,
-      showMapAction: showMapAction,
     );
   }
 }

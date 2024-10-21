@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
+  kakao_map_plugin: ^0.3.0
   eb_uikit: any
   eb_model: any
   eb_repository: any

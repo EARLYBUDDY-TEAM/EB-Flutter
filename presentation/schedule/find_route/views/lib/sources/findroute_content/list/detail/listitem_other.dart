@@ -30,10 +30,7 @@ final class _ListItemOther extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _StartInfo(
-                      ebSubPath: ebSubPath,
-                      showMapAction: () {},
-                    ),
+                    _StartInfo(ebSubPath: ebSubPath),
                     SizedBox(height: colSpace),
                     _LaneInfo(ebSubPath: ebSubPath),
                     SizedBox(height: colSpace),

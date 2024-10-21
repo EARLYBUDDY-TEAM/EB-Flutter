@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_find_route_feature/eb_find_route_feature.dart';
 import 'package:eb_uikit/eb_uikit.dart';
@@ -8,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eb_state/eb_state.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 part 'sources/findroute_view.dart';
 part 'sources/findroute_appbar.dart';
@@ -30,3 +33,4 @@ part 'sources/findroute_content/list/detail/info/laneinfo.dart';
 part 'sources/findroute_content/list/detail/info/startinfo.dart';
 part 'sources/findroute_content/list/detail/icon/icontransport.dart';
 part 'sources/findroute_content/list/empty/empty_data_view.dart';
+part 'sources/findroute_content/kakaomap/findroute_kakaomap.dart';

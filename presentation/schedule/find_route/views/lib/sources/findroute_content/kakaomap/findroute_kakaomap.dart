@@ -1,9 +1,10 @@
-part of '../../../eb_search_place.dart';
+part of '../../../eb_find_route.dart';
 
-final class EBKakaoMapContent extends StatefulWidget {
+final class FindrouteKakaoMapView extends StatefulWidget {
   final Place place;
 
-  const EBKakaoMapContent({
+  const FindrouteKakaoMapView({
+    super.key,
     required this.place,
   });
 
@@ -11,7 +12,7 @@ final class EBKakaoMapContent extends StatefulWidget {
   State<StatefulWidget> createState() => _EBKakaoMapContentState();
 }
 
-final class _EBKakaoMapContentState extends State<EBKakaoMapContent> {
+final class _EBKakaoMapContentState extends State<FindrouteKakaoMapView> {
   late KakaoMapController _mapController;
   late Marker marker;
   Set<Marker> markers = {};
