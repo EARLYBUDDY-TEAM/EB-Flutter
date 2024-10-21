@@ -8,33 +8,30 @@ final class NotifyScheduleExpanded extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 10),
-        _divider(),
+        const FormDivider(),
         const SizedBox(height: 10),
-        _selectBeforeNotifyMinuteView(),
+        DropdownNotifyBeforeScheduleStart(),
       ],
     );
   }
+}
 
-  Widget _divider() {
-    return const Divider(
-      color: Colors.grey,
-      thickness: 0.5,
-    );
+final class DropdownNotifyBeforeScheduleStart extends StatelessWidget {
+  final listDropdownValue = [for (var i = 1; i <= 12; i++) i * 10];
+  Widget createMenuItemChild(dynamic value) {
+    return Text("$value분 전");
   }
 
-  Widget _selectBeforeNotifyMinuteView() {
-    return Row(
-      children: [
-        const Text(
-          ' 일정 시작 알림',
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareRegular,
-            color: Colors.black87,
-          ),
-        ),
-        const Spacer(),
-        DropdownNotifySchedule(),
-      ],
+  DropdownNotifyBeforeScheduleStart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownNotify<int>(
+      title: '일정 시작 알림',
+      fontSize: 17,
+      listDropdownValue: listDropdownValue,
+      createMenuItemChild: createMenuItemChild,
+      selectItemAction: () {},
     );
   }
 }

@@ -64,7 +64,6 @@ final class _HomeCalendarBlocStateful extends StatelessWidget {
       },
       builder: (context, state) {
         final initialDate = state.calendarState.selectedDay;
-        log("_HomeCalendarBlocStateful : ${initialDate.toString()}");
         return _HomeCalendarStateful(
           initialDate: initialDate,
           daySchedule: daySchedule,
