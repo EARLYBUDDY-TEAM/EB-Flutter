@@ -1,24 +1,47 @@
 part of '../../../eb_find_route.dart';
 
-final class FindrouteKakaoMapView extends StatefulWidget {
-  final Place place;
+final class FindRouteKakaoMapView extends StatelessWidget {
+  final String placeName;
+  final Coordi coordi;
 
-  const FindrouteKakaoMapView({
+  const FindRouteKakaoMapView({
     super.key,
-    required this.place,
+    required this.placeName,
+    required this.coordi,
   });
 
   @override
-  State<StatefulWidget> createState() => _EBKakaoMapContentState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _FindRouteKakaoMapAppBar(
+        placeName: placeName,
+        backButtonAction: () => Navigator.of(context).pop(),
+      ),
+      body: FindRouteKakaoMapContent(coordi: coordi),
+    );
+  }
 }
 
-final class _EBKakaoMapContentState extends State<FindrouteKakaoMapView> {
+final class FindRouteKakaoMapContent extends StatefulWidget {
+  final Coordi coordi;
+
+  const FindRouteKakaoMapContent({
+    super.key,
+    required this.coordi,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _FindRouteKakaoMapContentState();
+}
+
+final class _FindRouteKakaoMapContentState
+    extends State<FindRouteKakaoMapContent> {
   late KakaoMapController _mapController;
   late Marker marker;
   Set<Marker> markers = {};
   late final LatLng _center = LatLng(
-    double.parse(widget.place.coordi.y),
-    double.parse(widget.place.coordi.x),
+    double.parse(widget.coordi.y),
+    double.parse(widget.coordi.x),
   );
 
   @override
@@ -29,7 +52,7 @@ final class _EBKakaoMapContentState extends State<FindrouteKakaoMapView> {
         _mapController = controller;
 
         marker = Marker(
-          markerId: widget.place.id,
+          markerId: UniqueKey().toString(),
           latLng: _center,
         );
 
@@ -43,4 +66,43 @@ final class _EBKakaoMapContentState extends State<FindrouteKakaoMapView> {
       markers: markers.toList(),
     );
   }
+}
+
+final class _FindRouteKakaoMapAppBar extends AppBar {
+  final String placeName;
+  final Function() backButtonAction;
+
+  _FindRouteKakaoMapAppBar({
+    required this.placeName,
+    required this.backButtonAction,
+  });
+
+  final Color color = EBColors.blue1;
+  final String fontFamily = FontFamily.nanumSquareBold;
+  final double fontSize = 17;
+
+  @override
+  Color? get backgroundColor => Colors.white;
+  @override
+  double? get scrolledUnderElevation => 0;
+  @override
+  bool get automaticallyImplyLeading => false;
+  @override
+  double? get leadingWidth => 150; // dynamic하게 적용법?
+
+  @override
+  Widget? get title => Text(
+        placeName,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: fontSize,
+          fontFamily: fontFamily,
+        ),
+      );
+
+  @override
+  Widget? get leading => NaviBackButton(
+        parentViewName: '경로선택',
+        onPressed: backButtonAction,
+      );
 }

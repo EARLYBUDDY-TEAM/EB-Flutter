@@ -98,7 +98,14 @@ final class _StartInfoOther extends StatelessWidget {
           text: '지도보기',
           height: 25,
           onPressed: () {
-            log("StartCoordi : ${startCoordi.toString()}");
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => FindRouteKakaoMapView(
+                  placeName: startName,
+                  coordi: startCoordi,
+                ),
+              ),
+            );
           },
         ),
       ],
