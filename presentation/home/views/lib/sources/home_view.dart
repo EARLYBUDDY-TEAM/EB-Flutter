@@ -57,7 +57,7 @@ final class EBHomeView extends StatelessWidget {
     return _ScheduleAddButton(
       onPressed: () => Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => const AddScheduleView(),
+          builder: (_) => AddScheduleView(),
         ),
       ),
     );

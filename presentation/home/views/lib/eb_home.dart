@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_home_feature/eb_home_feature.dart';
 import 'package:eb_uikit/eb_uikit.dart';
@@ -15,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:eb_repository_interface/eb_repository_interface.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 part 'sources/home_view.dart';
 part 'sources/calendar_view/home_calendar.dart';

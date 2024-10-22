@@ -13,7 +13,8 @@ final class SearchPlaceState extends Equatable {
     SealedSearchPlaceContent? contentStatus,
   })  : searchText = searchText ?? '',
         placeList = placeList ?? [],
-        contentStatus = contentStatus ?? ListSearchPlaceContent();
+        contentStatus =
+            contentStatus ?? ListSearchPlaceContent(placeList: const []);
 
   SearchPlaceState copyWith({
     String? searchText,

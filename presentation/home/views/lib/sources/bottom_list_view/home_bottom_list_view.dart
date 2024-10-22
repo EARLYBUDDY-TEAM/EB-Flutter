@@ -2,6 +2,7 @@ part of '../../eb_home.dart';
 
 final class HomeBottomListView extends StatelessWidget {
   final double horizontalPadding;
+
   const HomeBottomListView({
     super.key,
     this.horizontalPadding = 20,

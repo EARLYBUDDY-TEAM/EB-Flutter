@@ -78,11 +78,14 @@ extension on SearchPlaceBloc {
     PressResetButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    final contentStatus = ListSearchPlaceContent();
-    emit(state.copyWith(
-      contentStatus: contentStatus,
-      searchText: "",
-    ));
+    final contentStatus = ListSearchPlaceContent(placeList: const []);
+    emit(
+      state.copyWith(
+        placeList: [],
+        contentStatus: contentStatus,
+        searchText: "",
+      ),
+    );
   }
 }
 
@@ -135,14 +138,14 @@ extension on SearchPlaceBloc {
         emit(
           state.copyWith(
             placeList: placeList,
-            contentStatus: ListSearchPlaceContent(),
+            contentStatus: ListSearchPlaceContent(placeList: placeList),
           ),
         );
       case Failure():
         emit(
           state.copyWith(
             placeList: [],
-            contentStatus: ListSearchPlaceContent(),
+            contentStatus: ListSearchPlaceContent(placeList: const []),
           ),
         );
     }

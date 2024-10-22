@@ -76,6 +76,8 @@ final class SearchPlaceScaffold extends StatelessWidget {
       builder: (context, state) {
         final setting = state.setting;
         final contentStatus = state.contentStatus;
+        final placeList = state.placeList;
+
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: _SearchPlaceAppBar(
@@ -85,6 +87,7 @@ final class SearchPlaceScaffold extends StatelessWidget {
               context: context,
               setting: setting,
               contentStatus: contentStatus,
+              placeList: placeList,
             ),
           ),
           body: _SearchPlaceContent(),
@@ -122,6 +125,7 @@ final class SearchPlaceScaffold extends StatelessWidget {
     required BuildContext context,
     required SearchPlaceSetting setting,
     required SealedSearchPlaceContent contentStatus,
+    required List<Place> placeList,
   }) {
     if (contentStatus is MapSearchPlaceContent) {
       return NaviBackButton(
@@ -129,7 +133,7 @@ final class SearchPlaceScaffold extends StatelessWidget {
         onPressed: () {
           context.read<SearchPlaceBloc>().add(
                 SetSearchPlaceContentStatus(
-                  contentStatus: ListSearchPlaceContent(),
+                  contentStatus: ListSearchPlaceContent(placeList: placeList),
                 ),
               );
         },

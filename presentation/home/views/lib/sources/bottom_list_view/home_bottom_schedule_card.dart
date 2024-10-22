@@ -10,21 +10,33 @@ final class BottomScheduleCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RoundRectForm(
-      borderRadius: 10,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 15,
+    return InkWell(
+      child: RoundRectForm(
+        borderRadius: 10,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 15,
+          ),
+          child: Row(
+            children: [
+              _circleDot(),
+              const SizedBox(width: 10),
+              _titleAndPlace(),
+              const SizedBox(width: 10),
+              _scheduleTime(),
+            ],
+          ),
         ),
-        child: Row(
-          children: [
-            _circleDot(),
-            const SizedBox(width: 10),
-            _titleAndPlace(),
-            const SizedBox(width: 10),
-            _scheduleTime(),
-          ],
+      ),
+      onTap: () => showCupertinoModalBottomSheet(
+        expand: true,
+        context: context,
+        backgroundColor: Colors.white,
+        builder: builderModalBottomSheet(
+          context: context,
+          onGenerateRoute:
+              AddScheduleView.pageAddScheduleView(context: context),
         ),
       ),
     );

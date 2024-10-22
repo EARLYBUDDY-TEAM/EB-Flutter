@@ -1,7 +1,27 @@
 part of '../eb_add_schedule.dart';
 
 final class AddScheduleView extends StatelessWidget {
-  const AddScheduleView({super.key});
+  final AddScheduleState state;
+
+  static MaterialPageRoute Function({
+    required BuildContext context,
+    AddScheduleState? state,
+  }) get pageAddScheduleView {
+    return ({
+      required BuildContext context,
+      AddScheduleState? state,
+    }) =>
+        MaterialPageRoute(
+          builder: (context) => AddScheduleView(
+            state: state,
+          ),
+        );
+  }
+
+  AddScheduleView({
+    super.key,
+    AddScheduleState? state,
+  }) : state = state ?? AddScheduleState();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +35,7 @@ final class AddScheduleView extends StatelessWidget {
               RepositoryProvider.of<ScheduleRepository>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           cancelModalViewAction: () => Navigator.of(context).pop(),
-        );
+        )..add(OnAppearAddScheduleView(state: state));
       },
       child: const _AddScheduleContent(),
     );

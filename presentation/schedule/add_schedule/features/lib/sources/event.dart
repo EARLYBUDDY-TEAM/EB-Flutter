@@ -98,3 +98,12 @@ final class SetAddScheduleResult extends AddScheduleEvent {
   @override
   List<Object?> get props => [result];
 }
+
+final class OnAppearAddScheduleView extends AddScheduleEvent {
+  final AddScheduleState state;
+
+  const OnAppearAddScheduleView({required this.state});
+
+  @override
+  List<Object?> get props => [state];
+}
