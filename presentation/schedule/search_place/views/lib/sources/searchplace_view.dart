@@ -69,16 +69,27 @@ final class SearchPlaceScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final setting = context.read<SearchPlaceBloc>().state.setting;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _SearchPlaceAppBar(
-        titleName: _textTitle(setting),
-        cancelAction: _cancelAction(context, setting),
-        backAction: _backAction(context, setting),
-      ),
-      body: _SearchPlaceContent(),
+    return BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        final setting = state.setting;
+        final contentStatus = state.contentStatus;
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _SearchPlaceAppBar(
+            titleName: _textTitle(setting),
+            cancelAction: _cancelAction(context, setting),
+            backButton: _backButton(
+              context: context,
+              setting: setting,
+              contentStatus: contentStatus,
+            ),
+          ),
+          body: _SearchPlaceContent(),
+        );
+      },
     );
   }
 
@@ -107,13 +118,30 @@ final class SearchPlaceScaffold extends StatelessWidget {
     }
   }
 
-  Function()? _backAction(
-    BuildContext context,
-    SearchPlaceSetting setting,
-  ) {
+  Widget? _backButton({
+    required BuildContext context,
+    required SearchPlaceSetting setting,
+    required SealedSearchPlaceContent contentStatus,
+  }) {
+    if (contentStatus is MapSearchPlaceContent) {
+      return NaviBackButton(
+        parentViewName: '장소목록',
+        onPressed: () {
+          context.read<SearchPlaceBloc>().add(
+                SetSearchPlaceContentStatus(
+                  contentStatus: ListSearchPlaceContent(),
+                ),
+              );
+        },
+      );
+    }
+
     switch (setting) {
       case (ChangeEndSearchPlaceSetting() || ChangeStartSearchPlaceSetting()):
-        return () => Navigator.of(context).pop();
+        return NaviBackButton(
+          parentViewName: '경로선택',
+          onPressed: () => Navigator.of(context).pop(),
+        );
       default:
         return null;
     }

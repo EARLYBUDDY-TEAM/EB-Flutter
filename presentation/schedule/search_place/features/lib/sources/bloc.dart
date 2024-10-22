@@ -26,6 +26,7 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     on<PressResetButton>(_onPressResetButton);
     on<PressSelectPlaceButton>(_onPressSelectPlaceButton);
     on<PressCancelButton>(_onPressCancelButton);
+    on<SetSearchPlaceContentStatus>(_onSetSearchPlaceContentStatus);
   }
 
   @override
@@ -131,10 +132,28 @@ extension on SearchPlaceBloc {
     switch (result) {
       case Success():
         final List<Place> placeList = result.success.model;
-        final contentStatus = ListSearchPlaceContent(placeList: placeList);
-        emit(state.copyWith(contentStatus: contentStatus));
+        emit(
+          state.copyWith(
+            placeList: placeList,
+            contentStatus: ListSearchPlaceContent(),
+          ),
+        );
       case Failure():
-        emit(state.copyWith(contentStatus: ListSearchPlaceContent()));
+        emit(
+          state.copyWith(
+            placeList: [],
+            contentStatus: ListSearchPlaceContent(),
+          ),
+        );
     }
+  }
+}
+
+extension on SearchPlaceBloc {
+  void _onSetSearchPlaceContentStatus(
+    SetSearchPlaceContentStatus event,
+    Emitter<SearchPlaceState> emit,
+  ) {
+    emit(state.copyWith(contentStatus: event.contentStatus));
   }
 }

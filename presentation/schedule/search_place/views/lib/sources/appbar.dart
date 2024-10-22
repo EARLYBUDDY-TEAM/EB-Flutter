@@ -4,7 +4,8 @@ final class _SearchPlaceAppBar extends AppBar {
   @override
   final String titleName;
   final Function()? cancelAction;
-  final Function()? backAction;
+  @override
+  final Widget? backButton;
 
   final Color color = EBColors.blue1;
   final String fontFamily = FontFamily.nanumSquareBold;
@@ -13,7 +14,7 @@ final class _SearchPlaceAppBar extends AppBar {
   _SearchPlaceAppBar({
     required this.titleName,
     required this.cancelAction,
-    required this.backAction,
+    required this.backButton,
   });
 
   TextStyle textStyle() => TextStyle(
@@ -56,11 +57,14 @@ final class _SearchPlaceAppBar extends AppBar {
             : [],
       );
 
+  // @override
+  // Widget? get leading => (backAction != null)
+  //     ? NaviBackButton(
+  //         parentViewName: '경로선택',
+  //         onPressed: backAction,
+  //       )
+  //     : null;
+
   @override
-  Widget? get leading => (backAction != null)
-      ? NaviBackButton(
-          parentViewName: '경로선택',
-          onPressed: backAction,
-        )
-      : null;
+  Widget? get leading => backButton;
 }

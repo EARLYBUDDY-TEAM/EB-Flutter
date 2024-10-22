@@ -45,3 +45,12 @@ final class PressCancelButton extends SearchPlaceEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class SetSearchPlaceContentStatus extends SearchPlaceEvent {
+  final SealedSearchPlaceContent contentStatus;
+
+  const SetSearchPlaceContentStatus({required this.contentStatus});
+
+  @override
+  List<Object?> get props => [contentStatus];
+}
