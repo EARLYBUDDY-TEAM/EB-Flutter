@@ -44,6 +44,7 @@ final class FindRouteView extends StatelessWidget {
 
 final class _FindRouteScaffold extends StatelessWidget {
   final String? parentName;
+  final selectRouteName = '경로 목록';
 
   const _FindRouteScaffold({
     required this.parentName,
@@ -56,19 +57,23 @@ final class _FindRouteScaffold extends StatelessWidget {
         return previous.contentStatus != current.contentStatus;
       },
       builder: (context, state) {
+        final contentStatus = state.contentStatus;
+
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: _FindRouteAppBar(
-            parentName: parentName,
+            parentName: (contentStatus is DetailFindRouteStatus)
+                ? selectRouteName
+                : parentName,
             backAction: _backAction(
-              contentStatus: state.contentStatus,
+              contentStatus: contentStatus,
               context: context,
             ),
             cancelAction: () =>
                 context.read<FindRouteBloc>().add(const CancelViewAction()),
           ),
           body: Stack(
-            children: _children(state.contentStatus),
+            children: _children(contentStatus),
           ),
         );
       },
@@ -124,9 +129,9 @@ final class _FindRouteSwitchContent extends StatelessWidget {
         return previous.contentStatus != current.contentStatus;
       },
       builder: (context, state) {
-        final cotentStatus = state.contentStatus;
+        final contentStatus = state.contentStatus;
 
-        switch (cotentStatus) {
+        switch (contentStatus) {
           case EmptyDataFindRouteStatus():
             return _FindRouteEmptyDataView(
               headerHeight: headerHeight,

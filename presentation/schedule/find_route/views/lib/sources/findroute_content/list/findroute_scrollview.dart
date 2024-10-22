@@ -10,21 +10,33 @@ final class _FindRouteScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          _FindRouteInfoView(),
-          Expanded(
-            child: ScrollWithHeader(
-              header: _FindRouteHeaderSortView(height: headerHeight),
-              headerHeight: headerHeight,
-              list: [
-                _FindRouteScrollSwitchContent(),
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        final contentStatus = state.contentStatus;
+
+        return Expanded(
+          child: PopScope(
+            canPop: (contentStatus is SelectFindRouteStatus) ? true : false,
+            child: Column(
+              children: [
+                _FindRouteInfoView(),
+                Expanded(
+                  child: ScrollWithHeader(
+                    header: _FindRouteHeaderSortView(height: headerHeight),
+                    headerHeight: headerHeight,
+                    list: [
+                      _FindRouteScrollSwitchContent(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

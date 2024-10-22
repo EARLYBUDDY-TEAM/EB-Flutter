@@ -20,16 +20,7 @@ class _DetailRouteListView extends StatelessWidget {
       if (index != subPaths.length) {
         return Column(
           children: [
-            InkWell(
-              child: DetailRouteListItem(ebSubPath: subPaths[index]),
-              onTap: () {
-                // context.read<FindRouteBloc>().add(
-                //       SetFindRouteContentStatus(
-                //         contentStatus: SelectFindRouteStatus(),
-                //       ),
-                //     );
-              },
-            ),
+            DetailRouteListItem(ebSubPath: subPaths[index]),
             _ListDivider(),
           ],
         );
