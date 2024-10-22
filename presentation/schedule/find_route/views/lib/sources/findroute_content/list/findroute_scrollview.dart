@@ -20,24 +20,44 @@ final class _FindRouteScrollView extends StatelessWidget {
         return Expanded(
           child: PopScope(
             canPop: (contentStatus is SelectFindRouteStatus) ? true : false,
-            child: Column(
-              children: [
-                _FindRouteInfoView(),
-                Expanded(
-                  child: ScrollWithHeader(
-                    header: _FindRouteHeaderSortView(height: headerHeight),
-                    headerHeight: headerHeight,
-                    list: [
-                      _FindRouteScrollSwitchContent(),
-                    ],
+            child: GestureDetector(
+              onHorizontalDragUpdate: (details) => _onHorizontalDragUpdate(
+                context: context,
+                details: details,
+              ),
+              child: Column(
+                children: [
+                  _FindRouteInfoView(),
+                  Expanded(
+                    child: ScrollWithHeader(
+                      header: _FindRouteHeaderSortView(height: headerHeight),
+                      headerHeight: headerHeight,
+                      list: [
+                        _FindRouteScrollSwitchContent(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
       },
     );
+  }
+
+  void _onHorizontalDragUpdate({
+    required BuildContext context,
+    required DragUpdateDetails details,
+  }) {
+    const int sensitivity = 40;
+    if (details.delta.dx > sensitivity) {
+      context.read<FindRouteBloc>().add(
+            SetFindRouteContentStatus(
+              contentStatus: SelectFindRouteStatus(),
+            ),
+          );
+    }
   }
 }
 
