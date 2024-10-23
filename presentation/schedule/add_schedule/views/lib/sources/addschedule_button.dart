@@ -22,17 +22,29 @@ final class _AddScheduleButton extends StatelessWidget {
             bottom: bottomPadding,
           ),
           child: EBButton(
-            name: '일정 등록',
-            onPressed: state.status == FormStatus.complete
-                ? () {
-                    context
-                        .read<AddScheduleBloc>()
-                        .add(const PressAddScheduleButton());
-                  }
-                : null,
+            name: _name(state.setting),
+            onPressed: onPressed(
+              context: context,
+              status: state.status,
+            ),
           ),
         );
       },
     );
+  }
+
+  String _name(SealedAddScheduleSetting setting) {
+    return (setting is InitScheduleSetting) ? '일정 등록' : '일정 수정';
+  }
+
+  Function()? onPressed({
+    required BuildContext context,
+    required FormStatus status,
+  }) {
+    return status == FormStatus.complete
+        ? () {
+            context.read<AddScheduleBloc>().add(const PressAddScheduleButton());
+          }
+        : null;
   }
 }

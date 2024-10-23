@@ -1,10 +1,10 @@
 part of '../../eb_add_schedule.dart';
 
-class _NameForm extends StatelessWidget {
+class _ScheduleNameForm extends StatelessWidget {
   final Color color = Colors.grey;
   final double fontSize;
 
-  const _NameForm({
+  const _ScheduleNameForm({
     required this.fontSize,
   });
 
@@ -15,11 +15,11 @@ class _NameForm extends StatelessWidget {
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
         child: Column(
           children: [
-            _TitleInput(
+            _ScheduleTitleInput(
               color: color,
               fontSize: fontSize,
             ),
-            _MemoInput(
+            _ScheduleMemoInput(
               color: color,
               fontSize: fontSize,
             ),
@@ -30,22 +30,31 @@ class _NameForm extends StatelessWidget {
   }
 }
 
-final class _MemoInput extends StatelessWidget {
+final class _ScheduleMemoInput extends StatelessWidget {
   final Color color;
   final double fontSize;
 
-  const _MemoInput({
+  const _ScheduleMemoInput({
     required this.color,
     required this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxHeight: 150),
-      child: BlocBuilder<AddScheduleBloc, AddScheduleState>(
-        builder: (context, state) {
-          return TextField(
+    return BlocSelector<AddScheduleBloc, AddScheduleState,
+        SealedAddScheduleSetting>(
+      selector: (state) {
+        return state.setting;
+      },
+      builder: (context, setting) {
+        final text = (setting is ChangeScheduleSetting)
+            ? setting.initialSchedule.memo
+            : null;
+
+        return Container(
+          constraints: const BoxConstraints(maxHeight: 150),
+          child: TextField(
+            controller: TextEditingController(text: text),
             onChanged: (memo) =>
                 context.read<AddScheduleBloc>().add(ChangeMemo(memo)),
             keyboardType: TextInputType.multiline,
@@ -61,27 +70,36 @@ final class _MemoInput extends StatelessWidget {
               ),
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
 
-final class _TitleInput extends StatelessWidget {
+final class _ScheduleTitleInput extends StatelessWidget {
   final Color color;
   final double fontSize;
 
-  const _TitleInput({
+  const _ScheduleTitleInput({
     required this.color,
     required this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
-      builder: (context, state) {
+    return BlocSelector<AddScheduleBloc, AddScheduleState,
+        SealedAddScheduleSetting>(
+      selector: (state) {
+        return state.setting;
+      },
+      builder: (context, setting) {
+        final text = (setting is ChangeScheduleSetting)
+            ? setting.initialSchedule.title
+            : null;
+
         return TextField(
+          controller: TextEditingController(text: text),
           onChanged: (title) =>
               context.read<AddScheduleBloc>().add(ChangeTitle(title)),
           cursorColor: color,

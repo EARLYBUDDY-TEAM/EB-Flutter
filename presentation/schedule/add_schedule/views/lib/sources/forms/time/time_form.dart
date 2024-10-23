@@ -9,24 +9,40 @@ final class _TimeForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RoundRectForm(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          children: [
-            _IconPlusName(
-              name: '시간',
-              iconData: Icons.access_time,
-              fontSize: fontSize,
-              isActive: true,
+    return BlocSelector<AddScheduleBloc, AddScheduleState,
+        SealedAddScheduleSetting>(
+      selector: (state) {
+        return state.setting;
+      },
+      builder: (context, setting) {
+        final initialDate = (setting is ChangeScheduleSetting)
+            ? setting.initialSchedule.time
+            : DateTime.now();
+
+        final initialTime = (setting is ChangeScheduleSetting)
+            ? EBTime.dateTimeToTimeOfDay(setting.initialSchedule.time)
+            : EBTime.dateTimeToTimeOfDay(DateTime.now());
+
+        return RoundRectForm(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                _IconPlusName(
+                  name: '시간',
+                  iconData: Icons.access_time,
+                  fontSize: fontSize,
+                  isActive: true,
+                ),
+                const Spacer(),
+                _DatePicker(initialDate: initialDate),
+                const SizedBox(width: 7),
+                _TimePicker(initialTime: initialTime),
+              ],
             ),
-            const Spacer(),
-            _DatePicker(),
-            const SizedBox(width: 7),
-            _TimePicker(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eb_search_place/eb_search_place.dart';
 import 'package:eb_search_place_feature/eb_search_place_feature.dart';
 import 'package:eb_find_route/eb_find_route.dart';
@@ -14,8 +16,8 @@ import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_event/eb_event.dart';
 import 'package:eb_state/eb_state.dart';
 
-part 'sources/appbar.dart';
-part 'sources/addschedulebutton.dart';
+part 'sources/addschedule_appbar.dart';
+part 'sources/addschedule_button.dart';
 part 'sources/addschedule_view.dart';
 part 'sources/forms/addschedule_forms.dart';
 part 'sources/forms/name_form.dart';

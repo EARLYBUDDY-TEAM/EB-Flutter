@@ -1,6 +1,7 @@
 part of '../../eb_add_schedule_feature.dart';
 
 final class AddScheduleState extends Equatable {
+  final SealedAddScheduleSetting setting;
   final Schedule info;
   final FormStatus status;
   final BaseStatus result;
@@ -9,13 +10,15 @@ final class AddScheduleState extends Equatable {
   final SealedNotifyTransportState notifyTransportState;
 
   AddScheduleState({
+    SealedAddScheduleSetting? setting,
     Schedule? info,
     FormStatus? status,
     BaseStatus? result,
     SealedStartPlaceState? startPlaceState,
     SealedNotifyScheduleState? notifyScheduleState,
     SealedNotifyTransportState? notifyTransportState,
-  })  : info = info ?? Schedule(),
+  })  : setting = setting ?? InitScheduleSetting(),
+        info = info ?? Schedule(),
         status = status ?? FormStatus.init,
         result = result ?? BaseStatus.init,
         startPlaceState = startPlaceState ?? EmptyStartPlaceState(),
@@ -24,6 +27,7 @@ final class AddScheduleState extends Equatable {
             notifyTransportState ?? FalseNotifyTransportState();
 
   AddScheduleState copyWith({
+    SealedAddScheduleSetting? setting,
     Schedule? info,
     FormStatus? status,
     BaseStatus? result,
@@ -32,6 +36,7 @@ final class AddScheduleState extends Equatable {
     SealedNotifyTransportState? notifyTransportState,
   }) =>
       AddScheduleState(
+        setting: setting ?? this.setting,
         info: info ?? this.info,
         status: status ?? this.status,
         result: result ?? this.result,
@@ -42,6 +47,7 @@ final class AddScheduleState extends Equatable {
 
   @override
   List<Object?> get props => [
+        setting,
         info,
         status,
         result,

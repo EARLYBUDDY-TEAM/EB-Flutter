@@ -29,14 +29,10 @@ final class BottomScheduleCardView extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () => showCupertinoModalBottomSheet(
-        expand: true,
-        context: context,
-        backgroundColor: Colors.white,
-        builder: builderModalBottomSheet(
+      onTap: () => Navigator.of(context).push(
+        AddScheduleView.pageChangeAddSchedule(
           context: context,
-          onGenerateRoute:
-              AddScheduleView.pageAddScheduleView(context: context),
+          initialSchedule: schedule,
         ),
       ),
     );

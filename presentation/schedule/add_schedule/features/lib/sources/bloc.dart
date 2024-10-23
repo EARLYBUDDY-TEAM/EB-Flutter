@@ -34,7 +34,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<RemoveStartPlace>(_onRemoveStartPlace);
     on<PressAlertOkButton>(_onPressAlertOkButton);
     on<SetAddScheduleResult>(_onSetAddScheduleResult);
-    on<OnAppearAddScheduleView>(_onOnAppearAddScheduleView);
+    on<SetupAddScheduleView>(_onSetupAddScheduleView);
 
     selectPlaceSubscriptionForEnd = addScheduleDelegate.selectEndPlace
         .listen((place) => add(SelectEndPlace(place: place)));
@@ -215,10 +215,16 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onOnAppearAddScheduleView(
-    OnAppearAddScheduleView event,
+  void _onSetupAddScheduleView(
+    SetupAddScheduleView event,
     Emitter<AddScheduleState> emit,
   ) {
-    emit(event.state);
+    final setting = event.setting;
+    switch (setting) {
+      case InitScheduleSetting():
+        emit(state.copyWith(setting: setting));
+      case ChangeScheduleSetting():
+        emit(state.copyWith(setting: setting, info: setting.initialSchedule));
+    }
   }
 }

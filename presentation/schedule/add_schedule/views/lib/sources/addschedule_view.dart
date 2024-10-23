@@ -1,27 +1,40 @@
 part of '../eb_add_schedule.dart';
 
 final class AddScheduleView extends StatelessWidget {
-  final AddScheduleState state;
+  final SealedAddScheduleSetting setting;
+
+  const AddScheduleView({
+    super.key,
+    required this.setting,
+  });
 
   static MaterialPageRoute Function({
     required BuildContext context,
-    AddScheduleState? state,
-  }) get pageAddScheduleView {
+    required Schedule initialSchedule,
+  }) get pageChangeAddSchedule {
     return ({
       required BuildContext context,
-      AddScheduleState? state,
+      required Schedule initialSchedule,
     }) =>
         MaterialPageRoute(
           builder: (context) => AddScheduleView(
-            state: state,
+            setting: ChangeScheduleSetting(initialSchedule: initialSchedule),
           ),
         );
   }
 
-  AddScheduleView({
-    super.key,
-    AddScheduleState? state,
-  }) : state = state ?? AddScheduleState();
+  static MaterialPageRoute Function({
+    required BuildContext context,
+  }) get pageInitAddSchedule {
+    return ({
+      required BuildContext context,
+    }) =>
+        MaterialPageRoute(
+          builder: (context) => AddScheduleView(
+            setting: InitScheduleSetting(),
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +48,7 @@ final class AddScheduleView extends StatelessWidget {
               RepositoryProvider.of<ScheduleRepository>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           cancelModalViewAction: () => Navigator.of(context).pop(),
-        )..add(OnAppearAddScheduleView(state: state));
+        )..add(SetupAddScheduleView(setting: setting));
       },
       child: const _AddScheduleContent(),
     );
@@ -66,23 +79,44 @@ final class _AddScheduleContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomSafe = ScreenSize.safeArea.bottom(context);
 
-    return BlocListener<AddScheduleBloc, AddScheduleState>(
+    return BlocConsumer<AddScheduleBloc, AddScheduleState>(
       listener: (context, state) {
         showAddScheduleResultAlert(context, state.result);
       },
-      child: Scaffold(
-        appBar: _AppBar(context: context),
-        body: SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              _AddScheduleForms(bottomPadding: bottomSafe + 40 + 20),
-              _AddScheduleButton(bottomPadding: bottomSafe),
-            ],
+      buildWhen: (previous, current) {
+        return previous.setting != current.setting;
+      },
+      builder: (context, state) {
+        final titleString =
+            (state.setting is InitScheduleSetting) ? "일정 등록" : "일정 수정";
+
+        return Scaffold(
+          appBar: _AddScheduleAppBar(
+            titleString: titleString,
+            popViewAction: () => Navigator.of(context).pop(),
+            removeScheduleAction: _removeScheduleAction(state.setting),
           ),
-        ),
-      ),
+          body: SafeArea(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                _AddScheduleForms(bottomPadding: bottomSafe + 40 + 20),
+                _AddScheduleButton(bottomPadding: bottomSafe),
+              ],
+            ),
+          ),
+        );
+      },
     );
+  }
+
+  Function()? _removeScheduleAction(SealedAddScheduleSetting setting) {
+    switch (setting) {
+      case InitScheduleSetting():
+        return null;
+      case ChangeScheduleSetting():
+        return () {};
+    }
   }
 
   void showAddScheduleResultAlert(
