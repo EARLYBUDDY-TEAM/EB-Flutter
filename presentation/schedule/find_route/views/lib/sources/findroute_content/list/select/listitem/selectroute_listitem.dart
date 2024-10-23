@@ -1,11 +1,13 @@
 part of '../../../../../eb_find_route.dart';
 
 final class SelectRouteListItem extends StatelessWidget {
+  final bool isBestRoute;
   final EBPath ebPath;
   final TransportLineOfPath lineOfPath;
 
   const SelectRouteListItem({
     super.key,
+    required this.isBestRoute,
     required this.ebPath,
     required this.lineOfPath,
   });
@@ -30,12 +32,14 @@ final class SelectRouteListItem extends StatelessWidget {
   }
 
   Expanded _listItemRouteInfo() {
+    final double topPadding = isBestRoute ? 20 : 0;
+
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 20, right: 10),
+        padding: EdgeInsets.only(top: topPadding, left: 20, right: 10),
         child: Row(
           children: [
-            _SelectRouteItemInfo(ebPath: ebPath),
+            _SelectRouteItemInfo(isBestRoute: isBestRoute, ebPath: ebPath),
             const Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,

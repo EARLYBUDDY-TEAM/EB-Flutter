@@ -1,10 +1,12 @@
 part of '../../../../../eb_find_route.dart';
 
 final class _SelectRouteItemInfo extends StatelessWidget {
+  final bool isBestRoute;
   final EBPath ebPath;
 
   const _SelectRouteItemInfo({
     required this.ebPath,
+    required this.isBestRoute,
   });
 
   @override
@@ -12,14 +14,24 @@ final class _SelectRouteItemInfo extends StatelessWidget {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _routeState(),
-          const SizedBox(height: 3),
-          _routeTimeTrasport(),
-          _routeSpecificInfo(),
-        ],
+        children: _children,
       ),
     );
+  }
+
+  List<Widget> get _children {
+    return isBestRoute
+        ? [
+            _routeState(),
+            const SizedBox(height: 3),
+            _routeTimeTrasport(),
+            _routeSpecificInfo(),
+          ]
+        : [
+            const SizedBox(height: 3),
+            _routeTimeTrasport(),
+            _routeSpecificInfo(),
+          ];
   }
 }
 
@@ -79,7 +91,7 @@ extension on _SelectRouteItemInfo {
 
 extension on _SelectRouteItemInfo {
   Expanded _routeSpecificInfo() {
-    final transitCount = ebPath.busTransitCount + ebPath.subwayTransitCount;
+    final transitCount = ebPath.busTransitCount + ebPath.subwayTransitCount - 1;
     final payment = ebPath.payment;
     final walkTime = EBTime.intToString(ebPath.walkTime);
     return Expanded(

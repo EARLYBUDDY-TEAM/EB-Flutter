@@ -16,6 +16,7 @@ final class _SelectRouteListView extends StatelessWidget {
           children: [
             InkWell(
               child: SelectRouteListItem(
+                isBestRoute: (index < 3) ? true : false,
                 ebPath: ebPaths[index],
                 lineOfPath: lineOfPaths[index],
               ),
