@@ -3,12 +3,12 @@ part of '../eb_add_schedule.dart';
 final class _AddScheduleAppBar extends AppBar {
   final String titleString;
   final Function() popViewAction;
-  final Function()? removeScheduleAction;
+  final Function()? deleteScheduleAction;
 
   _AddScheduleAppBar({
     required this.titleString,
     required this.popViewAction,
-    required this.removeScheduleAction,
+    required this.deleteScheduleAction,
   });
 
   @override
@@ -28,13 +28,13 @@ final class _AddScheduleAppBar extends AppBar {
 
   @override
   List<Widget>? get actions {
-    if (removeScheduleAction == null) {
+    if (deleteScheduleAction == null) {
       return null;
     }
 
     return [
       TextButton(
-        onPressed: removeScheduleAction,
+        onPressed: deleteScheduleAction,
         child: const Text(
           '삭제',
           style: TextStyle(

@@ -7,6 +7,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   late StreamSubscription<BaseStatus> _loginStatusSubscription;
   late StreamSubscription<BaseStatus> _registerStatusSubscription;
+  late StreamSubscription<void> _getAllSchedulesSubscription;
 
   HomeBloc({
     required LoadingDelegate loadingDelegate,
@@ -28,6 +29,10 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     _registerStatusSubscription = homeDelegate.registerStatus.listen(
       (status) => add(SetHomeStatus(register: status)),
+    );
+
+    _getAllSchedulesSubscription = homeDelegate.getAllSchedules.listen(
+      (_) => add(const OnAppearHomeView()),
     );
   }
 
@@ -130,6 +135,7 @@ extension on HomeBloc {
   ) async {
     if (event.schedulePath.schedule.id == null) {
       _failActionOnDeleteScheduleCard(emit: emit);
+      return;
     }
 
     _loadingDelegate.set();

@@ -34,7 +34,7 @@ final class _AddScheduleButton extends StatelessWidget {
   }
 
   String _name(SealedAddScheduleSetting setting) {
-    return (setting is InitScheduleSetting) ? '일정 등록' : '일정 수정';
+    return (setting is InitAddScheduleSetting) ? '일정 등록' : '일정 수정';
   }
 
   Function()? onPressed({

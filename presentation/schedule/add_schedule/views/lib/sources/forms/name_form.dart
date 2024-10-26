@@ -47,8 +47,9 @@ final class _ScheduleMemoInput extends StatelessWidget {
         return state.setting;
       },
       builder: (context, setting) {
-        final text =
-            (setting is ChangeScheduleSetting) ? setting.schedule.memo : null;
+        final text = (setting is ChangeAddScheduleSetting)
+            ? setting.schedule.memo
+            : null;
 
         return Container(
           constraints: const BoxConstraints(maxHeight: 150),
@@ -93,8 +94,9 @@ final class _ScheduleTitleInput extends StatelessWidget {
         return state.setting;
       },
       builder: (context, setting) {
-        final text =
-            (setting is ChangeScheduleSetting) ? setting.schedule.title : null;
+        final text = (setting is ChangeAddScheduleSetting)
+            ? setting.schedule.title
+            : null;
 
         return TextField(
           controller: TextEditingController(text: text),

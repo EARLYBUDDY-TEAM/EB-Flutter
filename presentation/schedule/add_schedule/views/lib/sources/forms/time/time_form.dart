@@ -15,11 +15,11 @@ final class _TimeForm extends StatelessWidget {
         return state.setting;
       },
       builder: (context, setting) {
-        final initialDate = (setting is ChangeScheduleSetting)
+        final initialDate = (setting is ChangeAddScheduleSetting)
             ? setting.schedule.time
             : DateTime.now();
 
-        final initialTime = (setting is ChangeScheduleSetting)
+        final initialTime = (setting is ChangeAddScheduleSetting)
             ? EBTime.dateTimeToTimeOfDay(setting.schedule.time)
             : EBTime.dateTimeToTimeOfDay(DateTime.now());
 

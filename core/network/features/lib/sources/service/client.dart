@@ -46,6 +46,13 @@ class NetworkClient implements NetworkClientAB {
           queryParameters: request.query,
           data: request.requestData,
         );
+
+      case HTTPMethod.patch:
+        response = await _dio.patch(
+          request.path,
+          queryParameters: request.query,
+          data: request.requestData,
+        );
     }
 
     _dio.options.headers = null;

@@ -20,7 +20,7 @@ final class AddScheduleView extends StatelessWidget {
     }) =>
         MaterialPageRoute(
           builder: (context) => AddScheduleView(
-            setting: ChangeScheduleSetting(
+            setting: ChangeAddScheduleSetting(
               schedule: schedule,
               ebPath: ebPath,
             ),
@@ -36,7 +36,7 @@ final class AddScheduleView extends StatelessWidget {
     }) =>
         MaterialPageRoute(
           builder: (context) => AddScheduleView(
-            setting: InitScheduleSetting(),
+            setting: InitAddScheduleSetting(),
           ),
         );
   }
@@ -47,12 +47,15 @@ final class AddScheduleView extends StatelessWidget {
       create: (context) {
         return AddScheduleBloc(
           loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+          homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
           addScheduleDelegate:
               RepositoryProvider.of<AddScheduleDelegate>(context),
           scheduleRepository:
               RepositoryProvider.of<ScheduleRepository>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-          cancelModalViewAction: () => Navigator.of(context).pop(),
+          cancelModalViewAction: () {
+            Navigator.of(context).pop();
+          },
         )..add(SetupAddScheduleView(setting: setting));
       },
       child: const _AddScheduleContent(),
@@ -62,6 +65,7 @@ final class AddScheduleView extends StatelessWidget {
   static MaterialPageRoute pageFindRoute({
     required Place startPlace,
     required Place endPlace,
+    String? parentName,
   }) {
     return MaterialPageRoute(
       builder: (_) => FindRouteView(
@@ -69,7 +73,7 @@ final class AddScheduleView extends StatelessWidget {
         endPlace: endPlace,
         pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
         pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
-        parentName: null,
+        parentName: parentName,
       ),
     );
   }
@@ -86,7 +90,10 @@ final class _AddScheduleContent extends StatelessWidget {
 
     return BlocConsumer<AddScheduleBloc, AddScheduleState>(
       listener: (context, state) {
-        showAddScheduleResultAlert(context, state.result);
+        showAddScheduleResultAlert(
+          context: context,
+          result: state.result,
+        );
       },
       buildWhen: (previous, current) {
         return previous.setting != current.setting;
@@ -96,7 +103,10 @@ final class _AddScheduleContent extends StatelessWidget {
           appBar: _AddScheduleAppBar(
             titleString: _titleString(state.setting),
             popViewAction: () => Navigator.of(context).pop(),
-            removeScheduleAction: _removeScheduleAction(state.setting),
+            deleteScheduleAction: _deleteScheduleAction(
+              context: context,
+              setting: state.setting,
+            ),
           ),
           body: SafeArea(
             child: Stack(
@@ -114,39 +124,74 @@ final class _AddScheduleContent extends StatelessWidget {
 
   String _titleString(SealedAddScheduleSetting setting) {
     switch (setting) {
-      case InitScheduleSetting():
+      case InitAddScheduleSetting():
         return "일정 등록";
-      case ChangeScheduleSetting():
+      case ChangeAddScheduleSetting():
         return setting.schedule.title;
     }
   }
 
-  Function()? _removeScheduleAction(SealedAddScheduleSetting setting) {
+  Function()? _deleteScheduleAction({
+    required BuildContext context,
+    required SealedAddScheduleSetting setting,
+  }) {
     switch (setting) {
-      case InitScheduleSetting():
+      case InitAddScheduleSetting():
         return null;
-      case ChangeScheduleSetting():
-        return () {};
+      case ChangeAddScheduleSetting():
+        return () {
+          context.read<AddScheduleBloc>().add(PressDeleteButton());
+        };
     }
   }
 
-  void showAddScheduleResultAlert(
-    BuildContext context,
-    BaseStatus result,
-  ) {
-    if (result == BaseStatus.init) {
-      return;
-    }
-
+  void showAddScheduleResultAlert({
+    required BuildContext context,
+    required SealedAddScheduleResult result,
+  }) {
     String title;
     String? content;
+    bool popAddScheduleView;
+
     switch (result) {
-      case (BaseStatus.success):
-        title = "일정을 등록했습니다!";
-      default:
-        title = "일정등록에 실패했습니다.";
-        content = "네트워크 상태를 확인후 다시 시도해주세요.";
+      case CreateAddScheduleResult():
+        switch (result.status) {
+          case BaseStatus.init:
+            return;
+          case BaseStatus.success:
+            title = "일정을 등록했습니다!";
+            popAddScheduleView = true;
+          case BaseStatus.fail:
+            title = "일정등록에 실패했습니다.";
+            content = "네트워크 상태를 확인후 다시 시도해주세요.";
+            popAddScheduleView = false;
+        }
+      case UpdateAddScheduleResult():
+        switch (result.status) {
+          case BaseStatus.init:
+            return;
+          case BaseStatus.success:
+            title = "일정을 수정했습니다!";
+            popAddScheduleView = true;
+          case BaseStatus.fail:
+            title = "일정수정에 실패했습니다.";
+            content = "네트워크 상태를 확인후 다시 시도해주세요.";
+            popAddScheduleView = false;
+        }
+      case DeleteAddScheduleResult():
+        switch (result.status) {
+          case BaseStatus.init:
+            return;
+          case BaseStatus.success:
+            title = "일정을 삭제했습니다!";
+            popAddScheduleView = true;
+          case BaseStatus.fail:
+            title = "일정삭제에 실패했습니다.";
+            content = "네트워크 상태를 확인후 다시 시도해주세요.";
+            popAddScheduleView = false;
+        }
     }
+
     EBAlert.showModalPopup(
       context: context,
       title: title,
@@ -155,9 +200,13 @@ final class _AddScheduleContent extends StatelessWidget {
         EBAlert.makeAction(
           name: '확인',
           onPressed: () {
-            context.read<AddScheduleBloc>().add(const PressAlertOkButton());
+            context.read<AddScheduleBloc>().add(
+                  SetAddScheduleResultStatus(
+                    result: SealedAddScheduleResult.init(),
+                  ),
+                );
             Navigator.of(context).pop();
-            if (result == BaseStatus.success) {
+            if (popAddScheduleView) {
               Navigator.of(context).pop();
             }
           },

@@ -142,6 +142,7 @@ extension on _StartPlaceSwitchState {
         pageFindRoute: (startPlace) => AddScheduleView.pageFindRoute(
           startPlace: startPlace,
           endPlace: endPlace,
+          parentName: "출발장소",
         ),
       ),
     );

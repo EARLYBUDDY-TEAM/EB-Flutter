@@ -4,7 +4,7 @@ final class AddScheduleState extends Equatable {
   final SealedAddScheduleSetting setting;
   final Schedule schedule;
   final FormStatus status;
-  final BaseStatus result;
+  final SealedAddScheduleResult result;
   final SealedStartPlaceState startPlaceState;
   final SealedNotifyScheduleState notifyScheduleState;
   final SealedNotifyTransportState notifyTransportState;
@@ -13,14 +13,14 @@ final class AddScheduleState extends Equatable {
     SealedAddScheduleSetting? setting,
     Schedule? info,
     FormStatus? status,
-    BaseStatus? result,
+    SealedAddScheduleResult? result,
     SealedStartPlaceState? startPlaceState,
     SealedNotifyScheduleState? notifyScheduleState,
     SealedNotifyTransportState? notifyTransportState,
-  })  : setting = setting ?? InitScheduleSetting(),
+  })  : setting = setting ?? InitAddScheduleSetting(),
         schedule = info ?? Schedule(),
         status = status ?? FormStatus.init,
-        result = result ?? BaseStatus.init,
+        result = result ?? SealedAddScheduleResult.init(),
         startPlaceState = startPlaceState ?? EmptyStartPlaceState(),
         notifyScheduleState = notifyScheduleState ?? FalseNotifyScheduleState(),
         notifyTransportState =
@@ -30,7 +30,7 @@ final class AddScheduleState extends Equatable {
     SealedAddScheduleSetting? setting,
     Schedule? schedule,
     FormStatus? status,
-    BaseStatus? result,
+    SealedAddScheduleResult? result,
     SealedStartPlaceState? startPlaceState,
     SealedNotifyScheduleState? notifyScheduleState,
     SealedNotifyTransportState? notifyTransportState,

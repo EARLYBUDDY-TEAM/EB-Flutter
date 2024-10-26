@@ -19,3 +19,4 @@ part 'sources/state/sealed_startplace.dart';
 part 'sources/state/sealed_notify_schedule.dart';
 part 'sources/state/sealed_notify_transport.dart';
 part 'sources/state/sealed_addschedule_setting.dart';
+part 'sources/state/sealed_addschedule_result_status.dart';

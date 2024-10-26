@@ -83,17 +83,10 @@ final class RemoveStartPlace extends AddScheduleEvent {
   List<Object?> get props => [];
 }
 
-final class PressAlertOkButton extends AddScheduleEvent {
-  const PressAlertOkButton();
+final class SetAddScheduleResultStatus extends AddScheduleEvent {
+  final SealedAddScheduleResult result;
 
-  @override
-  List<Object?> get props => [];
-}
-
-final class SetAddScheduleResult extends AddScheduleEvent {
-  final BaseStatus result;
-
-  const SetAddScheduleResult({required this.result});
+  const SetAddScheduleResultStatus({required this.result});
 
   @override
   List<Object?> get props => [result];
@@ -106,4 +99,9 @@ final class SetupAddScheduleView extends AddScheduleEvent {
 
   @override
   List<Object?> get props => [setting];
+}
+
+final class PressDeleteButton extends AddScheduleEvent {
+  @override
+  List<Object?> get props => [];
 }

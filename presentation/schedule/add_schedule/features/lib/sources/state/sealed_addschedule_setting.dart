@@ -2,11 +2,11 @@ part of '../../eb_add_schedule_feature.dart';
 
 sealed class SealedAddScheduleSetting extends Equatable {}
 
-final class ChangeScheduleSetting extends SealedAddScheduleSetting {
+final class ChangeAddScheduleSetting extends SealedAddScheduleSetting {
   final Schedule schedule;
   final EBPath? ebPath;
 
-  ChangeScheduleSetting({
+  ChangeAddScheduleSetting({
     required this.schedule,
     required this.ebPath,
   });
@@ -18,7 +18,7 @@ final class ChangeScheduleSetting extends SealedAddScheduleSetting {
       ];
 }
 
-final class InitScheduleSetting extends SealedAddScheduleSetting {
+final class InitAddScheduleSetting extends SealedAddScheduleSetting {
   @override
   List<Object?> get props => [];
 }
