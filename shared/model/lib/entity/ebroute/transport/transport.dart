@@ -11,6 +11,14 @@ final class Transport extends Equatable {
     this.walk,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      "subwayType": subway?.type,
+      "busNumber": "${bus?.number}",
+      "busType": bus?.type,
+    };
+  }
+
   static Transport fromDTO({required TransportDTO transportDTO}) {
     Subway? subway;
     Bus? bus;

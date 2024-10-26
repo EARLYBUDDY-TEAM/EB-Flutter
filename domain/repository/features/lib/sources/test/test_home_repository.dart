@@ -16,7 +16,7 @@ final class TestHomeRepository implements HomeRepositoryAB {
 
   @override
   Future<Result> deleteScheduleCard(
-      {required String accessToken, required int scheduleID}) async {
+      {required String accessToken, required String scheduleID}) async {
     final successResponse = SuccessResponse(statusCode: 200, model: EmptyDTO());
     return Success(success: successResponse);
   }

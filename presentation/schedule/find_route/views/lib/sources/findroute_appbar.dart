@@ -25,10 +25,12 @@ final class _FindRouteAppBar extends AppBar {
   double? get leadingWidth => 150; // dynamic하게 적용법?
 
   @override
-  Widget? get leading => NaviBackButton(
-        parentViewName: parentName ?? '',
-        onPressed: backAction,
-      );
+  Widget? get leading => (parentName != null)
+      ? NaviBackButton(
+          parentViewName: parentName ?? '',
+          onPressed: backAction,
+        )
+      : null;
 
   @override
   Widget? get title => Text(

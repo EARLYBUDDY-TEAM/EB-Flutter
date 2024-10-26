@@ -1,6 +1,6 @@
 part of '../../eb_home_feature.dart';
 
-typedef DayScheduleMap = Map<DateTime, List<Schedule>>;
+typedef DayScheduleMap = Map<DateTime, List<SchedulePath>>;
 
 final class DaySchedule extends Equatable {
   final DayScheduleMap data;
@@ -26,22 +26,22 @@ final class DaySchedule extends Equatable {
   }
 
   static DaySchedule init({
-    required List<Schedule> allSchedules,
+    required List<SchedulePath> allSchedules,
   }) {
     DayScheduleMap tmpData = {};
-    for (var schedule in allSchedules) {
-      final date = schedule.time.toDate();
+    for (var schedulePath in allSchedules) {
+      final date = schedulePath.schedule.time.toDate();
       if (tmpData.containsKey(date)) {
-        tmpData[date]!.add(schedule);
+        tmpData[date]!.add(schedulePath);
       } else {
-        tmpData[date] = [schedule];
+        tmpData[date] = [schedulePath];
       }
     }
 
     return DaySchedule(data: tmpData);
   }
 
-  List<Schedule> getValue({required DateTime selectedDay}) {
+  List<SchedulePath> getValue({required DateTime selectedDay}) {
     final key = selectedDay.toDate();
     return data.containsKey(key) ? data[key]! : [];
   }
@@ -51,11 +51,11 @@ final class DaySchedule extends Equatable {
     return keyList;
   }
 
-  DaySchedule delete({required Schedule schedule}) {
-    final key = schedule.time.toDate();
+  DaySchedule delete({required SchedulePath schedulePath}) {
+    final key = schedulePath.schedule.time.toDate();
     if (data.containsKey(key)) {
       final scheduleList = data[key]!;
-      scheduleList.remove(schedule);
+      scheduleList.remove(schedulePath);
       if (scheduleList.isEmpty) {
         data.remove(key);
       }

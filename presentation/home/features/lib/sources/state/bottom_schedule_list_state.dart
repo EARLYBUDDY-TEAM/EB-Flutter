@@ -1,10 +1,10 @@
 part of '../../eb_home_feature.dart';
 
 final class BottomScheduleListState extends Equatable {
-  final List<Schedule> selectedSchedules;
+  final List<SchedulePath> selectedSchedules;
 
   BottomScheduleListState({
-    List<Schedule>? selectedSchedules,
+    List<SchedulePath>? selectedSchedules,
   }) : selectedSchedules = selectedSchedules ?? [];
 
   static BottomScheduleListState init({

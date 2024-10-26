@@ -33,7 +33,7 @@ final class _PlaceForm extends StatelessWidget {
                 ),
               ),
               child: BlocSelector<AddScheduleBloc, AddScheduleState, String>(
-                selector: (state) => unwrapPlace(state.info.endPlace),
+                selector: (state) => unwrapPlace(state.schedule.endPlace),
                 builder: (context, end) {
                   return Text(
                     end,

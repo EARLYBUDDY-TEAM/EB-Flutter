@@ -7,14 +7,17 @@ final class ScheduleRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService();
 
-  Future<Result> addSchedule({
+  Future<Result> create({
     required String accessToken,
-    required Schedule scheduleInfo,
+    required Schedule schedule,
+    required EBPath? ebPath,
   }) async {
-    final uploadScheduleInfo = scheduleInfo.toMap();
-    final request = AddScheduleRequest.init(
+    final scheduleMap = schedule.toMap();
+    final pathMap = ebPath?.toMap();
+    final request = AddScheduleRequest.create(
       accessToken: accessToken,
-      scheduleInfo: uploadScheduleInfo,
+      scheduleMap: scheduleMap,
+      pathMap: pathMap,
     );
     final result = await service.request(request);
 

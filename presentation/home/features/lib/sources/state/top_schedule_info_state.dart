@@ -5,24 +5,24 @@ sealed class SealedTopScheduleInfoState extends Equatable {
     required DaySchedule daySchedule,
   }) {
     final today = DateTime.now().toDate();
-    final todayScheduleList = daySchedule.getValue(selectedDay: today);
+    final todaySchedulePathList = daySchedule.getValue(selectedDay: today);
 
-    if (todayScheduleList.isNotEmpty) {
-      Schedule? nextSchedule;
+    if (todaySchedulePathList.isNotEmpty) {
+      SchedulePath? nextSchedule;
       final now = DateTime.now();
-      for (var todaySchedule in todayScheduleList) {
+      for (var todaySchedulePath in todaySchedulePathList) {
         final compareResult = EBTime.compare(
           left: now,
-          right: todaySchedule.time,
+          right: todaySchedulePath.schedule.time,
         );
         if ((compareResult == CompareDateResult.same) ||
             (compareResult == CompareDateResult.right)) {
-          nextSchedule = todaySchedule;
+          nextSchedule = todaySchedulePath;
           break;
         }
       }
       if (nextSchedule != null) {
-        return TodayTopScheduleInfoState(nextSchedule: nextSchedule);
+        return TodayTopScheduleInfoState(nextSchedulePath: nextSchedule);
       }
     }
 
@@ -38,47 +38,50 @@ sealed class SealedTopScheduleInfoState extends Equatable {
       }
     }
     if (upcomingDate == null) {
-      return NoneHomeTopScheduleInfoState();
+      return NoneTopScheduleInfoState();
     } else {
       final upcomingScheduleList =
           daySchedule.getValue(selectedDay: upcomingDate);
       final upcomingSchedule = upcomingScheduleList.firstOrNull;
-      return NoneHomeTopScheduleInfoState(upcomingSchedule: upcomingSchedule);
+      return NoneTopScheduleInfoState(
+        upcomingSchedule: upcomingSchedule?.schedule,
+      );
     }
   }
 }
 
-final class NoneHomeTopScheduleInfoState extends SealedTopScheduleInfoState {
+final class NoneTopScheduleInfoState extends SealedTopScheduleInfoState {
   final Schedule? upcomingSchedule;
 
-  NoneHomeTopScheduleInfoState({
+  NoneTopScheduleInfoState({
     this.upcomingSchedule,
   });
 
   @override
   List<Object?> get props => [upcomingSchedule];
 
-  NoneHomeTopScheduleInfoState copyWith({
-    Schedule? upcomingSchedule,
+  NoneTopScheduleInfoState copyWith({
+    Schedule? Function()? upcomingSchedule,
   }) {
-    return NoneHomeTopScheduleInfoState(
-      upcomingSchedule: upcomingSchedule ?? this.upcomingSchedule,
+    return NoneTopScheduleInfoState(
+      upcomingSchedule: (upcomingSchedule != null)
+          ? upcomingSchedule()
+          : this.upcomingSchedule,
     );
   }
 }
 
 final class TodayTopScheduleInfoState extends SealedTopScheduleInfoState {
-  final Schedule nextSchedule;
+  final SchedulePath nextSchedulePath;
 
-  TodayTopScheduleInfoState({Schedule? nextSchedule})
-      : nextSchedule = nextSchedule ?? Schedule();
+  TodayTopScheduleInfoState({required this.nextSchedulePath});
 
   @override
-  List<Object?> get props => [nextSchedule];
+  List<Object?> get props => [nextSchedulePath];
 
-  TodayTopScheduleInfoState copyWith({Schedule? nextSchedule}) {
+  TodayTopScheduleInfoState copyWith({SchedulePath? nextSchedulePath}) {
     return TodayTopScheduleInfoState(
-      nextSchedule: nextSchedule ?? this.nextSchedule,
+      nextSchedulePath: nextSchedulePath ?? this.nextSchedulePath,
     );
   }
 }

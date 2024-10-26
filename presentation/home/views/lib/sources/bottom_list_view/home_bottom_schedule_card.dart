@@ -2,11 +2,13 @@ part of '../../eb_home.dart';
 
 final class BottomScheduleCardView extends StatelessWidget {
   final Schedule schedule;
+  final EBPath? ebPath;
 
-  const BottomScheduleCardView({
+  BottomScheduleCardView({
     super.key,
-    required this.schedule,
-  });
+    required SchedulePath schedulePath,
+  })  : schedule = schedulePath.schedule,
+        ebPath = schedulePath.ebPath;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,8 @@ final class BottomScheduleCardView extends StatelessWidget {
       onTap: () => Navigator.of(context).push(
         AddScheduleView.pageChangeAddSchedule(
           context: context,
-          initialSchedule: schedule,
+          schedule: schedule,
+          ebPath: ebPath,
         ),
       ),
     );

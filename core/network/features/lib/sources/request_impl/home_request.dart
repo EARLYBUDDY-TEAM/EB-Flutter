@@ -1,12 +1,12 @@
 part of 'request_impl.dart';
 
 final class HomeRequest {
-  static ApiRequest<ScheduleListDTO> getAllSchedules({
+  static ApiRequest<SchedulePathListDTO> getAllSchedules({
     required String accessToken,
   }) {
     const path = "/home/get_all_schedules";
-    ScheduleListDTO converter(dynamic responseData) =>
-        ScheduleListDTO.fromJson(responseData);
+    SchedulePathListDTO converter(dynamic responseData) =>
+        SchedulePathListDTO.fromJson(responseData);
     final header = {"access_token": accessToken};
 
     return ApiRequest(
@@ -19,10 +19,10 @@ final class HomeRequest {
 
   static ApiRequest<EmptyDTO> deleteScheduleCard({
     required String accessToken,
-    required int scheduleID,
+    required String scheduleID,
   }) {
     const path = '/home/delete_schedule';
-    final Map<String, String> query = {"scheduleID": scheduleID.toString()};
+    final Map<String, String> query = {"scheduleID": scheduleID};
     final header = {"access_token": accessToken};
 
     return ApiRequest(

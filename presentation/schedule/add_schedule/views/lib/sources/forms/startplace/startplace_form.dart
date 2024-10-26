@@ -68,7 +68,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
     return BlocBuilder<AddScheduleBloc, AddScheduleState>(
       buildWhen: (previous, current) {
         final flag1 = previous.startPlaceState != current.startPlaceState;
-        final flag2 = current.info.endPlace != null;
+        final flag2 = current.schedule.endPlace != null;
         return (flag1 || flag2);
       },
       builder: (context, state) {
@@ -85,7 +85,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
           onChanged: (_) => _onChanged(
             context: context,
             startPlaceState: startPlaceState,
-            endPlace: state.info.endPlace,
+            endPlace: state.schedule.endPlace,
           ),
         );
       },

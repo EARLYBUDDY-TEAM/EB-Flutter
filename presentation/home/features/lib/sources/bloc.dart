@@ -78,7 +78,8 @@ extension on HomeBloc {
         final homeStatus =
             state.status.copyWith(getAllScheduleCard: BaseStatus.success);
 
-        final List<Schedule> allSchedules = getAllSchedulesResult.success.model;
+        final List<SchedulePath> allSchedules =
+            getAllSchedulesResult.success.model;
         final daySchedule = DaySchedule.init(allSchedules: allSchedules);
 
         final calendarState = CalendarState();
@@ -127,7 +128,7 @@ extension on HomeBloc {
     DeleteScheduleCard event,
     Emitter<HomeState> emit,
   ) async {
-    if (event.schedule.id == null) {
+    if (event.schedulePath.schedule.id == null) {
       _failActionOnDeleteScheduleCard(emit: emit);
     }
 
@@ -136,7 +137,7 @@ extension on HomeBloc {
     Future<Result> deleteScheduleCardEvent(String accessToken) async {
       return await _homeRepository.deleteScheduleCard(
         accessToken: accessToken,
-        scheduleID: event.schedule.id!,
+        scheduleID: event.schedulePath.schedule.id!,
       );
     }
 
@@ -152,7 +153,7 @@ extension on HomeBloc {
         );
 
         final daySchedule = state.daySchedule.delete(
-          schedule: event.schedule,
+          schedulePath: event.schedulePath,
         );
 
         final topScheduleInfoState = SealedTopScheduleInfoState.init(

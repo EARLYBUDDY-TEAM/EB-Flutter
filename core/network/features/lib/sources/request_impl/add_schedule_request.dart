@@ -1,15 +1,19 @@
 part of 'request_impl.dart';
 
 final class AddScheduleRequest {
-  static ApiRequest<EmptyDTO> init({
+  static ApiRequest<EmptyDTO> create({
     required String accessToken,
-    required Map<String, dynamic> scheduleInfo,
+    required Map<String, dynamic> scheduleMap,
+    required Map<String, dynamic>? pathMap,
   }) {
     return ApiRequest(
-      path: '/schedule/add',
+      path: '/schedule/create',
       method: HTTPMethod.post,
       headers: {"access_token": accessToken},
-      requestData: scheduleInfo,
+      requestData: {
+        "scheduleInfo": scheduleMap,
+        "pathInfo": pathMap,
+      },
     );
   }
 }

@@ -1,25 +1,7 @@
 part of '../dto.dart';
 
-final class ScheduleListDTO {
-  final List<ScheduleDTO> allScheduleDTO;
-
-  ScheduleListDTO({
-    required this.allScheduleDTO,
-  });
-
-  static ScheduleListDTO fromJson(Map<String, dynamic> j) {
-    final tmpAllScheduleDTO = j["all_schedules"] as List;
-    final allScheduleDTO = tmpAllScheduleDTO
-        .map(
-          (c) => ScheduleDTO.fromJson(c),
-        )
-        .toList();
-    return ScheduleListDTO(allScheduleDTO: allScheduleDTO);
-  }
-}
-
 final class ScheduleDTO {
-  final int id;
+  final String id;
   final String title;
   final String? memo;
   final String time;
@@ -38,7 +20,7 @@ final class ScheduleDTO {
   });
 
   static ScheduleDTO fromJson(Map<String, dynamic> j) {
-    final int id = j["id"];
+    final String id = j["id"];
     final String title = j["title"];
     final String? memo = j["memo"];
     final String time = j["time"];

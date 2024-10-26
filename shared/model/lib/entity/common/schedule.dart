@@ -1,7 +1,7 @@
 part of '../../entity.dart';
 
 final class Schedule extends Equatable {
-  final int? id;
+  final String? id;
   final String title;
   final String? memo;
   final DateTime time;
@@ -22,18 +22,18 @@ final class Schedule extends Equatable {
         isNotify = isNotify ?? false;
 
   Schedule copyWith({
-    int? id,
+    String? Function()? id,
     String? title,
-    String? memo,
+    String? Function()? memo,
     DateTime? time,
     bool? isNotify,
     Place? Function()? startPlace,
     Place? Function()? endPlace,
   }) =>
       Schedule(
-        id: id ?? this.id,
+        id: id != null ? id() : this.id,
         title: title ?? this.title,
-        memo: memo ?? this.memo,
+        memo: memo != null ? memo() : this.memo,
         time: time ?? this.time,
         isNotify: isNotify ?? this.isNotify,
         startPlace: startPlace != null ? startPlace() : this.startPlace,
@@ -67,17 +67,13 @@ final class Schedule extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      // "id": id,
-      "id": null,
+      "id": id,
       "title": title,
       "memo": memo,
       "time": time.toIso8601String(),
       "isNotify": isNotify,
-      // "startPlaceInfo": startPlace ?? startPlace!.toMap(),
-      // "endPlaceInfo": endPlace ?? endPlace!.toMap(),
-
-      "startPlaceInfo": null,
-      "endPlaceInfo": null,
+      "startPlaceInfo": (startPlace != null) ? startPlace!.toMap() : null,
+      "endPlaceInfo": (endPlace != null) ? endPlace!.toMap() : null,
     };
   }
 
@@ -85,7 +81,7 @@ final class Schedule extends Equatable {
     DateTime? time,
   }) {
     return Schedule(
-      id: 10,
+      id: "id",
       title: "mockwithPlace",
       memo: "memo",
       time: time ?? DateTime.now(),

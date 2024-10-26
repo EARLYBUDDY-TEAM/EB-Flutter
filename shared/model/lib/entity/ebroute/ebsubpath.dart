@@ -43,6 +43,25 @@ final class EBSubPath extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    List<Map<String, dynamic>> transoprtsMap =
+        transports.map((t) => t.toMap()).toList();
+    List<Map<String, dynamic>> stationsMap =
+        stations.map((s) => s.toMap()).toList();
+
+    return {
+      "type": type,
+      "time": time,
+      "startName": startName,
+      "startX": startCoordi?.x,
+      "startY": startCoordi?.y,
+      "endName": endName,
+      "distance": distance,
+      "transports": transoprtsMap,
+      "stations": stationsMap,
+    };
+  }
+
   @override
   List<Object?> get props => [
         type,

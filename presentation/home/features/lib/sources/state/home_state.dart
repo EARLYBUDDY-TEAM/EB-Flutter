@@ -17,7 +17,7 @@ final class HomeState extends Equatable {
         daySchedule = daySchedule ?? DaySchedule(),
         calendarState = calendarState ?? CalendarState(),
         topScheduleInfoState =
-            topScheduleInfoState ?? NoneHomeTopScheduleInfoState(),
+            topScheduleInfoState ?? NoneTopScheduleInfoState(),
         bottomScheduleListState =
             bottomScheduleListState ?? BottomScheduleListState();
 

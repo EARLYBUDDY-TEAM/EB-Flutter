@@ -16,11 +16,11 @@ final class _TimeForm extends StatelessWidget {
       },
       builder: (context, setting) {
         final initialDate = (setting is ChangeScheduleSetting)
-            ? setting.initialSchedule.time
+            ? setting.schedule.time
             : DateTime.now();
 
         final initialTime = (setting is ChangeScheduleSetting)
-            ? EBTime.dateTimeToTimeOfDay(setting.initialSchedule.time)
+            ? EBTime.dateTimeToTimeOfDay(setting.schedule.time)
             : EBTime.dateTimeToTimeOfDay(DateTime.now());
 
         return RoundRectForm(

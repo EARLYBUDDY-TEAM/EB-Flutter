@@ -10,15 +10,20 @@ final class AddScheduleView extends StatelessWidget {
 
   static MaterialPageRoute Function({
     required BuildContext context,
-    required Schedule initialSchedule,
+    required Schedule schedule,
+    required EBPath? ebPath,
   }) get pageChangeAddSchedule {
     return ({
       required BuildContext context,
-      required Schedule initialSchedule,
+      required Schedule schedule,
+      required EBPath? ebPath,
     }) =>
         MaterialPageRoute(
           builder: (context) => AddScheduleView(
-            setting: ChangeScheduleSetting(initialSchedule: initialSchedule),
+            setting: ChangeScheduleSetting(
+              schedule: schedule,
+              ebPath: ebPath,
+            ),
           ),
         );
   }
@@ -64,7 +69,7 @@ final class AddScheduleView extends StatelessWidget {
         endPlace: endPlace,
         pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
         pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
-        parentName: '출발 장소',
+        parentName: null,
       ),
     );
   }
@@ -87,12 +92,9 @@ final class _AddScheduleContent extends StatelessWidget {
         return previous.setting != current.setting;
       },
       builder: (context, state) {
-        final titleString =
-            (state.setting is InitScheduleSetting) ? "일정 등록" : "일정 수정";
-
         return Scaffold(
           appBar: _AddScheduleAppBar(
-            titleString: titleString,
+            titleString: _titleString(state.setting),
             popViewAction: () => Navigator.of(context).pop(),
             removeScheduleAction: _removeScheduleAction(state.setting),
           ),
@@ -108,6 +110,15 @@ final class _AddScheduleContent extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _titleString(SealedAddScheduleSetting setting) {
+    switch (setting) {
+      case InitScheduleSetting():
+        return "일정 등록";
+      case ChangeScheduleSetting():
+        return setting.schedule.title;
+    }
   }
 
   Function()? _removeScheduleAction(SealedAddScheduleSetting setting) {

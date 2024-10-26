@@ -60,11 +60,11 @@ extension on AddScheduleBloc {
     Emitter<AddScheduleState> emit,
   ) {
     final title = event.title.trim();
-    final newInfo = state.info.copyWith(title: title);
+    final newInfo = state.schedule.copyWith(title: title);
     final newStatus =
         title.isEmpty ? FormStatus.inComplete : FormStatus.complete;
     emit(state.copyWith(
-      info: newInfo,
+      schedule: newInfo,
       status: newStatus,
     ));
   }
@@ -76,8 +76,8 @@ extension on AddScheduleBloc {
     Emitter<AddScheduleState> emit,
   ) {
     final memo = event.memo.trim();
-    final newInfo = state.info.copyWith(memo: memo);
-    emit(state.copyWith(info: newInfo));
+    final newInfo = state.schedule.copyWith(memo: () => memo);
+    emit(state.copyWith(schedule: newInfo));
   }
 }
 
@@ -86,8 +86,8 @@ extension on AddScheduleBloc {
     ChangeTime event,
     Emitter<AddScheduleState> emit,
   ) {
-    final newInfo = state.info.copyWith(time: event.time);
-    emit(state.copyWith(info: newInfo));
+    final newInfo = state.schedule.copyWith(time: event.time);
+    emit(state.copyWith(schedule: newInfo));
   }
 }
 
@@ -98,10 +98,10 @@ extension on AddScheduleBloc {
   ) {
     final isNotify =
         (event.notifyScheduleState is TrueNotifyScheduleState) ? true : false;
-    final newInfo = state.info.copyWith(isNotify: isNotify);
+    final newInfo = state.schedule.copyWith(isNotify: isNotify);
     emit(
       state.copyWith(
-        info: newInfo,
+        schedule: newInfo,
         notifyScheduleState: event.notifyScheduleState,
       ),
     );
@@ -126,12 +126,30 @@ extension on AddScheduleBloc {
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) async {
+    switch (state.setting) {
+      case (InitScheduleSetting()):
+        await _requestCreateSchedule(emit);
+      case (ChangeScheduleSetting()):
+        await _requestUpdateSchedule(emit);
+    }
+  }
+
+  Future<void> _requestCreateSchedule(
+    Emitter<AddScheduleState> emit,
+  ) async {
     _loadingDelegate.set();
 
+    final schedule = state.schedule;
+    final startPlaceState = state.startPlaceState;
+    final ebPath = (startPlaceState is SelectedStartPlaceState)
+        ? startPlaceState.pathInfo.ebPath
+        : null;
+
     addScheduleEvent(String accessToken) async {
-      return await _scheduleRepository.addSchedule(
+      return await _scheduleRepository.create(
         accessToken: accessToken,
-        scheduleInfo: state.info,
+        schedule: schedule,
+        ebPath: ebPath,
       );
     }
 
@@ -151,6 +169,10 @@ extension on AddScheduleBloc {
         }
     }
   }
+
+  Future<void> _requestUpdateSchedule(
+    Emitter<AddScheduleState> emit,
+  ) async {}
 }
 
 extension on AddScheduleBloc {
@@ -158,8 +180,8 @@ extension on AddScheduleBloc {
     SelectEndPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final schedule = state.info.copyWith(endPlace: () => event.place);
-    emit(state.copyWith(info: schedule));
+    final schedule = state.schedule.copyWith(endPlace: () => event.place);
+    emit(state.copyWith(schedule: schedule));
   }
 }
 
@@ -170,12 +192,12 @@ extension on AddScheduleBloc {
   ) {
     final startPlace = event.pathInfo.startPlace;
     final endPlace = event.pathInfo.endPlace;
-    final schedule = state.info.copyWith(
+    final schedule = state.schedule.copyWith(
       startPlace: () => startPlace,
       endPlace: () => endPlace,
     );
     final startPlaceState = SelectedStartPlaceState(pathInfo: event.pathInfo);
-    emit(state.copyWith(info: schedule, startPlaceState: startPlaceState));
+    emit(state.copyWith(schedule: schedule, startPlaceState: startPlaceState));
   }
 }
 
@@ -184,12 +206,12 @@ extension on AddScheduleBloc {
     RemoveStartPlace event,
     Emitter<AddScheduleState> emit,
   ) {
-    final schedule = state.info.copyWith(startPlace: () => null);
+    final schedule = state.schedule.copyWith(startPlace: () => null);
     final startPlaceState = EmptyStartPlaceState();
 
     emit(
       state.copyWith(
-        info: schedule,
+        schedule: schedule,
         startPlaceState: startPlaceState,
       ),
     );
@@ -224,7 +246,40 @@ extension on AddScheduleBloc {
       case InitScheduleSetting():
         emit(state.copyWith(setting: setting));
       case ChangeScheduleSetting():
-        emit(state.copyWith(setting: setting, info: setting.initialSchedule));
+        emit(
+          state.copyWith(
+            setting: setting,
+            schedule: setting.schedule,
+            status: FormStatus.inComplete,
+            startPlaceState: _getStartPlaceState(
+              schedule: setting.schedule,
+              ebPath: setting.ebPath,
+            ),
+          ),
+        );
     }
+  }
+
+  SealedStartPlaceState _getStartPlaceState({
+    required Schedule schedule,
+    required EBPath? ebPath,
+  }) {
+    if (ebPath == null) {
+      return EmptyStartPlaceState();
+    }
+
+    final transportLineOfPath =
+        getTransportLineOfPath(ebSubPaths: ebPath.ebSubPaths);
+
+    final pathInfo = PathInfo(
+      startPlace: schedule.startPlace!,
+      endPlace: schedule.endPlace!,
+      transportLineOfPath: transportLineOfPath,
+      ebPath: ebPath,
+    );
+
+    return SelectedStartPlaceState(
+      pathInfo: pathInfo,
+    );
   }
 }

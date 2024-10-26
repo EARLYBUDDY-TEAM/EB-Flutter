@@ -9,9 +9,9 @@ final class _TopScheduleInfoView extends StatelessWidget {
       },
       builder: (context, state) {
         switch (state.topScheduleInfoState) {
-          case NoneHomeTopScheduleInfoState():
+          case NoneTopScheduleInfoState():
             final noneState =
-                state.topScheduleInfoState as NoneHomeTopScheduleInfoState;
+                state.topScheduleInfoState as NoneTopScheduleInfoState;
             return _NoneTopScheduleInfoView(
               upcomingSchedule: noneState.upcomingSchedule,
             );
@@ -19,7 +19,7 @@ final class _TopScheduleInfoView extends StatelessWidget {
             final todayState =
                 state.topScheduleInfoState as TodayTopScheduleInfoState;
             return _TodayTopScheduleInfoView(
-              nextSchedule: todayState.nextSchedule,
+              nextSchedulePath: todayState.nextSchedulePath,
             );
         }
       },

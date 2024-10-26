@@ -1,13 +1,15 @@
 part of '../../eb_home.dart';
 
 final class _TodayTopScheduleInfoView extends StatelessWidget {
-  final Schedule nextSchedule;
+  final Schedule schedule;
+  final EBPath? ebPath;
 
   final textColor = Colors.white;
 
-  const _TodayTopScheduleInfoView({
-    required this.nextSchedule,
-  });
+  _TodayTopScheduleInfoView({
+    required SchedulePath nextSchedulePath,
+  })  : schedule = nextSchedulePath.schedule,
+        ebPath = nextSchedulePath.ebPath;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
         children: _columnChildren,
       ),
     ];
-    if (nextSchedule.startPlace != null) {
+    if (schedule.startPlace != null) {
       content.add(_showRouteButton());
     }
     return content;
@@ -50,8 +52,8 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
       const SizedBox(height: 10),
       _timeText(),
     ];
-    if (nextSchedule.endPlace != null) {
-      content.add(_endPlaceText(nextSchedule.endPlace!.name));
+    if (schedule.endPlace != null) {
+      content.add(_endPlaceText(schedule.endPlace!.name));
     }
     return content;
   }
@@ -69,7 +71,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
 
   Widget _titleText() {
     return Text(
-      nextSchedule.title,
+      schedule.title,
       style: TextStyle(
         fontFamily: FontFamily.gmarketSansRegular,
         fontSize: 22,
@@ -79,9 +81,9 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
   }
 
   Widget _timeText() {
-    final meridiemString = nextSchedule.time.toMeridiem();
-    final hourString = nextSchedule.time.addZeroToHour();
-    final minuteString = nextSchedule.time.addZeroToMinute();
+    final meridiemString = schedule.time.toMeridiem();
+    final hourString = schedule.time.addZeroToHour();
+    final minuteString = schedule.time.addZeroToMinute();
     final text = "$meridiemString $hourString:$minuteString";
 
     return Text(

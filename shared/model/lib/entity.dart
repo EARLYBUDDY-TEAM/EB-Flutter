@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 part 'entity/common/coordi.dart';
 part 'entity/common/place.dart';
 part 'entity/common/schedule.dart';
+part 'entity/common/schedule_path.dart';
 part 'entity/auth/ebformz.dart';
 part 'entity/auth/token.dart';
 part 'entity/ebroute/ebroute.dart';
