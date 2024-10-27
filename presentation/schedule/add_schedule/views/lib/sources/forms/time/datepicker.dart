@@ -51,6 +51,7 @@ final class _DatePickerState extends State<_DatePicker> {
         );
 
         if (date != null) {
+          context.read<AddScheduleBloc>().add(ChangeDate(date: date));
           setState(() {
             _selectedDate = date;
           });

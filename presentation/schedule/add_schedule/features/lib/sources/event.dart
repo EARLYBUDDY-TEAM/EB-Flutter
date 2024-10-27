@@ -22,10 +22,23 @@ final class ChangeMemo extends AddScheduleEvent {
   List<Object?> get props => [memo];
 }
 
-final class ChangeTime extends AddScheduleEvent {
-  final DateTime time;
+final class ChangeDate extends AddScheduleEvent {
+  final DateTime date;
 
-  const ChangeTime(this.time);
+  const ChangeDate({
+    required this.date,
+  });
+
+  @override
+  List<Object?> get props => [date];
+}
+
+final class ChangeTime extends AddScheduleEvent {
+  final TimeOfDay time;
+
+  const ChangeTime({
+    required this.time,
+  });
 
   @override
   List<Object?> get props => [time];

@@ -49,6 +49,7 @@ final class _TimePickerState extends State<_TimePicker> {
 
         if (time != null) {
           setState(() {
+            context.read<AddScheduleBloc>().add(ChangeTime(time: time));
             _selectedTime = time;
           });
         }

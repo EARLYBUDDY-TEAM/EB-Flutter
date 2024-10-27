@@ -28,6 +28,53 @@ final class DaySchedule extends Equatable {
   static DaySchedule init({
     required List<SchedulePath> allSchedules,
   }) {
+    var dayScheduleMap = _getDayScheduleMap(allSchedules);
+    dayScheduleMap = _orderTodayDaySchedule(dayScheduleMap);
+
+    return DaySchedule(data: dayScheduleMap);
+  }
+
+  static DayScheduleMap _orderTodayDaySchedule(DayScheduleMap dayScheduleMap) {
+    final now = DateTime.now();
+    final todayKey = now.toDate();
+
+    if (!dayScheduleMap.containsKey(todayKey)) {
+      return dayScheduleMap;
+    }
+
+    final todayScheduleList = dayScheduleMap[todayKey]!;
+    if (todayScheduleList.isEmpty) {
+      return dayScheduleMap;
+    }
+
+    int? index;
+    for (var i = 0; i < todayScheduleList.length; i++) {
+      final currentSchedule = todayScheduleList[i];
+      final compareResult =
+          EBTime.compare(left: now, right: currentSchedule.schedule.time);
+      if ((compareResult == CompareDateResult.same) ||
+          (compareResult == CompareDateResult.right)) {
+        index = i;
+        break;
+      }
+    }
+
+    if ((index == null) || (index == 0)) {
+      return dayScheduleMap;
+    }
+
+    final list1 = todayScheduleList.sublist(index, todayScheduleList.length);
+    final list2 = todayScheduleList.sublist(0, index);
+
+    final newTodayScheduleList = list1 + list2;
+    dayScheduleMap[todayKey] = newTodayScheduleList;
+
+    return dayScheduleMap;
+  }
+
+  static DayScheduleMap _getDayScheduleMap(
+    List<SchedulePath> allSchedules,
+  ) {
     DayScheduleMap tmpData = {};
     for (var schedulePath in allSchedules) {
       final date = schedulePath.schedule.time.toDate();
@@ -38,7 +85,7 @@ final class DaySchedule extends Equatable {
       }
     }
 
-    return DaySchedule(data: tmpData);
+    return tmpData;
   }
 
   List<SchedulePath> getValue({required DateTime selectedDay}) {

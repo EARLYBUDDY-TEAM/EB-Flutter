@@ -30,6 +30,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<ChangeTitle>(_onChangeTitle);
     on<ChangeMemo>(_onChangeMemo);
     on<ChangeTime>(_onChangeTime);
+    on<ChangeDate>(_onChangeDate);
     on<ChangeNotifySchedule>(_onChangeScheduleNotify);
     on<ChangeNotifyTransport>(_onChangeNotifyTransport);
     on<SetTrueNotifyTransportState>(_onSetTrueNotifyTransportState);
@@ -105,7 +106,34 @@ extension on AddScheduleBloc {
     ChangeTime event,
     Emitter<AddScheduleState> emit,
   ) {
-    final schedule = state.schedule.copyWith(time: event.time);
+    final timeOfDay = event.time;
+    final time = state.schedule.time.copyWith(
+      hour: timeOfDay.hour,
+      minute: timeOfDay.minute,
+    );
+
+    final schedule = state.schedule.copyWith(time: time);
+    final status = _checkFormStatus(schedule);
+    emit(
+      state.copyWith(
+        schedule: schedule,
+        status: status,
+      ),
+    );
+  }
+
+  void _onChangeDate(
+    ChangeDate event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    final date = event.date;
+    final time = state.schedule.time.copyWith(
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    );
+
+    final schedule = state.schedule.copyWith(time: time);
     final status = _checkFormStatus(schedule);
     emit(
       state.copyWith(
