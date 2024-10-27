@@ -106,6 +106,7 @@ final class _AddScheduleContent extends StatelessWidget {
             deleteScheduleAction: _deleteScheduleAction(
               context: context,
               setting: state.setting,
+              scheduleTitle: state.schedule.title,
             ),
           ),
           body: SafeArea(
@@ -131,16 +132,43 @@ final class _AddScheduleContent extends StatelessWidget {
     }
   }
 
+  Future<bool?> _alertConfirmDeleteSchedule({
+    required BuildContext context,
+    required String scheduleTitle,
+  }) async {
+    return await EBAlert.showModalPopup(
+      context: context,
+      title: '$scheduleTitle 일정을 삭제하시겠습니까?',
+      actions: [
+        EBAlert.makeAction(
+          name: '취소',
+          onPressed: () => Navigator.of(context).pop(false),
+          isDefaultAction: true,
+        ),
+        EBAlert.makeAction(
+          name: '삭제',
+          onPressed: () => Navigator.of(context).pop(true),
+          isDestructiveAction: true,
+        ),
+      ],
+    );
+  }
+
   Function()? _deleteScheduleAction({
     required BuildContext context,
     required SealedAddScheduleSetting setting,
+    required String scheduleTitle,
   }) {
     switch (setting) {
       case InitAddScheduleSetting():
         return null;
       case ChangeAddScheduleSetting():
-        return () {
-          context.read<AddScheduleBloc>().add(PressDeleteButton());
+        return () async {
+          final isDelete = await _alertConfirmDeleteSchedule(
+              context: context, scheduleTitle: scheduleTitle);
+          if (isDelete == true) {
+            context.read<AddScheduleBloc>().add(PressDeleteButton());
+          }
         };
     }
   }
