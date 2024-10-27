@@ -51,6 +51,19 @@ final class ChangeNotifyTransport extends AddScheduleEvent {
   List<Object?> get props => [notifyTransportState];
 }
 
+final class SetTrueNotifyTransportState extends AddScheduleEvent {
+  final int? beforeNotifyMinute;
+  final int? beforeNotifyMinuteRange;
+
+  const SetTrueNotifyTransportState({
+    this.beforeNotifyMinute,
+    this.beforeNotifyMinuteRange,
+  });
+
+  @override
+  List<Object?> get props => [beforeNotifyMinute, beforeNotifyMinuteRange];
+}
+
 final class PressAddScheduleButton extends AddScheduleEvent {
   const PressAddScheduleButton();
 

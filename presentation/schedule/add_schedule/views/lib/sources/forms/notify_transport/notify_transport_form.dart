@@ -10,16 +10,17 @@ final class _NotifyTransportForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
-      buildWhen: (previous, current) {
-        return previous.notifyTransportState != current.notifyTransportState;
+    return BlocSelector<AddScheduleBloc, AddScheduleState,
+        SealedNotifyTransportState>(
+      selector: (state) {
+        return state.notifyTransportState;
       },
-      builder: (context, state) {
+      builder: (context, notifyTransportState) {
         return RoundRectForm(
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-              children: _children(state.notifyTransportState),
+              children: _children(notifyTransportState),
             ),
           ),
         );
@@ -27,17 +28,30 @@ final class _NotifyTransportForm extends StatelessWidget {
     );
   }
 
-  List<Widget> _children(SealedNotifyTransportState notifyTransportState) {
-    final List<Widget> listWidget = [_titleAndSwitch()];
+  List<Widget> _children(
+    SealedNotifyTransportState notifyTransportState,
+  ) {
+    final List<Widget> listWidget = [_titleAndSwitch(notifyTransportState)];
 
     if (notifyTransportState is TrueNotifyTransportState) {
-      listWidget.add(const NotifyTransportExpanded());
+      listWidget.add(
+        NotifyTransportExpanded(
+          initialBeforeNotifyMinute: notifyTransportState.beforeNotifyMinute,
+          initialBeforeNotifyMinuteRange:
+              notifyTransportState.beforeNotifyMinuteRange,
+        ),
+      );
     }
 
     return listWidget;
   }
 
-  Widget _titleAndSwitch() {
+  Widget _titleAndSwitch(
+    SealedNotifyTransportState notifyTransportState,
+  ) {
+    final initialIsNotify =
+        (notifyTransportState is TrueNotifyTransportState) ? true : false;
+
     return Row(
       children: [
         _IconPlusName(
@@ -47,14 +61,21 @@ final class _NotifyTransportForm extends StatelessWidget {
           isActive: true,
         ),
         const Spacer(),
-        const _NotifyTransportSwitch()
+        _NotifyTransportSwitch(
+          initialIsNotify: initialIsNotify,
+        ),
       ],
     );
   }
 }
 
 final class _NotifyTransportSwitch extends StatefulWidget {
-  const _NotifyTransportSwitch({super.key});
+  final bool initialIsNotify;
+
+  const _NotifyTransportSwitch({
+    super.key,
+    required this.initialIsNotify,
+  });
 
   @override
   State<StatefulWidget> createState() => _NotifyTransportState();
@@ -62,6 +83,24 @@ final class _NotifyTransportSwitch extends StatefulWidget {
 
 final class _NotifyTransportState extends State<_NotifyTransportSwitch> {
   var _isNotify = false;
+
+  void _setInitialIsNotify() {
+    _isNotify = widget.initialIsNotify;
+  }
+
+  @override
+  void didUpdateWidget(covariant _NotifyTransportSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialIsNotify != widget.initialIsNotify) {
+      _setInitialIsNotify();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setInitialIsNotify();
+  }
 
   @override
   Widget build(BuildContext context) {

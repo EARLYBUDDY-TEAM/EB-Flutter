@@ -32,6 +32,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
     on<ChangeTime>(_onChangeTime);
     on<ChangeNotifySchedule>(_onChangeScheduleNotify);
     on<ChangeNotifyTransport>(_onChangeNotifyTransport);
+    on<SetTrueNotifyTransportState>(_onSetTrueNotifyTransportState);
     on<PressAddScheduleButton>(_onPressAddScheduleButton);
     on<SelectEndPlace>(_onSelectEndPlace);
     on<SelectStartPlace>(_onSelectStartPlace);
@@ -120,15 +121,18 @@ extension on AddScheduleBloc {
     ChangeNotifySchedule event,
     Emitter<AddScheduleState> emit,
   ) {
-    final isNotify =
-        (event.notifyScheduleState is TrueNotifyScheduleState) ? true : false;
-    final schedule = state.schedule.copyWith(isNotify: isNotify);
+    final notifyScheduleState = event.notifyScheduleState;
+    final notifySchedule = (notifyScheduleState is TrueNotifyScheduleState)
+        ? notifyScheduleState.beforeNotifyMinute
+        : null;
+    final schedule =
+        state.schedule.copyWith(notifySchedule: () => notifySchedule);
     final status = _checkFormStatus(schedule);
     emit(
       state.copyWith(
+        status: status,
         schedule: schedule,
         notifyScheduleState: event.notifyScheduleState,
-        status: status,
       ),
     );
   }
@@ -139,10 +143,56 @@ extension on AddScheduleBloc {
     ChangeNotifyTransport event,
     Emitter<AddScheduleState> emit,
   ) {
-    final status = _checkFormStatus(state.schedule);
+    final notifyTransportState = event.notifyTransportState;
+    final notifyTransport = (notifyTransportState is TrueNotifyTransportState)
+        ? notifyTransportState.beforeNotifyMinute
+        : null;
+    final notifyTransportRange =
+        (notifyTransportState is TrueNotifyTransportState)
+            ? notifyTransportState.beforeNotifyMinuteRange
+            : null;
+    final schedule = state.schedule.copyWith(
+      notifyTransport: () => notifyTransport,
+      notifyTransportRange: () => notifyTransportRange,
+    );
+    final status = _checkFormStatus(schedule);
     emit(
       state.copyWith(
-        notifyTransportState: event.notifyTransportState,
+        status: status,
+        schedule: schedule,
+        notifyTransportState: notifyTransportState,
+      ),
+    );
+  }
+}
+
+extension on AddScheduleBloc {
+  void _onSetTrueNotifyTransportState(
+    SetTrueNotifyTransportState event,
+    Emitter<AddScheduleState> emit,
+  ) {
+    final notifyTransportState = state.notifyTransportState;
+    if (notifyTransportState is! TrueNotifyTransportState) {
+      return;
+    }
+
+    final trueNotifyTransportState = notifyTransportState.copyWith(
+      beforeNotifyMinute: event.beforeNotifyMinute,
+      beforeNotifyMinuteRange: event.beforeNotifyMinuteRange,
+    );
+
+    final schedule = state.schedule.copyWith(
+      notifyTransport: () => trueNotifyTransportState.beforeNotifyMinute,
+      notifyTransportRange: () =>
+          trueNotifyTransportState.beforeNotifyMinuteRange,
+    );
+
+    final status = _checkFormStatus(schedule);
+
+    emit(
+      state.copyWith(
+        notifyTransportState: trueNotifyTransportState,
+        schedule: schedule,
         status: status,
       ),
     );
@@ -173,6 +223,8 @@ extension on AddScheduleBloc {
     final ebPath = (startPlaceState is SelectedStartPlaceState)
         ? startPlaceState.pathInfo.ebPath
         : null;
+
+    log(schedule.notifyTransportRange.toString());
 
     Future<Result> addScheduleEvent(String accessToken) async {
       return await _scheduleRepository.create(
@@ -258,7 +310,11 @@ extension on AddScheduleBloc {
     Emitter<AddScheduleState> emit,
   ) {
     final schedule = state.schedule.copyWith(endPlace: () => event.place);
-    emit(state.copyWith(schedule: schedule));
+    final status = _checkFormStatus(state.schedule);
+    emit(state.copyWith(
+      schedule: schedule,
+      status: status,
+    ));
   }
 }
 
@@ -274,7 +330,14 @@ extension on AddScheduleBloc {
       endPlace: () => endPlace,
     );
     final startPlaceState = SelectedStartPlaceState(pathInfo: event.pathInfo);
-    emit(state.copyWith(schedule: schedule, startPlaceState: startPlaceState));
+    final status = _checkFormStatus(state.schedule);
+    emit(
+      state.copyWith(
+        schedule: schedule,
+        startPlaceState: startPlaceState,
+        status: status,
+      ),
+    );
   }
 }
 
@@ -323,9 +386,35 @@ extension on AddScheduleBloc {
               schedule: setting.schedule,
               ebPath: setting.ebPath,
             ),
+            notifyScheduleState:
+                _getNotifyScheduleState(schedule: setting.schedule),
+            notifyTransportState:
+                _getNotifyTransportState(schedule: setting.schedule),
           ),
         );
     }
+  }
+
+  SealedNotifyTransportState _getNotifyTransportState({
+    required Schedule schedule,
+  }) {
+    final notifyTransport = schedule.notifyTransport;
+    final notifyTransportRange = schedule.notifyTransportRange;
+
+    return ((notifyTransport != null) && (notifyTransportRange != null))
+        ? TrueNotifyTransportState(
+            beforeNotifyMinute: notifyTransport,
+            beforeNotifyMinuteRange: notifyTransportRange)
+        : FalseNotifyTransportState();
+  }
+
+  SealedNotifyScheduleState _getNotifyScheduleState({
+    required Schedule schedule,
+  }) {
+    final notifySchedule = schedule.notifySchedule;
+    return (notifySchedule != null)
+        ? TrueNotifyScheduleState(beforeNotifyMinute: notifySchedule)
+        : FalseNotifyScheduleState();
   }
 
   SealedStartPlaceState _getStartPlaceState({

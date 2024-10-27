@@ -10,7 +10,7 @@ final class TrueNotifyScheduleState extends SealedNotifyScheduleState {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [beforeNotifyMinute];
 }
 
 final class FalseNotifyScheduleState extends SealedNotifyScheduleState {

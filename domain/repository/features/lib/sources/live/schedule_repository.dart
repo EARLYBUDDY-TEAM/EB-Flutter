@@ -39,6 +39,7 @@ final class ScheduleRepository {
   }) async {
     final scheduleMap = schedule.toMap();
     final pathMap = ebPath?.toMap();
+    log(pathMap.toString());
     final request = AddScheduleRequest.update(
       accessToken: accessToken,
       scheduleMap: scheduleMap,

@@ -1,16 +1,18 @@
 part of '../../eb_add_schedule.dart';
 
 final class DropdownNotify<T> extends StatelessWidget {
+  final T initialValue;
   final String title;
   final double fontSize;
 
   final List<T> listDropdownValue;
   final Widget Function(T) createMenuItemChild;
-  final Function() selectItemAction;
+  final void Function(T) selectItemAction;
   final List<Widget> Function(BuildContext)? selectedItemBuilder;
 
   const DropdownNotify({
     super.key,
+    required this.initialValue,
     required this.title,
     required this.fontSize,
     required this.listDropdownValue,
@@ -34,6 +36,7 @@ final class DropdownNotify<T> extends StatelessWidget {
         ),
         const Spacer(),
         DropdownNotifyButton(
+          initialValue: initialValue,
           listDropdownValue: listDropdownValue,
           createMenuItemChild: createMenuItemChild,
           selectItemAction: selectItemAction,
@@ -45,13 +48,15 @@ final class DropdownNotify<T> extends StatelessWidget {
 }
 
 final class DropdownNotifyButton<T> extends StatefulWidget {
+  final T initialValue;
   final List<T> listDropdownValue;
   final Widget Function(T) createMenuItemChild;
-  final Function() selectItemAction;
+  final void Function(T) selectItemAction;
   final List<Widget> Function(BuildContext)? selectedItemBuilder;
 
   const DropdownNotifyButton({
     super.key,
+    required this.initialValue,
     required this.listDropdownValue,
     required this.createMenuItemChild,
     required this.selectItemAction,
@@ -64,6 +69,24 @@ final class DropdownNotifyButton<T> extends StatefulWidget {
 
 final class DropdownNotifyButtonState<T> extends State<DropdownNotifyButton> {
   late T dropdownValue = widget.listDropdownValue.first;
+
+  @override
+  void didUpdateWidget(covariant DropdownNotifyButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialValue != widget.initialValue) {
+      _setInitialValue();
+    }
+  }
+
+  void _setInitialValue() {
+    dropdownValue = widget.initialValue;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setInitialValue();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +118,7 @@ final class DropdownNotifyButtonState<T> extends State<DropdownNotifyButton> {
         setState(() {
           dropdownValue = value;
         });
-        widget.selectItemAction();
+        widget.selectItemAction(value);
       },
     );
   }

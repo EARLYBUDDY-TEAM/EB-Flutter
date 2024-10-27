@@ -9,16 +9,17 @@ final class _NotifyScheduleForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddScheduleBloc, AddScheduleState>(
-      buildWhen: (previous, current) {
-        return previous.notifyScheduleState != current.notifyScheduleState;
+    return BlocSelector<AddScheduleBloc, AddScheduleState,
+        SealedNotifyScheduleState>(
+      selector: (state) {
+        return state.notifyScheduleState;
       },
-      builder: (context, state) {
+      builder: (context, notifyScheduleState) {
         return RoundRectForm(
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-              children: _children(state.notifyScheduleState),
+              children: _children(notifyScheduleState),
             ),
           ),
         );
@@ -27,16 +28,23 @@ final class _NotifyScheduleForm extends StatelessWidget {
   }
 
   List<Widget> _children(SealedNotifyScheduleState notifyScheduleState) {
-    final List<Widget> listWidget = [_titleAndSwitch()];
+    final List<Widget> listWidget = [_titleAndSwitch(notifyScheduleState)];
 
     if (notifyScheduleState is TrueNotifyScheduleState) {
-      listWidget.add(const NotifyScheduleExpanded());
+      listWidget.add(
+        NotifyScheduleExpanded(
+          initialBeforeNotifyMinute: notifyScheduleState.beforeNotifyMinute,
+        ),
+      );
     }
 
     return listWidget;
   }
 
-  Widget _titleAndSwitch() {
+  Widget _titleAndSwitch(SealedNotifyScheduleState notifyScheduleState) {
+    final initialIsNotify =
+        (notifyScheduleState is TrueNotifyScheduleState) ? true : false;
+
     return Row(
       children: [
         _IconPlusName(
@@ -46,19 +54,46 @@ final class _NotifyScheduleForm extends StatelessWidget {
           isActive: true,
         ),
         const Spacer(),
-        _NotifyScheduleSwitch()
+        _NotifyScheduleSwitch(
+          initialIsNotify: initialIsNotify,
+        ),
       ],
     );
   }
 }
 
 final class _NotifyScheduleSwitch extends StatefulWidget {
+  final bool initialIsNotify;
+
+  const _NotifyScheduleSwitch({
+    super.key,
+    required this.initialIsNotify,
+  });
+
   @override
   State<StatefulWidget> createState() => _NotifyScheduleState();
 }
 
 final class _NotifyScheduleState extends State<_NotifyScheduleSwitch> {
   var _isNotify = false;
+
+  void _setInitialIsNotify() {
+    _isNotify = widget.initialIsNotify;
+  }
+
+  @override
+  void didUpdateWidget(covariant _NotifyScheduleSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialIsNotify != widget.initialIsNotify) {
+      _setInitialIsNotify();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setInitialIsNotify();
+  }
 
   @override
   Widget build(BuildContext context) {
