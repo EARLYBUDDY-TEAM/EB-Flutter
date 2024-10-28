@@ -2,38 +2,56 @@ part of '../../../eb_find_route_feature.dart';
 
 final class FindRouteState extends Equatable {
   final SearchPlaceInfo searchPlaceInfo;
-  final EBRoute? ebRoute;
-  final FindRouteViewState viewState;
+  final RouteInfo routeInfo;
   final SealedFindRouteContentStatus contentStatus;
 
   FindRouteState({
     required this.searchPlaceInfo,
-    EBRoute? ebRoute,
-    FindRouteViewState? viewState,
+    this.routeInfo = const RouteInfo(),
     SealedFindRouteContentStatus? contentStatus,
-  })  : ebRoute = ebRoute,
-        viewState = viewState ?? const FindRouteViewState(),
-        contentStatus = contentStatus ?? EmptyDataFindRouteStatus();
+  }) : contentStatus = contentStatus ?? EmptyDataFindRouteStatus();
 
   FindRouteState copyWith({
     SearchPlaceInfo? searchPlaceInfo,
-    EBRoute? Function()? ebRoute,
-    FindRouteViewState? viewState,
+    int? Function()? selectedIndex,
+    RouteInfo? routeInfo,
     SealedFindRouteContentStatus? contentStatus,
   }) {
     return FindRouteState(
       searchPlaceInfo: searchPlaceInfo ?? this.searchPlaceInfo,
-      ebRoute: ebRoute != null ? ebRoute() : this.ebRoute,
-      viewState: viewState ?? this.viewState,
+      routeInfo: routeInfo ?? this.routeInfo,
       contentStatus: contentStatus ?? this.contentStatus,
+    );
+  }
+
+  SelectFindRouteStatus createSelectContentStatus({
+    RouteInfo? routeInfo,
+  }) {
+    final tmpRouteInfo = routeInfo ?? this.routeInfo;
+    final ebPaths = tmpRouteInfo.ebRoute.ebPaths;
+    final lineOfPaths = tmpRouteInfo.transportLineOfRoute.lineOfRoute;
+    return SelectFindRouteStatus(
+      ebPaths: ebPaths,
+      lineOfPaths: lineOfPaths,
+    );
+  }
+
+  DetailFindRouteStatus createDetailContentStatus({
+    required int selectedIndex,
+    RouteInfo? routeInfo,
+  }) {
+    final tmpRouteInfo = routeInfo ?? this.routeInfo;
+    final subPaths = tmpRouteInfo.ebRoute.ebPaths[selectedIndex].ebSubPaths;
+    return DetailFindRouteStatus(
+      selectedIndex: selectedIndex,
+      subPaths: subPaths,
     );
   }
 
   @override
   List<Object?> get props => [
         searchPlaceInfo,
-        ebRoute,
-        viewState,
+        routeInfo,
         contentStatus,
       ];
 }

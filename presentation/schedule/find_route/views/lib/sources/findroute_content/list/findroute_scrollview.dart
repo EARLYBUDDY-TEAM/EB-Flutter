@@ -12,7 +12,9 @@ final class _FindRouteScrollView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FindRouteBloc, FindRouteState>(
       buildWhen: (previous, current) {
-        return previous.contentStatus != current.contentStatus;
+        final flag1 = previous.contentStatus != current.contentStatus;
+        final flag2 = previous.routeInfo != current.routeInfo;
+        return (flag1 || flag2);
       },
       builder: (context, state) {
         final contentStatus = state.contentStatus;
@@ -52,9 +54,12 @@ final class _FindRouteScrollView extends StatelessWidget {
   }) {
     const int sensitivity = 40;
     if (details.delta.dx > sensitivity) {
+      final contentStatus =
+          context.read<FindRouteBloc>().state.createSelectContentStatus();
+
       context.read<FindRouteBloc>().add(
             SetFindRouteContentStatus(
-              contentStatus: SelectFindRouteStatus(),
+              contentStatus: contentStatus,
             ),
           );
     }
@@ -66,17 +71,17 @@ final class _FindRouteScrollSwitchContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FindRouteBloc, FindRouteState>(
       buildWhen: (previous, current) {
-        return previous.contentStatus != current.contentStatus;
+        final flag1 = previous.contentStatus != current.contentStatus;
+        final flag2 = previous.routeInfo != current.routeInfo;
+
+        return (flag1 || flag2);
       },
       builder: (context, state) {
-        final ebRoute = state.ebRoute;
-        if (ebRoute == null) {
+        if (state.routeInfo.ebRoute.ebPaths.isEmpty) {
           return const _FindRouteEmptyDataContent();
         }
 
         final contentStatus = state.contentStatus;
-        final lineOfPaths = state.viewState.transportLineOfRoute.lineOfRoute;
-        final ebPaths = ebRoute.ebPaths;
 
         switch (contentStatus) {
           case EmptyDataFindRouteStatus():
@@ -84,14 +89,13 @@ final class _FindRouteScrollSwitchContent extends StatelessWidget {
 
           case SelectFindRouteStatus():
             return _SelectRouteListView(
-              ebPaths: ebPaths,
-              lineOfPaths: lineOfPaths,
+              ebPaths: contentStatus.ebPaths,
+              lineOfPaths: contentStatus.lineOfPaths,
             );
 
           case DetailFindRouteStatus():
-            final subPaths = ebPaths[contentStatus.selectedIndex].ebSubPaths;
             return _DetailRouteListView(
-              subPaths: subPaths,
+              subPaths: contentStatus.subPaths,
             );
         }
       },

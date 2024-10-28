@@ -5,8 +5,8 @@ final class EBRoute extends Equatable {
   final List<EBPath> ebPaths;
 
   const EBRoute({
-    required this.type,
-    required this.ebPaths,
+    this.type = 1,
+    this.ebPaths = const [],
   });
 
   EBRoute.fromDTO({

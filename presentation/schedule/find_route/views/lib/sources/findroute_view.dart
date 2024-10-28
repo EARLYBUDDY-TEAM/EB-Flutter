@@ -54,7 +54,10 @@ final class _FindRouteScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FindRouteBloc, FindRouteState>(
       buildWhen: (previous, current) {
-        return previous.contentStatus != current.contentStatus;
+        final flag1 = previous.contentStatus != current.contentStatus;
+        final flag2 = previous.routeInfo != current.routeInfo;
+
+        return (flag1 || flag2);
       },
       builder: (context, state) {
         final contentStatus = state.contentStatus;
@@ -111,9 +114,12 @@ final class _FindRouteScaffold extends StatelessWidget {
   }
 
   void _showSelectRouteView(BuildContext context) {
+    final state = context.read<FindRouteBloc>().state;
+    final contentStatus = state.createSelectContentStatus();
+
     context.read<FindRouteBloc>().add(
           SetFindRouteContentStatus(
-            contentStatus: SelectFindRouteStatus(),
+            contentStatus: contentStatus,
           ),
         );
   }

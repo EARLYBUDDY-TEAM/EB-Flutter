@@ -10,17 +10,33 @@ final class EmptyDataFindRouteStatus extends SealedFindRouteContentStatus {
 }
 
 final class SelectFindRouteStatus extends SealedFindRouteContentStatus {
-  SelectFindRouteStatus();
+  final List<EBPath> ebPaths;
+  final List<TransportLineOfPath> lineOfPaths;
+
+  SelectFindRouteStatus({
+    required this.ebPaths,
+    required this.lineOfPaths,
+  });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        ebPaths,
+        lineOfPaths,
+      ];
 }
 
 final class DetailFindRouteStatus extends SealedFindRouteContentStatus {
   final int selectedIndex;
+  final List<EBSubPath> subPaths;
 
-  DetailFindRouteStatus({required this.selectedIndex});
+  DetailFindRouteStatus({
+    required this.selectedIndex,
+    required this.subPaths,
+  });
 
   @override
-  List<Object?> get props => [selectedIndex];
+  List<Object?> get props => [
+        selectedIndex,
+        subPaths,
+      ];
 }

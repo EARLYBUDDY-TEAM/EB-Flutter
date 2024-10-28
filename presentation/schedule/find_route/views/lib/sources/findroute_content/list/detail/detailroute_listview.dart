@@ -1,6 +1,6 @@
 part of '../../../../eb_find_route.dart';
 
-class _DetailRouteListView extends StatelessWidget {
+final class _DetailRouteListView extends StatelessWidget {
   final List<EBSubPath> subPaths;
 
   const _DetailRouteListView({
@@ -11,11 +11,17 @@ class _DetailRouteListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: _list(context),
+      children: _list(
+        context: context,
+        subPaths: subPaths,
+      ),
     );
   }
 
-  List<Widget> _list(BuildContext context) {
+  List<Widget> _list({
+    required BuildContext context,
+    required List<EBSubPath> subPaths,
+  }) {
     return List.generate(subPaths.length + 1, (index) {
       if (index != subPaths.length) {
         return Column(

@@ -64,23 +64,29 @@ extension on FindRouteBloc {
 
     switch (result) {
       case Success():
-        final ebRoute = result.success.model;
+        final EBRoute ebRoute = result.success.model;
         final transportLineOfRoute =
             getTransportLineOfRoute(paths: ebRoute.ebPaths);
-        final findRouteViewState =
-            FindRouteViewState(transportLineOfRoute: transportLineOfRoute);
+        final routeInfo = RouteInfo(
+          ebRoute: ebRoute,
+          transportLineOfRoute: transportLineOfRoute,
+        );
+
+        final contentStatus = state.createSelectContentStatus(
+          routeInfo: routeInfo,
+        );
+
         emit(
           state.copyWith(
-            ebRoute: () => ebRoute,
-            viewState: findRouteViewState,
-            contentStatus: SelectFindRouteStatus(),
+            routeInfo: routeInfo,
+            contentStatus: contentStatus,
           ),
         );
       case Failure():
         log(result.failure.statusCode.toString());
         emit(
           state.copyWith(
-            ebRoute: () => null,
+            routeInfo: const RouteInfo(),
             contentStatus: EmptyDataFindRouteStatus(),
           ),
         );
@@ -133,7 +139,8 @@ extension on FindRouteBloc {
   ) {
     final contentStatus = state.contentStatus;
 
-    if ((contentStatus is! DetailFindRouteStatus) || (state.ebRoute == null)) {
+    if ((contentStatus is! DetailFindRouteStatus) ||
+        (state.routeInfo.ebRoute == null)) {
       return;
     }
 
@@ -141,9 +148,9 @@ extension on FindRouteBloc {
     final endPlace = state.searchPlaceInfo.endPlace;
     final index = contentStatus.selectedIndex;
     final lineOfPath =
-        state.viewState.transportLineOfRoute.lineOfRoute[index].lineOfPath;
+        state.routeInfo.transportLineOfRoute.lineOfRoute[index].lineOfPath;
     final transportLineOfPath = TransportLineOfPath(lineOfPath: lineOfPath);
-    final ebPath = state.ebRoute!.ebPaths[index];
+    final ebPath = state.routeInfo.ebRoute.ebPaths[index];
     final pathInfo = PathInfo(
       startPlace: startPlace,
       endPlace: endPlace,
