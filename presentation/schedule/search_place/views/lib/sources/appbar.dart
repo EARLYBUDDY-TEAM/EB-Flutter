@@ -2,16 +2,19 @@ part of '../eb_search_place.dart';
 
 final class _SearchPlaceAppBar extends AppBar {
   @override
-  final String textTitle;
-  final VoidCallback cancelAction;
+  final String titleName;
+  final Function()? cancelAction;
+  @override
+  final Widget? backButton;
 
   final Color color = EBColors.blue1;
   final String fontFamily = FontFamily.nanumSquareBold;
   final double fontSize = 17;
 
   _SearchPlaceAppBar({
-    required this.textTitle,
+    required this.titleName,
     required this.cancelAction,
+    required this.backButton,
   });
 
   TextStyle textStyle() => TextStyle(
@@ -26,10 +29,12 @@ final class _SearchPlaceAppBar extends AppBar {
   double? get scrolledUnderElevation => 0;
   @override
   bool get automaticallyImplyLeading => false;
+  @override
+  double? get leadingWidth => 150; // dynamic하게 적용법?
 
   @override
   Widget? get title => Text(
-        textTitle,
+        titleName,
         style: TextStyle(
           color: Colors.black,
           fontSize: fontSize,
@@ -38,13 +43,28 @@ final class _SearchPlaceAppBar extends AppBar {
       );
 
   @override
-  List<Widget>? get actions => List<Widget>.of([
-        TextButton(
-          onPressed: cancelAction,
-          child: Text(
-            '취소',
-            style: textStyle(),
-          ),
-        )
-      ]);
+  List<Widget>? get actions => List<Widget>.of(
+        (cancelAction != null)
+            ? [
+                TextButton(
+                  onPressed: cancelAction,
+                  child: Text(
+                    '취소',
+                    style: textStyle(),
+                  ),
+                )
+              ]
+            : [],
+      );
+
+  // @override
+  // Widget? get leading => (backAction != null)
+  //     ? NaviBackButton(
+  //         parentViewName: '경로선택',
+  //         onPressed: backAction,
+  //       )
+  //     : null;
+
+  @override
+  Widget? get leading => backButton;
 }

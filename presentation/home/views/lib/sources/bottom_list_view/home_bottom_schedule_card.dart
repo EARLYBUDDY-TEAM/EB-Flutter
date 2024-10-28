@@ -2,29 +2,40 @@ part of '../../eb_home.dart';
 
 final class BottomScheduleCardView extends StatelessWidget {
   final Schedule schedule;
+  final EBPath? ebPath;
 
-  const BottomScheduleCardView({
+  BottomScheduleCardView({
     super.key,
-    required this.schedule,
-  });
+    required SchedulePath schedulePath,
+  })  : schedule = schedulePath.schedule,
+        ebPath = schedulePath.ebPath;
 
   @override
   Widget build(BuildContext context) {
-    return RoundRectForm(
-      borderRadius: 10,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 15,
+    return InkWell(
+      child: RoundRectForm(
+        borderRadius: 10,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 15,
+          ),
+          child: Row(
+            children: [
+              _circleDot(),
+              const SizedBox(width: 10),
+              _titleAndPlace(),
+              const SizedBox(width: 10),
+              _scheduleTime(),
+            ],
+          ),
         ),
-        child: Row(
-          children: [
-            _circleDot(),
-            const SizedBox(width: 10),
-            _titleAndPlace(),
-            const SizedBox(width: 10),
-            _scheduleTime(),
-          ],
+      ),
+      onTap: () => Navigator.of(context).push(
+        AddScheduleView.pageChangeAddSchedule(
+          context: context,
+          schedule: schedule,
+          ebPath: ebPath,
         ),
       ),
     );

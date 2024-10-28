@@ -11,6 +11,12 @@ final class Station extends Equatable {
     return Station(name: stationDTO.name);
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+    };
+  }
+
   @override
   List<Object?> get props => [name];
 }

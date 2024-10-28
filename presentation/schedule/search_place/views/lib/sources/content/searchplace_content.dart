@@ -41,16 +41,22 @@ final class _SearchPlaceSwitchContent extends StatelessWidget {
     return SizedBox(
       height: height,
       child: BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+        buildWhen: (previous, current) {
+          final flag1 = (previous.placeList != current.placeList);
+          final flag2 = (previous.contentStatus != current.contentStatus);
+          return flag1 || flag2;
+        },
         builder: (context, state) {
-          switch (state.viewState.contentStatus) {
-            case SearchPlaceContentStatus.search:
-              return _SearchPlaceListView(places: state.places);
-            case SearchPlaceContentStatus.map:
-              if (state.selectedPlace != null) {
-                return EBKakaoMapView(place: state.selectedPlace!);
-              } else {
-                return const Text('Empty Data');
-              }
+          final contentStatus = state.contentStatus;
+          switch (contentStatus) {
+            case ListSearchPlaceContent():
+              return _SearchPlaceListView(
+                placeList: state.placeList,
+              );
+            case MapSearchPlaceContent():
+              return EBKakaoMapView(
+                place: contentStatus.selectedPlace,
+              );
           }
         },
       ),

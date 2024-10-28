@@ -19,15 +19,14 @@ final class HomeRepository implements HomeRepositoryAB {
     switch (result) {
       case (Success()):
         final SuccessResponse successResponse = result.success;
-        final ScheduleListDTO scheduleListDTO = successResponse.model;
-        final List<Schedule> scheduleList = scheduleListDTO.allScheduleDTO
-            .map(
-              (dto) => Schedule.fromDTO(scheduleDTO: dto),
-            )
+        final SchedulePathListDTO schedulePathListDTO = successResponse.model;
+        final List<SchedulePath> schedulePathList = schedulePathListDTO
+            .allScheduleDTO
+            .map((dto) => SchedulePath.fromDTO(dto: dto))
             .toList();
         final newSuccessResponse = SuccessResponse(
           statusCode: successResponse.statusCode,
-          model: scheduleList,
+          model: schedulePathList,
         );
         final newResult = Success(success: newSuccessResponse);
         return newResult;
@@ -42,7 +41,7 @@ final class HomeRepository implements HomeRepositoryAB {
   @override
   Future<Result> deleteScheduleCard({
     required String accessToken,
-    required int scheduleID,
+    required String scheduleID,
   }) async {
     final request = HomeRequest.deleteScheduleCard(
       accessToken: accessToken,

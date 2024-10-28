@@ -1,47 +1,147 @@
 part of '../eb_find_route.dart';
 
 final class FindRouteView extends StatelessWidget {
-  final Place start;
-  final Place end;
+  final Place startPlace;
+  final Place endPlace;
+  final MaterialPageRoute Function(BuildContext) pageChangeStartPlace;
+  final MaterialPageRoute Function(BuildContext) pageChangeEndPlace;
   final String? parentName;
-  Function()? backAction;
-  Function()? cancelAction;
 
-  FindRouteView({
+  const FindRouteView({
     super.key,
-    required this.start,
-    required this.end,
     this.parentName,
-    this.backAction,
-    this.cancelAction,
+    required this.startPlace,
+    required this.endPlace,
+    required this.pageChangeStartPlace,
+    required this.pageChangeEndPlace,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
-        start: start,
-        end: end,
+        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+        findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
+        addScheduleDelegate:
+            RepositoryProvider.of<AddScheduleDelegate>(context),
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _FindRouteAppBar(
-          parentName: parentName,
-          backAction: backAction,
-          cancelAction: cancelAction,
+        findRouteState: FindRouteState(
+          searchPlaceInfo: SearchPlaceInfo(
+            startPlace: startPlace,
+            endPlace: endPlace,
+            pageChangeStartPlace: pageChangeStartPlace,
+            pageChangeEndPlace: pageChangeEndPlace,
+          ),
         ),
-        body: Column(
-          children: [
-            _FindRouteInfoView(
-              startName: start.name,
-              endName: end.name,
+      )..add(const OnAppearFindRouteView()),
+      child: _FindRouteScaffold(
+        parentName: parentName,
+      ),
+    );
+  }
+}
+
+final class _FindRouteScaffold extends StatelessWidget {
+  final String? parentName;
+  final selectRouteName = '경로 목록';
+
+  const _FindRouteScaffold({
+    required this.parentName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        final contentStatus = state.contentStatus;
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _FindRouteAppBar(
+            parentName: (contentStatus is DetailFindRouteStatus)
+                ? selectRouteName
+                : parentName,
+            backAction: _backAction(
+              contentStatus: contentStatus,
+              context: context,
             ),
-            const _FindRouteListView(),
-          ],
-        ),
+            cancelAction: () =>
+                context.read<FindRouteBloc>().add(const CancelViewAction()),
+          ),
+          body: Stack(
+            children: _children(contentStatus),
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
+    final List<Widget> listWidget = [
+      Column(
+        children: [_FindRouteSwitchContent()],
       ),
+    ];
+
+    if (contentStatus is DetailFindRouteStatus) {
+      listWidget.add(_SelectRouteButton());
+    }
+
+    return listWidget;
+  }
+
+  Function() _backAction({
+    required BuildContext context,
+    required SealedFindRouteContentStatus contentStatus,
+  }) {
+    switch (contentStatus) {
+      case DetailFindRouteStatus():
+        return () => _showSelectRouteView(context);
+      default:
+        return () => _popFindRouteViewInNav(context);
+    }
+  }
+
+  void _popFindRouteViewInNav(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  void _showSelectRouteView(BuildContext context) {
+    context.read<FindRouteBloc>().add(
+          SetFindRouteContentStatus(
+            contentStatus: SelectFindRouteStatus(),
+          ),
+        );
+  }
+}
+
+final class _FindRouteSwitchContent extends StatelessWidget {
+  final double headerHeight = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FindRouteBloc, FindRouteState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
+      },
+      builder: (context, state) {
+        final contentStatus = state.contentStatus;
+
+        switch (contentStatus) {
+          case EmptyDataFindRouteStatus():
+            return _FindRouteEmptyDataView(
+              headerHeight: headerHeight,
+            );
+          default:
+            return _FindRouteScrollView(
+              headerHeight: headerHeight,
+            );
+        }
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ enum HTTPMethod {
   get,
   post,
   put,
+  patch,
   delete;
 
   @override
@@ -15,6 +16,8 @@ enum HTTPMethod {
         return 'PUT';
       case HTTPMethod.post:
         return 'POST';
+      case HTTPMethod.patch:
+        return 'PATCH';
       case HTTPMethod.delete:
         return 'DELETE';
     }

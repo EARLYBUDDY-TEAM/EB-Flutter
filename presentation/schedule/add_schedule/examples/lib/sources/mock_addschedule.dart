@@ -1,27 +1,21 @@
 part of 'addschedule_example.dart';
 
 final class MockAddSchedule extends StatelessWidget {
-  final _loadingDelegate = LoadingDelegate();
-  final _loginDelegate = LoginDelegate();
-  final _rootDelegate = RootDelegate();
-  final _searchPlaceDelegateForPlace = SearchPlaceDelegateForPlace();
-  final _searchPlaceDelegateForRoute = SearchPlaceDelegateForRoute();
+  final loadingDelegate = LoadingDelegate();
+  final rootDelegate = RootDelegate();
+  final loginDelegate = LoginDelegate();
+  final addScheduleDelegate = AddScheduleDelegate();
+  final findRouteDelegate = FindRouteDelegate();
 
-  final _scheduleRepository = ScheduleRepository();
-  final _tokenRepository = TokenRepository();
+  final scheduleRepository = ScheduleRepository();
+  final tokenRepository = TokenRepository();
+  final searchPlaceRepository = SearchPlaceRepository();
+  final findRouteRepository = FindRouteRepository();
 
-  late final _tokenEvent = TokenEvent(
-    rootDelegate: _rootDelegate,
-    loginDelegate: _loginDelegate,
-    tokenRepository: _tokenRepository,
-  );
-
-  late final bloc = AddScheduleBloc(
-    loadingDelegate: _loadingDelegate,
-    searchPlaceDelegateForPlace: _searchPlaceDelegateForPlace,
-    searchPlaceDelegateForRoute: _searchPlaceDelegateForRoute,
-    scheduleRepository: _scheduleRepository,
-    tokenEvent: _tokenEvent,
+  late final tokenEvent = TokenEvent(
+    rootDelegate: rootDelegate,
+    loginDelegate: loginDelegate,
+    tokenRepository: tokenRepository,
   );
 
   MockAddSchedule({super.key});
@@ -30,27 +24,26 @@ final class MockAddSchedule extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(value: _loginDelegate),
-        RepositoryProvider.value(value: _rootDelegate),
-        RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
-        RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
-        RepositoryProvider.value(value: _scheduleRepository),
-        RepositoryProvider.value(value: _tokenRepository),
+        RepositoryProvider.value(value: loadingDelegate),
+        RepositoryProvider.value(value: rootDelegate),
+        RepositoryProvider.value(value: loginDelegate),
+        RepositoryProvider.value(value: addScheduleDelegate),
+        RepositoryProvider.value(value: findRouteDelegate),
+        RepositoryProvider.value(value: scheduleRepository),
+        RepositoryProvider.value(value: tokenEvent),
+        RepositoryProvider.value(value: searchPlaceRepository),
+        RepositoryProvider.value(value: findRouteRepository),
       ],
       child: MaterialApp(
         home: _NaviButton(
-          toShow: AddScheduleView(bloc: bloc),
-          onPressed: () async {
-            await setAddScheduleResult();
-          },
+          toShow: const AddScheduleView(),
+          onPressed: () {},
         ),
       ),
+      // child: MaterialApp(
+      //   home: MockAddScheduleBlocView(),
+      // ),
     );
-  }
-
-  Future<void> setAddScheduleResult() async {
-    await Future<void>.delayed(const Duration(seconds: 2));
-    bloc.add(const SetAddScheduleResult(result: AddScheduleResult.fail));
   }
 }
 
@@ -72,7 +65,7 @@ final class _NaviButton extends StatelessWidget {
             onPressed();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => toShow,
+                builder: (contxt) => toShow,
               ),
             );
           },

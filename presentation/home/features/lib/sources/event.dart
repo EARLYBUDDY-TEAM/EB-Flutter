@@ -15,12 +15,12 @@ final class OnAppearHomeView extends HomeEvent {
 }
 
 final class DeleteScheduleCard extends HomeEvent {
-  final Schedule schedule;
+  final SchedulePath schedulePath;
 
-  const DeleteScheduleCard({required this.schedule});
+  const DeleteScheduleCard({required this.schedulePath});
 
   @override
-  List<Object?> get props => [schedule];
+  List<Object?> get props => [schedulePath];
 }
 
 final class SetHomeStatus extends HomeEvent {
@@ -45,13 +45,13 @@ final class SetHomeStatus extends HomeEvent {
       ];
 }
 
-final class TapCalendarDay extends HomeEvent {
-  final DateTime selectedDay;
+final class SetCalendarState extends HomeEvent {
+  final CalendarState calendarState;
 
-  const TapCalendarDay({
-    required this.selectedDay,
+  const SetCalendarState({
+    required this.calendarState,
   });
 
   @override
-  List<Object?> get props => [selectedDay];
+  List<Object?> get props => [calendarState];
 }

@@ -7,6 +7,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   late StreamSubscription<BaseStatus> _loginStatusSubscription;
   late StreamSubscription<BaseStatus> _registerStatusSubscription;
+  late StreamSubscription<void> _getAllSchedulesSubscription;
 
   HomeBloc({
     required LoadingDelegate loadingDelegate,
@@ -20,7 +21,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
-    on<TapCalendarDay>(_onTapCalendarDay);
+    on<SetCalendarState>(_onSetCalendarState);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -29,13 +30,17 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _registerStatusSubscription = homeDelegate.registerStatus.listen(
       (status) => add(SetHomeStatus(register: status)),
     );
+
+    _getAllSchedulesSubscription = homeDelegate.getAllSchedules.listen(
+      (_) => add(const OnAppearHomeView()),
+    );
   }
 
   @override
-  Future<void> close() {
-    _loginStatusSubscription.cancel();
-    _registerStatusSubscription.cancel();
-    return super.close();
+  Future<void> close() async {
+    await _loginStatusSubscription.cancel();
+    await _registerStatusSubscription.cancel();
+    await super.close();
   }
 }
 
@@ -78,7 +83,8 @@ extension on HomeBloc {
         final homeStatus =
             state.status.copyWith(getAllScheduleCard: BaseStatus.success);
 
-        final List<Schedule> allSchedules = getAllSchedulesResult.success.model;
+        final List<SchedulePath> allSchedules =
+            getAllSchedulesResult.success.model;
         final daySchedule = DaySchedule.init(allSchedules: allSchedules);
 
         final calendarState = CalendarState();
@@ -127,8 +133,9 @@ extension on HomeBloc {
     DeleteScheduleCard event,
     Emitter<HomeState> emit,
   ) async {
-    if (event.schedule.id == null) {
+    if (event.schedulePath.schedule.id == null) {
       _failActionOnDeleteScheduleCard(emit: emit);
+      return;
     }
 
     _loadingDelegate.set();
@@ -136,7 +143,7 @@ extension on HomeBloc {
     Future<Result> deleteScheduleCardEvent(String accessToken) async {
       return await _homeRepository.deleteScheduleCard(
         accessToken: accessToken,
-        scheduleID: event.schedule.id!,
+        scheduleID: event.schedulePath.schedule.id!,
       );
     }
 
@@ -152,7 +159,7 @@ extension on HomeBloc {
         );
 
         final daySchedule = state.daySchedule.delete(
-          schedule: event.schedule,
+          schedulePath: event.schedulePath,
         );
 
         final topScheduleInfoState = SealedTopScheduleInfoState.init(
@@ -172,7 +179,6 @@ extension on HomeBloc {
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
-        return;
       case Failure():
         _tokenEvent.failureAction(
           result: deleteScheduleCardResult,
@@ -183,21 +189,18 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  void _onTapCalendarDay(
-    TapCalendarDay event,
+  void _onSetCalendarState(
+    SetCalendarState event,
     Emitter<HomeState> emit,
   ) {
-    final calendarState = state.calendarState.copyWith(
-      selectedDay: event.selectedDay,
-    );
-
     final bottomScheduleListState = BottomScheduleListState.init(
-      calendarState: calendarState,
+      calendarState: event.calendarState,
       daySchedule: state.daySchedule,
     );
+
     emit(
       state.copyWith(
-        calendarState: calendarState,
+        calendarState: event.calendarState,
         bottomScheduleListState: bottomScheduleListState,
       ),
     );

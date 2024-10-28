@@ -34,9 +34,9 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   @override
-  Future<void> close() {
-    _tokenStatusSubscription.cancel();
-    return super.close();
+  Future<void> close() async {
+    await _tokenStatusSubscription.cancel();
+    await super.close();
   }
 }
 

@@ -1,30 +1,60 @@
 part of 'searchplace_example.dart';
 
-class _MockEBKakaoMapView extends StatelessWidget {
+final class _MockEBKakaoContentView extends StatelessWidget {
+  final place = Place.mockStarBucks();
+
+  _MockEBKakaoContentView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: _MockEBKakaoMapScaffold(),
+      home: Scaffold(
+        body: EBKakaoMapContent(
+          place: place,
+        ),
+      ),
     );
   }
 }
 
-class _MockEBKakaoMapScaffold extends StatelessWidget {
+final class _MockEBKakaoMapView extends StatelessWidget {
+  final findRouteDelegate = FindRouteDelegate();
+  final addScheduleDelegate = AddScheduleDelegate();
+  final searchPlaceRepository = SearchPlaceRepository();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    EBKakaoMapView(place: Place.mockStarBucks()),
-              ),
-            );
-          },
-          child: const Text('Push EBKakaoMapView'),
-        ),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: findRouteDelegate),
+        RepositoryProvider.value(value: addScheduleDelegate),
+        RepositoryProvider.value(value: searchPlaceRepository),
+      ],
+      child: MaterialApp(
+        home: _MockEBKakaoMapBlocView(),
+      ),
+    );
+  }
+}
+
+final class _MockEBKakaoMapBlocView extends StatelessWidget {
+  final searchPlaceState = SearchPlaceState(setting: EndSearchPlaceSetting());
+  final mockPlace = Place.mockStarBucks();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => SearchPlaceBloc(
+        findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
+        addScheduleDelegate:
+            RepositoryProvider.of<AddScheduleDelegate>(context),
+        searchPlaceRepository:
+            RepositoryProvider.of<SearchPlaceRepository>(context),
+        searchPlaceState: searchPlaceState,
+        navigatorOfPopAction: () => Navigator.of(context).pop(),
+      ),
+      child: EBKakaoMapView(
+        place: mockPlace,
       ),
     );
   }

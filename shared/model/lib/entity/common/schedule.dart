@@ -1,12 +1,14 @@
 part of '../../entity.dart';
 
 final class Schedule extends Equatable {
-  final int? id;
+  final String? id;
   final String title;
   final String? memo;
   final DateTime time;
-  final bool isNotify;
-  Place? startPlace;
+  final int? notifySchedule;
+  final int? notifyTransport;
+  final int? notifyTransportRange;
+  final Place? startPlace;
   final Place? endPlace;
 
   Schedule({
@@ -14,30 +16,39 @@ final class Schedule extends Equatable {
     String? title,
     this.memo,
     DateTime? time,
-    bool? isNotify,
+    this.notifySchedule,
+    this.notifyTransport,
+    this.notifyTransportRange,
     this.startPlace,
     this.endPlace,
   })  : title = title ?? '',
-        time = time ?? DateTime.now(),
-        isNotify = isNotify ?? false;
+        time = time ?? DateTime.now();
 
   Schedule copyWith({
-    int? id,
+    String? Function()? id,
     String? title,
-    String? memo,
+    String? Function()? memo,
     DateTime? time,
-    bool? isNotify,
-    Place? startPlace,
-    Place? endPlace,
+    int? Function()? notifySchedule,
+    int? Function()? notifyTransport,
+    int? Function()? notifyTransportRange,
+    Place? Function()? startPlace,
+    Place? Function()? endPlace,
   }) =>
       Schedule(
-        id: id ?? this.id,
+        id: id != null ? id() : this.id,
         title: title ?? this.title,
-        memo: memo ?? this.memo,
+        memo: memo != null ? memo() : this.memo,
         time: time ?? this.time,
-        isNotify: isNotify ?? this.isNotify,
-        startPlace: startPlace ?? this.startPlace,
-        endPlace: endPlace ?? this.endPlace,
+        notifySchedule:
+            notifySchedule != null ? notifySchedule() : this.notifySchedule,
+        notifyTransport:
+            notifyTransport != null ? notifyTransport() : this.notifyTransport,
+        notifyTransportRange: notifyTransportRange != null
+            ? notifyTransportRange()
+            : this.notifyTransportRange,
+        startPlace: startPlace != null ? startPlace() : this.startPlace,
+        endPlace: endPlace != null ? endPlace() : this.endPlace,
       );
 
   @override
@@ -46,7 +57,9 @@ final class Schedule extends Equatable {
         title,
         memo,
         time,
-        isNotify,
+        notifySchedule,
+        notifyTransport,
+        notifyTransportRange,
         startPlace,
         endPlace,
       ];
@@ -57,7 +70,9 @@ final class Schedule extends Equatable {
         title = scheduleDTO.title,
         memo = scheduleDTO.memo,
         time = DateTime.parse(scheduleDTO.time),
-        isNotify = scheduleDTO.isNotify,
+        notifySchedule = scheduleDTO.notifySchedule,
+        notifyTransport = scheduleDTO.notifyTransport,
+        notifyTransportRange = scheduleDTO.notifyTransportRange,
         startPlace = (scheduleDTO.startPlaceDTO != null)
             ? Place.fromDTO(placeDTO: scheduleDTO.startPlaceDTO!)
             : null,
@@ -67,13 +82,15 @@ final class Schedule extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      "id": null,
+      "id": id,
       "title": title,
       "memo": memo,
       "time": time.toIso8601String(),
-      "isNotify": isNotify,
-      "startPlace": startPlace?.toMap(),
-      "endPlace": endPlace?.toMap(),
+      "notify_schedule": notifySchedule,
+      "notify_transport": notifyTransport,
+      "notify_transport_range": notifyTransportRange,
+      "startPlaceInfo": (startPlace != null) ? startPlace!.toMap() : null,
+      "endPlaceInfo": (endPlace != null) ? endPlace!.toMap() : null,
     };
   }
 
@@ -81,11 +98,13 @@ final class Schedule extends Equatable {
     DateTime? time,
   }) {
     return Schedule(
-      id: 10,
+      id: "id",
       title: "mockwithPlace",
       memo: "memo",
       time: time ?? DateTime.now(),
-      isNotify: false,
+      notifySchedule: 10,
+      notifyTransport: 10,
+      notifyTransportRange: 10,
       startPlace: Place.mockStart(),
       endPlace: Place.mockEnd(),
     );

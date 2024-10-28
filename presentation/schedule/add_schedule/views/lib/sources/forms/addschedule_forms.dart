@@ -1,7 +1,13 @@
 part of '../../eb_add_schedule.dart';
 
-class _AddScheduleForms extends StatelessWidget {
+final class _AddScheduleForms extends StatelessWidget {
+  final double bottomPadding;
   final double fontSize = 17;
+
+  const _AddScheduleForms({
+    super.key,
+    required this.bottomPadding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,16 +16,18 @@ class _AddScheduleForms extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _NameForm(fontSize: fontSize),
+            _ScheduleNameForm(fontSize: fontSize),
             const SizedBox(height: 20),
             _TimeForm(fontSize: fontSize),
             const SizedBox(height: 20),
-            _NotifyForm(fontSize: fontSize),
+            _NotifyScheduleForm(fontSize: fontSize),
             const SizedBox(height: 20),
             _PlaceForm(fontSize: fontSize),
             const SizedBox(height: 20),
-            _RouteForm(fontSize: fontSize),
-            const SizedBox(height: 200),
+            StartPlaceForm(fontSize: fontSize),
+            const SizedBox(height: 20),
+            _NotifyTransportForm(fontSize: fontSize),
+            SizedBox(height: bottomPadding),
           ],
         ),
       ),

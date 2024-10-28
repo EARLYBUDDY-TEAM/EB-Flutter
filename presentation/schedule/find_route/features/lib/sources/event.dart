@@ -4,25 +4,56 @@ sealed class FindRouteEvent extends Equatable {
   const FindRouteEvent();
 }
 
-final class FetchFindRouteData extends FindRouteEvent {
-  final Place start;
-  final Place end;
+final class GetRouteData extends FindRouteEvent {
+  const GetRouteData();
 
-  const FetchFindRouteData({
-    required this.start,
-    required this.end,
+  @override
+  List<Object?> get props => [];
+}
+
+final class SetFindRouteContentStatus extends FindRouteEvent {
+  final SealedFindRouteContentStatus contentStatus;
+
+  const SetFindRouteContentStatus({
+    required this.contentStatus,
   });
 
   @override
-  List<Object?> get props => [start, end];
+  List<Object?> get props => [];
 }
 
-final class setFindRouteStatus extends FindRouteEvent {
-  final FindRouteStatus status;
+final class SetSearchPlaceInfo extends FindRouteEvent {
+  final Place? startPlace;
+  final Place? endPlace;
 
-  const setFindRouteStatus({
-    required this.status,
+  const SetSearchPlaceInfo({
+    this.startPlace,
+    this.endPlace,
   });
+
+  @override
+  List<Object?> get props => [
+        startPlace,
+        endPlace,
+      ];
+}
+
+final class OnAppearFindRouteView extends FindRouteEvent {
+  const OnAppearFindRouteView();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class CancelViewAction extends FindRouteEvent {
+  const CancelViewAction();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class PressSelectRouteButton extends FindRouteEvent {
+  const PressSelectRouteButton();
 
   @override
   List<Object?> get props => [];

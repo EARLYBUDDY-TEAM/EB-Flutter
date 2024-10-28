@@ -2,6 +2,7 @@ part of '../../eb_home.dart';
 
 final class HomeBottomListView extends StatelessWidget {
   final double horizontalPadding;
+
   const HomeBottomListView({
     super.key,
     this.horizontalPadding = 20,
@@ -15,14 +16,9 @@ final class HomeBottomListView extends StatelessWidget {
             current.bottomScheduleListState;
       },
       builder: (context, state) {
-        // 필요함?
-        // context
-        //     .read<HomeBloc>()
-        //     .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
-
         return HomeBottomListContent(
           horizontalPadding: horizontalPadding,
-          scheduleList: state.bottomScheduleListState.selectedSchedules,
+          schedulePathList: state.bottomScheduleListState.selectedSchedules,
         );
       },
     );
@@ -31,19 +27,18 @@ final class HomeBottomListView extends StatelessWidget {
 
 final class HomeBottomListContent extends StatefulWidget {
   final double horizontalPadding;
-  final List<Schedule> scheduleList;
+  final List<SchedulePath> schedulePathList;
 
   const HomeBottomListContent({
     super.key,
     required this.horizontalPadding,
-    required this.scheduleList,
+    required this.schedulePathList,
   });
 
   @override
   State<StatefulWidget> createState() => HomeBottomListContentState();
 }
 
-// Future Builder ??
 final class HomeBottomListContentState extends State<HomeBottomListContent> {
   @override
   Widget build(BuildContext context) {
@@ -56,12 +51,12 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
       ),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.scheduleList.length,
+      itemCount: widget.schedulePathList.length,
       separatorBuilder: (context, index) {
         return SizedBox(height: widget.horizontalPadding);
       },
       itemBuilder: (contex, index) {
-        final item = widget.scheduleList[index];
+        final item = widget.schedulePathList[index];
         return Dismissible(
           key: UniqueKey(),
           direction: DismissDirection.endToStart,
@@ -76,7 +71,7 @@ final class HomeBottomListContentState extends State<HomeBottomListContent> {
             _onDismissed(context: contex, direction: direction);
           },
           background: _swipeDeleteWidget(),
-          child: BottomScheduleCardView(schedule: item),
+          child: BottomScheduleCardView(schedulePath: item),
         );
       },
     );
@@ -121,7 +116,7 @@ extension on HomeBottomListContentState {
   Future<bool> _confirmDismiss({
     required BuildContext context,
     required DismissDirection direction,
-    required Schedule item,
+    required SchedulePath item,
   }) async {
     if (direction != DismissDirection.endToStart) {
       return false;
@@ -129,7 +124,7 @@ extension on HomeBottomListContentState {
 
     final isDelete = await _alertConfirmDeleteScheduleCard(
       context,
-      item.title,
+      item.schedule.title,
     );
 
     if (isDelete != true) {
@@ -148,10 +143,10 @@ extension on HomeBottomListContentState {
 
   Future<bool> _getDeleteScheduleResult(
     BuildContext context,
-    Schedule item,
+    SchedulePath item,
   ) async {
     final homeBloc = context.read<HomeBloc>()
-      ..add(DeleteScheduleCard(schedule: item));
+      ..add(DeleteScheduleCard(schedulePath: item));
 
     final homeState = await homeBloc.stream.firstWhere((state) {
       return state.status.deleteScheduleCard != BaseStatus.init;

@@ -14,24 +14,15 @@ final class _SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SearchPlaceBloc, SearchPlaceState,
-        SearchPlaceContentStatus>(
-      selector: (state) {
-        return state.viewState.contentStatus;
+    return BlocBuilder<SearchPlaceBloc, SearchPlaceState>(
+      buildWhen: (previous, current) {
+        return previous.contentStatus != current.contentStatus;
       },
-      builder: (context, status) {
+      builder: (context, state) {
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: status == SearchPlaceContentStatus.search
-                ? []
-                : [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      offset: const Offset(0, 10),
-                      blurRadius: 7,
-                    ),
-                  ],
+            boxShadow: _boxShadow(state.contentStatus),
           ),
           child: Padding(
             padding: EdgeInsets.only(left: 10, right: 10, bottom: bottomSpace),
@@ -53,6 +44,21 @@ final class _SearchBar extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<BoxShadow>? _boxShadow(SealedSearchPlaceContent contentStatus) {
+    switch (contentStatus) {
+      case ListSearchPlaceContent():
+        return null;
+      case MapSearchPlaceContent():
+        return [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            offset: const Offset(0, 10),
+            blurRadius: 7,
+          ),
+        ];
+    }
   }
 }
 

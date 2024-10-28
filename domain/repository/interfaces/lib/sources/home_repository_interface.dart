@@ -11,7 +11,7 @@ abstract class HomeRepositoryAB {
   // 스케줄 지우기
   Future<Result> deleteScheduleCard({
     required String accessToken,
-    required int scheduleID,
+    required String scheduleID,
   }) async {
     throw UnimplementedError('구현부');
   }

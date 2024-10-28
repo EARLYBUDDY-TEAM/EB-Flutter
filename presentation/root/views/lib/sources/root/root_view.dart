@@ -1,12 +1,12 @@
 part of '../../eb_root.dart';
 
 final class RootView extends StatelessWidget {
-  final SearchPlaceDelegateForPlace _searchPlaceDelegateForPlace;
-  final SearchPlaceDelegateForRoute _searchPlaceDelegateForRoute;
   final HomeDelegate _homeDelegate;
   final LoginDelegate _loginDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
+  final AddScheduleDelegate _addScheduleDelegate;
+  final FindRouteDelegate _findRouteDelegate;
 
   final EBAuthRepository _ebAuthRepository;
   final FindRouteRepository _findRouteRepository;
@@ -24,26 +24,24 @@ final class RootView extends StatelessWidget {
 
   RootView({
     super.key,
-    SearchPlaceDelegateForPlace? searchPlaceDelegateForPlace,
-    SearchPlaceDelegateForRoute? searchPlaceDelegateForRoute,
     RootDelegate? rootDelegate,
     HomeDelegate? homeDelegate,
     LoginDelegate? loginDelegate,
     LoadingDelegate? loadingDelegate,
+    AddScheduleDelegate? addScheduleDelegate,
+    FindRouteDelegate? findRouteDelegate,
     EBAuthRepository? ebAuthRepository,
     FindRouteRepository? findRouteRepository,
     ScheduleRepository? scheduleRepository,
     SearchPlaceRepository? searchPlaceRepository,
     TokenRepository? tokenRepository,
     HomeRepositoryAB? homeRepository,
-  })  : _searchPlaceDelegateForPlace =
-            searchPlaceDelegateForPlace ?? SearchPlaceDelegateForPlace(),
-        _searchPlaceDelegateForRoute =
-            searchPlaceDelegateForRoute ?? SearchPlaceDelegateForRoute(),
-        _homeDelegate = homeDelegate ?? HomeDelegate(),
+  })  : _homeDelegate = homeDelegate ?? HomeDelegate(),
         _loginDelegate = loginDelegate ?? LoginDelegate(),
         _rootDelegate = rootDelegate ?? RootDelegate(),
         _loadingDelegate = loadingDelegate ?? LoadingDelegate(),
+        _addScheduleDelegate = addScheduleDelegate ?? AddScheduleDelegate(),
+        _findRouteDelegate = findRouteDelegate ?? FindRouteDelegate(),
         _ebAuthRepository = ebAuthRepository ?? EBAuthRepository(),
         _findRouteRepository = findRouteRepository ?? FindRouteRepository(),
         _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
@@ -56,12 +54,12 @@ final class RootView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(value: _searchPlaceDelegateForPlace),
-        RepositoryProvider.value(value: _searchPlaceDelegateForRoute),
         RepositoryProvider.value(value: _rootDelegate),
         RepositoryProvider.value(value: _homeDelegate),
         RepositoryProvider.value(value: _loginDelegate),
         RepositoryProvider.value(value: _loadingDelegate),
+        RepositoryProvider.value(value: _addScheduleDelegate),
+        RepositoryProvider.value(value: _findRouteDelegate),
         RepositoryProvider.value(value: _ebAuthRepository),
         RepositoryProvider.value(value: _findRouteRepository),
         RepositoryProvider.value(value: _scheduleRepository),

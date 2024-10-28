@@ -17,6 +17,16 @@ final class Place extends Equatable {
     required this.coordi,
   });
 
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        address,
+        category,
+        distance,
+        coordi,
+      ];
+
   Place.fromDTO({
     required PlaceDTO placeDTO,
   })  : id = placeDTO.id,
@@ -66,7 +76,7 @@ final class Place extends Equatable {
     );
   }
 
-  static Place mockStart() {
+  static Place mockMelos() {
     return const Place(
       id: '123',
       name: '멜로즈',
@@ -77,10 +87,11 @@ final class Place extends Equatable {
     );
   }
 
-  static Place mockEnd() {
+  static Place mockStart() {
     return mockStarBucks();
   }
 
-  @override
-  List<Object?> get props => [name, address, coordi];
+  static Place mockEnd() {
+    return mockMelos();
+  }
 }

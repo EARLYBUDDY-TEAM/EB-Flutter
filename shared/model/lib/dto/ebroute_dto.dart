@@ -59,6 +59,8 @@ final class EBSubPathDTO {
   final int type;
   final int time;
   final String startName;
+  final String? startX;
+  final String? startY;
   final String endName;
   final int distance;
   final List<TransportDTO>? transports;
@@ -68,6 +70,8 @@ final class EBSubPathDTO {
     required this.type,
     required this.time,
     required this.startName,
+    required this.startX,
+    required this.startY,
     required this.endName,
     required this.distance,
     required this.transports,
@@ -99,6 +103,8 @@ final class EBSubPathDTO {
       type: j['type'],
       time: j['time'],
       startName: j['startName'],
+      startX: j['startX'],
+      startY: j['startY'],
       endName: j['endName'],
       distance: j['distance'],
       transports: trans,

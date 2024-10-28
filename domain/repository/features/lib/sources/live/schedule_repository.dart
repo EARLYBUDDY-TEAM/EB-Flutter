@@ -7,15 +7,66 @@ final class ScheduleRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService();
 
-  Future<Result> addSchedule({
+  Future<Result> create({
     required String accessToken,
-    required Schedule scheduleInfo,
+    required Schedule schedule,
+    required EBPath? ebPath,
   }) async {
-    final uploadScheduleInfo = scheduleInfo.toMap();
-    final request = AddScheduleRequest.init(
+    final scheduleMap = schedule.toMap();
+    final pathMap = ebPath?.toMap();
+    final request = AddScheduleRequest.create(
       accessToken: accessToken,
-      scheduleInfo: uploadScheduleInfo,
+      scheduleMap: scheduleMap,
+      pathMap: pathMap,
     );
+    final result = await service.request(request);
+
+    switch (result) {
+      case (Success()):
+        return result;
+      case (Failure()):
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
+        return result;
+    }
+  }
+
+  Future<Result> update({
+    required String accessToken,
+    required Schedule schedule,
+    required EBPath? ebPath,
+  }) async {
+    final scheduleMap = schedule.toMap();
+    final pathMap = ebPath?.toMap();
+    log(pathMap.toString());
+    final request = AddScheduleRequest.update(
+      accessToken: accessToken,
+      scheduleMap: scheduleMap,
+      pathMap: pathMap,
+    );
+    final result = await service.request(request);
+
+    switch (result) {
+      case (Success()):
+        return result;
+      case (Failure()):
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
+        return result;
+    }
+  }
+
+  Future<Result> delete({
+    required String accessToken,
+    required String scheduleID,
+  }) async {
+    final request = AddScheduleRequest.delete(
+      accessToken: accessToken,
+      scheduleID: scheduleID,
+    );
+
     final result = await service.request(request);
 
     switch (result) {

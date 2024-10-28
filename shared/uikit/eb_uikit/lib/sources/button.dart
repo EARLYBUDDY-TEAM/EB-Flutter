@@ -1,5 +1,48 @@
 part of '../eb_uikit.dart';
 
+final class NaviBackButton extends StatelessWidget {
+  final String parentViewName;
+  final Function()? onPressed;
+
+  final Color color = EBColors.blue1;
+  final String fontFamily = FontFamily.nanumSquareBold;
+  final double fontSize = 17;
+
+  NaviBackButton({
+    super.key,
+    required this.parentViewName,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.arrow_back_ios_new,
+              color: color,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              parentViewName,
+              style: TextStyle(
+                color: color,
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class EBButton extends StatelessWidget {
   final String name;
   final VoidCallback? onPressed;

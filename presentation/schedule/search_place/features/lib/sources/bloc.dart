@@ -1,26 +1,22 @@
 part of '../eb_search_place_feature.dart';
 
 final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
-  final SearchPlaceDelegate _searchPlaceDelegate;
+  final AddScheduleDelegate _addScheduleDelegate;
+  final FindRouteDelegate _findRouteDelegate;
   final SearchPlaceRepository _searchPlaceRepository;
-  Function(Place) selectAction;
-  Function() cancelAction;
+  final Function() _navigatorOfPopAction;
 
   SearchPlaceBloc({
-    required SearchPlaceDelegate searchPlacedelegate,
-    required SearchPlaceSetting searchPlaceSetting,
+    required AddScheduleDelegate addScheduleDelegate,
+    required FindRouteDelegate findRouteDelegate,
     required SearchPlaceRepository searchPlaceRepository,
-    SearchPlaceState? searchPlaceState,
-    Function(Place)? selectAction,
-    Function()? cancelAction,
-  })  : _searchPlaceDelegate = searchPlacedelegate,
+    required SearchPlaceState searchPlaceState,
+    required Function() navigatorOfPopAction,
+  })  : _findRouteDelegate = findRouteDelegate,
+        _addScheduleDelegate = addScheduleDelegate,
         _searchPlaceRepository = searchPlaceRepository,
-        selectAction = selectAction ?? ((_) {}),
-        cancelAction = cancelAction ?? (() {}),
-        super(searchPlaceState ?? SearchPlaceState()) {
-    final viewState = state.viewState.copyWith(setting: searchPlaceSetting);
-    emit(state.copyWith(viewState: viewState));
-
+        _navigatorOfPopAction = navigatorOfPopAction,
+        super(searchPlaceState) {
     on<ChangeSearchText>(
       _onChangeSearchText,
       transformer: _debounce(),
@@ -30,6 +26,12 @@ final class SearchPlaceBloc extends Bloc<SearchPlaceEvent, SearchPlaceState> {
     on<PressResetButton>(_onPressResetButton);
     on<PressSelectPlaceButton>(_onPressSelectPlaceButton);
     on<PressCancelButton>(_onPressCancelButton);
+    on<SetSearchPlaceContentStatus>(_onSetSearchPlaceContentStatus);
+  }
+
+  @override
+  Future<void> close() async {
+    await super.close();
   }
 }
 
@@ -53,12 +55,10 @@ extension on SearchPlaceBloc {
     PressListItem event,
     Emitter<SearchPlaceState> emit,
   ) {
-    final viewState =
-        state.viewState.copyWith(contentStatus: SearchPlaceContentStatus.map);
+    final contentStatus = MapSearchPlaceContent(selectedPlace: event.place);
     emit(
       state.copyWith(
-        selectedPlace: event.place,
-        viewState: viewState,
+        contentStatus: contentStatus,
       ),
     );
   }
@@ -78,12 +78,14 @@ extension on SearchPlaceBloc {
     PressResetButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    final viewState = state.viewState
-        .copyWith(contentStatus: SearchPlaceContentStatus.search);
-    emit(state.copyWith(
-      searchText: '',
-      viewState: viewState,
-    ));
+    final contentStatus = ListSearchPlaceContent(placeList: const []);
+    emit(
+      state.copyWith(
+        placeList: [],
+        contentStatus: contentStatus,
+        searchText: "",
+      ),
+    );
   }
 }
 
@@ -92,8 +94,15 @@ extension on SearchPlaceBloc {
     PressSelectPlaceButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    _searchPlaceDelegate.selectPlace.add(event.selectedPlace);
-    selectAction(event.selectedPlace);
+    switch (state.setting) {
+      case EndSearchPlaceSetting():
+        _addScheduleDelegate.selectEndPlace.add(event.selectedPlace);
+      case ChangeEndSearchPlaceSetting():
+        _findRouteDelegate.changeEndPlace.add(event.selectedPlace);
+      case ChangeStartSearchPlaceSetting():
+        _findRouteDelegate.changeStartPlace.add(event.selectedPlace);
+      default:
+    }
   }
 }
 
@@ -102,7 +111,12 @@ extension on SearchPlaceBloc {
     PressCancelButton event,
     Emitter<SearchPlaceState> emit,
   ) {
-    cancelAction();
+    switch (state.setting) {
+      case (EndSearchPlaceSetting() || StartSearchPlaceSetting()):
+        _addScheduleDelegate.cancelModalView.add(());
+      default:
+        _navigatorOfPopAction();
+    }
   }
 }
 
@@ -120,24 +134,29 @@ extension on SearchPlaceBloc {
 
     switch (result) {
       case Success():
-        final List<Place> places = result.success.model;
-        final viewState = state.viewState
-            .copyWith(contentStatus: SearchPlaceContentStatus.search);
+        final List<Place> placeList = result.success.model;
         emit(
           state.copyWith(
-            places: places,
-            viewState: viewState,
+            placeList: placeList,
+            contentStatus: ListSearchPlaceContent(placeList: placeList),
           ),
         );
       case Failure():
-        final viewState = state.viewState
-            .copyWith(contentStatus: SearchPlaceContentStatus.search);
         emit(
           state.copyWith(
-            places: [],
-            viewState: viewState,
+            placeList: [],
+            contentStatus: ListSearchPlaceContent(placeList: const []),
           ),
         );
     }
+  }
+}
+
+extension on SearchPlaceBloc {
+  void _onSetSearchPlaceContentStatus(
+    SetSearchPlaceContentStatus event,
+    Emitter<SearchPlaceState> emit,
+  ) {
+    emit(state.copyWith(contentStatus: event.contentStatus));
   }
 }
