@@ -16,3 +16,4 @@ part 'sources/state/state.dart';
 part 'sources/state/content_status.dart';
 part 'sources/state/searchplace_info.dart';
 part 'sources/state/route_info.dart';
+part 'sources/state/findroute_setting.dart';

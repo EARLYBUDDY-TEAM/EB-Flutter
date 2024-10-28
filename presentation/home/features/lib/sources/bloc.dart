@@ -5,18 +5,23 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepositoryAB _homeRepository;
   final TokenEvent _tokenEvent;
 
+  final Function() _cancelModalViewAction;
+
   late StreamSubscription<BaseStatus> _loginStatusSubscription;
   late StreamSubscription<BaseStatus> _registerStatusSubscription;
   late StreamSubscription<void> _getAllSchedulesSubscription;
+  late StreamSubscription<void> _cancelModalViewSubscription;
 
   HomeBloc({
     required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
     required HomeRepositoryAB homeRepository,
     required TokenEvent tokenEvent,
+    required void Function() cancelModalViewAction,
   })  : _loadingDelegate = loadingDelegate,
         _homeRepository = homeRepository,
         _tokenEvent = tokenEvent,
+        _cancelModalViewAction = cancelModalViewAction,
         super(HomeState()) {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
@@ -34,12 +39,19 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _getAllSchedulesSubscription = homeDelegate.getAllSchedules.listen(
       (_) => add(const OnAppearHomeView()),
     );
+
+    _cancelModalViewSubscription = homeDelegate.cancelModalView.listen(
+      (_) => _cancelModalViewAction(),
+    );
   }
 
   @override
   Future<void> close() async {
     await _loginStatusSubscription.cancel();
     await _registerStatusSubscription.cancel();
+    await _getAllSchedulesSubscription.cancel();
+    await _cancelModalViewSubscription.cancel();
+
     await super.close();
   }
 }

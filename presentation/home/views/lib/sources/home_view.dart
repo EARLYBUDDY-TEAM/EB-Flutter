@@ -24,6 +24,7 @@ final class _HomeViewState extends State<HomeView> {
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
         tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+        cancelModalViewAction: () => Navigator.of(context).pop(),
       )..add(const OnAppearHomeView()),
       child: const EBHomeView(),
     );

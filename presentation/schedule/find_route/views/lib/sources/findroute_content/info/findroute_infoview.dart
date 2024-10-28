@@ -12,8 +12,6 @@ final class _FindRouteInfoView extends StatelessWidget {
       builder: (context, state) {
         final startPlaceName = state.searchPlaceInfo.startPlace.name;
         final endPlaceName = state.searchPlaceInfo.endPlace.name;
-        final pageChangeStartPlace = state.searchPlaceInfo.pageChangeStartPlace;
-        final pageChangeEndPlace = state.searchPlaceInfo.pageChangeEndPlace;
 
         return Padding(
           padding: EdgeInsets.only(
@@ -32,13 +30,11 @@ final class _FindRouteInfoView extends StatelessWidget {
                     _start(
                       context,
                       startPlaceName,
-                      pageChangeStartPlace,
                     ),
                     _divider(),
                     _end(
                       context,
                       endPlaceName,
-                      pageChangeEndPlace,
                     ),
                   ],
                 ),
@@ -68,54 +64,72 @@ final class _FindRouteInfoView extends StatelessWidget {
   Widget _start(
     BuildContext context,
     String startPlaceName,
-    MaterialPageRoute<dynamic> Function(BuildContext) pageChangeStartPlace,
   ) {
+    final setting = context.read<FindRouteBloc>().state.setting;
+    final pageChangeStartPlace = (setting is WriteFindRouteSetting)
+        ? setting.pageChangeStartPlace
+        : null;
     return _placeText(
-      context,
-      startPlaceName,
-      pageChangeStartPlace,
+      context: context,
+      placeName: startPlaceName,
+      pageRoute: pageChangeStartPlace,
     );
   }
 
   Widget _end(
     BuildContext context,
     String endPlaceName,
-    MaterialPageRoute<dynamic> Function(BuildContext) pageChangeEndPlace,
   ) {
+    final setting = context.read<FindRouteBloc>().state.setting;
+    final pageChangeEndPlace =
+        (setting is WriteFindRouteSetting) ? setting.pageChangeEndPlace : null;
     return _placeText(
-      context,
-      endPlaceName,
-      pageChangeEndPlace,
+      context: context,
+      placeName: endPlaceName,
+      pageRoute: pageChangeEndPlace,
     );
   }
 
-  Widget _placeText(
-    BuildContext context,
-    String placeName,
-    MaterialPageRoute<dynamic> Function(BuildContext) pageRoute,
-  ) {
-    return Row(
-      children: [
-        Text(
-          placeName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareExtraBold,
-            color: Colors.grey.withOpacity(0.7),
-            fontSize: 15,
-          ),
+  Widget _placeText({
+    required BuildContext context,
+    required String placeName,
+    required MaterialPageRoute<dynamic> Function(BuildContext)? pageRoute,
+  }) {
+    final List<Widget> children = [
+      Text(
+        placeName,
+        style: TextStyle(
+          fontFamily: FontFamily.nanumSquareExtraBold,
+          color: Colors.grey.withOpacity(0.7),
+          fontSize: 15,
         ),
-        const Spacer(),
-        EBRoundedButton(
-          text: '변경',
-          height: 25,
-          onPressed: () {
-            Navigator.push(
-              context,
-              pageRoute(context),
-            );
-          },
-        ),
-      ],
+      ),
+      const Spacer(),
+    ];
+
+    if (pageRoute != null) {
+      children.add(_changeButton(
+        context: context,
+        pageRoute: pageRoute,
+      ));
+    }
+
+    return Row(children: children);
+  }
+
+  Widget _changeButton({
+    required BuildContext context,
+    required MaterialPageRoute<dynamic> Function(BuildContext) pageRoute,
+  }) {
+    return EBRoundedButton(
+      text: '변경',
+      height: 25,
+      onPressed: () {
+        Navigator.push(
+          context,
+          pageRoute(context),
+        );
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ part of '../eb_find_route_feature.dart';
 final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final LoadingDelegate _loadingDelegate;
   final AddScheduleDelegate _addScheduleDelegate;
+  final HomeDelegate _homeDelegate;
   final FindRouteRepository _findRouteRepository;
 
   late StreamSubscription<Place> changeStartPlaceSubscription;
@@ -11,19 +12,21 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   FindRouteBloc({
     required LoadingDelegate loadingDelegate,
     required AddScheduleDelegate addScheduleDelegate,
+    required HomeDelegate homeDelegate,
     required FindRouteDelegate findRouteDelegate,
     required FindRouteRepository findRouteRepository,
     required FindRouteState findRouteState,
   })  : _loadingDelegate = loadingDelegate,
         _addScheduleDelegate = addScheduleDelegate,
+        _homeDelegate = homeDelegate,
         _findRouteRepository = findRouteRepository,
         super(findRouteState) {
     on<GetRouteData>(_onGetRouteData);
     on<SetFindRouteContentStatus>(_onSetFindRouteContentStatus);
-    on<OnAppearFindRouteView>(_onOnAppearFindRouteView);
     on<CancelViewAction>(_onCancelViewAction);
     on<SetSearchPlaceInfo>(_onSetSearchPlaceInfo);
     on<PressSelectRouteButton>(_onPressSelectRouteButton);
+    on<SetupFindRouteView>(_onSetupFindRouteView);
 
     changeStartPlaceSubscription = findRouteDelegate.changeStartPlace.listen(
       (startPlace) => add(SetSearchPlaceInfo(startPlace: startPlace)),
@@ -97,20 +100,17 @@ extension on FindRouteBloc {
 }
 
 extension on FindRouteBloc {
-  void _onOnAppearFindRouteView(
-    OnAppearFindRouteView event,
-    Emitter<FindRouteState> emit,
-  ) {
-    add(const GetRouteData());
-  }
-}
-
-extension on FindRouteBloc {
   void _onCancelViewAction(
     CancelViewAction event,
     Emitter<FindRouteState> emit,
   ) {
-    _addScheduleDelegate.cancelModalView.add(());
+    final setting = state.setting;
+    switch (setting) {
+      case ReadFindRouteSetting():
+        _homeDelegate.cancelModalView.add(());
+      case WriteFindRouteSetting():
+        _addScheduleDelegate.cancelModalView.add(());
+    }
   }
 }
 
@@ -159,5 +159,25 @@ extension on FindRouteBloc {
     );
     _addScheduleDelegate.selectStartPlace.add(pathInfo);
     _addScheduleDelegate.cancelModalView.add(());
+  }
+}
+
+extension on FindRouteBloc {
+  void _onSetupFindRouteView(
+    SetupFindRouteView event,
+    Emitter<FindRouteState> emit,
+  ) {
+    final setting = event.setting;
+
+    switch (setting) {
+      case ReadFindRouteSetting():
+        final contentStatus = DetailFindRouteStatus(
+          selectedIndex: 0,
+          subPaths: setting.subPaths,
+        );
+        add(SetFindRouteContentStatus(contentStatus: contentStatus));
+      case WriteFindRouteSetting():
+        add(const GetRouteData());
+    }
   }
 }

@@ -3,8 +3,7 @@ part of '../eb_find_route.dart';
 final class FindRouteView extends StatelessWidget {
   final Place startPlace;
   final Place endPlace;
-  final MaterialPageRoute Function(BuildContext) pageChangeStartPlace;
-  final MaterialPageRoute Function(BuildContext) pageChangeEndPlace;
+  final SealedFindRouteSetting setting;
   final String? parentName;
 
   const FindRouteView({
@@ -12,9 +11,46 @@ final class FindRouteView extends StatelessWidget {
     this.parentName,
     required this.startPlace,
     required this.endPlace,
-    required this.pageChangeStartPlace,
-    required this.pageChangeEndPlace,
+    required this.setting,
   });
+
+  static MaterialPageRoute pageReadFindRoute({
+    required Place startPlace,
+    required Place endPlace,
+    required List<EBSubPath> subPaths,
+    String? parentName,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        setting: ReadFindRouteSetting(subPaths: subPaths),
+        parentName: parentName,
+      ),
+    );
+  }
+
+  static MaterialPageRoute pageWriteFindRoute({
+    required Place startPlace,
+    required Place endPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeStartPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeEndPlace,
+    String? parentName,
+  }) {
+    return MaterialPageRoute(
+      builder: (_) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        setting: WriteFindRouteSetting(
+          pageChangeStartPlace: pageChangeStartPlace,
+          pageChangeEndPlace: pageChangeEndPlace,
+        ),
+        parentName: parentName,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +60,17 @@ final class FindRouteView extends StatelessWidget {
         findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
         addScheduleDelegate:
             RepositoryProvider.of<AddScheduleDelegate>(context),
+        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
         findRouteState: FindRouteState(
           searchPlaceInfo: SearchPlaceInfo(
             startPlace: startPlace,
             endPlace: endPlace,
-            pageChangeStartPlace: pageChangeStartPlace,
-            pageChangeEndPlace: pageChangeEndPlace,
           ),
+          setting: setting,
         ),
-      )..add(const OnAppearFindRouteView()),
+      )..add(SetupFindRouteView(setting: setting)),
       child: _FindRouteScaffold(
         parentName: parentName,
       ),
@@ -61,6 +97,7 @@ final class _FindRouteScaffold extends StatelessWidget {
       },
       builder: (context, state) {
         final contentStatus = state.contentStatus;
+        final setting = state.setting;
 
         return Scaffold(
           backgroundColor: Colors.white,
@@ -76,21 +113,28 @@ final class _FindRouteScaffold extends StatelessWidget {
                 context.read<FindRouteBloc>().add(const CancelViewAction()),
           ),
           body: Stack(
-            children: _children(contentStatus),
+            children: _children(
+              contentStatus: contentStatus,
+              setting: setting,
+            ),
           ),
         );
       },
     );
   }
 
-  List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
+  List<Widget> _children({
+    required SealedFindRouteContentStatus contentStatus,
+    required SealedFindRouteSetting setting,
+  }) {
     final List<Widget> listWidget = [
       Column(
         children: [_FindRouteSwitchContent()],
       ),
     ];
 
-    if (contentStatus is DetailFindRouteStatus) {
+    if ((setting is WriteFindRouteSetting) &&
+        (contentStatus is DetailFindRouteStatus)) {
       listWidget.add(_SelectRouteButton());
     }
 
