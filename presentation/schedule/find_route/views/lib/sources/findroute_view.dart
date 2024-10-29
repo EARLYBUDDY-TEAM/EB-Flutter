@@ -104,9 +104,11 @@ final class FindRouteScaffold extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: _FindRouteAppBar(
-            parentName: (contentStatus is DetailFindRouteStatus)
-                ? selectRouteName
-                : parentName,
+            titleText: _titleText(setting: setting),
+            parentName: _parentName(
+              setting: setting,
+              contentStatus: contentStatus,
+            ),
             backAction: _backAction(
               contentStatus: contentStatus,
               context: context,
@@ -123,6 +125,24 @@ final class FindRouteScaffold extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _titleText({
+    required SealedFindRouteSetting setting,
+  }) {
+    return (setting is ReadFindRouteSetting) ? "경로 보기" : '경로 선택';
+  }
+
+  String? _parentName({
+    required SealedFindRouteSetting setting,
+    required SealedFindRouteContentStatus contentStatus,
+  }) {
+    if (setting is ReadFindRouteSetting) {
+      return null;
+    }
+    return (contentStatus is DetailFindRouteStatus)
+        ? selectRouteName
+        : parentName;
   }
 
   List<Widget> _children({
