@@ -1,10 +1,15 @@
 part of 'findroute_example.dart';
 
 final class _MockFindRouteView extends StatelessWidget {
+  final MaterialPageRoute mockFindRouteView;
+
   final loadingDelegate = LoadingDelegate();
-  final addScheduleDelegate = AddScheduleDelegate();
   final findRouteDelegate = FindRouteDelegate();
+  final addScheduleDelegate = AddScheduleDelegate();
+  final homeDelegate = HomeDelegate();
   final findRouteRepository = FindRouteRepository();
+
+  _MockFindRouteView({super.key, required this.mockFindRouteView});
 
   @override
   Widget build(BuildContext context) {
@@ -12,89 +17,62 @@ final class _MockFindRouteView extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: loadingDelegate),
         RepositoryProvider.value(value: addScheduleDelegate),
+        RepositoryProvider.value(value: homeDelegate),
         RepositoryProvider.value(value: findRouteDelegate),
         RepositoryProvider.value(value: findRouteRepository),
       ],
-      child: MaterialApp(
-        home: _NaviButton(
-          toShow: _MockFindRouteContent(),
-          onPressed: () {},
-        ),
-      ),
+      child: MockModalBottomSheetButton(modalView: mockFindRouteView),
     );
+  }
+
+  static _MockFindRouteView empty(BuildContext context) {
+    final view = _MockFindRouteBlocView(
+      setting: makeReadSetting(context),
+      contentStatus: EmptyDataFindRouteStatus(),
+    );
+
+    final route = makeRoute(view: view);
+
+    return _MockFindRouteView(mockFindRouteView: route(context));
   }
 }
 
-final class _NaviButton extends StatelessWidget {
-  final StatelessWidget toShow;
-  final Function() onPressed;
-
-  const _NaviButton({
-    required this.toShow,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            onPressed();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (contxt) => toShow,
-              ),
-            );
-          },
-          child: const Text('Navi FindRouteView'),
-        ),
-      ),
-    );
-  }
-}
-
-final class _MockFindRouteContent extends StatelessWidget {
+final class _MockFindRouteBlocView extends StatelessWidget {
   final startPlace = Place.mockStart();
   final endPlace = Place.mockEnd();
+  final SealedFindRouteSetting setting;
+  final SealedFindRouteContentStatus contentStatus;
+  final String? parentName;
 
-  @override
-  Widget build(BuildContext context) {
-    return FindRouteView(
-      parentName: "naviButton",
-      startPlace: startPlace,
-      endPlace: endPlace,
-      pageChangeStartPlace: _MockPageChangeSearchView.start,
-      pageChangeEndPlace: _MockPageChangeSearchView.end,
-    );
-  }
-}
-
-final class _MockPageChangeSearchView extends StatelessWidget {
-  final String title;
-
-  static MaterialPageRoute Function(BuildContext) get start {
-    return (context) => MaterialPageRoute(
-          builder: (context) => const _MockPageChangeSearchView(title: "start"),
-        );
-  }
-
-  static MaterialPageRoute Function(BuildContext) get end {
-    return (context) => MaterialPageRoute(
-          builder: (context) => const _MockPageChangeSearchView(title: "end"),
-        );
-  }
-
-  const _MockPageChangeSearchView({
+  _MockFindRouteBlocView({
     super.key,
-    required this.title,
+    required this.setting,
+    required this.contentStatus,
+    this.parentName,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(title),
+    return BlocProvider(
+      create: (context) => FindRouteBloc(
+        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+        findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
+        addScheduleDelegate:
+            RepositoryProvider.of<AddScheduleDelegate>(context),
+        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+        findRouteRepository:
+            RepositoryProvider.of<FindRouteRepository>(context),
+        findRouteState: FindRouteState(
+          searchPlaceInfo: SearchPlaceInfo(
+            startPlace: startPlace,
+            endPlace: endPlace,
+          ),
+          setting: setting,
+        ),
+        // )..add(SetupFindRouteView(setting: setting)),
+      )..add(SetFindRouteContentStatus(contentStatus: contentStatus)),
+      child: FindRouteScaffold(
+        parentName: parentName,
       ),
     );
   }

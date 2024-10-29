@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' show JSON;
 import 'package:rxdart/rxdart.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 part 'sources/textfield.dart';
 part 'sources/button.dart';
@@ -23,4 +24,5 @@ part 'sources/loading_view/loading_delegate.dart';
 part 'sources/round_rect_form.dart';
 part 'sources/screen_size.dart';
 part 'sources/decorations/eb_box_shadow.dart';
-part 'sources/builder_modal_bottom_sheet.dart';
+part 'sources/helper_modal_bottom_sheet.dart';
+part 'sources/type_casting.dart';

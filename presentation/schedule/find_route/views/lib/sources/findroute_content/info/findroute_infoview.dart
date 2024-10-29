@@ -5,13 +5,13 @@ final class _FindRouteInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FindRouteBloc, FindRouteState>(
-      buildWhen: (previous, current) {
-        return previous.searchPlaceInfo != current.searchPlaceInfo;
+    return BlocSelector<FindRouteBloc, FindRouteState, SearchPlaceInfo>(
+      selector: (state) {
+        return state.searchPlaceInfo;
       },
-      builder: (context, state) {
-        final startPlaceName = state.searchPlaceInfo.startPlace.name;
-        final endPlaceName = state.searchPlaceInfo.endPlace.name;
+      builder: (context, searchPlaceInfo) {
+        final startPlaceName = searchPlaceInfo.startPlace.name;
+        final endPlaceName = searchPlaceInfo.endPlace.name;
 
         return Padding(
           padding: EdgeInsets.only(

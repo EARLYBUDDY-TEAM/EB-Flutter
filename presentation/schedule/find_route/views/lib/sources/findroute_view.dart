@@ -15,13 +15,14 @@ final class FindRouteView extends StatelessWidget {
   });
 
   static MaterialPageRoute pageReadFindRoute({
+    required BuildContext context,
     required Place startPlace,
     required Place endPlace,
     required List<EBSubPath> subPaths,
     String? parentName,
   }) {
     return MaterialPageRoute(
-      builder: (_) => FindRouteView(
+      builder: (context) => FindRouteView(
         startPlace: startPlace,
         endPlace: endPlace,
         setting: ReadFindRouteSetting(subPaths: subPaths),
@@ -71,18 +72,19 @@ final class FindRouteView extends StatelessWidget {
           setting: setting,
         ),
       )..add(SetupFindRouteView(setting: setting)),
-      child: _FindRouteScaffold(
+      child: FindRouteScaffold(
         parentName: parentName,
       ),
     );
   }
 }
 
-final class _FindRouteScaffold extends StatelessWidget {
+final class FindRouteScaffold extends StatelessWidget {
   final String? parentName;
   final selectRouteName = '경로 목록';
 
-  const _FindRouteScaffold({
+  const FindRouteScaffold({
+    super.key,
     required this.parentName,
   });
 
@@ -128,9 +130,11 @@ final class _FindRouteScaffold extends StatelessWidget {
     required SealedFindRouteSetting setting,
   }) {
     final List<Widget> listWidget = [
-      Column(
-        children: [_FindRouteSwitchContent()],
-      ),
+      SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: _FindRouteSwitchContent(),
+      )
     ];
 
     if ((setting is WriteFindRouteSetting) &&
@@ -183,7 +187,7 @@ final class _FindRouteSwitchContent extends StatelessWidget {
 
         switch (contentStatus) {
           case EmptyDataFindRouteStatus():
-            return _FindRouteEmptyDataView(
+            return FindRouteEmptyDataView(
               headerHeight: headerHeight,
             );
           default:

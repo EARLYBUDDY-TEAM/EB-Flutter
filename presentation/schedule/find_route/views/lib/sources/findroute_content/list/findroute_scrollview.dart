@@ -78,14 +78,14 @@ final class _FindRouteScrollSwitchContent extends StatelessWidget {
       },
       builder: (context, state) {
         if (state.routeInfo.ebRoute.ebPaths.isEmpty) {
-          return const _FindRouteEmptyDataContent();
+          return const FindRouteEmptyDataContent();
         }
 
         final contentStatus = state.contentStatus;
 
         switch (contentStatus) {
           case EmptyDataFindRouteStatus():
-            return const _FindRouteEmptyDataContent();
+            return const FindRouteEmptyDataContent();
 
           case SelectFindRouteStatus():
             return _SelectRouteListView(
