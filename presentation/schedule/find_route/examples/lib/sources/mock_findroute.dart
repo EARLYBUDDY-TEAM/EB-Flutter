@@ -27,7 +27,18 @@ final class _MockFindRouteView extends StatelessWidget {
 
   static _MockFindRouteView empty(BuildContext context) {
     final view = _MockFindRouteBlocView(
-      setting: makeReadSetting(context),
+      setting: makeReadSetting(context: context),
+      contentStatus: EmptyDataFindRouteStatus(),
+    );
+
+    final route = makeRoute(view: view);
+
+    return _MockFindRouteView(mockFindRouteView: route(context));
+  }
+
+  static _MockFindRouteView read(BuildContext context) {
+    final view = _MockFindRouteBlocView(
+      setting: makeReadSetting(context: context, subPaths: mockSubPaths),
       contentStatus: EmptyDataFindRouteStatus(),
     );
 
@@ -69,8 +80,8 @@ final class _MockFindRouteBlocView extends StatelessWidget {
           ),
           setting: setting,
         ),
-        // )..add(SetupFindRouteView(setting: setting)),
-      )..add(SetFindRouteContentStatus(contentStatus: contentStatus)),
+      )..add(SetupFindRouteView(setting: setting)),
+      // )..add(SetFindRouteContentStatus(contentStatus: contentStatus)),
       child: FindRouteScaffold(
         parentName: parentName,
       ),

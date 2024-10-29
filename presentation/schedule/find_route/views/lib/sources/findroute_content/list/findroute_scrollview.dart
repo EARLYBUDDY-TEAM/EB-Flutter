@@ -31,12 +31,8 @@ final class _FindRouteScrollView extends StatelessWidget {
                 children: [
                   _FindRouteInfoView(),
                   Expanded(
-                    child: ScrollWithHeader(
-                      header: _FindRouteHeaderSortView(height: headerHeight),
+                    child: FindRouteScrollWithHeader(
                       headerHeight: headerHeight,
-                      list: [
-                        _FindRouteScrollSwitchContent(),
-                      ],
                     ),
                   ),
                 ],
@@ -66,7 +62,14 @@ final class _FindRouteScrollView extends StatelessWidget {
   }
 }
 
-final class _FindRouteScrollSwitchContent extends StatelessWidget {
+final class FindRouteScrollWithHeader extends StatelessWidget {
+  final double headerHeight;
+
+  const FindRouteScrollWithHeader({
+    super.key,
+    required this.headerHeight,
+  });
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FindRouteBloc, FindRouteState>(
@@ -78,27 +81,78 @@ final class _FindRouteScrollSwitchContent extends StatelessWidget {
       },
       builder: (context, state) {
         if (state.routeInfo.ebRoute.ebPaths.isEmpty) {
-          return const FindRouteEmptyDataContent();
+          return _EmptyFindRouteScrollWithHeader(
+            headerHeight: headerHeight,
+          );
         }
 
         final contentStatus = state.contentStatus;
 
         switch (contentStatus) {
           case EmptyDataFindRouteStatus():
-            return const FindRouteEmptyDataContent();
+            return _EmptyFindRouteScrollWithHeader(
+              headerHeight: headerHeight,
+            );
 
           case SelectFindRouteStatus():
-            return _SelectRouteListView(
-              ebPaths: contentStatus.ebPaths,
-              lineOfPaths: contentStatus.lineOfPaths,
+            return _ExistFindRouteScrollWithHeader(
+              headerHeight: headerHeight,
+              scrollContent: _SelectRouteListView(
+                ebPaths: contentStatus.ebPaths,
+                lineOfPaths: contentStatus.lineOfPaths,
+              ),
             );
 
           case DetailFindRouteStatus():
-            return _DetailRouteListView(
-              subPaths: contentStatus.subPaths,
+            return _ExistFindRouteScrollWithHeader(
+              headerHeight: headerHeight,
+              scrollContent: _DetailRouteListView(
+                subPaths: contentStatus.subPaths,
+              ),
             );
         }
       },
+    );
+  }
+}
+
+final class _EmptyFindRouteScrollWithHeader extends StatelessWidget {
+  final double headerHeight;
+
+  const _EmptyFindRouteScrollWithHeader({
+    super.key,
+    required this.headerHeight,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollWithHeader(
+      header: _FindRouteHeaderSortView(height: headerHeight),
+      headerHeight: headerHeight,
+      list: const [],
+      defaultContent: const FindRouteEmptyDataContent(),
+    );
+  }
+}
+
+final class _ExistFindRouteScrollWithHeader extends StatelessWidget {
+  final Widget scrollContent;
+  final double headerHeight;
+
+  const _ExistFindRouteScrollWithHeader({
+    super.key,
+    required this.scrollContent,
+    required this.headerHeight,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollWithHeader(
+      header: _FindRouteHeaderSortView(height: headerHeight),
+      headerHeight: headerHeight,
+      list: [
+        scrollContent,
+      ],
     );
   }
 }

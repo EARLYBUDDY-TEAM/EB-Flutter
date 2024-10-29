@@ -20,6 +20,7 @@ final class FindRouteExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _MockFindRouteView.empty(context);
+    // return _MockFindRouteView.empty(context);
+    return _MockFindRouteView.read(context);
   }
 }

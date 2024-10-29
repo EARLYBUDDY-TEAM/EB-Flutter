@@ -1,5 +1,12 @@
 part of '../findroute_example.dart';
 
+final mockSubPaths = [
+  EBSubPath.mockBus(),
+  EBSubPath.mockWalk(),
+  EBSubPath.mockSubway(),
+  EBSubPath.mockWalk(),
+];
+
 WriteFindRouteSetting makeWriteSetting(BuildContext context) {
   return WriteFindRouteSetting(
     pageChangeStartPlace: makeTextRoute(context: context, text: 'start'),
@@ -7,8 +14,11 @@ WriteFindRouteSetting makeWriteSetting(BuildContext context) {
   );
 }
 
-ReadFindRouteSetting makeReadSetting(BuildContext context) {
-  return ReadFindRouteSetting(subPaths: const []);
+ReadFindRouteSetting makeReadSetting({
+  required BuildContext context,
+  List<EBSubPath>? subPaths,
+}) {
+  return ReadFindRouteSetting(subPaths: subPaths ?? []);
 }
 
 MaterialPageRoute Function(BuildContext) makeTextRoute({
