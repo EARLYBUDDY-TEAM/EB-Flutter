@@ -1,11 +1,13 @@
 part of '../../../eb_find_route.dart';
 
 final class FindRouteKakaoMapView extends StatelessWidget {
+  final String parentViewName;
   final String placeName;
   final Coordi coordi;
 
   const FindRouteKakaoMapView({
     super.key,
+    required this.parentViewName,
     required this.placeName,
     required this.coordi,
   });
@@ -14,6 +16,7 @@ final class FindRouteKakaoMapView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _FindRouteKakaoMapAppBar(
+        parentViewName: parentViewName,
         placeName: placeName,
         backButtonAction: () => Navigator.of(context).pop(),
       ),
@@ -69,10 +72,12 @@ final class _FindRouteKakaoMapContentState
 }
 
 final class _FindRouteKakaoMapAppBar extends AppBar {
+  final String parentViewName;
   final String placeName;
   final Function() backButtonAction;
 
   _FindRouteKakaoMapAppBar({
+    required this.parentViewName,
     required this.placeName,
     required this.backButtonAction,
   });
@@ -102,7 +107,7 @@ final class _FindRouteKakaoMapAppBar extends AppBar {
 
   @override
   Widget? get leading => NaviBackButton(
-        parentViewName: '경로선택',
+        parentViewName: parentViewName,
         onPressed: backButtonAction,
       );
 }

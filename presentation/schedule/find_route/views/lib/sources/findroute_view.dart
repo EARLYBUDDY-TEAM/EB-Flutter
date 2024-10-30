@@ -211,8 +211,14 @@ final class _FindRouteSwitchContent extends StatelessWidget {
               headerHeight: headerHeight,
             );
           default:
-            return _FindRouteScrollView(
-              headerHeight: headerHeight,
+            return Column(
+              children: [
+                Expanded(
+                  child: _FindRouteScrollView(
+                    headerHeight: headerHeight,
+                  ),
+                ),
+              ],
             );
         }
       },

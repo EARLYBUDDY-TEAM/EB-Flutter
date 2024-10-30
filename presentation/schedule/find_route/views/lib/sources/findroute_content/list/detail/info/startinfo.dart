@@ -76,6 +76,9 @@ final class _StartInfoOther extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final setting = context.read<FindRouteBloc>().state.setting;
+    final parentViewName = (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -101,6 +104,7 @@ final class _StartInfoOther extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (BuildContext context) => FindRouteKakaoMapView(
+                  parentViewName: parentViewName,
                   placeName: startName,
                   coordi: startCoordi,
                 ),

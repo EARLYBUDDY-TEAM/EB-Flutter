@@ -14,29 +14,30 @@ final class _FindRouteScrollView extends StatelessWidget {
       buildWhen: (previous, current) {
         final flag1 = previous.contentStatus != current.contentStatus;
         final flag2 = previous.routeInfo != current.routeInfo;
-        return (flag1 || flag2);
+        final flag3 = previous.setting != current.setting;
+        return (flag1 || flag2 || flag3);
       },
       builder: (context, state) {
         final contentStatus = state.contentStatus;
+        final setting = state.setting;
 
-        return Expanded(
-          child: PopScope(
-            canPop: (contentStatus is SelectFindRouteStatus) ? true : false,
-            child: GestureDetector(
-              onHorizontalDragUpdate: (details) => _onHorizontalDragUpdate(
-                context: context,
-                details: details,
-              ),
-              child: Column(
-                children: [
-                  _FindRouteInfoView(),
-                  Expanded(
-                    child: FindRouteScrollWithHeader(
-                      headerHeight: headerHeight,
-                    ),
+        return PopScope(
+          canPop: (contentStatus is SelectFindRouteStatus) ? true : false,
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) => _onHorizontalDragUpdate(
+              context: context,
+              details: details,
+              setting: setting,
+            ),
+            child: Column(
+              children: [
+                _FindRouteInfoView(),
+                Expanded(
+                  child: FindRouteScrollWithHeader(
+                    headerHeight: headerHeight,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -47,7 +48,12 @@ final class _FindRouteScrollView extends StatelessWidget {
   void _onHorizontalDragUpdate({
     required BuildContext context,
     required DragUpdateDetails details,
+    required SealedFindRouteSetting setting,
   }) {
+    if (setting is ReadFindRouteSetting) {
+      return;
+    }
+
     const int sensitivity = 40;
     if (details.delta.dx > sensitivity) {
       final contentStatus =
@@ -80,12 +86,6 @@ final class FindRouteScrollWithHeader extends StatelessWidget {
         return (flag1 || flag2);
       },
       builder: (context, state) {
-        if (state.routeInfo.ebRoute.ebPaths.isEmpty) {
-          return _EmptyFindRouteScrollWithHeader(
-            headerHeight: headerHeight,
-          );
-        }
-
         final contentStatus = state.contentStatus;
 
         switch (contentStatus) {
