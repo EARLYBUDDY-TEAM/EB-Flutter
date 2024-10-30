@@ -118,4 +118,25 @@ final class DaySchedule extends Equatable {
     final key = dateTime.toDate();
     return data.containsKey(key);
   }
+
+  SchedulePath? getCloseTodaySchedulePath() {
+    final now = DateTime.now();
+    final todaySchedulePathList = getValue(selectedDay: now);
+    if (todaySchedulePathList.isEmpty) {
+      return null;
+    }
+
+    SchedulePath? closeSchedulePath;
+
+    for (var schedulePath in todaySchedulePathList) {
+      final compareResult =
+          EBTime.compare(left: now, right: schedulePath.schedule.time);
+      if (compareResult != CompareDateResult.left) {
+        closeSchedulePath = schedulePath;
+        break;
+      }
+    }
+
+    return closeSchedulePath;
+  }
 }

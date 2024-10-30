@@ -140,6 +140,7 @@ extension on _StartPlaceSwitchState {
       setting: StartSearchPlaceSetting(
         endPlace: endPlace,
         pageFindRoute: (startPlace) => AddScheduleView.pageWriteFindRoute(
+          context: context,
           startPlace: startPlace,
           endPlace: endPlace,
           parentName: "출발장소",

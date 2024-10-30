@@ -1,8 +1,8 @@
 part of '../eb_find_route.dart';
 
 final class FindRouteView extends StatelessWidget {
-  final Place startPlace;
-  final Place endPlace;
+  final Place? startPlace;
+  final Place? endPlace;
   final SealedFindRouteSetting setting;
   final String? parentName;
 
@@ -32,8 +32,9 @@ final class FindRouteView extends StatelessWidget {
   }
 
   static MaterialPageRoute pageWriteFindRoute({
-    required Place startPlace,
-    required Place endPlace,
+    required BuildContext context,
+    required Place? startPlace,
+    required Place? endPlace,
     required MaterialPageRoute Function(BuildContext context)
         pageChangeStartPlace,
     required MaterialPageRoute Function(BuildContext context)
@@ -41,7 +42,7 @@ final class FindRouteView extends StatelessWidget {
     String? parentName,
   }) {
     return MaterialPageRoute(
-      builder: (_) => FindRouteView(
+      builder: (context) => FindRouteView(
         startPlace: startPlace,
         endPlace: endPlace,
         setting: WriteFindRouteSetting(

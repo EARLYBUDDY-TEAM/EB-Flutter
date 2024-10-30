@@ -1,7 +1,7 @@
 part of '../../eb_home_feature.dart';
 
-sealed class SealedTopScheduleInfoState extends Equatable {
-  static SealedTopScheduleInfoState init({
+sealed class SealedTopScheduleState extends Equatable {
+  static SealedTopScheduleState init({
     required DaySchedule daySchedule,
   }) {
     final today = DateTime.now().toDate();
@@ -22,7 +22,7 @@ sealed class SealedTopScheduleInfoState extends Equatable {
         }
       }
       if (nextSchedule != null) {
-        return TodayTopScheduleInfoState(nextSchedulePath: nextSchedule);
+        return TodayTopScheduleState(nextSchedulePath: nextSchedule);
       }
     }
 
@@ -38,32 +38,32 @@ sealed class SealedTopScheduleInfoState extends Equatable {
       }
     }
     if (upcomingDate == null) {
-      return NoneTopScheduleInfoState();
+      return NoneTopScheduleState();
     } else {
       final upcomingScheduleList =
           daySchedule.getValue(selectedDay: upcomingDate);
       final upcomingSchedule = upcomingScheduleList.firstOrNull;
-      return NoneTopScheduleInfoState(
+      return NoneTopScheduleState(
         upcomingSchedule: upcomingSchedule?.schedule,
       );
     }
   }
 }
 
-final class NoneTopScheduleInfoState extends SealedTopScheduleInfoState {
+final class NoneTopScheduleState extends SealedTopScheduleState {
   final Schedule? upcomingSchedule;
 
-  NoneTopScheduleInfoState({
+  NoneTopScheduleState({
     this.upcomingSchedule,
   });
 
   @override
   List<Object?> get props => [upcomingSchedule];
 
-  NoneTopScheduleInfoState copyWith({
+  NoneTopScheduleState copyWith({
     Schedule? Function()? upcomingSchedule,
   }) {
-    return NoneTopScheduleInfoState(
+    return NoneTopScheduleState(
       upcomingSchedule: (upcomingSchedule != null)
           ? upcomingSchedule()
           : this.upcomingSchedule,
@@ -71,16 +71,16 @@ final class NoneTopScheduleInfoState extends SealedTopScheduleInfoState {
   }
 }
 
-final class TodayTopScheduleInfoState extends SealedTopScheduleInfoState {
+final class TodayTopScheduleState extends SealedTopScheduleState {
   final SchedulePath nextSchedulePath;
 
-  TodayTopScheduleInfoState({required this.nextSchedulePath});
+  TodayTopScheduleState({required this.nextSchedulePath});
 
   @override
   List<Object?> get props => [nextSchedulePath];
 
-  TodayTopScheduleInfoState copyWith({SchedulePath? nextSchedulePath}) {
-    return TodayTopScheduleInfoState(
+  TodayTopScheduleState copyWith({SchedulePath? nextSchedulePath}) {
+    return TodayTopScheduleState(
       nextSchedulePath: nextSchedulePath ?? this.nextSchedulePath,
     );
   }

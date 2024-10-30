@@ -8,6 +8,7 @@ import 'package:eb_event/eb_event.dart';
 import 'package:eb_model/eb_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:eb_find_route/eb_find_route.dart';
+import 'package:eb_search_place/eb_search_place.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,6 @@ part 'sources/bottom_list_view/home_bottom_schedule_card.dart';
 part 'sources/bottom_list_view/home_bottom_list_view.dart';
 part 'sources/home_content/home_appbar.dart';
 part 'sources/home_content/home_content.dart';
-part 'sources/middle_transport/middle_transport_plain_text.dart';
+part 'sources/middle_transport/middle_transport_add.dart';
 part 'sources/middle_transport/middle_transport_info.dart';
 part 'sources/middle_transport/middle_transport_imminent.dart';

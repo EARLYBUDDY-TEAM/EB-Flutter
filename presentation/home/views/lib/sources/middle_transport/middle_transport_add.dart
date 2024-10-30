@@ -6,8 +6,22 @@ final class MiddleTransportAddRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
-      child: const _MiddleTransportPlainText(
+      onPressed: () => showCupertinoModalBottomSheet(
+        expand: true,
+        context: context,
+        backgroundColor: Colors.white,
+        builder: builderModalBottomSheet(
+          context: context,
+          onGenerateRoute: FindRouteView.pageWriteFindRoute(
+            context: context,
+            startPlace: null,
+            endPlace: null,
+            pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
+            pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
+          ),
+        ),
+      ),
+      child: const _MiddleTransportAdd(
         text: "경로 추가하기",
       ),
     );
@@ -23,17 +37,17 @@ final class MiddleTransportAddSchedule extends StatelessWidget {
       onPressed: () => Navigator.of(context).push(
         AddScheduleView.pageInitAddSchedule(context: context),
       ),
-      child: const _MiddleTransportPlainText(
+      child: const _MiddleTransportAdd(
         text: "일정 추가하기",
       ),
     );
   }
 }
 
-final class _MiddleTransportPlainText extends StatelessWidget {
+final class _MiddleTransportAdd extends StatelessWidget {
   final String text;
 
-  const _MiddleTransportPlainText({
+  const _MiddleTransportAdd({
     super.key,
     required this.text,
   });
@@ -45,7 +59,7 @@ final class _MiddleTransportPlainText extends StatelessWidget {
       style: TextStyle(
         fontFamily: FontFamily.gmarketSansRegular,
         color: EBColors.blue3,
-        fontSize: 27,
+        fontSize: 24,
       ),
     );
   }

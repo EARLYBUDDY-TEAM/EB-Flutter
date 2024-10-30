@@ -4,20 +4,23 @@ final class HomeState extends Equatable {
   final HomeStatus status;
   final DaySchedule daySchedule;
   final CalendarState calendarState;
-  final SealedTopScheduleInfoState topScheduleInfoState;
+  final SealedTopScheduleState topScheduleInfoState;
+  final SealedMiddleTransportState middleTransportInfoState;
   final BottomScheduleListState bottomScheduleListState;
 
   HomeState({
     HomeStatus? status,
     DaySchedule? daySchedule,
     CalendarState? calendarState,
-    SealedTopScheduleInfoState? topScheduleInfoState,
+    SealedTopScheduleState? topScheduleInfoState,
+    SealedMiddleTransportState? middleTransportInfoState,
     BottomScheduleListState? bottomScheduleListState,
   })  : status = status ?? const HomeStatus(),
         daySchedule = daySchedule ?? DaySchedule(),
         calendarState = calendarState ?? CalendarState(),
-        topScheduleInfoState =
-            topScheduleInfoState ?? NoneTopScheduleInfoState(),
+        topScheduleInfoState = topScheduleInfoState ?? NoneTopScheduleState(),
+        middleTransportInfoState =
+            middleTransportInfoState ?? AddScheduleMiddleTransportState(),
         bottomScheduleListState =
             bottomScheduleListState ?? BottomScheduleListState();
 
@@ -27,6 +30,7 @@ final class HomeState extends Equatable {
         daySchedule,
         calendarState,
         topScheduleInfoState,
+        middleTransportInfoState,
         bottomScheduleListState,
       ];
 
@@ -34,7 +38,8 @@ final class HomeState extends Equatable {
     HomeStatus? status,
     DaySchedule? daySchedule,
     CalendarState? calendarState,
-    SealedTopScheduleInfoState? topScheduleInfoState,
+    SealedTopScheduleState? topScheduleInfoState,
+    SealedMiddleTransportState? middleTransportInfoState,
     BottomScheduleListState? bottomScheduleListState,
   }) =>
       HomeState(
@@ -42,6 +47,8 @@ final class HomeState extends Equatable {
         daySchedule: daySchedule ?? this.daySchedule,
         calendarState: calendarState ?? this.calendarState,
         topScheduleInfoState: topScheduleInfoState ?? this.topScheduleInfoState,
+        middleTransportInfoState:
+            middleTransportInfoState ?? this.middleTransportInfoState,
         bottomScheduleListState:
             bottomScheduleListState ?? this.bottomScheduleListState,
       );

@@ -20,6 +20,7 @@ dependencies:
   eb_uikit: any
   eb_state: any
   eb_add_schedule: any
+  eb_search_place: any
 
 dev_dependencies:
   flutter_test:

@@ -3,11 +3,24 @@ part of '../../eb_home.dart';
 final class _MiddleTransportView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<HomeBloc, HomeState, HomeState>(
-      selector: (state) => state,
-      builder: (context, state) {
-        return const MiddleTransportForm(
-          content: MiddleTransportInfo(),
+    return BlocSelector<HomeBloc, HomeState, SealedMiddleTransportState>(
+      selector: (state) => state.middleTransportInfoState,
+      builder: (context, middleState) {
+        Widget content;
+        switch (middleState) {
+          case AddRouteMiddleTransportState():
+            content = const MiddleTransportAddRoute();
+          case AddScheduleMiddleTransportState():
+            content = const MiddleTransportAddSchedule();
+          case InfoMiddleTransportState():
+            content = const MiddleTransportInfo();
+          case OverScheduleMiddleTransportState():
+            content = const MiddleTransportOverSchedule();
+          case ArrivalMiddleTransportState():
+            content = const MiddleTransportArrival();
+        }
+        return MiddleTransportForm(
+          content: content,
         );
       },
     );

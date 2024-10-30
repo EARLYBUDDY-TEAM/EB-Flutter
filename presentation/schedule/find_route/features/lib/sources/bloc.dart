@@ -58,11 +58,16 @@ extension on FindRouteBloc {
     GetRouteData event,
     Emitter<FindRouteState> emit,
   ) async {
+    if ((state.searchPlaceInfo.startPlace == null) ||
+        (state.searchPlaceInfo.endPlace == null)) {
+      return;
+    }
+
     _loadingDelegate.set();
 
     final Result result = await _findRouteRepository.getEBRoute(
-      start: state.searchPlaceInfo.startPlace,
-      end: state.searchPlaceInfo.endPlace,
+      start: state.searchPlaceInfo.startPlace!,
+      end: state.searchPlaceInfo.endPlace!,
     );
 
     switch (result) {
@@ -120,8 +125,8 @@ extension on FindRouteBloc {
     Emitter<FindRouteState> emit,
   ) {
     final searchPlaceInfo = state.searchPlaceInfo.copyWith(
-      startPlace: event.startPlace,
-      endPlace: event.endPlace,
+      startPlace: (event.startPlace != null) ? () => event.startPlace : null,
+      endPlace: (event.endPlace != null) ? () => event.endPlace : null,
     );
     emit(
       state.copyWith(
@@ -137,6 +142,12 @@ extension on FindRouteBloc {
     PressSelectRouteButton event,
     Emitter<FindRouteState> emit,
   ) {
+    final startPlace = state.searchPlaceInfo.startPlace;
+    final endPlace = state.searchPlaceInfo.endPlace;
+    if ((startPlace == null) || (endPlace == null)) {
+      return;
+    }
+
     final contentStatus = state.contentStatus;
 
     if ((contentStatus is! DetailFindRouteStatus) ||
@@ -144,8 +155,6 @@ extension on FindRouteBloc {
       return;
     }
 
-    final startPlace = state.searchPlaceInfo.startPlace;
-    final endPlace = state.searchPlaceInfo.endPlace;
     final index = contentStatus.selectedIndex;
     final lineOfPath =
         state.routeInfo.transportLineOfRoute.lineOfRoute[index].lineOfPath;

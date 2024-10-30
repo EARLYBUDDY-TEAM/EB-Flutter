@@ -63,11 +63,13 @@ final class AddScheduleView extends StatelessWidget {
   }
 
   static MaterialPageRoute pageWriteFindRoute({
+    required BuildContext context,
     required Place startPlace,
     required Place endPlace,
     String? parentName,
   }) {
     return FindRouteView.pageWriteFindRoute(
+      context: context,
       startPlace: startPlace,
       endPlace: endPlace,
       pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,

@@ -101,7 +101,11 @@ extension on HomeBloc {
 
         final calendarState = CalendarState();
 
-        final topScheduleInfoState = SealedTopScheduleInfoState.init(
+        final topScheduleInfoState = SealedTopScheduleState.init(
+          daySchedule: daySchedule,
+        );
+
+        final middleTransportInfoState = SealedMiddleTransportState.init(
           daySchedule: daySchedule,
         );
 
@@ -116,6 +120,7 @@ extension on HomeBloc {
             daySchedule: daySchedule,
             calendarState: calendarState,
             topScheduleInfoState: topScheduleInfoState,
+            middleTransportInfoState: middleTransportInfoState,
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
@@ -174,7 +179,7 @@ extension on HomeBloc {
           schedulePath: event.schedulePath,
         );
 
-        final topScheduleInfoState = SealedTopScheduleInfoState.init(
+        final topScheduleInfoState = SealedTopScheduleState.init(
           daySchedule: daySchedule,
         );
 

@@ -27,6 +27,7 @@ final class ChangeRouteButton extends StatelessWidget {
               builder: builderModalBottomSheet(
                 context: context,
                 onGenerateRoute: AddScheduleView.pageWriteFindRoute(
+                  context: context,
                   startPlace: startPlace,
                   endPlace: endPlace,
                 ),

@@ -1,8 +1,8 @@
 part of '../../../eb_find_route_feature.dart';
 
 final class SearchPlaceInfo extends Equatable {
-  final Place startPlace;
-  final Place endPlace;
+  final Place? startPlace;
+  final Place? endPlace;
 
   const SearchPlaceInfo({
     required this.startPlace,
@@ -10,12 +10,12 @@ final class SearchPlaceInfo extends Equatable {
   });
 
   SearchPlaceInfo copyWith({
-    Place? startPlace,
-    Place? endPlace,
+    Place? Function()? startPlace,
+    Place? Function()? endPlace,
   }) =>
       SearchPlaceInfo(
-        startPlace: startPlace ?? this.startPlace,
-        endPlace: endPlace ?? this.endPlace,
+        startPlace: startPlace != null ? startPlace() : this.startPlace,
+        endPlace: endPlace != null ? endPlace() : this.endPlace,
       );
 
   @override

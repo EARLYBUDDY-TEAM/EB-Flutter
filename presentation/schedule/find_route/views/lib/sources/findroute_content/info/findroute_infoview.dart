@@ -10,8 +10,8 @@ final class _FindRouteInfoView extends StatelessWidget {
         return state.searchPlaceInfo;
       },
       builder: (context, searchPlaceInfo) {
-        final startPlaceName = searchPlaceInfo.startPlace.name;
-        final endPlaceName = searchPlaceInfo.endPlace.name;
+        final startPlaceName = searchPlaceInfo.startPlace?.name;
+        final endPlaceName = searchPlaceInfo.endPlace?.name;
 
         return Padding(
           padding: EdgeInsets.only(
@@ -63,7 +63,7 @@ final class _FindRouteInfoView extends StatelessWidget {
 
   Widget _start(
     BuildContext context,
-    String startPlaceName,
+    String? startPlaceName,
   ) {
     final setting = context.read<FindRouteBloc>().state.setting;
     final pageChangeStartPlace = (setting is WriteFindRouteSetting)
@@ -71,21 +71,21 @@ final class _FindRouteInfoView extends StatelessWidget {
         : null;
     return _placeText(
       context: context,
-      placeName: startPlaceName,
+      placeName: startPlaceName ?? "출발 장소",
       pageRoute: pageChangeStartPlace,
     );
   }
 
   Widget _end(
     BuildContext context,
-    String endPlaceName,
+    String? endPlaceName,
   ) {
     final setting = context.read<FindRouteBloc>().state.setting;
     final pageChangeEndPlace =
         (setting is WriteFindRouteSetting) ? setting.pageChangeEndPlace : null;
     return _placeText(
       context: context,
-      placeName: endPlaceName,
+      placeName: endPlaceName ?? "도착 장소",
       pageRoute: pageChangeEndPlace,
     );
   }
