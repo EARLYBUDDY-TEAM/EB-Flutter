@@ -28,3 +28,19 @@ final class WriteFindRouteSetting extends SealedFindRouteSetting {
         pageChangeStartPlace,
       ];
 }
+
+final class WriteAndUpdateFindRouteSetting extends SealedFindRouteSetting {
+  final MaterialPageRoute Function(BuildContext context) pageChangeStartPlace;
+  final MaterialPageRoute Function(BuildContext context) pageChangeEndPlace;
+
+  WriteAndUpdateFindRouteSetting({
+    required this.pageChangeStartPlace,
+    required this.pageChangeEndPlace,
+  });
+
+  @override
+  List<Object?> get props => [
+        pageChangeEndPlace,
+        pageChangeStartPlace,
+      ];
+}

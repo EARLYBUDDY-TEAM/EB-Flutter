@@ -12,7 +12,7 @@ final class MiddleTransportAddRoute extends StatelessWidget {
         backgroundColor: Colors.white,
         builder: builderModalBottomSheet(
           context: context,
-          onGenerateRoute: FindRouteView.pageWriteFindRoute(
+          onGenerateRoute: FindRouteView.pageWriteAndUpdateFindRoute(
             context: context,
             startPlace: null,
             endPlace: null,

@@ -115,6 +115,8 @@ extension on FindRouteBloc {
         _homeDelegate.cancelModalView.add(());
       case WriteFindRouteSetting():
         _addScheduleDelegate.cancelModalView.add(());
+      case WriteAndUpdateFindRouteSetting():
+        _homeDelegate.cancelModalView.add(());
     }
   }
 }
@@ -149,9 +151,7 @@ extension on FindRouteBloc {
     }
 
     final contentStatus = state.contentStatus;
-
-    if ((contentStatus is! DetailFindRouteStatus) ||
-        (state.routeInfo.ebRoute == null)) {
+    if (contentStatus is! DetailFindRouteStatus) {
       return;
     }
 
@@ -191,6 +191,9 @@ extension on FindRouteBloc {
         add(SetFindRouteContentStatus(contentStatus: contentStatus));
       case WriteFindRouteSetting():
         add(const GetRouteData());
+      case WriteAndUpdateFindRouteSetting():
+        final contentStatus = EmptyDataFindRouteStatus();
+        add(SetFindRouteContentStatus(contentStatus: contentStatus));
     }
   }
 }

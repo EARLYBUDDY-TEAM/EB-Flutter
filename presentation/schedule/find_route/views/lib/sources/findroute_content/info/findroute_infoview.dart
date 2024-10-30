@@ -66,9 +66,15 @@ final class _FindRouteInfoView extends StatelessWidget {
     String? startPlaceName,
   ) {
     final setting = context.read<FindRouteBloc>().state.setting;
-    final pageChangeStartPlace = (setting is WriteFindRouteSetting)
-        ? setting.pageChangeStartPlace
-        : null;
+    MaterialPageRoute<dynamic> Function(BuildContext)? pageChangeStartPlace;
+    switch (setting) {
+      case ReadFindRouteSetting():
+        pageChangeStartPlace = null;
+      case WriteFindRouteSetting():
+        pageChangeStartPlace = setting.pageChangeStartPlace;
+      case WriteAndUpdateFindRouteSetting():
+        pageChangeStartPlace = setting.pageChangeStartPlace;
+    }
     return _placeText(
       context: context,
       placeName: startPlaceName ?? "출발 장소",
@@ -81,8 +87,16 @@ final class _FindRouteInfoView extends StatelessWidget {
     String? endPlaceName,
   ) {
     final setting = context.read<FindRouteBloc>().state.setting;
-    final pageChangeEndPlace =
-        (setting is WriteFindRouteSetting) ? setting.pageChangeEndPlace : null;
+    MaterialPageRoute<dynamic> Function(BuildContext)? pageChangeEndPlace;
+    switch (setting) {
+      case ReadFindRouteSetting():
+        pageChangeEndPlace = null;
+      case WriteFindRouteSetting():
+        pageChangeEndPlace = setting.pageChangeEndPlace;
+      case WriteAndUpdateFindRouteSetting():
+        pageChangeEndPlace = setting.pageChangeEndPlace;
+    }
+
     return _placeText(
       context: context,
       placeName: endPlaceName ?? "도착 장소",

@@ -54,6 +54,29 @@ final class FindRouteView extends StatelessWidget {
     );
   }
 
+  static MaterialPageRoute pageWriteAndUpdateFindRoute({
+    required BuildContext context,
+    required Place? startPlace,
+    required Place? endPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeStartPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeEndPlace,
+    String? parentName,
+  }) {
+    return MaterialPageRoute(
+      builder: (context) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        setting: WriteAndUpdateFindRouteSetting(
+          pageChangeStartPlace: pageChangeStartPlace,
+          pageChangeEndPlace: pageChangeEndPlace,
+        ),
+        parentName: parentName,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -158,8 +181,11 @@ final class FindRouteScaffold extends StatelessWidget {
       )
     ];
 
-    if ((setting is WriteFindRouteSetting) &&
-        (contentStatus is DetailFindRouteStatus)) {
+    if (setting is ReadFindRouteSetting) {
+      return listWidget;
+    }
+
+    if (contentStatus is DetailFindRouteStatus) {
       listWidget.add(_SelectRouteButton());
     }
 
