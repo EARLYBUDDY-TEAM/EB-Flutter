@@ -8,13 +8,7 @@ void main() async {
   await initializeDateFormatting();
   await prepareAccessToken();
 
-  // runApp(const MockHomeCalendar());
-
-  // runApp(const MockBottomScheduleCardExample());
-
-  // runApp(const HomeExample());
-
-  runApp(MockHomeView());
+  runApp(const HomeExample());
 
   // await Future<void>.delayed(const Duration(seconds: 2));
   // homeDelegate.loginStatus.add(BaseStatus.success);

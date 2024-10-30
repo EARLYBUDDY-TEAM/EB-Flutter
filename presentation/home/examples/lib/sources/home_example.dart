@@ -14,12 +14,13 @@ part 'mock_alert_home_view.dart';
 part 'mock_bottom_schedulecardview.dart';
 part 'mock_home_view.dart';
 part 'mock_home_calendar.dart';
+part 'mock_middle_transport_view.dart';
 
-class HomeExample extends StatelessWidget {
+final class HomeExample extends StatelessWidget {
   const HomeExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _MockAlertHomeView();
+    return const MockMiddleTransportView();
   }
 }

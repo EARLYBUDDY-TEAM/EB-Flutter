@@ -17,7 +17,7 @@ final class _HomeContent extends StatelessWidget {
         children: [
           _TopScheduleInfoView(),
           SizedBox(height: spacing),
-          const _MiddleTransportInfoView(),
+          _MiddleTransportView(),
           SizedBox(height: spacing),
           const HomeCalendar(),
           SizedBox(height: spacing),
