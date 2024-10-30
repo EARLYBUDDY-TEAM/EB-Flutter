@@ -10,7 +10,7 @@ sealed class SealedMiddleTransportState extends Equatable {
     }
 
     if (closeSchedulePath.ebPath == null) {
-      return AddRouteMiddleTransportState();
+      return AddRouteMiddleTransportState(schedulePath: closeSchedulePath);
     } else {
       return InfoMiddleTransportState();
     }
@@ -34,8 +34,14 @@ final class ArrivalMiddleTransportState extends SealedMiddleTransportState {
 }
 
 final class AddRouteMiddleTransportState extends SealedMiddleTransportState {
+  final SchedulePath schedulePath;
+
+  AddRouteMiddleTransportState({
+    required this.schedulePath,
+  });
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [schedulePath];
 }
 
 final class AddScheduleMiddleTransportState extends SealedMiddleTransportState {

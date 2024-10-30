@@ -5,6 +5,7 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
   final AddScheduleDelegate _addScheduleDelegate;
   final HomeDelegate _homeDelegate;
   final FindRouteRepository _findRouteRepository;
+  final ScheduleEvent _scheduleEvent;
 
   late StreamSubscription<Place> changeStartPlaceSubscription;
   late StreamSubscription<Place> changeEndPlaceSubscription;
@@ -15,11 +16,13 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
     required HomeDelegate homeDelegate,
     required FindRouteDelegate findRouteDelegate,
     required FindRouteRepository findRouteRepository,
+    required ScheduleEvent scheduleEvent,
     required FindRouteState findRouteState,
   })  : _loadingDelegate = loadingDelegate,
         _addScheduleDelegate = addScheduleDelegate,
         _homeDelegate = homeDelegate,
         _findRouteRepository = findRouteRepository,
+        _scheduleEvent = scheduleEvent,
         super(findRouteState) {
     on<GetRouteData>(_onGetRouteData);
     on<SetFindRouteContentStatus>(_onSetFindRouteContentStatus);
@@ -27,6 +30,7 @@ final class FindRouteBloc extends Bloc<FindRouteEvent, FindRouteState> {
     on<SetSearchPlaceInfo>(_onSetSearchPlaceInfo);
     on<PressSelectRouteButton>(_onPressSelectRouteButton);
     on<SetupFindRouteView>(_onSetupFindRouteView);
+    on<SetUpdateResult>(_onSetUpdateResult);
 
     changeStartPlaceSubscription = findRouteDelegate.changeStartPlace.listen(
       (startPlace) => add(SetSearchPlaceInfo(startPlace: startPlace)),
@@ -140,10 +144,10 @@ extension on FindRouteBloc {
 }
 
 extension on FindRouteBloc {
-  void _onPressSelectRouteButton(
+  Future<void> _onPressSelectRouteButton(
     PressSelectRouteButton event,
     Emitter<FindRouteState> emit,
-  ) {
+  ) async {
     final startPlace = state.searchPlaceInfo.startPlace;
     final endPlace = state.searchPlaceInfo.endPlace;
     if ((startPlace == null) || (endPlace == null)) {
@@ -155,6 +159,45 @@ extension on FindRouteBloc {
       return;
     }
 
+    final setting = state.setting;
+    switch (setting) {
+      case WriteFindRouteSetting():
+        _selectRoute(
+          contentStatus: contentStatus,
+          startPlace: startPlace,
+          endPlace: endPlace,
+        );
+      case WriteAndUpdateFindRouteSetting():
+        final schedule = setting.schedulePath.schedule.copyWith(
+          startPlace: () => startPlace,
+          endPlace: () => endPlace,
+        );
+        final index = contentStatus.selectedIndex;
+        final ebPath = state.routeInfo.ebRoute.ebPaths[index];
+        successAction() {
+          add(const SetUpdateResult(result: BaseStatus.success));
+          _homeDelegate.getAllSchedules.add(());
+        }
+        failAction() {
+          add(const SetUpdateResult(result: BaseStatus.fail));
+        }
+        await _scheduleEvent.update(
+          schedule: schedule,
+          ebPath: ebPath,
+          successAction: successAction,
+          failAction: failAction,
+        );
+
+      case ReadFindRouteSetting():
+        return;
+    }
+  }
+
+  void _selectRoute({
+    required DetailFindRouteStatus contentStatus,
+    required Place startPlace,
+    required Place endPlace,
+  }) {
     final index = contentStatus.selectedIndex;
     final lineOfPath =
         state.routeInfo.transportLineOfRoute.lineOfRoute[index].lineOfPath;
@@ -195,5 +238,14 @@ extension on FindRouteBloc {
         final contentStatus = EmptyDataFindRouteStatus();
         add(SetFindRouteContentStatus(contentStatus: contentStatus));
     }
+  }
+}
+
+extension on FindRouteBloc {
+  void _onSetUpdateResult(
+    SetUpdateResult event,
+    Emitter<FindRouteState> emit,
+  ) {
+    emit(state.copyWith(updateResult: event.result));
   }
 }

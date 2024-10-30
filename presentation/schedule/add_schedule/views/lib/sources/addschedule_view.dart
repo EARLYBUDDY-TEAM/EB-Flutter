@@ -46,13 +46,10 @@ final class AddScheduleView extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         return AddScheduleBloc(
-          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
           homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+          scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
           addScheduleDelegate:
               RepositoryProvider.of<AddScheduleDelegate>(context),
-          scheduleRepository:
-              RepositoryProvider.of<ScheduleRepository>(context),
-          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           cancelModalViewAction: () {
             Navigator.of(context).pop();
           },

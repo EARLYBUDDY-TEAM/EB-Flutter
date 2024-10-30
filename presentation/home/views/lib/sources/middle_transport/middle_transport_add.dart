@@ -1,7 +1,12 @@
 part of '../../eb_home.dart';
 
 final class MiddleTransportAddRoute extends StatelessWidget {
-  const MiddleTransportAddRoute({super.key});
+  final SchedulePath schedulePath;
+
+  const MiddleTransportAddRoute({
+    super.key,
+    required this.schedulePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +19,7 @@ final class MiddleTransportAddRoute extends StatelessWidget {
           context: context,
           onGenerateRoute: FindRouteView.pageWriteAndUpdateFindRoute(
             context: context,
+            schedulePath: schedulePath,
             startPlace: null,
             endPlace: null,
             pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,

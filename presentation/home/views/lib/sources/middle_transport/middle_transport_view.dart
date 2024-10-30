@@ -9,7 +9,8 @@ final class _MiddleTransportView extends StatelessWidget {
         Widget content;
         switch (middleState) {
           case AddRouteMiddleTransportState():
-            content = const MiddleTransportAddRoute();
+            final schedulePath = middleState.schedulePath;
+            content = MiddleTransportAddRoute(schedulePath: schedulePath);
           case AddScheduleMiddleTransportState():
             content = const MiddleTransportAddSchedule();
           case InfoMiddleTransportState():

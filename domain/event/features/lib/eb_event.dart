@@ -7,3 +7,4 @@ import 'package:eb_model/eb_model.dart';
 import 'package:eb_network/eb_network.dart';
 
 part 'sources/token_event.dart';
+part 'sources/schedule_event.dart';

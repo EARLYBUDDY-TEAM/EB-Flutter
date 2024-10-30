@@ -3,6 +3,7 @@ part of '../../../eb_find_route_feature.dart';
 final class FindRouteState extends Equatable {
   final SearchPlaceInfo searchPlaceInfo;
   final RouteInfo routeInfo;
+  final BaseStatus updateResult;
   final SealedFindRouteContentStatus contentStatus;
   final SealedFindRouteSetting setting;
 
@@ -11,18 +12,22 @@ final class FindRouteState extends Equatable {
     required this.setting,
     this.routeInfo = const RouteInfo(),
     SealedFindRouteContentStatus? contentStatus,
-  }) : contentStatus = contentStatus ?? EmptyDataFindRouteStatus();
+    BaseStatus? updateResult,
+  })  : contentStatus = contentStatus ?? EmptyDataFindRouteStatus(),
+        updateResult = updateResult ?? BaseStatus.init;
 
   FindRouteState copyWith({
     SearchPlaceInfo? searchPlaceInfo,
     int? Function()? selectedIndex,
     RouteInfo? routeInfo,
     SealedFindRouteContentStatus? contentStatus,
+    BaseStatus? updateResult,
   }) {
     return FindRouteState(
       searchPlaceInfo: searchPlaceInfo ?? this.searchPlaceInfo,
       routeInfo: routeInfo ?? this.routeInfo,
       contentStatus: contentStatus ?? this.contentStatus,
+      updateResult: updateResult ?? this.updateResult,
       setting: setting,
     );
   }
@@ -56,6 +61,7 @@ final class FindRouteState extends Equatable {
         searchPlaceInfo,
         routeInfo,
         contentStatus,
+        updateResult,
         setting,
       ];
 }

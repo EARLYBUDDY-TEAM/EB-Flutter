@@ -9,6 +9,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eb_state/eb_state.dart';
+import 'package:eb_event/eb_event.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';

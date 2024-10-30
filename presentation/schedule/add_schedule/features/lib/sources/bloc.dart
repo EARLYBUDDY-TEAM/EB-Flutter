@@ -1,11 +1,8 @@
 part of '../eb_add_schedule_feature.dart';
 
 final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
-  final LoadingDelegate _loadingDelegate;
   final HomeDelegate _homeDelegate;
-
-  final ScheduleRepository _scheduleRepository;
-  final TokenEvent _tokenEvent;
+  final ScheduleEvent _scheduleEvent;
 
   final Function() _cancelModalViewAction;
 
@@ -14,17 +11,13 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   late StreamSubscription<void> cancelModalViewSubscription;
 
   AddScheduleBloc({
-    required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
     required AddScheduleDelegate addScheduleDelegate,
-    required ScheduleRepository scheduleRepository,
-    required TokenEvent tokenEvent,
+    required ScheduleEvent scheduleEvent,
     required void Function() cancelModalViewAction,
     AddScheduleState? addScheduleState,
-  })  : _loadingDelegate = loadingDelegate,
-        _homeDelegate = homeDelegate,
-        _scheduleRepository = scheduleRepository,
-        _tokenEvent = tokenEvent,
+  })  : _homeDelegate = homeDelegate,
+        _scheduleEvent = scheduleEvent,
         _cancelModalViewAction = cancelModalViewAction,
         super(addScheduleState ?? AddScheduleState()) {
     on<ChangeTitle>(_onChangeTitle);
@@ -228,107 +221,66 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onPressAddScheduleButton(
+  Future<void> _onPressAddScheduleButton(
     PressAddScheduleButton event,
     Emitter<AddScheduleState> emit,
   ) async {
     switch (state.setting) {
       case (InitAddScheduleSetting()):
-        await _requestCreateSchedule(emit);
+        final schedule = state.schedule;
+        final startPlaceState = state.startPlaceState;
+        final ebPath = (startPlaceState is SelectedStartPlaceState)
+            ? startPlaceState.pathInfo.ebPath
+            : null;
+        successAction() {
+          add(
+            SetAddScheduleResultStatus(
+              result: CreateAddScheduleResult(status: BaseStatus.success),
+            ),
+          );
+        }
+        failAction() {
+          add(
+            SetAddScheduleResultStatus(
+              result: CreateAddScheduleResult(status: BaseStatus.fail),
+            ),
+          );
+        }
+        await _scheduleEvent.create(
+          schedule: schedule,
+          ebPath: ebPath,
+          successAction: successAction,
+          failAction: failAction,
+        );
       case (ChangeAddScheduleSetting()):
-        await _requestUpdateSchedule(emit);
+        final schedule = state.schedule;
+        final startPlaceState = state.startPlaceState;
+        final ebPath = (startPlaceState is SelectedStartPlaceState)
+            ? startPlaceState.pathInfo.ebPath
+            : null;
+
+        successAction() {
+          add(
+            SetAddScheduleResultStatus(
+              result: UpdateAddScheduleResult(status: BaseStatus.success),
+            ),
+          );
+        }
+        failAction() {
+          add(
+            SetAddScheduleResultStatus(
+              result: UpdateAddScheduleResult(status: BaseStatus.fail),
+            ),
+          );
+        }
+        await _scheduleEvent.update(
+          schedule: schedule,
+          ebPath: ebPath,
+          successAction: successAction,
+          failAction: failAction,
+        );
     }
     _homeDelegate.getAllSchedules.add(());
-  }
-
-  Future<void> _requestCreateSchedule(
-    Emitter<AddScheduleState> emit,
-  ) async {
-    _loadingDelegate.set();
-
-    final schedule = state.schedule;
-    final startPlaceState = state.startPlaceState;
-    final ebPath = (startPlaceState is SelectedStartPlaceState)
-        ? startPlaceState.pathInfo.ebPath
-        : null;
-
-    log(schedule.notifyTransportRange.toString());
-
-    Future<Result> addScheduleEvent(String accessToken) async {
-      return await _scheduleRepository.create(
-        accessToken: accessToken,
-        schedule: schedule,
-        ebPath: ebPath,
-      );
-    }
-
-    final Result addScheduleResult =
-        await _tokenEvent.checkExpired(withEvent: addScheduleEvent);
-
-    _loadingDelegate.dismiss();
-
-    switch (addScheduleResult) {
-      case Success():
-        add(
-          SetAddScheduleResultStatus(
-            result: CreateAddScheduleResult(status: BaseStatus.success),
-          ),
-        );
-      case Failure():
-        if (addScheduleResult.failure is FailureResponse) {
-          if (addScheduleResult.failure.statusCode != 490) {
-            add(
-              SetAddScheduleResultStatus(
-                result: CreateAddScheduleResult(status: BaseStatus.fail),
-              ),
-            );
-          }
-        }
-    }
-  }
-
-  Future<void> _requestUpdateSchedule(
-    Emitter<AddScheduleState> emit,
-  ) async {
-    _loadingDelegate.set();
-
-    final schedule = state.schedule;
-    final startPlaceState = state.startPlaceState;
-    final ebPath = (startPlaceState is SelectedStartPlaceState)
-        ? startPlaceState.pathInfo.ebPath
-        : null;
-
-    Future<Result> addScheduleEvent(String accessToken) async {
-      return await _scheduleRepository.update(
-        accessToken: accessToken,
-        schedule: schedule,
-        ebPath: ebPath,
-      );
-    }
-
-    final Result addScheduleResult =
-        await _tokenEvent.checkExpired(withEvent: addScheduleEvent);
-
-    _loadingDelegate.dismiss();
-
-    switch (addScheduleResult) {
-      case Success():
-        add(
-          SetAddScheduleResultStatus(
-            result: UpdateAddScheduleResult(status: BaseStatus.success),
-          ),
-        );
-      case Failure():
-        if (addScheduleResult.failure is FailureResponse) {
-          if (addScheduleResult.failure.statusCode != 490) {
-            add(
-              SetAddScheduleResultStatus(
-                result: UpdateAddScheduleResult(status: BaseStatus.fail),
-              ),
-            );
-          }
-        }
-    }
   }
 }
 
@@ -357,6 +309,7 @@ extension on AddScheduleBloc {
       startPlace: () => startPlace,
       endPlace: () => endPlace,
     );
+
     final startPlaceState = SelectedStartPlaceState(pathInfo: event.pathInfo);
     final status = _checkFormStatus(state.schedule);
     emit(
@@ -376,11 +329,12 @@ extension on AddScheduleBloc {
   ) {
     final schedule = state.schedule.copyWith(startPlace: () => null);
     final startPlaceState = EmptyStartPlaceState();
-
+    final status = _checkFormStatus(schedule);
     emit(
       state.copyWith(
         schedule: schedule,
         startPlaceState: startPlaceState,
+        status: status,
       ),
     );
   }
@@ -470,52 +424,37 @@ extension on AddScheduleBloc {
 }
 
 extension on AddScheduleBloc {
-  void _onPressDeleteButton(
+  Future<void> _onPressDeleteButton(
     PressDeleteButton event,
     Emitter<AddScheduleState> emit,
   ) async {
     final scheduleID = state.schedule.id;
-    if (scheduleID == null) {
+    failAction() {
       add(
         SetAddScheduleResultStatus(
           result: DeleteAddScheduleResult(status: BaseStatus.fail),
         ),
       );
-      return;
     }
 
-    _loadingDelegate.set();
-
-    Future<Result> deleteScheduleEvent(String accessToken) async {
-      return _scheduleRepository.delete(
-        accessToken: accessToken,
-        scheduleID: scheduleID,
+    successAction() {
+      add(
+        SetAddScheduleResultStatus(
+          result: DeleteAddScheduleResult(status: BaseStatus.success),
+        ),
       );
     }
 
-    final Result deleteScheduleResult =
-        await _tokenEvent.checkExpired(withEvent: deleteScheduleEvent);
-
-    _loadingDelegate.dismiss();
-
-    switch (deleteScheduleResult) {
-      case Success():
-        add(
-          SetAddScheduleResultStatus(
-            result: DeleteAddScheduleResult(status: BaseStatus.success),
-          ),
-        );
-      case Failure():
-        if (deleteScheduleResult.failure is FailureResponse) {
-          if (deleteScheduleResult.failure.statusCode != 490) {
-            add(
-              SetAddScheduleResultStatus(
-                result: DeleteAddScheduleResult(status: BaseStatus.fail),
-              ),
-            );
-          }
-        }
+    if (scheduleID == null) {
+      failAction();
+      return;
     }
+
+    await _scheduleEvent.delete(
+      scheduleID: scheduleID,
+      successAction: successAction,
+      failAction: failAction,
+    );
 
     _homeDelegate.getAllSchedules.add(());
   }

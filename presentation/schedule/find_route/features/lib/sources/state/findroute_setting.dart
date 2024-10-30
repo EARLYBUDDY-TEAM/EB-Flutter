@@ -30,16 +30,19 @@ final class WriteFindRouteSetting extends SealedFindRouteSetting {
 }
 
 final class WriteAndUpdateFindRouteSetting extends SealedFindRouteSetting {
+  final SchedulePath schedulePath;
   final MaterialPageRoute Function(BuildContext context) pageChangeStartPlace;
   final MaterialPageRoute Function(BuildContext context) pageChangeEndPlace;
 
   WriteAndUpdateFindRouteSetting({
+    required this.schedulePath,
     required this.pageChangeStartPlace,
     required this.pageChangeEndPlace,
   });
 
   @override
   List<Object?> get props => [
+        schedulePath,
         pageChangeEndPlace,
         pageChangeStartPlace,
       ];

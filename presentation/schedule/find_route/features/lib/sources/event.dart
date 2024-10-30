@@ -62,3 +62,14 @@ final class SetupFindRouteView extends FindRouteEvent {
   @override
   List<Object?> get props => [setting];
 }
+
+final class SetUpdateResult extends FindRouteEvent {
+  final BaseStatus result;
+
+  const SetUpdateResult({
+    required this.result,
+  });
+
+  @override
+  List<Object?> get props => [result];
+}

@@ -56,6 +56,7 @@ final class FindRouteView extends StatelessWidget {
 
   static MaterialPageRoute pageWriteAndUpdateFindRoute({
     required BuildContext context,
+    required SchedulePath schedulePath,
     required Place? startPlace,
     required Place? endPlace,
     required MaterialPageRoute Function(BuildContext context)
@@ -69,6 +70,7 @@ final class FindRouteView extends StatelessWidget {
         startPlace: startPlace,
         endPlace: endPlace,
         setting: WriteAndUpdateFindRouteSetting(
+          schedulePath: schedulePath,
           pageChangeStartPlace: pageChangeStartPlace,
           pageChangeEndPlace: pageChangeEndPlace,
         ),
@@ -88,6 +90,7 @@ final class FindRouteView extends StatelessWidget {
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
+        scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
         findRouteState: FindRouteState(
           searchPlaceInfo: SearchPlaceInfo(
             startPlace: startPlace,
@@ -114,7 +117,13 @@ final class FindRouteScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FindRouteBloc, FindRouteState>(
+    return BlocConsumer<FindRouteBloc, FindRouteState>(
+      listener: (context, state) {
+        _showUpdateScheduleResultAlert(
+          context: context,
+          result: state.updateResult,
+        );
+      },
       buildWhen: (previous, current) {
         final flag1 = previous.contentStatus != current.contentStatus;
         final flag2 = previous.routeInfo != current.routeInfo;
@@ -217,6 +226,50 @@ final class FindRouteScaffold extends StatelessWidget {
             contentStatus: contentStatus,
           ),
         );
+  }
+
+  void _showUpdateScheduleResultAlert({
+    required BuildContext context,
+    required BaseStatus result,
+  }) {
+    String title;
+    String? content;
+    bool popAddScheduleView;
+
+    switch (result) {
+      case BaseStatus.init:
+        return;
+      case BaseStatus.success:
+        title = "일정을 수정했습니다!";
+        popAddScheduleView = true;
+      case BaseStatus.fail:
+        title = "일정수정에 실패했습니다.";
+        content = "네트워크 상태를 확인후 다시 시도해주세요.";
+        popAddScheduleView = false;
+    }
+
+    EBAlert.showModalPopup(
+      context: context,
+      title: title,
+      content: content,
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            context.read<FindRouteBloc>().add(
+                  const SetUpdateResult(
+                    result: BaseStatus.init,
+                  ),
+                );
+            Navigator.of(context).pop();
+            if (popAddScheduleView) {
+              context.read<FindRouteBloc>().add(const CancelViewAction());
+            }
+          },
+          isDefaultAction: true,
+        )
+      ],
+    );
   }
 }
 

@@ -18,6 +18,7 @@ dependencies:
   eb_model: any
   eb_repository: any
   eb_delegate: any
+  eb_event: any
 
 dev_dependencies:
   flutter_test:

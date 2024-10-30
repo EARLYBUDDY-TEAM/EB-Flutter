@@ -10,7 +10,7 @@ final class TokenEvent {
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
     required TokenRepository tokenRepository,
-    SecureStorage? secureStorage,
+    SecureStorage? secureStorage, // required
   })  : _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
         _tokenRepository = tokenRepository,
