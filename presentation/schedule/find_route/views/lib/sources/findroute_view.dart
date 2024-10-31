@@ -18,14 +18,14 @@ final class FindRouteView extends StatelessWidget {
     required BuildContext context,
     required Place startPlace,
     required Place endPlace,
-    required List<EBSubPath> subPaths,
+    required EBPath path,
     String? parentName,
   }) {
     return MaterialPageRoute(
       builder: (context) => FindRouteView(
         startPlace: startPlace,
         endPlace: endPlace,
-        setting: ReadFindRouteSetting(subPaths: subPaths),
+        setting: ReadFindRouteSetting(path: path),
         parentName: parentName,
       ),
     );

@@ -3,14 +3,14 @@ part of '../../../eb_find_route_feature.dart';
 sealed class SealedFindRouteSetting extends Equatable {}
 
 final class ReadFindRouteSetting extends SealedFindRouteSetting {
-  final List<EBSubPath> subPaths;
+  final EBPath path;
 
   ReadFindRouteSetting({
-    required this.subPaths,
+    required this.path,
   });
 
   @override
-  List<Object?> get props => [subPaths];
+  List<Object?> get props => [path];
 }
 
 final class WriteFindRouteSetting extends SealedFindRouteSetting {

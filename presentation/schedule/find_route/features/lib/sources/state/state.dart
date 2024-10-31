@@ -49,10 +49,11 @@ final class FindRouteState extends Equatable {
     RouteInfo? routeInfo,
   }) {
     final tmpRouteInfo = routeInfo ?? this.routeInfo;
-    final subPaths = tmpRouteInfo.ebRoute.ebPaths[selectedIndex].ebSubPaths;
+    final path = tmpRouteInfo.ebRoute.ebPaths[selectedIndex];
+
     return DetailFindRouteStatus(
       selectedIndex: selectedIndex,
-      subPaths: subPaths,
+      path: path,
     );
   }
 

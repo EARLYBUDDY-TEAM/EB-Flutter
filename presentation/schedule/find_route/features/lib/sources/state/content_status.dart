@@ -27,16 +27,16 @@ final class SelectFindRouteStatus extends SealedFindRouteContentStatus {
 
 final class DetailFindRouteStatus extends SealedFindRouteContentStatus {
   final int selectedIndex;
-  final List<EBSubPath> subPaths;
+  final EBPath path;
 
   DetailFindRouteStatus({
     required this.selectedIndex,
-    required this.subPaths,
+    required this.path,
   });
 
   @override
   List<Object?> get props => [
         selectedIndex,
-        subPaths,
+        path,
       ];
 }

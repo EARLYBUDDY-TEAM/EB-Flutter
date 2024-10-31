@@ -223,13 +223,9 @@ extension on FindRouteBloc {
 
     switch (setting) {
       case ReadFindRouteSetting():
-        final subPaths = setting.subPaths;
-
-        log(subPaths.toString());
-
         final contentStatus = DetailFindRouteStatus(
           selectedIndex: 0,
-          subPaths: setting.subPaths,
+          path: setting.path,
         );
         add(SetFindRouteContentStatus(contentStatus: contentStatus));
       case WriteFindRouteSetting():

@@ -37,7 +37,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
           context: context,
           startPlace: schedule.startPlace!,
           endPlace: schedule.endPlace!,
-          subPaths: ebPath!.ebSubPaths,
+          path: ebPath!,
         ),
       );
     }
@@ -48,7 +48,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
     required BuildContext context,
     required Place startPlace,
     required Place endPlace,
-    required List<EBSubPath> subPaths,
+    required EBPath path,
   }) {
     return EBRoundedButton(
       text: "  경로보기  ",
@@ -65,7 +65,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
             context: context,
             startPlace: startPlace,
             endPlace: endPlace,
-            subPaths: subPaths,
+            path: path,
           ),
         ),
       ),
