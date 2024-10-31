@@ -1,9 +1,10 @@
 part of '../eb_home.dart';
 
 final class HomeView extends StatefulWidget {
-  static Route<void> route() {
+  static Route<void> route(BuildContext context) {
     return MaterialPageRoute<void>(
-      builder: (_) => const HomeView(),
+      settings: const RouteSettings(name: "HomeView"),
+      builder: (context) => const HomeView(),
     );
   }
 
@@ -19,13 +20,19 @@ final class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(
-        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
-        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-        homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
-        tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-        cancelModalViewAction: () => Navigator.of(context).pop(),
-      )..add(const OnAppearHomeView()),
+      create: (context) {
+        return HomeBloc(
+          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+          homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
+          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+          cancelModalViewAction: () {
+            Navigator.of(context).popUntil(
+              (route) => route.settings.name == "HomeView",
+            );
+          },
+        )..add(const OnAppearHomeView());
+      },
       child: const EBHomeView(),
     );
   }

@@ -11,6 +11,7 @@ import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:eb_event/eb_event.dart';
 
 part 'mock_findroute.dart';
 part 'helper/mock_findroute_helper.dart';
@@ -20,7 +21,7 @@ final class FindRouteExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return _MockFindRouteView.empty(context);
-    return _MockFindRouteView.read(context);
+    return _MockFindRouteView.empty(context);
+    // return _MockFindRouteView.read(context);
   }
 }

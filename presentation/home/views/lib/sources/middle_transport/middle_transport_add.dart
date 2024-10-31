@@ -11,6 +11,9 @@ final class MiddleTransportAddRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      child: const _MiddleTransportAdd(
+        text: "경로 추가하기",
+      ),
       onPressed: () => showCupertinoModalBottomSheet(
         expand: true,
         context: context,
@@ -26,9 +29,6 @@ final class MiddleTransportAddRoute extends StatelessWidget {
             pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
           ),
         ),
-      ),
-      child: const _MiddleTransportAdd(
-        text: "경로 추가하기",
       ),
     );
   }

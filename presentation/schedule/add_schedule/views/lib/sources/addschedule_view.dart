@@ -50,9 +50,7 @@ final class AddScheduleView extends StatelessWidget {
           scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
           addScheduleDelegate:
               RepositoryProvider.of<AddScheduleDelegate>(context),
-          cancelModalViewAction: () {
-            Navigator.of(context).pop();
-          },
+          cancelModalViewAction: () => Navigator.of(context).pop(),
         )..add(SetupAddScheduleView(setting: setting));
       },
       child: const _AddScheduleContent(),

@@ -76,44 +76,67 @@ final class _StartInfoOther extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final setting = context.read<FindRouteBloc>().state.setting;
-    final parentViewName = (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
+    return BlocSelector<FindRouteBloc, FindRouteState, SealedFindRouteSetting>(
+      selector: (state) {
+        return state.setting;
+      },
+      builder: (context, setting) {
+        final parentViewName =
+            (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
 
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        _StartTransportNumber(
-          number: transNumber,
-          color: color,
-          fontSize: fontSize - 2,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          startName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            fontSize: fontSize,
-            color: EBColors.text,
-          ),
-        ),
-        const Spacer(),
-        EBRoundedButton(
-          text: '지도보기',
-          height: 25,
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => FindRouteKakaoMapView(
-                  parentViewName: parentViewName,
-                  placeName: startName,
-                  coordi: startCoordi,
-                ),
+        return Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _StartTransportNumber(
+              number: transNumber,
+              color: color,
+              fontSize: fontSize - 2,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              startName,
+              style: TextStyle(
+                fontFamily: FontFamily.nanumSquareBold,
+                fontSize: fontSize,
+                color: EBColors.text,
               ),
-            );
-          },
-        ),
-      ],
+            ),
+            const Spacer(),
+            EBRoundedButton(
+              text: '지도보기',
+              height: 25,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FindRouteKakaoMapView(
+                      parentViewName: parentViewName,
+                      placeName: startName,
+                      coordi: startCoordi,
+                      cancelAction: _cancelAction(
+                        context: context,
+                        setting: setting,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  Function()? _cancelAction({
+    required BuildContext context,
+    required SealedFindRouteSetting setting,
+  }) {
+    return (setting is ReadFindRouteSetting)
+        ? () {
+            final homeDelegate = RepositoryProvider.of<HomeDelegate>(context);
+            homeDelegate.cancelModalView.add(());
+          }
+        : null;
   }
 
   factory _StartInfoOther.bus({

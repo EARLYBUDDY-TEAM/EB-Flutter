@@ -43,12 +43,12 @@ final class _RootNaviState extends State<_RootNaviView> {
               switch (status) {
                 case Authenticated():
                   _navigator.pushAndRemoveUntil(
-                    HomeView.route(),
+                    HomeView.route(context),
                     (route) => false,
                   );
                 case UnAuthenticated():
                   _navigator.pushAndRemoveUntil(
-                    LoginView.route(),
+                    LoginView.route(context),
                     (route) => false,
                   );
               }
@@ -57,7 +57,7 @@ final class _RootNaviState extends State<_RootNaviView> {
           ),
         );
       },
-      onGenerateRoute: (_) => LoginView.route(),
+      onGenerateRoute: (_) => LoginView.route(context),
     );
   }
 }

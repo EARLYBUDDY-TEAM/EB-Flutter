@@ -4,12 +4,14 @@ final class FindRouteKakaoMapView extends StatelessWidget {
   final String parentViewName;
   final String placeName;
   final Coordi coordi;
+  final Function()? cancelAction;
 
   const FindRouteKakaoMapView({
     super.key,
     required this.parentViewName,
     required this.placeName,
     required this.coordi,
+    required this.cancelAction,
   });
 
   @override
@@ -19,6 +21,7 @@ final class FindRouteKakaoMapView extends StatelessWidget {
         parentViewName: parentViewName,
         placeName: placeName,
         backButtonAction: () => Navigator.of(context).pop(),
+        cancelAction: cancelAction,
       ),
       body: FindRouteKakaoMapContent(coordi: coordi),
     );
@@ -75,11 +78,13 @@ final class _FindRouteKakaoMapAppBar extends AppBar {
   final String parentViewName;
   final String placeName;
   final Function() backButtonAction;
+  final Function()? cancelAction;
 
   _FindRouteKakaoMapAppBar({
     required this.parentViewName,
     required this.placeName,
     required this.backButtonAction,
+    required this.cancelAction,
   });
 
   final Color color = EBColors.blue1;
@@ -109,5 +114,24 @@ final class _FindRouteKakaoMapAppBar extends AppBar {
   Widget? get leading => NaviBackButton(
         parentViewName: parentViewName,
         onPressed: backButtonAction,
+      );
+
+  @override
+  List<Widget>? get actions => List<Widget>.of(
+        (cancelAction != null)
+            ? [
+                TextButton(
+                  onPressed: cancelAction,
+                  child: Text(
+                    '취소',
+                    style: TextStyle(
+                      color: color,
+                      fontFamily: fontFamily,
+                      fontSize: fontSize,
+                    ),
+                  ),
+                )
+              ]
+            : [],
       );
 }

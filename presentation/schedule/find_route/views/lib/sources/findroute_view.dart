@@ -256,18 +256,18 @@ final class FindRouteScaffold extends StatelessWidget {
         EBAlert.makeAction(
           name: '확인',
           onPressed: () {
+            Navigator.of(context).pop();
             context.read<FindRouteBloc>().add(
                   const SetUpdateResult(
                     result: BaseStatus.init,
                   ),
                 );
-            Navigator.of(context).pop();
             if (popAddScheduleView) {
               context.read<FindRouteBloc>().add(const CancelViewAction());
             }
           },
           isDefaultAction: true,
-        )
+        ),
       ],
     );
   }

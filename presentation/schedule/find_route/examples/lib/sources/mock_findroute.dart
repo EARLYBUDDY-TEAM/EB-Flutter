@@ -8,6 +8,17 @@ final class _MockFindRouteView extends StatelessWidget {
   final addScheduleDelegate = AddScheduleDelegate();
   final homeDelegate = HomeDelegate();
   final findRouteRepository = FindRouteRepository();
+  final scheduleRepository = ScheduleRepository();
+  late final tokenEvent = TokenEvent(
+    loginDelegate: LoginDelegate(),
+    rootDelegate: RootDelegate(),
+    tokenRepository: TokenRepository(),
+  );
+  late final scheduleEvent = ScheduleEvent(
+    loadingDelegate: loadingDelegate,
+    scheduleRepository: scheduleRepository,
+    tokenEvent: tokenEvent,
+  );
 
   _MockFindRouteView({super.key, required this.mockFindRouteView});
 
@@ -67,6 +78,7 @@ final class _MockFindRouteBlocView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FindRouteBloc(
+        scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
         findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
         addScheduleDelegate:
