@@ -16,6 +16,21 @@ final class TestHomeRepository implements HomeRepositoryAB {
 
   @override
   Future<Result> getBusRealTimeInfo({required int stationID}) async {
+    final mockRealTimeInfo = await delayMockRealTimeInfo();
+    final successResponse =
+        SuccessResponse(statusCode: 200, model: mockRealTimeInfo);
+    return Success(success: successResponse);
+  }
+
+  @override
+  Future<Result> getSubwayRealTimeInfo({required int stationID}) async {
+    final mockRealTimeInfo = await delayMockRealTimeInfo();
+    final successResponse =
+        SuccessResponse(statusCode: 200, model: mockRealTimeInfo);
+    return Success(success: successResponse);
+  }
+
+  Future<RealTimeInfo> delayMockRealTimeInfo() async {
     final random = math.Random();
     const double minSec = 0.5;
     const double maxSec = 2.0;
@@ -24,8 +39,6 @@ final class TestHomeRepository implements HomeRepositoryAB {
 
     await Future.delayed(Duration(milliseconds: delayMilliSecond));
 
-    final successResponse =
-        SuccessResponse(statusCode: 200, model: RealTimeInfo.mock());
-    return Success(success: successResponse);
+    return RealTimeInfo.mock();
   }
 }

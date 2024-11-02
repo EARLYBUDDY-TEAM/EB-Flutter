@@ -31,7 +31,6 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
-    on<SetMiddleTransportState>(_onSetMiddleTransportState);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -110,7 +109,17 @@ extension on HomeBloc {
           daySchedule: daySchedule,
         );
 
-        add(SetMiddleTransportState(daySchedule: daySchedule));
+        // final middleTransportInfoState = SealedMiddleTransportState.init(
+        //   daySchedule: event.daySchedule,
+        //   realTimeInfoStream: getRealTimeInfoStream,
+        // );
+
+        // final mockSubPath = EBSubPath.mockBus();
+        final mockSubPath = EBSubPath.mockSubway();
+        final middleTransportInfoState = InfoMiddleTransportState(
+          subPath: mockSubPath,
+          realTimeInfoStream: getRealTimeInfoStream(subPath: mockSubPath),
+        );
 
         final bottomScheduleListState = BottomScheduleListState.init(
           calendarState: calendarState,
@@ -123,6 +132,7 @@ extension on HomeBloc {
             daySchedule: daySchedule,
             calendarState: calendarState,
             topScheduleInfoState: topScheduleInfoState,
+            middleTransportInfoState: middleTransportInfoState,
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
@@ -221,37 +231,34 @@ extension on HomeBloc {
 
 extension on HomeBloc {
   Stream<RealTimeInfo> Function({
-    required int stationID,
+    required EBSubPath subPath,
   }) get getRealTimeInfoStream {
-    return ({required int stationID}) async* {
+    return ({required EBSubPath subPath}) async* {
       while (true) {
-        final result =
-            await _homeRepository.getBusRealTimeInfo(stationID: stationID);
+        final type = subPath.type;
+        Result result;
+        switch (type) {
+          case 1:
+            const stationID = 0;
+            result = await _homeRepository.getSubwayRealTimeInfo(
+                stationID: stationID);
+          case 2:
+            const stationID = 0;
+            result =
+                await _homeRepository.getBusRealTimeInfo(stationID: stationID);
+          default:
+            continue;
+        }
+
         switch (result) {
           case Success():
             yield result.success.model;
           case Failure():
-            await Future.delayed(const Duration(seconds: 3));
             continue;
         }
+
         await Future.delayed(const Duration(seconds: 10));
       }
     };
-  }
-
-  void _onSetMiddleTransportState(
-    SetMiddleTransportState event,
-    Emitter<HomeState> emit,
-  ) {
-    // final middleTransportInfoState = SealedMiddleTransportState.init(
-    //   daySchedule: event.daySchedule,
-    //   realTimeInfoStream: getRealTimeInfoStream,
-    // );
-
-    final middleTransportInfoState = InfoMiddleTransportState(
-      realTimeInfoStream: getRealTimeInfoStream(stationID: 0),
-    );
-
-    emit(state.copyWith(middleTransportInfoState: middleTransportInfoState));
   }
 }

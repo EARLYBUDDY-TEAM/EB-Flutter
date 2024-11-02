@@ -1,5 +1,6 @@
 part of '../../../entity.dart';
 
+// Transport => SealedTransport 변경
 final class Transport extends Equatable {
   final Subway? subway;
   final Bus? bus;

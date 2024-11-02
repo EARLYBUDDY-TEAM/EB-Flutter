@@ -39,7 +39,9 @@ final class HomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> getBusRealTimeInfo({required int stationID}) async {
+  Future<Result> getBusRealTimeInfo({
+    required int stationID,
+  }) async {
     final request = HomeRequest.getBusRealTimeInfo(stationID: stationID);
     final result = await service.request(request);
 
@@ -61,5 +63,13 @@ final class HomeRepository implements HomeRepositoryAB {
         log(failureResponse.statusCode.toString());
         return result;
     }
+  }
+
+  @override
+  Future<Result> getSubwayRealTimeInfo({
+    required int stationID,
+  }) {
+    // TODO: implement getSubwayRealTimeInfo
+    throw UnimplementedError();
   }
 }

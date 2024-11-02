@@ -50,14 +50,3 @@ final class SetCalendarState extends HomeEvent {
   @override
   List<Object?> get props => [calendarState];
 }
-
-final class SetMiddleTransportState extends HomeEvent {
-  final DaySchedule daySchedule;
-
-  SetMiddleTransportState({
-    required this.daySchedule,
-  });
-
-  @override
-  List<Object?> get props => [daySchedule];
-}

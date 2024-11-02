@@ -14,4 +14,11 @@ abstract class HomeRepositoryAB {
   }) async {
     throw UnimplementedError('구현부');
   }
+
+  /// 지하철 실시간 정보 가져오기
+  Future<Result> getSubwayRealTimeInfo({
+    required int stationID,
+  }) async {
+    throw UnimplementedError('구현부');
+  }
 }

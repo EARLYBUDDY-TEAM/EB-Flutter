@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_home_feature/eb_home_feature.dart';
 import 'package:eb_uikit/eb_uikit.dart';
@@ -32,5 +30,8 @@ part 'sources/bottom_list_view/home_bottom_list_view.dart';
 part 'sources/home_content/home_appbar.dart';
 part 'sources/home_content/home_content.dart';
 part 'sources/middle_transport/middle_transport_add.dart';
-part 'sources/middle_transport/middle_transport_info.dart';
+part 'sources/middle_transport/middle_transport_info/middle_transport_info.dart';
+part 'sources/middle_transport/middle_transport_info/left_dispatch_column.dart';
+part 'sources/middle_transport/middle_transport_info/right_dispatch_column.dart';
+part 'sources/middle_transport/middle_transport_info/reload_trasnport_info_button.dart';
 part 'sources/middle_transport/middle_transport_imminent.dart';

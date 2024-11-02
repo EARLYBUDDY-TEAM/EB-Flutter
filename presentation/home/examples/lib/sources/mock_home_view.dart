@@ -92,11 +92,7 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
           cancelModalViewAction: () {},
-        )..add(
-            SetMiddleTransportState(
-              daySchedule: daySchedule,
-            ),
-          );
+        )..add(OnAppearHomeView());
 
         return bloc;
       },
