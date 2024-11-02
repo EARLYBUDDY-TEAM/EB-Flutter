@@ -4,3 +4,4 @@ part 'dto/place_dto.dart';
 part 'dto/ebroute_dto.dart';
 part 'dto/schedule_dto.dart';
 part 'dto/schedule_path_dto.dart';
+part 'dto/realtime_info_dto.dart';

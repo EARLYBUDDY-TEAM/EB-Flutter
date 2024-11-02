@@ -17,19 +17,19 @@ final class HomeRequest {
     );
   }
 
-  static ApiRequest<EmptyDTO> deleteScheduleCard({
-    required String accessToken,
-    required String scheduleID,
+  static ApiRequest<RealTimeInfoDTO> getBusRealTimeInfo({
+    required int stationID,
   }) {
-    const path = '/home/delete_schedule';
-    final Map<String, String> query = {"scheduleID": scheduleID};
-    final header = {"access_token": accessToken};
+    const path = "/home/get_info_with_bus_station_id";
+    final query = {"station_id": "$stationID"};
+    RealTimeInfoDTO converter(dynamic responseData) =>
+        RealTimeInfoDTO.fromJson(responseData);
 
     return ApiRequest(
       path: path,
       query: query,
-      headers: header,
-      method: HTTPMethod.delete,
+      converter: converter,
+      method: HTTPMethod.get,
     );
   }
 }

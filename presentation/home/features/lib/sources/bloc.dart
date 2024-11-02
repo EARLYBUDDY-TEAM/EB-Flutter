@@ -20,16 +20,18 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required ScheduleEvent scheduleEvent,
     required TokenEvent tokenEvent,
     required void Function() cancelModalViewAction,
+    HomeState? homeState,
   })  : _loadingDelegate = loadingDelegate,
         _homeRepository = homeRepository,
         _scheduleEvent = scheduleEvent,
         _tokenEvent = tokenEvent,
         _cancelModalViewAction = cancelModalViewAction,
-        super(HomeState()) {
+        super(homeState ?? HomeState()) {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
+    on<SetMiddleTransportState>(_onSetMiddleTransportState);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -40,7 +42,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
 
     _getAllSchedulesSubscription = homeDelegate.getAllSchedules.listen(
-      (_) => add(const OnAppearHomeView()),
+      (_) => add(OnAppearHomeView()),
     );
 
     _cancelModalViewSubscription = homeDelegate.cancelModalView.listen(
@@ -108,9 +110,7 @@ extension on HomeBloc {
           daySchedule: daySchedule,
         );
 
-        final middleTransportInfoState = SealedMiddleTransportState.init(
-          daySchedule: daySchedule,
-        );
+        add(SetMiddleTransportState(daySchedule: daySchedule));
 
         final bottomScheduleListState = BottomScheduleListState.init(
           calendarState: calendarState,
@@ -123,7 +123,6 @@ extension on HomeBloc {
             daySchedule: daySchedule,
             calendarState: calendarState,
             topScheduleInfoState: topScheduleInfoState,
-            middleTransportInfoState: middleTransportInfoState,
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
@@ -217,5 +216,42 @@ extension on HomeBloc {
         bottomScheduleListState: bottomScheduleListState,
       ),
     );
+  }
+}
+
+extension on HomeBloc {
+  Stream<RealTimeInfo> Function({
+    required int stationID,
+  }) get getRealTimeInfoStream {
+    return ({required int stationID}) async* {
+      while (true) {
+        final result =
+            await _homeRepository.getBusRealTimeInfo(stationID: stationID);
+        switch (result) {
+          case Success():
+            yield result.success.model;
+          case Failure():
+            await Future.delayed(const Duration(seconds: 3));
+            continue;
+        }
+        await Future.delayed(const Duration(seconds: 10));
+      }
+    };
+  }
+
+  void _onSetMiddleTransportState(
+    SetMiddleTransportState event,
+    Emitter<HomeState> emit,
+  ) {
+    // final middleTransportInfoState = SealedMiddleTransportState.init(
+    //   daySchedule: event.daySchedule,
+    //   realTimeInfoStream: getRealTimeInfoStream,
+    // );
+
+    final middleTransportInfoState = InfoMiddleTransportState(
+      realTimeInfoStream: getRealTimeInfoStream(stationID: 0),
+    );
+
+    emit(state.copyWith(middleTransportInfoState: middleTransportInfoState));
   }
 }

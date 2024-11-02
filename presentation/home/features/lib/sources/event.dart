@@ -1,14 +1,9 @@
 part of '../eb_home_feature.dart';
 
-sealed class HomeEvent extends Equatable {
-  const HomeEvent();
-
-  @override
-  List<Object?> get props => [];
-}
+sealed class HomeEvent extends Equatable {}
 
 final class OnAppearHomeView extends HomeEvent {
-  const OnAppearHomeView();
+  OnAppearHomeView();
 
   @override
   List<Object?> get props => [];
@@ -17,7 +12,7 @@ final class OnAppearHomeView extends HomeEvent {
 final class DeleteScheduleCard extends HomeEvent {
   final SchedulePath schedulePath;
 
-  const DeleteScheduleCard({required this.schedulePath});
+  DeleteScheduleCard({required this.schedulePath});
 
   @override
   List<Object?> get props => [schedulePath];
@@ -29,7 +24,7 @@ final class SetHomeStatus extends HomeEvent {
   final BaseStatus? getAllScheduleCard;
   final BaseStatus? deleteScheduleCard;
 
-  const SetHomeStatus({
+  SetHomeStatus({
     this.login,
     this.register,
     this.getAllScheduleCard,
@@ -48,10 +43,21 @@ final class SetHomeStatus extends HomeEvent {
 final class SetCalendarState extends HomeEvent {
   final CalendarState calendarState;
 
-  const SetCalendarState({
+  SetCalendarState({
     required this.calendarState,
   });
 
   @override
   List<Object?> get props => [calendarState];
+}
+
+final class SetMiddleTransportState extends HomeEvent {
+  final DaySchedule daySchedule;
+
+  SetMiddleTransportState({
+    required this.daySchedule,
+  });
+
+  @override
+  List<Object?> get props => [daySchedule];
 }

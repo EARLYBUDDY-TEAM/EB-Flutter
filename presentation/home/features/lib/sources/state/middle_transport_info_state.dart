@@ -3,6 +3,8 @@ part of '../../eb_home_feature.dart';
 sealed class SealedMiddleTransportState extends Equatable {
   static SealedMiddleTransportState init({
     required DaySchedule daySchedule,
+    required Stream<RealTimeInfo> Function({required int stationID})
+        realTimeInfoStream,
   }) {
     final closeSchedulePath = daySchedule.getCloseTodaySchedulePath();
     if (closeSchedulePath == null) {
@@ -12,14 +14,24 @@ sealed class SealedMiddleTransportState extends Equatable {
     if (closeSchedulePath.ebPath == null) {
       return AddRouteMiddleTransportState(schedulePath: closeSchedulePath);
     } else {
-      return InfoMiddleTransportState();
+      // final stationID = closeSchedulePath.ebPath.getFirstStationID;
+      const stationID = 0;
+      return InfoMiddleTransportState(
+        realTimeInfoStream: realTimeInfoStream(stationID: stationID),
+      );
     }
   }
 }
 
 final class InfoMiddleTransportState extends SealedMiddleTransportState {
+  final Stream<RealTimeInfo> realTimeInfoStream;
+
+  InfoMiddleTransportState({
+    required this.realTimeInfoStream,
+  });
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [realTimeInfoStream];
 }
 
 final class OverScheduleMiddleTransportState

@@ -62,7 +62,7 @@ extension EBTime on DateTime {
     }
   }
 
-  static String intToString(int time) {
+  static String intToHourMinuteString(int time) {
     if (time <= 0) {
       return '0분';
     }

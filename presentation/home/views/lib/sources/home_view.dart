@@ -32,7 +32,7 @@ final class _HomeViewState extends State<HomeView> {
               (route) => route.settings.name == "HomeView",
             );
           },
-        )..add(const OnAppearHomeView());
+        )..add(OnAppearHomeView());
       },
       child: const EBHomeView(),
     );
@@ -119,7 +119,7 @@ extension on EBHomeView {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetHomeStatus(register: BaseStatus.init));
+                .add(SetHomeStatus(register: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,
@@ -153,7 +153,7 @@ extension on EBHomeView {
 
     final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
     ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-      context.read<HomeBloc>().add(const SetHomeStatus(login: BaseStatus.init));
+      context.read<HomeBloc>().add(SetHomeStatus(login: BaseStatus.init));
     });
   }
 }
@@ -194,7 +194,7 @@ extension on EBHomeView {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
+                .add(SetHomeStatus(getAllScheduleCard: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,

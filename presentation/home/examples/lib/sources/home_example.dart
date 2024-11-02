@@ -21,6 +21,6 @@ final class HomeExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MockMiddleTransportView();
+    return MockHomeView();
   }
 }

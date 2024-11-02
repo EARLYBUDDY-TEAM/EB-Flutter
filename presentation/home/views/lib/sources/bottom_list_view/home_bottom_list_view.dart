@@ -108,7 +108,7 @@ extension on HomeBottomListContentState {
   }) {
     context
         .read<HomeBloc>()
-        .add(const SetHomeStatus(deleteScheduleCard: BaseStatus.init));
+        .add(SetHomeStatus(deleteScheduleCard: BaseStatus.init));
     setState(() {});
     _snackBarSuccessDeleteSuccessScheduleCard(context);
   }
@@ -196,7 +196,7 @@ extension on HomeBottomListContentState {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetHomeStatus(deleteScheduleCard: BaseStatus.init));
+                .add(SetHomeStatus(deleteScheduleCard: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,
@@ -210,7 +210,7 @@ extension on HomeBottomListContentState {
     ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
       context
           .read<HomeBloc>()
-          .add(const SetHomeStatus(deleteScheduleCard: BaseStatus.init));
+          .add(SetHomeStatus(deleteScheduleCard: BaseStatus.init));
     });
   }
 }

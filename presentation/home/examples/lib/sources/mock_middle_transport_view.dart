@@ -29,7 +29,9 @@ final class MockMiddleTransportView extends StatelessWidget {
   }
 
   Widget _info() {
-    return const MiddleTransportInfo();
+    return const MiddleTransportInfo(
+      stream: Stream.empty(),
+    );
   }
 
   Widget _imminent() {

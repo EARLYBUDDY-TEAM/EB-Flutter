@@ -39,21 +39,23 @@ final class HomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> deleteScheduleCard({
-    required String accessToken,
-    required String scheduleID,
-  }) async {
-    final request = HomeRequest.deleteScheduleCard(
-      accessToken: accessToken,
-      scheduleID: scheduleID,
-    );
-
+  Future<Result> getBusRealTimeInfo({required int stationID}) async {
+    final request = HomeRequest.getBusRealTimeInfo(stationID: stationID);
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
-        return result;
-      case (Failure()):
+      case Success():
+        final SuccessResponse successResponse = result.success;
+        final RealTimeInfoDTO realTimeInfoDTO = successResponse.model;
+        final realTimeInfo =
+            RealTimeInfo.fromDTO(realTimeInfoDTO: realTimeInfoDTO);
+        final newSuccessResponse = SuccessResponse(
+          statusCode: successResponse.statusCode,
+          model: realTimeInfo,
+        );
+        final newResult = Success(success: newSuccessResponse);
+        return newResult;
+      case Failure():
         final FailureResponse failureResponse = result.failure;
         log(failureResponse.error.toString());
         log(failureResponse.statusCode.toString());
