@@ -166,15 +166,48 @@ final class _RightDisPatchColumnContent extends StatelessWidget {
             fontSize: 35,
           ),
         ),
-        Text(
-          '다음 배차까지 $arrival2전',
-          style: const TextStyle(
-            fontFamily: FontFamily.nanumSquareRegular,
-            color: Colors.black87,
-            fontSize: 13,
-          ),
+        Row(
+          children: [
+            Text(
+              '다음 배차까지 $arrival2전',
+              style: const TextStyle(
+                fontFamily: FontFamily.nanumSquareRegular,
+                color: Colors.black87,
+                fontSize: 13,
+              ),
+            ),
+            const SizedBox(width: 10),
+            _ReloadTransportInfoButton(),
+          ],
         ),
       ],
+    );
+  }
+}
+
+final class _ReloadTransportInfoButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () {
+          log("ehifowehfioew");
+        },
+        child: Container(
+          width: 30,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.grey),
+          ),
+          child: const Icon(
+            Icons.replay_outlined,
+            color: Colors.grey,
+          ),
+        ),
+      ),
     );
   }
 }
