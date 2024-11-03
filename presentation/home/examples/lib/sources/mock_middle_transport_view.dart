@@ -31,7 +31,7 @@ final class MockMiddleTransportView extends StatelessWidget {
   Widget _info() {
     return MiddleTransportInfo(
       subPath: EBSubPath.mockSubway(),
-      stream: const Stream.empty(),
+      streamRealTimeInfo: const Stream.empty(),
     );
   }
 

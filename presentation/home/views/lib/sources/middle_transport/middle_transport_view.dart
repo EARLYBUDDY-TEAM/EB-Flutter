@@ -14,11 +14,11 @@ final class _MiddleTransportView extends StatelessWidget {
           case AddScheduleMiddleTransportState():
             content = const MiddleTransportAddSchedule();
           case InfoMiddleTransportState():
-            final stream = middleState.realTimeInfoStream;
             final subPath = middleState.subPath;
+            final streamRealTimeInfo = middleState.streamRealTimeInfo;
             content = MiddleTransportInfo(
               subPath: subPath,
-              stream: stream,
+              streamRealTimeInfo: streamRealTimeInfo,
             );
           case OverScheduleMiddleTransportState():
             content = const MiddleTransportOverSchedule();

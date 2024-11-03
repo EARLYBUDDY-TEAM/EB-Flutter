@@ -35,6 +35,7 @@ final class _ReloadTransportInfoButtonState extends State
         child: InkWell(
           onTap: () async {
             _controller.reverse(from: 1.0);
+            context.read<HomeBloc>().add(PressReloadButton());
           },
           child: Container(
             width: 30,

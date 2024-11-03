@@ -13,6 +13,8 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<void> _getAllSchedulesSubscription;
   late StreamSubscription<void> _cancelModalViewSubscription;
 
+  late PublishSubject<EBSubPath> _realTimeInfoSubject;
+
   HomeBloc({
     required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
@@ -31,6 +33,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
+    on<PressReloadButton>(_onPressReloadButton);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -77,6 +80,77 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
+  Future<RealTimeInfo?> whenFinishLoading(
+    Stream<RealTimeInfo> streamSource,
+  ) async {
+    await for (var realTimeInfo in streamSource) {
+      return realTimeInfo;
+    }
+    return null;
+    // await for (value in source) {
+    //   // Define a condition expecting a value from Stream
+    //   if (value) {
+    //     return value;
+    //   }
+    // }
+    // return false;
+  }
+
+  Stream<RealTimeInfo?> _makeStreamRealTimeInfo({
+    required EBSubPath subPath,
+  }) {
+    _realTimeInfoSubject = PublishSubject<EBSubPath>();
+
+    final streamRealtimeInfo = _realTimeInfoSubject.flatMap(
+      (subPath) async* {
+        final fetchedRealTimeInfo = await getRealTimeInfo(subPath: subPath);
+        yield fetchedRealTimeInfo;
+      },
+    );
+
+    var stream = Stream.periodic(const Duration(seconds: 8));
+    stream.listen((_) {
+      _realTimeInfoSubject.add(subPath);
+    });
+
+    return streamRealtimeInfo;
+  }
+}
+
+extension on HomeBloc {
+  Future<SealedMiddleTransportState> initSealedMiddleTransportState({
+    required DaySchedule daySchedule,
+  }) async {
+    // final closeSchedulePath = daySchedule.getCloseTodaySchedulePath();
+    // if (closeSchedulePath == null) {
+    //   return AddScheduleMiddleTransportState();
+    // }
+
+    // if (closeSchedulePath.ebPath == null) {
+    //   return AddRouteMiddleTransportState(schedulePath: closeSchedulePath);
+    // } else {
+    //   // cehckckckckckck
+    //   final subPath = closeSchedulePath.ebPath!.ebSubPaths.first;
+    //   final realTimeInfo = await getRealTimeInfo(subPath: subPath);
+
+    //   return InfoMiddleTransportState(
+    //     subPath: subPath,
+    //     realTimeInfo: realTimeInfo,
+    //   );
+    // }
+
+    final mockBus = EBSubPath.mockBus();
+    final mockSubway = EBSubPath.mockSubway();
+    final mockRealTimeInfo = RealTimeInfo.mock();
+    final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: mockSubway);
+    final middleTransportInfoState = InfoMiddleTransportState(
+      subPath: mockSubway,
+      streamRealTimeInfo: streamRealTimeInfo,
+    );
+
+    return middleTransportInfoState;
+  }
+
   Future<void> _onOnAppearHomeView(
     OnAppearHomeView event,
     Emitter<HomeState> emit,
@@ -109,17 +183,8 @@ extension on HomeBloc {
           daySchedule: daySchedule,
         );
 
-        // final middleTransportInfoState = SealedMiddleTransportState.init(
-        //   daySchedule: event.daySchedule,
-        //   realTimeInfoStream: getRealTimeInfoStream,
-        // );
-
-        // final mockSubPath = EBSubPath.mockBus();
-        final mockSubPath = EBSubPath.mockSubway();
-        final middleTransportInfoState = InfoMiddleTransportState(
-          subPath: mockSubPath,
-          realTimeInfoStream: getRealTimeInfoStream(subPath: mockSubPath),
-        );
+        final middleTransportInfoState =
+            await initSealedMiddleTransportState(daySchedule: daySchedule);
 
         final bottomScheduleListState = BottomScheduleListState.init(
           calendarState: calendarState,
@@ -230,35 +295,47 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  Stream<RealTimeInfo> Function({
+  Future<RealTimeInfo?> getRealTimeInfo({
     required EBSubPath subPath,
-  }) get getRealTimeInfoStream {
-    return ({required EBSubPath subPath}) async* {
-      while (true) {
-        final type = subPath.type;
-        Result result;
-        switch (type) {
-          case 1:
-            const stationID = 0;
-            result = await _homeRepository.getSubwayRealTimeInfo(
-                stationID: stationID);
-          case 2:
-            const stationID = 0;
-            result =
-                await _homeRepository.getBusRealTimeInfo(stationID: stationID);
-          default:
-            continue;
-        }
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return RealTimeInfo.mock();
 
-        switch (result) {
-          case Success():
-            yield result.success.model;
-          case Failure():
-            continue;
-        }
+    // final type = subPath.type;
+    // Result result;
+    // switch (type) {
+    //   case 1:
+    //     const stationID = 0;
+    //     result =
+    //         await _homeRepository.getSubwayRealTimeInfo(stationID: stationID);
+    //   case 2:
+    //     const stationID = 0;
+    //     result = await _homeRepository.getBusRealTimeInfo(stationID: stationID);
+    //   default:
+    //     return null;
+    // }
 
-        await Future.delayed(const Duration(seconds: 10));
-      }
-    };
+    // switch (result) {
+    //   case Success():
+    //     return result.success.model;
+    //   case Failure():
+    //     return null;
+    // }
+  }
+}
+
+extension on HomeBloc {
+  Future<void> _onPressReloadButton(
+    PressReloadButton event,
+    Emitter<HomeState> emit,
+  ) async {
+    final middleState =
+        castOrNull<InfoMiddleTransportState>(state.middleTransportInfoState);
+    if (middleState == null) {
+      return;
+    }
+
+    final subPath = middleState.subPath;
+    _realTimeInfoSubject.add(subPath);
   }
 }

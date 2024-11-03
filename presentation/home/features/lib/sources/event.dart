@@ -50,3 +50,8 @@ final class SetCalendarState extends HomeEvent {
   @override
   List<Object?> get props => [calendarState];
 }
+
+final class PressReloadButton extends HomeEvent {
+  @override
+  List<Object?> get props => [];
+}

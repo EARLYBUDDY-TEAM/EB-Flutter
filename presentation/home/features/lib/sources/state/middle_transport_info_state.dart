@@ -1,40 +1,31 @@
 part of '../../eb_home_feature.dart';
 
-sealed class SealedMiddleTransportState extends Equatable {
-  static SealedMiddleTransportState init({
-    required DaySchedule daySchedule,
-    required Stream<RealTimeInfo> Function({required EBSubPath subPath})
-        createRealTimeInfoStream,
-  }) {
-    final closeSchedulePath = daySchedule.getCloseTodaySchedulePath();
-    if (closeSchedulePath == null) {
-      return AddScheduleMiddleTransportState();
-    }
-
-    if (closeSchedulePath.ebPath == null) {
-      return AddRouteMiddleTransportState(schedulePath: closeSchedulePath);
-    } else {
-      // cehckckckckckck
-      final subPath = closeSchedulePath.ebPath!.ebSubPaths.first;
-      return InfoMiddleTransportState(
-        subPath: subPath,
-        realTimeInfoStream: createRealTimeInfoStream(subPath: subPath),
-      );
-    }
-  }
-}
+sealed class SealedMiddleTransportState extends Equatable {}
 
 final class InfoMiddleTransportState extends SealedMiddleTransportState {
   final EBSubPath subPath;
-  final Stream<RealTimeInfo> realTimeInfoStream;
+  final Stream<RealTimeInfo?> streamRealTimeInfo;
 
   InfoMiddleTransportState({
     required this.subPath,
-    required this.realTimeInfoStream,
+    required this.streamRealTimeInfo,
   });
 
+  InfoMiddleTransportState copyWith({
+    EBSubPath? subPath,
+    Stream<RealTimeInfo?>? streamRealTimeInfo,
+  }) {
+    return InfoMiddleTransportState(
+      subPath: subPath ?? this.subPath,
+      streamRealTimeInfo: streamRealTimeInfo ?? this.streamRealTimeInfo,
+    );
+  }
+
   @override
-  List<Object?> get props => [subPath, realTimeInfoStream];
+  List<Object?> get props => [
+        subPath,
+        streamRealTimeInfo,
+      ];
 }
 
 final class OverScheduleMiddleTransportState
