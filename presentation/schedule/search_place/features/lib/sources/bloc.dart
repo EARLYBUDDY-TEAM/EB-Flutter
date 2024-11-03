@@ -44,8 +44,9 @@ extension on SearchPlaceBloc {
     await getPlaces(event.searchText, emit);
   }
 
-  EventTransformer<Event> _debounce<Event>(
-      {Duration duration = const Duration(milliseconds: 1000)}) {
+  EventTransformer<Event> _debounce<Event>({
+    Duration duration = const Duration(milliseconds: 1000),
+  }) {
     return (events, mapper) => events.debounce(duration).switchMap(mapper);
   }
 }

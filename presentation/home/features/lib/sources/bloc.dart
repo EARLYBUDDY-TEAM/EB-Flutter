@@ -33,7 +33,10 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
-    on<PressReloadButton>(_onPressReloadButton);
+    on<PressReloadButton>(
+      _onPressReloadButton,
+      transformer: _throttle(),
+    );
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -335,7 +338,15 @@ extension on HomeBloc {
       return;
     }
 
+    log("checkckckck");
+
     final subPath = middleState.subPath;
     _realTimeInfoSubject.add(subPath);
+  }
+
+  EventTransformer<Event> _throttle<Event>({
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    return (events, mapper) => events.throttleTime(duration).switchMap(mapper);
   }
 }
