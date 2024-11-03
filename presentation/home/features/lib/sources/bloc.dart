@@ -13,7 +13,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<void> _getAllSchedulesSubscription;
   late StreamSubscription<void> _cancelModalViewSubscription;
 
-  late PublishSubject<EBSubPath> _realTimeInfoSubject;
+  late BehaviorSubject<EBSubPath> _realTimeInfoSubject;
 
   HomeBloc({
     required LoadingDelegate loadingDelegate,
@@ -83,26 +83,10 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  Future<RealTimeInfo?> whenFinishLoading(
-    Stream<RealTimeInfo> streamSource,
-  ) async {
-    await for (var realTimeInfo in streamSource) {
-      return realTimeInfo;
-    }
-    return null;
-    // await for (value in source) {
-    //   // Define a condition expecting a value from Stream
-    //   if (value) {
-    //     return value;
-    //   }
-    // }
-    // return false;
-  }
-
   Stream<RealTimeInfo?> _makeStreamRealTimeInfo({
     required EBSubPath subPath,
   }) {
-    _realTimeInfoSubject = PublishSubject<EBSubPath>();
+    _realTimeInfoSubject = BehaviorSubject<EBSubPath>.seeded(subPath);
 
     final streamRealtimeInfo = _realTimeInfoSubject.flatMap(
       (subPath) async* {
@@ -111,10 +95,8 @@ extension on HomeBloc {
       },
     );
 
-    var stream = Stream.periodic(const Duration(seconds: 8));
-    stream.listen((_) {
-      _realTimeInfoSubject.add(subPath);
-    });
+    var stream = Stream.periodic(const Duration(seconds: 15));
+    stream.listen((_) => _realTimeInfoSubject.add(subPath));
 
     return streamRealtimeInfo;
   }
@@ -129,16 +111,17 @@ extension on HomeBloc {
     //   return AddScheduleMiddleTransportState();
     // }
 
-    // if (closeSchedulePath.ebPath == null) {
+    // final ebPath = closeSchedulePath.ebPath;
+    // if (ebPath == null) {
     //   return AddRouteMiddleTransportState(schedulePath: closeSchedulePath);
     // } else {
     //   // cehckckckckckck
-    //   final subPath = closeSchedulePath.ebPath!.ebSubPaths.first;
-    //   final realTimeInfo = await getRealTimeInfo(subPath: subPath);
+    //   final subPath = ebPath.ebSubPaths.first;
+    //   final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: subPath);
 
     //   return InfoMiddleTransportState(
     //     subPath: subPath,
-    //     realTimeInfo: realTimeInfo,
+    //     streamRealTimeInfo: streamRealTimeInfo,
     //   );
     // }
 
