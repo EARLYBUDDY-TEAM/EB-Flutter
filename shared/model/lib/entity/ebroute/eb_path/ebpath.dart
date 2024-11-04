@@ -1,4 +1,4 @@
-part of '../../entity.dart';
+part of '../../../entity.dart';
 
 final class EBPath extends Equatable {
   final int type;
@@ -87,5 +87,10 @@ final class EBPath extends Equatable {
         EBSubPath.mockWalk(),
       ],
     );
+  }
+
+  static EBPath mockDongToGwang() {
+    final dto = EBPathDTO.mockDongToGwang();
+    return EBPath.fromDTO(ebPathDTO: dto);
   }
 }

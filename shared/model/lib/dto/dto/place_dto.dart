@@ -1,4 +1,4 @@
-part of '../dto.dart';
+part of '../../dto.dart';
 
 final class PlaceListDTO {
   final List<PlaceDTO> places;

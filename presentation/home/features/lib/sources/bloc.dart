@@ -103,6 +103,27 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
+  InfoMiddleTransportState _makeMockMiddleState() {
+    final ebPath = EBPath.mockDongToGwang();
+    EBSubPath? subPath;
+    for (var value in ebPath.ebSubPaths) {
+      if (value.type != 3) {
+        subPath = value;
+        break;
+      }
+    }
+    subPath ??= EBSubPath.mockSubway();
+
+    final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: subPath);
+
+    final middleTransportInfoState = InfoMiddleTransportState(
+      subPath: subPath,
+      streamRealTimeInfo: streamRealTimeInfo,
+    );
+
+    return middleTransportInfoState;
+  }
+
   Future<SealedMiddleTransportState> initSealedMiddleTransportState({
     required DaySchedule daySchedule,
   }) async {
@@ -125,16 +146,8 @@ extension on HomeBloc {
     //   );
     // }
 
-    final mockBus = EBSubPath.mockBus();
-    final mockSubway = EBSubPath.mockSubway();
-    final mockRealTimeInfo = RealTimeInfo.mock();
-    final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: mockSubway);
-    final middleTransportInfoState = InfoMiddleTransportState(
-      subPath: mockSubway,
-      streamRealTimeInfo: streamRealTimeInfo,
-    );
-
-    return middleTransportInfoState;
+    final middleState = _makeMockMiddleState();
+    return middleState;
   }
 
   Future<void> _onOnAppearHomeView(
@@ -320,8 +333,6 @@ extension on HomeBloc {
     if (middleState == null) {
       return;
     }
-
-    log("checkckckck");
 
     final subPath = middleState.subPath;
     _realTimeInfoSubject.add(subPath);

@@ -1,4 +1,4 @@
-part of '../dto.dart';
+part of '../../dto.dart';
 
 final class EBRouteDTO {
   final int type;
@@ -53,6 +53,10 @@ final class EBPathDTO {
       ebSubPaths: ebSubPaths,
     );
   }
+
+  static EBPathDTO mockDongToGwang() {
+    return EBPathDTO.fromJson(dummyPathDongToGwangMap);
+  }
 }
 
 final class EBSubPathDTO {
@@ -61,6 +65,7 @@ final class EBSubPathDTO {
   final String startName;
   final String? startX;
   final String? startY;
+  final int? startStationID;
   final String endName;
   final int distance;
   final List<TransportDTO>? transports;
@@ -72,6 +77,7 @@ final class EBSubPathDTO {
     required this.startName,
     required this.startX,
     required this.startY,
+    required this.startStationID,
     required this.endName,
     required this.distance,
     required this.transports,
@@ -105,6 +111,7 @@ final class EBSubPathDTO {
       startName: j['startName'],
       startX: j['startX'],
       startY: j['startY'],
+      startStationID: j['start_station_id'],
       endName: j['endName'],
       distance: j['distance'],
       transports: trans,
