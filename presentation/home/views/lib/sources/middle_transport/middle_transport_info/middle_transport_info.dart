@@ -1,12 +1,12 @@
 part of '../../../eb_home.dart';
 
 final class MiddleTransportInfo extends StatelessWidget {
-  final EBSubPath subPath;
+  final EBSubPath trasnportSubPath;
   final Stream<RealTimeInfo?> streamRealTimeInfo;
 
   const MiddleTransportInfo({
     super.key,
-    required this.subPath,
+    required this.trasnportSubPath,
     required this.streamRealTimeInfo,
   });
 
@@ -15,7 +15,7 @@ final class MiddleTransportInfo extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _LeftDispatchColumn(subPath: subPath),
+        _LeftDispatchColumn(trasnportSubPath: trasnportSubPath),
         _RightDisPatchColumn(streamRealTimeInfo: streamRealTimeInfo),
       ],
     );

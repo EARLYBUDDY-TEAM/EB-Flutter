@@ -103,21 +103,24 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  InfoMiddleTransportState _makeMockMiddleState() {
-    final ebPath = EBPath.mockDongToGwang();
-    EBSubPath? subPath;
-    for (var value in ebPath.ebSubPaths) {
-      if (value.type != 3) {
-        subPath = value;
-        break;
+  EBSubPath? getCloseTransportSubPath(List<EBSubPath> subPathList) {
+    for (var subPath in subPathList) {
+      if (subPath.type != 3) {
+        return subPath;
       }
     }
-    subPath ??= EBSubPath.mockSubway();
+    return null;
+  }
 
-    final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: subPath);
+  InfoMiddleTransportState _makeMockMiddleState() {
+    final ebPath = EBPath.mockDongToGwang();
+    final transportSubPath =
+        getCloseTransportSubPath(ebPath.ebSubPaths) ?? EBSubPath.mockBus();
+    final streamRealTimeInfo =
+        _makeStreamRealTimeInfo(subPath: transportSubPath);
 
     final middleTransportInfoState = InfoMiddleTransportState(
-      subPath: subPath,
+      trasnportSubPath: transportSubPath,
       streamRealTimeInfo: streamRealTimeInfo,
     );
 
@@ -334,7 +337,7 @@ extension on HomeBloc {
       return;
     }
 
-    final subPath = middleState.subPath;
+    final subPath = middleState.trasnportSubPath;
     _realTimeInfoSubject.add(subPath);
   }
 

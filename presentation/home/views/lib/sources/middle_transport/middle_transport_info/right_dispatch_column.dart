@@ -54,7 +54,7 @@ extension on _RightDisPatchColumnState {
     }
 
     final minute = arrivalSec1 ~/ 60;
-    return EBTime.intToHourMinuteString(minute);
+    return EBTime.intMinuteToString(minute);
   }
 
   Widget _arrival1Text(String arrival1) {
@@ -80,7 +80,7 @@ extension on _RightDisPatchColumnState {
     }
 
     final minute = arrivalSec2 ~/ 60;
-    return EBTime.intToHourMinuteString(minute);
+    return EBTime.intMinuteToString(minute);
   }
 
   Widget _arrival2Text(String arrival2) {

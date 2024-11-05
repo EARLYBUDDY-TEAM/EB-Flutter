@@ -47,7 +47,7 @@ final class _MiddleTransportImminent extends StatelessWidget {
           title,
           style: TextStyle(
             fontFamily: FontFamily.gmarketSansBold,
-            fontSize: 22,
+            fontSize: 19,
             color: EBColors.blue3,
           ),
         ),
@@ -58,7 +58,7 @@ final class _MiddleTransportImminent extends StatelessWidget {
             style: TextStyle(
               fontFamily: FontFamily.gmarketSansRegular,
               color: Colors.black54,
-              fontSize: 18,
+              fontSize: 16,
             ),
           ),
         )

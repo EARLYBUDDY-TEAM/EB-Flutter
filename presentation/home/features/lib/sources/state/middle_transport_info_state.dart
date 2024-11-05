@@ -3,27 +3,27 @@ part of '../../eb_home_feature.dart';
 sealed class SealedMiddleTransportState extends Equatable {}
 
 final class InfoMiddleTransportState extends SealedMiddleTransportState {
-  final EBSubPath subPath;
+  final EBSubPath trasnportSubPath;
   final Stream<RealTimeInfo?> streamRealTimeInfo;
 
   InfoMiddleTransportState({
-    required this.subPath,
+    required this.trasnportSubPath,
     required this.streamRealTimeInfo,
   });
 
   InfoMiddleTransportState copyWith({
-    EBSubPath? subPath,
+    EBSubPath? trasnportSubPath,
     Stream<RealTimeInfo?>? streamRealTimeInfo,
   }) {
     return InfoMiddleTransportState(
-      subPath: subPath ?? this.subPath,
+      trasnportSubPath: trasnportSubPath ?? this.trasnportSubPath,
       streamRealTimeInfo: streamRealTimeInfo ?? this.streamRealTimeInfo,
     );
   }
 
   @override
   List<Object?> get props => [
-        subPath,
+        trasnportSubPath,
         streamRealTimeInfo,
       ];
 }

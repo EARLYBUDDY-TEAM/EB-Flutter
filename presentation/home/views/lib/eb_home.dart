@@ -11,6 +11,7 @@ import 'package:eb_model/eb_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:eb_find_route/eb_find_route.dart';
 import 'package:eb_search_place/eb_search_place.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,9 @@ part 'sources/home_content/home_appbar.dart';
 part 'sources/home_content/home_content.dart';
 part 'sources/middle_transport/middle_transport_add.dart';
 part 'sources/middle_transport/middle_transport_info/middle_transport_info.dart';
-part 'sources/middle_transport/middle_transport_info/left_dispatch_column.dart';
+part 'sources/middle_transport/middle_transport_info/left_dispatch_column/left_dispatch_column.dart';
+part 'sources/middle_transport/middle_transport_info/left_dispatch_column/left_dispatch_popup/left_dispatch_popup.dart';
+part 'sources/middle_transport/middle_transport_info/left_dispatch_column/left_dispatch_popup/left_dispatch_popup_menuitem.dart';
 part 'sources/middle_transport/middle_transport_info/right_dispatch_column.dart';
 part 'sources/middle_transport/middle_transport_info/reload_trasnport_info_button.dart';
 part 'sources/middle_transport/middle_transport_imminent.dart';

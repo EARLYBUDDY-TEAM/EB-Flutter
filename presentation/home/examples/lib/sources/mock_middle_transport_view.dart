@@ -14,7 +14,7 @@ final class MockMiddleTransportView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: MiddleTransportForm(
-                  content: _imminent(),
+                  content: _info(),
                 ),
               ),
             ],
@@ -28,14 +28,35 @@ final class MockMiddleTransportView extends StatelessWidget {
     return const MiddleTransportAddSchedule();
   }
 
-  Widget _info() {
-    return MiddleTransportInfo(
-      subPath: EBSubPath.mockSubway(),
-      streamRealTimeInfo: const Stream.empty(),
-    );
-  }
-
   Widget _imminent() {
     return const MiddleTransportArrival();
+  }
+}
+
+extension on MockMiddleTransportView {
+  EBSubPath get mockTransportSubPath {
+    final path = EBPath.mockDongToGwang();
+
+    EBSubPath? subPath;
+    for (var curSubPath in path.ebSubPaths) {
+      if (curSubPath.type == 2) {
+        subPath = curSubPath;
+        break;
+      }
+    }
+    subPath ??= EBSubPath.mockBus();
+
+    return subPath;
+
+    // final newSubPath = subPath.copyWith(transports: []);
+
+    // return newSubPath;
+  }
+
+  Widget _info() {
+    return MiddleTransportInfo(
+      trasnportSubPath: mockTransportSubPath,
+      streamRealTimeInfo: const Stream.empty(),
+    );
   }
 }

@@ -55,7 +55,7 @@ extension on StartPlaceExpanded {
     return Row(
       children: [
         Text(
-          EBTime.intToHourMinuteString(pathTime),
+          EBTime.intMinuteToString(pathTime),
           style: const TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
             fontSize: 20,

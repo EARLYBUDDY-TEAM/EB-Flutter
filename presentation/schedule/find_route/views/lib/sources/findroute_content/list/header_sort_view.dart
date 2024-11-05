@@ -68,7 +68,7 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
     required int pathTime,
     required int pathType,
   }) {
-    final timeString = EBTime.intToHourMinuteString(pathTime);
+    final timeString = EBTime.intMinuteToString(pathTime);
     final pathTypeString = _getPathType(pathType);
 
     return DefaultTextStyle(

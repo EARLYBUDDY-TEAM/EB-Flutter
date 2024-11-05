@@ -62,14 +62,24 @@ extension EBTime on DateTime {
     }
   }
 
-  static String intToHourMinuteString(int time) {
-    if (time <= 0) {
+  static String intSecToString(int sec) {
+    if (sec < 60) {
       return '0분';
     }
 
-    final int h = time ~/ 60;
+    final int m = sec ~/ 60;
+    final String minute = "$m분";
+    return minute;
+  }
+
+  static String intMinuteToString(int min) {
+    if (min <= 0) {
+      return '0분';
+    }
+
+    final int h = min ~/ 60;
     final String hour = h == 0 ? '' : '$h시간';
-    final int m = time % 60;
+    final int m = min % 60;
     final String minute = '$m분';
     return hour == '' ? minute : '$hour $minute';
   }
