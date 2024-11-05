@@ -24,19 +24,26 @@ final class _LeftDispatchPopupButtonStateBus
       ),
       clipBehavior: Clip.hardEdge,
       color: Colors.white,
-      child: PopupMenuButton<Bus>(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        shadowColor: Colors.black87,
-        color: Colors.white,
-        constraints: const BoxConstraints(maxHeight: 300),
-        tooltip: "",
-        itemBuilder: _itemBuilder(context),
-        child: _LeftDispatchColumnContent(
-          subPath: widget.transportSubPath,
-        ),
+      child: _popupMenuButton(),
+    );
+  }
+
+  PopupMenuButton<Bus> _popupMenuButton() {
+    return PopupMenuButton<Bus>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
+      shadowColor: Colors.black87,
+      color: Colors.white,
+      constraints: const BoxConstraints(maxHeight: 300),
+      tooltip: "",
+      itemBuilder: _itemBuilder(context),
+      child: _LeftDispatchColumnContent(
+        subPath: widget.transportSubPath,
+      ),
+      onSelected: (selectedItem) {
+        log(selectedItem.toString());
+      },
     );
   }
 
@@ -44,29 +51,37 @@ final class _LeftDispatchPopupButtonStateBus
     return PopupMenuItem(child: Text(bus.number));
   }
 
-  List<PopupMenuItem<Bus>> Function(BuildContext context) _itemBuilder(
+  List<PopupMenuEntry<Bus>> Function(BuildContext context) _itemBuilder(
     BuildContext context,
   ) {
-    return (context) => List.generate(
-          widget.busList.length,
-          (index) {
-            final curBus = widget.busList[index];
-            final name = curBus.number;
-            final color = curBus.color();
-            final isLast = (index == widget.busList.length - 1);
+    return (context) {
+      final List<PopupMenuEntry<Bus>> menuItemList = [];
 
-            return PopupMenuItem(
-              child: _LeftDisPatchPopupMenuItem.bus(
-                name: name,
-                color: color,
-                arrivalSec1: 250,
-                arrivalSec2: 980,
-                leftStation1: 2,
-                leftStation2: 5,
-                isLast: isLast,
-              ),
-            );
-          },
+      for (int index = 0; index < widget.busList.length; index++) {
+        final curBus = widget.busList[index];
+        final name = curBus.number;
+        final color = curBus.color();
+
+        final PopupMenuEntry<Bus> item = PopupMenuItem(
+          child: _LeftDisPatchPopupMenuItem.bus(
+            name: name,
+            color: color,
+            arrivalSec1: 250,
+            arrivalSec2: 980,
+            leftStation1: 2,
+            leftStation2: 5,
+          ),
         );
+
+        menuItemList.add(item);
+
+        final isNotLast = (index != widget.busList.length - 1);
+        if (isNotLast) {
+          menuItemList.add(const PopupMenuDivider());
+        }
+      }
+
+      return menuItemList;
+    };
   }
 }

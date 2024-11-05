@@ -36,7 +36,6 @@ final class _LeftDispatchColumn extends StatelessWidget {
 
     for (var transport in trasnportSubPath.transports) {
       final bus = transport.bus;
-      log(bus.toString());
       if (bus != null) {
         busList.add(bus);
       }

@@ -9,8 +9,6 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
   final int arrivalSec2;
   final int leftStation2;
 
-  final bool isLast;
-
   const _LeftDisPatchPopupMenuItem({
     super.key,
     required this.icon,
@@ -20,42 +18,20 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     required this.arrivalSec2,
     required this.leftStation1,
     required this.leftStation2,
-    required this.isLast,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _children,
-    );
-  }
-
-  List<Widget> get _children {
-    final List<Widget> widgetList = [
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _transportName(),
-            const SizedBox(height: 4),
-            _arrivalInfoText(),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _transportName(),
+          const SizedBox(height: 4),
+          _arrivalInfoText(),
+        ],
       ),
-    ];
-
-    if (!isLast) {
-      widgetList.add(_divider());
-    }
-
-    return widgetList;
-  }
-
-  Widget _divider() {
-    return const Divider(
-      color: Colors.grey,
-      thickness: 0.5,
     );
   }
 
@@ -66,7 +42,6 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     required int arrivalSec2,
     required int leftStation1,
     required int leftStation2,
-    required bool isLast,
   }) {
     const icon = CupertinoIcons.bus;
     return _LeftDisPatchPopupMenuItem(
@@ -77,7 +52,6 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
       arrivalSec2: arrivalSec2,
       leftStation1: leftStation1,
       leftStation2: leftStation2,
-      isLast: isLast,
     );
   }
 
@@ -88,7 +62,6 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     required int arrivalSec2,
     required int leftStation1,
     required int leftStation2,
-    required bool isLast,
   }) {
     const icon = Icons.subway_outlined;
     return _LeftDisPatchPopupMenuItem(
@@ -99,7 +72,6 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
       arrivalSec2: arrivalSec2,
       leftStation1: leftStation1,
       leftStation2: leftStation2,
-      isLast: isLast,
     );
   }
 }
