@@ -1,3 +1,5 @@
+part of '../../eb_model_helper.dart';
+
 final dummyPathDongToGwangMap = {
   "time": 20,
   "type": 2,

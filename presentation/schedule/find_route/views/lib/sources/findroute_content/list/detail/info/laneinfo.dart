@@ -12,9 +12,9 @@ final class _LaneInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (ebSubPath.type) {
       case (1):
-        return _LaneInfoOther.subway(ebSubPath.stations);
+        return _LaneInfoOther.subway(ebSubPath.stationList);
       case (2):
-        return _LaneInfoOther.bus(ebSubPath.stations);
+        return _LaneInfoOther.bus(ebSubPath.stationList);
       default:
         return _LaneInfoWalk(distance: ebSubPath.distance);
     }

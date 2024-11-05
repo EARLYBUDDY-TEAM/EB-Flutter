@@ -16,7 +16,9 @@ final class _MiddleTransportView extends StatelessWidget {
           case InfoMiddleTransportState():
             final trasnportSubPath = middleState.trasnportSubPath;
             final streamRealTimeInfo = middleState.streamRealTimeInfo;
+            final selectedTransport = middleState.selectedTransport;
             content = MiddleTransportInfo(
+              selectedTransport: selectedTransport,
               trasnportSubPath: trasnportSubPath,
               streamRealTimeInfo: streamRealTimeInfo,
             );

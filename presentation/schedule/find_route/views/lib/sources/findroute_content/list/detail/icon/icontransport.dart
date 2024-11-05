@@ -10,20 +10,34 @@ final class _IconTransport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (ebSubPath.type) {
-      case (1):
+    final transportList = ebSubPath.transportList;
+    const defaultColor = Colors.grey;
+
+    switch (transportList) {
+      case SubwayList():
+        final subway = transportList.subwayList.firstOrNull;
+        if (subway == null) {
+          break;
+        }
+
         return _IconTransportItem.subway(
           ebSubPath.time,
-          ebSubPath.transports[0].subway?.color() ?? EBColors.text,
+          subway.color(),
         );
-      case (2):
+      case BusList():
+        final bus = transportList.busList.firstOrNull;
+        if (bus == null) {
+          break;
+        }
+
         return _IconTransportItem.bus(
           ebSubPath.time,
-          ebSubPath.transports[0].bus?.color() ?? EBColors.text,
+          bus.color() ?? defaultColor,
         );
       default:
         return _IconTransportItem.walk(ebSubPath.time);
     }
+    return _IconTransportItem.walk(ebSubPath.time);
   }
 }
 

@@ -37,6 +37,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _onPressReloadButton,
       transformer: _throttle(),
     );
+    on<SelectTransport>(_onSelectTransport);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -112,14 +113,29 @@ extension on HomeBloc {
     return null;
   }
 
+  Transport? getSelectedTransport(EBSubPath subPath) {
+    final transportList = subPath.transportList;
+
+    switch (transportList) {
+      case SubwayList():
+        return transportList.subwayList.firstOrNull;
+      case BusList():
+        return transportList.busList.firstOrNull;
+      default:
+        return null;
+    }
+  }
+
   InfoMiddleTransportState _makeMockMiddleState() {
     final ebPath = EBPath.mockDongToGwang();
     final transportSubPath =
-        getCloseTransportSubPath(ebPath.ebSubPaths) ?? EBSubPath.mockBus();
+        getCloseTransportSubPath(ebPath.ebSubPathList) ?? EBSubPath.mockBus();
     final streamRealTimeInfo =
         _makeStreamRealTimeInfo(subPath: transportSubPath);
+    final selectedTransport = getSelectedTransport(transportSubPath);
 
     final middleTransportInfoState = InfoMiddleTransportState(
+      selectedTransport: selectedTransport,
       trasnportSubPath: transportSubPath,
       streamRealTimeInfo: streamRealTimeInfo,
     );
@@ -345,5 +361,26 @@ extension on HomeBloc {
     Duration duration = const Duration(seconds: 3),
   }) {
     return (events, mapper) => events.throttleTime(duration).switchMap(mapper);
+  }
+}
+
+extension on HomeBloc {
+  void _onSelectTransport(
+    SelectTransport event,
+    Emitter<HomeState> emit,
+  ) {
+    final middleState = state.middleTransportInfoState;
+
+    if (middleState is InfoMiddleTransportState) {
+      final newMiddleState = middleState.copyWith(
+        selectedTransport: () => event.selectedTransport,
+      );
+      log("checkck");
+      emit(
+        state.copyWith(
+          middleTransportInfoState: newMiddleState,
+        ),
+      );
+    }
   }
 }

@@ -1,7 +1,7 @@
-part of '../../dto.dart';
+part of '../dto.dart';
 
 final class ScheduleDTO {
-  final String id;
+  final String? id;
   final String title;
   final String? memo;
   final String time;
@@ -53,5 +53,19 @@ final class ScheduleDTO {
       startPlaceDTO: startPlaceDTO,
       endPlaceDTO: endPlaceDTO,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "title": title,
+      "memo": memo,
+      "time": time,
+      "notifySchedule": notifySchedule,
+      "notifyTransport": notifyTransport,
+      "notifyTransportRange": notifyTransportRange,
+      "startPlaceDTO": startPlaceDTO?.toMap(),
+      "endPlaceDTO": endPlaceDTO?.toMap(),
+    };
   }
 }

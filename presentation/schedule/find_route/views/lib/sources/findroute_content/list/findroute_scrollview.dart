@@ -107,7 +107,7 @@ final class FindRouteScrollWithHeader extends StatelessWidget {
             return _ExistFindRouteScrollWithHeader(
               headerHeight: headerHeight,
               scrollContent: _DetailRouteListView(
-                subPaths: contentStatus.path.ebSubPaths,
+                subPaths: contentStatus.path.ebSubPathList,
               ),
             );
         }

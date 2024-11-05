@@ -83,7 +83,7 @@ class TransportLineInfo extends Equatable {
 
 TransportLineOfRoute getTransportLineOfRoute({required List<EBPath> paths}) {
   final lineOfRoute = paths.map((path) {
-    return getTransportLineOfPath(ebSubPaths: path.ebSubPaths);
+    return getTransportLineOfPath(ebSubPaths: path.ebSubPathList);
   }).toList();
   return TransportLineOfRoute(lineOfRoute: lineOfRoute);
 }
@@ -100,23 +100,25 @@ TransportLineOfPath getTransportLineOfPath({
 TransportLineInfo subPathToLineInfo({
   required EBSubPath ebSubPath,
 }) {
-  String name = '';
+  String name = '-';
   Color? color;
 
-  if (ebSubPath.type == 1) {
-    final subway = ebSubPath.transports[0].subway;
-    if (subway != null) {
-      name = subway.type;
-      color = subway.color();
-    }
-  } else if (ebSubPath.type == 2) {
-    final bus = ebSubPath.transports[0].bus;
-    if (bus != null) {
-      name = bus.number;
-      color = bus.color();
-    }
-  } else {
-    name = '${ebSubPath.time}분';
+  final transportList = ebSubPath.transportList;
+  switch (transportList) {
+    case SubwayList():
+      final subway = transportList.subwayList.firstOrNull;
+      if (subway != null) {
+        name = subway.type;
+        color = subway.color();
+      }
+    case BusList():
+      final bus = transportList.busList.firstOrNull;
+      if (bus != null) {
+        name = bus.number;
+        color = bus.color();
+      }
+    default:
+      name = '${ebSubPath.time}분';
   }
 
   return TransportLineInfo(

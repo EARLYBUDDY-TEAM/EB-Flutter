@@ -1,4 +1,4 @@
-part of '../../dto.dart';
+part of '../dto.dart';
 
 final class TokenDTO {
   final String accessToken;

@@ -94,7 +94,7 @@ final class SelectEndPlace extends AddScheduleEvent {
 }
 
 final class SelectStartPlace extends AddScheduleEvent {
-  final PathInfo pathInfo;
+  final PathState pathInfo;
 
   const SelectStartPlace({required this.pathInfo});
 

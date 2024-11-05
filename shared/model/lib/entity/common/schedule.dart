@@ -80,18 +80,18 @@ final class Schedule extends Equatable {
             ? Place.fromDTO(placeDTO: scheduleDTO.endPlaceDTO!)
             : null;
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "title": title,
-      "memo": memo,
-      "time": time.toIso8601String(),
-      "notify_schedule": notifySchedule,
-      "notify_transport": notifyTransport,
-      "notify_transport_range": notifyTransportRange,
-      "startPlaceInfo": (startPlace != null) ? startPlace!.toMap() : null,
-      "endPlaceInfo": (endPlace != null) ? endPlace!.toMap() : null,
-    };
+  ScheduleDTO toDTO() {
+    return ScheduleDTO(
+      id: id,
+      title: title,
+      memo: memo,
+      time: time.toIso8601String(),
+      notifySchedule: notifySchedule,
+      notifyTransport: notifyTransport,
+      notifyTransportRange: notifyTransportRange,
+      startPlaceDTO: startPlace?.toDTO(),
+      endPlaceDTO: endPlace?.toDTO(),
+    );
   }
 
   static Schedule mock({

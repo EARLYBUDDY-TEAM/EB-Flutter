@@ -1,6 +1,6 @@
 part of '../../../../../eb_home.dart';
 
-final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
+final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
   final IconData icon;
   final String name;
   final Color color;
@@ -9,7 +9,7 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
   final int arrivalSec2;
   final int leftStation2;
 
-  const _LeftDisPatchPopupMenuItem({
+  const _LeftDisPatchPopupMenuItemContent({
     super.key,
     required this.icon,
     required this.name,
@@ -35,7 +35,7 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     );
   }
 
-  factory _LeftDisPatchPopupMenuItem.bus({
+  factory _LeftDisPatchPopupMenuItemContent.bus({
     required String name,
     required Color color,
     required int arrivalSec1,
@@ -44,7 +44,7 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     required int leftStation2,
   }) {
     const icon = CupertinoIcons.bus;
-    return _LeftDisPatchPopupMenuItem(
+    return _LeftDisPatchPopupMenuItemContent(
       icon: icon,
       name: name,
       color: color,
@@ -55,7 +55,7 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     );
   }
 
-  factory _LeftDisPatchPopupMenuItem.subway({
+  factory _LeftDisPatchPopupMenuItemContent.subway({
     required String name,
     required Color color,
     required int arrivalSec1,
@@ -64,7 +64,7 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
     required int leftStation2,
   }) {
     const icon = Icons.subway_outlined;
-    return _LeftDisPatchPopupMenuItem(
+    return _LeftDisPatchPopupMenuItemContent(
       icon: icon,
       name: name,
       color: color,
@@ -76,7 +76,7 @@ final class _LeftDisPatchPopupMenuItem extends StatelessWidget {
   }
 }
 
-extension on _LeftDisPatchPopupMenuItem {
+extension on _LeftDisPatchPopupMenuItemContent {
   Widget _transportName() {
     return Row(
       children: [
@@ -98,7 +98,7 @@ extension on _LeftDisPatchPopupMenuItem {
   }
 }
 
-extension on _LeftDisPatchPopupMenuItem {
+extension on _LeftDisPatchPopupMenuItemContent {
   String _arrivalInfoString({
     required int arrivalSec,
     required int leftStation,

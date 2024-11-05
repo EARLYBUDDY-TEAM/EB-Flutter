@@ -1,11 +1,43 @@
 part of '../../../entity.dart';
 
-final class Subway extends Equatable {
+final class SubwayList extends TransportList {
+  final List<Subway> subwayList;
+
+  SubwayList({
+    required this.subwayList,
+  });
+
+  List<TransportDTO> toDTO() {
+    return subwayList.map((s) => s.toDTO()).toList();
+  }
+
+  @override
+  List<Object?> get props => [subwayList];
+}
+
+final class Subway extends Transport {
   final String type;
 
-  const Subway({
+  Subway({
     required this.type,
   });
+
+  static Subway fromDTO({
+    required TransportDTO transportDTO,
+  }) {
+    final type = transportDTO.subwayType ?? DefaultValue.String;
+    return Subway(
+      type: type,
+    );
+  }
+
+  TransportDTO toDTO() {
+    return TransportDTO(
+      subwayType: type,
+      busNumber: null,
+      busType: null,
+    );
+  }
 
   Color color() {
     switch (type) {
@@ -68,6 +100,6 @@ final class Subway extends Equatable {
   List<Object?> get props => [type];
 
   static Subway mock() {
-    return const Subway(type: '1호선');
+    return Subway(type: '1호선');
   }
 }

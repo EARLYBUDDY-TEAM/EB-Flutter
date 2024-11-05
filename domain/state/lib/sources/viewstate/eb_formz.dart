@@ -1,4 +1,4 @@
-part of '../../entity.dart';
+part of '../../eb_state.dart';
 
 abstract class EBFormzAB {
   String get value;

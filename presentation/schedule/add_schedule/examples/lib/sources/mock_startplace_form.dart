@@ -1,7 +1,7 @@
 part of 'addschedule_example.dart';
 
 final class MockAddScheduleBlocView extends StatelessWidget {
-  final pathInfo = PathInfo(
+  final pathInfo = PathState(
     startPlace: Place.mockStart(),
     endPlace: Place.mockEnd(),
     transportLineOfPath: TransportLineOfPath.mock(),

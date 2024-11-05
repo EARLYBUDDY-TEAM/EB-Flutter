@@ -34,27 +34,22 @@ final class MockMiddleTransportView extends StatelessWidget {
 }
 
 extension on MockMiddleTransportView {
-  EBSubPath get mockTransportSubPath {
-    final path = EBPath.mockDongToGwang();
-
-    EBSubPath? subPath;
-    for (var curSubPath in path.ebSubPaths) {
-      if (curSubPath.type == 2) {
-        subPath = curSubPath;
-        break;
-      }
-    }
-    subPath ??= EBSubPath.mockBus();
-
-    return subPath;
-
-    // final newSubPath = subPath.copyWith(transports: []);
-
-    // return newSubPath;
-  }
-
   Widget _info() {
+    final transportList = mockTransportSubPath.transportList;
+
+    Transport? selectedTransport;
+
+    switch (transportList) {
+      case SubwayList():
+        selectedTransport = transportList.subwayList.firstOrNull;
+      case BusList():
+        selectedTransport = transportList.busList.firstOrNull;
+      default:
+        selectedTransport = null;
+    }
+
     return MiddleTransportInfo(
+      selectedTransport: selectedTransport,
       trasnportSubPath: mockTransportSubPath,
       streamRealTimeInfo: const Stream.empty(),
     );

@@ -3,7 +3,7 @@ part of '../../eb_add_schedule_feature.dart';
 sealed class SealedStartPlaceState extends Equatable {}
 
 final class SelectedStartPlaceState extends SealedStartPlaceState {
-  final PathInfo pathInfo;
+  final PathState pathInfo;
 
   SelectedStartPlaceState({
     required this.pathInfo,

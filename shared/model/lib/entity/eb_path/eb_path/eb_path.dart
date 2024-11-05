@@ -7,7 +7,7 @@ final class EBPath extends Equatable {
   final int payment;
   final int busTransitCount;
   final int subwayTransitCount;
-  final List<EBSubPath> ebSubPaths;
+  final List<EBSubPath> ebSubPathList;
 
   const EBPath({
     required this.type,
@@ -16,7 +16,7 @@ final class EBPath extends Equatable {
     required this.payment,
     required this.busTransitCount,
     required this.subwayTransitCount,
-    required this.ebSubPaths,
+    required this.ebSubPathList,
   });
 
   static EBSubPath modifyWalkSubPath({
@@ -30,21 +30,20 @@ final class EBPath extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    final subPathsMap = ebSubPaths.map((s) => s.toMap()).toList();
+  EBPathDTO toDTO() {
+    final ebSubPaths = ebSubPathList.map((s) => s.toDTO()).toList();
 
-    return {
-      "type": type,
-      "time": time,
-      "walkTime": walkTime,
-      "payment": payment,
-      "busTransitCount": busTransitCount,
-      "subwayTransitCount": subwayTransitCount,
-      "subPaths": subPathsMap,
-    };
+    return EBPathDTO(
+      type: type,
+      time: time,
+      walkTime: walkTime,
+      payment: payment,
+      busTransitCount: busTransitCount,
+      subwayTransitCount: subwayTransitCount,
+      ebSubPaths: ebSubPaths,
+    );
   }
 
-  // 서버에서 작업하기
   static EBPath fromDTO({required EBPathDTO ebPathDTO}) {
     List<EBSubPath> ebSubPaths = ebPathDTO.ebSubPaths
         .map((s) => EBSubPath.fromDTO(ebSubPathDTO: s))
@@ -57,7 +56,7 @@ final class EBPath extends Equatable {
       payment: ebPathDTO.payment,
       busTransitCount: ebPathDTO.busTransitCount,
       subwayTransitCount: ebPathDTO.subwayTransitCount,
-      ebSubPaths: ebSubPaths,
+      ebSubPathList: ebSubPaths,
     );
   }
 
@@ -69,7 +68,7 @@ final class EBPath extends Equatable {
         payment,
         busTransitCount,
         subwayTransitCount,
-        ebSubPaths,
+        ebSubPathList,
       ];
 
   static EBPath mock() {
@@ -80,7 +79,7 @@ final class EBPath extends Equatable {
       payment: 3400,
       busTransitCount: 4,
       subwayTransitCount: 3,
-      ebSubPaths: [
+      ebSubPathList: [
         EBSubPath.mockBus(),
         EBSubPath.mockWalk(),
         EBSubPath.mockSubway(),

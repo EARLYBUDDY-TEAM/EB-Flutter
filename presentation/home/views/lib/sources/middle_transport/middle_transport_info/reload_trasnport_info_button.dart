@@ -8,6 +8,7 @@ final class _ReloadTransportInfoButton extends StatefulWidget {
 final class _ReloadTransportInfoButtonState extends State
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  bool absorbing = true;
 
   @override
   void initState() {
@@ -26,26 +27,36 @@ final class _ReloadTransportInfoButtonState extends State
 
   @override
   Widget build(BuildContext context) {
-    return RotationTransition(
-      turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-      child: Material(
-        color: Colors.white,
-        shape: const CircleBorder(),
-        clipBehavior: Clip.hardEdge,
-        child: InkWell(
-          onTap: () async {
-            _controller.reverse(from: 1.0);
-            context.read<HomeBloc>().add(PressReloadButton());
-          },
-          child: Container(
-            width: 30,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey),
-            ),
-            child: const Icon(
-              Icons.replay_outlined,
-              color: Colors.grey,
+    return AbsorbPointer(
+      absorbing: !absorbing,
+      child: RotationTransition(
+        turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+        child: Material(
+          color: Colors.white,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          child: InkWell(
+            onTap: () async {
+              setState(() {
+                absorbing = false;
+              });
+              _controller.reverse(from: 1.0);
+              context.read<HomeBloc>().add(PressReloadButton());
+              await Future.delayed(const Duration(milliseconds: 1100));
+              setState(() {
+                absorbing = true;
+              });
+            },
+            child: Container(
+              width: 30,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey),
+              ),
+              child: const Icon(
+                Icons.replay_outlined,
+                color: Colors.grey,
+              ),
             ),
           ),
         ),

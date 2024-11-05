@@ -11,10 +11,8 @@ final class Station extends Equatable {
     return Station(name: stationDTO.name);
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "name": name,
-    };
+  StationDTO toDTO() {
+    return StationDTO(name: name);
   }
 
   @override

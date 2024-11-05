@@ -7,7 +7,7 @@ final class AddScheduleBloc extends Bloc<AddScheduleEvent, AddScheduleState> {
   final Function() _cancelModalViewAction;
 
   late StreamSubscription<Place> selectPlaceSubscriptionForEnd;
-  late StreamSubscription<PathInfo> selectPlaceSubscriptionForStart;
+  late StreamSubscription<PathState> selectPlaceSubscriptionForStart;
   late StreamSubscription<void> cancelModalViewSubscription;
 
   AddScheduleBloc({
@@ -408,9 +408,9 @@ extension on AddScheduleBloc {
     }
 
     final transportLineOfPath =
-        getTransportLineOfPath(ebSubPaths: ebPath.ebSubPaths);
+        getTransportLineOfPath(ebSubPaths: ebPath.ebSubPathList);
 
-    final pathInfo = PathInfo(
+    final pathInfo = PathState(
       startPlace: schedule.startPlace!,
       endPlace: schedule.endPlace!,
       transportLineOfPath: transportLineOfPath,

@@ -26,13 +26,11 @@ final class SchedulePath extends Equatable {
             ? EBPath.fromDTO(ebPathDTO: dto.ebPathDTO!)
             : null;
 
-  Map<String, dynamic> toMap() {
-    final scheduleInfo = schedule.toMap();
-    final pathInfo = (ebPath != null) ? ebPath!.toMap() : null;
-    return {
-      "schedule_info": scheduleInfo,
-      "path_info": pathInfo,
-    };
+  SchedulePathDTO toDTO() {
+    return SchedulePathDTO(
+      scheduleDTO: schedule.toDTO(),
+      ebPathDTO: ebPath?.toDTO(),
+    );
   }
 
   @override

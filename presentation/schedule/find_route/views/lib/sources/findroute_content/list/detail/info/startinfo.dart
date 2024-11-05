@@ -11,17 +11,29 @@ final class _StartInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (ebSubPath.type) {
-      case (1):
+    final transportList = ebSubPath.transportList;
+
+    switch (transportList) {
+      case SubwayList():
+        final subway = transportList.subwayList.firstOrNull;
+        final startCoordi = ebSubPath.startCoordi;
+        if ((subway == null) || (startCoordi == null)) {
+          break;
+        }
         return _StartInfoOther.subway(
-          subway: ebSubPath.transports[0].subway!,
+          subway: subway,
           startName: ebSubPath.startName,
-          startCoordi: ebSubPath.startCoordi!,
+          startCoordi: startCoordi,
           fontSize: fontSize,
         );
-      case (2):
+      case BusList():
+        final bus = transportList.busList.firstOrNull;
+        final startCoordi = ebSubPath.startCoordi;
+        if ((bus == null) || (startCoordi == null)) {
+          break;
+        }
         return _StartInfoOther.bus(
-          bus: ebSubPath.transports[0].bus!,
+          bus: bus,
           startName: ebSubPath.startName,
           startCoordi: ebSubPath.startCoordi!,
           fontSize: fontSize,
@@ -32,6 +44,11 @@ final class _StartInfo extends StatelessWidget {
           fontSize: fontSize - 2,
         );
     }
+
+    return _StartInfoWalk(
+      startName: ebSubPath.startName,
+      fontSize: fontSize - 2,
+    );
   }
 }
 

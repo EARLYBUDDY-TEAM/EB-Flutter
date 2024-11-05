@@ -208,7 +208,7 @@ extension on FindRouteBloc {
         state.routeInfo.transportLineOfRoute.lineOfRoute[index].lineOfPath;
     final transportLineOfPath = TransportLineOfPath(lineOfPath: lineOfPath);
     final ebPath = state.routeInfo.ebRoute.ebPaths[index];
-    final pathInfo = PathInfo(
+    final pathInfo = PathState(
       startPlace: startPlace,
       endPlace: endPlace,
       transportLineOfPath: transportLineOfPath,

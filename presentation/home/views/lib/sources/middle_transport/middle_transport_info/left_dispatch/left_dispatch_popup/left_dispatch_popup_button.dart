@@ -1,11 +1,13 @@
 part of '../../../../../eb_home.dart';
 
 final class _LeftDispatchPopupButtonBus extends StatefulWidget {
+  final Transport? selectedTransport;
   final EBSubPath transportSubPath;
   final List<Bus> busList;
 
   const _LeftDispatchPopupButtonBus({
     super.key,
+    required this.selectedTransport,
     required this.busList,
     required this.transportSubPath,
   });
@@ -24,11 +26,11 @@ final class _LeftDispatchPopupButtonStateBus
       ),
       clipBehavior: Clip.hardEdge,
       color: Colors.white,
-      child: _popupMenuButton(),
+      child: _popupMenuButton(context),
     );
   }
 
-  PopupMenuButton<Bus> _popupMenuButton() {
+  PopupMenuButton<Bus> _popupMenuButton(BuildContext context) {
     return PopupMenuButton<Bus>(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -39,10 +41,13 @@ final class _LeftDispatchPopupButtonStateBus
       tooltip: "",
       itemBuilder: _itemBuilder(context),
       child: _LeftDispatchColumnContent(
-        subPath: widget.transportSubPath,
+        selectedTransport: widget.selectedTransport,
+        transportSubPath: widget.transportSubPath,
       ),
       onSelected: (selectedItem) {
-        log(selectedItem.toString());
+        context.read<HomeBloc>().add(
+              SelectTransport(selectedTransport: selectedItem),
+            );
       },
     );
   }
@@ -63,7 +68,8 @@ final class _LeftDispatchPopupButtonStateBus
         final color = curBus.color();
 
         final PopupMenuEntry<Bus> item = PopupMenuItem(
-          child: _LeftDisPatchPopupMenuItem.bus(
+          value: curBus,
+          child: _LeftDisPatchPopupMenuItemContent.bus(
             name: name,
             color: color,
             arrivalSec1: 250,

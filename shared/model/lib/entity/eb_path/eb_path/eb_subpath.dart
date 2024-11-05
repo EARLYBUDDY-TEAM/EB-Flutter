@@ -8,8 +8,8 @@ final class EBSubPath extends Equatable {
   final int? startStationID;
   final String endName;
   final int distance;
-  final List<Transport> transports;
-  final List<Station> stations;
+  final TransportList transportList;
+  final List<Station> stationList;
 
   const EBSubPath({
     required this.type,
@@ -19,8 +19,8 @@ final class EBSubPath extends Equatable {
     required this.startStationID,
     required this.endName,
     required this.distance,
-    required this.transports,
-    required this.stations,
+    required this.transportList,
+    required this.stationList,
   });
 
   EBSubPath copyWith({
@@ -31,8 +31,8 @@ final class EBSubPath extends Equatable {
     int? Function()? startStationID,
     String? endName,
     int? distance,
-    List<Transport>? transports,
-    List<Station>? stations,
+    TransportList? transportList,
+    List<Station>? stationList,
   }) {
     return EBSubPath(
       type: type ?? this.type,
@@ -43,29 +43,37 @@ final class EBSubPath extends Equatable {
           startStationID != null ? startStationID() : this.startStationID,
       endName: endName ?? this.endName,
       distance: distance ?? this.distance,
-      transports: transports ?? this.transports,
-      stations: stations ?? this.stations,
+      transportList: transportList ?? this.transportList,
+      stationList: stationList ?? this.stationList,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    List<Map<String, dynamic>> transoprtsMap =
-        transports.map((t) => t.toMap()).toList();
-    List<Map<String, dynamic>> stationsMap =
-        stations.map((s) => s.toMap()).toList();
+  EBSubPathDTO toDTO() {
+    List<TransportDTO> transports;
+    final tmpTransportList = transportList;
+    switch (tmpTransportList) {
+      case BusList():
+        transports = tmpTransportList.toDTO();
+      case SubwayList():
+        transports = tmpTransportList.toDTO();
+      case EmptyTransportList():
+        transports = [];
+    }
 
-    return {
-      "type": type,
-      "time": time,
-      "startName": startName,
-      "startX": startCoordi?.x,
-      "startY": startCoordi?.y,
-      "start_station_id": startStationID,
-      "endName": endName,
-      "distance": distance,
-      "transports": transoprtsMap,
-      "stations": stationsMap,
-    };
+    final stations = stationList.map((s) => s.toDTO()).toList();
+
+    return EBSubPathDTO(
+      type: type,
+      time: time,
+      startName: startName,
+      startX: startCoordi?.x,
+      startY: startCoordi?.y,
+      startStationID: startStationID,
+      endName: endName,
+      distance: distance,
+      transports: transports,
+      stations: stations,
+    );
   }
 
   @override
@@ -77,20 +85,40 @@ final class EBSubPath extends Equatable {
         startStationID,
         endName,
         distance,
-        transports,
-        stations,
+        transportList,
+        stationList,
       ];
 
-  static EBSubPath fromDTO({required EBSubPathDTO ebSubPathDTO}) {
-    var transports = [Transport.walk()];
-    if (ebSubPathDTO.transports != null) {
-      transports = ebSubPathDTO.transports!
-          .map((dto) => Transport.fromDTO(transportDTO: dto))
-          .toList();
+  static EBSubPath fromDTO({
+    required EBSubPathDTO ebSubPathDTO,
+  }) {
+    TransportList tmpTransportList = EmptyTransportList();
+    final transports = ebSubPathDTO.transports;
+    if (transports != null) {
+      final transportType = ebSubPathDTO.type;
+      switch (transportType) {
+        case (1):
+          final subwayList = transports
+              .map(
+                (dto) => Subway.fromDTO(transportDTO: dto),
+              )
+              .toList();
+          tmpTransportList = SubwayList(subwayList: subwayList);
+        case (2):
+          final busList = transports
+              .map(
+                (dto) => Bus.fromDTO(transportDTO: dto),
+              )
+              .toList();
+
+          tmpTransportList = BusList(busList: busList);
+        default:
+          tmpTransportList = EmptyTransportList();
+      }
     }
-    List<Station> stations = [];
+    List<Station> stationList = [];
     if (ebSubPathDTO.stations != null) {
-      stations = ebSubPathDTO.stations!
+      stationList = ebSubPathDTO.stations!
           .map((dto) => Station.fromDTO(stationDTO: dto))
           .toList();
     }
@@ -111,8 +139,8 @@ final class EBSubPath extends Equatable {
       startStationID: ebSubPathDTO.startStationID,
       endName: ebSubPathDTO.endName,
       distance: ebSubPathDTO.distance,
-      transports: transports,
-      stations: stations,
+      transportList: tmpTransportList,
+      stationList: stationList,
     );
   }
 
@@ -125,8 +153,8 @@ final class EBSubPath extends Equatable {
       startStationID: null,
       endName: '스타벅스 수서역 R점',
       distance: 365,
-      transports: [Transport.walk()],
-      stations: const [],
+      transportList: EmptyTransportList(),
+      stationList: const [],
     );
   }
 
@@ -139,8 +167,8 @@ final class EBSubPath extends Equatable {
       startStationID: 536,
       endName: '이태원',
       distance: 13929,
-      transports: [Transport.mockSubway()],
-      stations: const [
+      transportList: TransportList.mockSubwayList(),
+      stationList: const [
         Station(name: '수서역'),
         Station(name: '수서역'),
         Station(name: '수서역'),
@@ -159,8 +187,8 @@ final class EBSubPath extends Equatable {
       startStationID: 80606,
       endName: '이태원',
       distance: 13929,
-      transports: [Transport.mockBus()],
-      stations: const [
+      transportList: TransportList.mockBusList(),
+      stationList: const [
         Station(name: '수서역'),
         Station(name: '수서역'),
         Station(name: '수서역'),

@@ -17,6 +17,7 @@ part 'mock_bottom_schedulecardview.dart';
 part 'mock_home_view.dart';
 part 'mock_home_calendar.dart';
 part 'mock_middle_transport_view.dart';
+part 'mock_data.dart';
 
 final class HomeExample extends StatelessWidget {
   const HomeExample({super.key});
