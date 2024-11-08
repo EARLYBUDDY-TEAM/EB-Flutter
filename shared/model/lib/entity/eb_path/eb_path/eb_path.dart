@@ -30,6 +30,26 @@ final class EBPath extends Equatable {
     );
   }
 
+  EBPath copyWith({
+    int? type,
+    int? time,
+    int? walkTime,
+    int? payment,
+    int? busTransitCount,
+    int? subwayTransitCount,
+    List<EBSubPath>? ebSubPathList,
+  }) {
+    return EBPath(
+      type: type ?? this.type,
+      time: time ?? this.time,
+      walkTime: walkTime ?? this.walkTime,
+      payment: payment ?? this.payment,
+      busTransitCount: busTransitCount ?? this.busTransitCount,
+      subwayTransitCount: subwayTransitCount ?? this.subwayTransitCount,
+      ebSubPathList: ebSubPathList ?? this.ebSubPathList,
+    );
+  }
+
   EBPathDTO toDTO() {
     final ebSubPaths = ebSubPathList.map((s) => s.toDTO()).toList();
 

@@ -6,15 +6,18 @@ final class AddScheduleRequest {
     required Map<String, dynamic> scheduleMap,
     required Map<String, dynamic>? pathMap,
   }) {
+    final requrestData = {
+      "scheduleInfo": scheduleMap,
+      "pathInfo": pathMap,
+    };
+
+    log(requrestData.toString());
+
     return ApiRequest(
-      path: '/schedule/create',
-      method: HTTPMethod.post,
-      headers: {"access_token": accessToken},
-      requestData: {
-        "scheduleInfo": scheduleMap,
-        "pathInfo": pathMap,
-      },
-    );
+        path: '/schedule/create',
+        method: HTTPMethod.post,
+        headers: {"access_token": accessToken},
+        requestData: requrestData);
   }
 
   static ApiRequest<EmptyDTO> update({

@@ -1,38 +1,42 @@
-part of '../../eb_home.dart';
+part of '../../../eb_home.dart';
 
-final class MiddleTransportOverSchedule extends StatelessWidget {
+final class MiddleTransportOverScheduleCard extends StatelessWidget {
   final title = "늦지 않게 출발하셨나요?";
 
-  const MiddleTransportOverSchedule({super.key});
+  const MiddleTransportOverScheduleCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _MiddleTransportImminent(
-      title: title,
-      onPressed: () {},
+    return MiddleTransportCardForm(
+      child: _MiddleTransportImminentCard(
+        title: title,
+        onPressed: () {},
+      ),
     );
   }
 }
 
-final class MiddleTransportArrival extends StatelessWidget {
+final class MiddleTransportArrivalCard extends StatelessWidget {
   final title = "곧 도착이에요! 즐거운 시간 되세요😀";
 
-  const MiddleTransportArrival({super.key});
+  const MiddleTransportArrivalCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _MiddleTransportImminent(
-      title: title,
-      onPressed: () {},
+    return MiddleTransportCardForm(
+      child: _MiddleTransportImminentCard(
+        title: title,
+        onPressed: () {},
+      ),
     );
   }
 }
 
-final class _MiddleTransportImminent extends StatelessWidget {
+final class _MiddleTransportImminentCard extends StatelessWidget {
   final String title;
   final Function() onPressed;
 
-  const _MiddleTransportImminent({
+  const _MiddleTransportImminentCard({
     super.key,
     required this.title,
     required this.onPressed,

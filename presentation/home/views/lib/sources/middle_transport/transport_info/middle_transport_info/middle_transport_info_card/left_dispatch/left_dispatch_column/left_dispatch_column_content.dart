@@ -1,13 +1,15 @@
-part of '../../../../../eb_home.dart';
+part of '../../../../../../../eb_home.dart';
 
 final class _LeftDispatchColumnContent extends StatelessWidget {
   final Transport? selectedTransport;
   final EBSubPath transportSubPath;
+  final int expectTotalMinute;
 
   const _LeftDispatchColumnContent({
     super.key,
     required this.transportSubPath,
     required this.selectedTransport,
+    required this.expectTotalMinute,
   });
 
   @override
@@ -16,13 +18,7 @@ final class _LeftDispatchColumnContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            _transportNameContainer(),
-            const SizedBox(width: 8),
-            _stationNameText(),
-          ],
-        ),
+        _transportStationName(),
         _transportTypeText(),
         const SizedBox(height: 10),
         _expectArrivalText(),
@@ -32,7 +28,17 @@ final class _LeftDispatchColumnContent extends StatelessWidget {
 }
 
 extension on _LeftDispatchColumnContent {
-  String get transportName {
+  Widget _transportStationName() {
+    return Row(
+      children: [
+        _transportNameContainer(),
+        const SizedBox(width: 8),
+        _stationNameText(),
+      ],
+    );
+  }
+
+  String get _transportName {
     final transport = selectedTransport;
     if (transport == null) {
       return '-';
@@ -46,7 +52,7 @@ extension on _LeftDispatchColumnContent {
     }
   }
 
-  Color get transportColor {
+  Color get _transportColor {
     final transport = selectedTransport;
     if (transport == null) {
       return Colors.grey;
@@ -63,13 +69,13 @@ extension on _LeftDispatchColumnContent {
   Widget _transportNameContainer() {
     return Container(
       decoration: BoxDecoration(
-        color: transportColor,
+        color: _transportColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         child: Text(
-          transportName,
+          _transportName,
           style: const TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
             color: Colors.white,
@@ -79,16 +85,14 @@ extension on _LeftDispatchColumnContent {
       ),
     );
   }
-}
 
-extension on _LeftDispatchColumnContent {
-  String get stationName {
+  String get _stationName {
     return transportSubPath.startName;
   }
 
   Widget _stationNameText() {
     return Text(
-      stationName,
+      _stationName,
       style: const TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
         color: Colors.black87,
@@ -99,7 +103,7 @@ extension on _LeftDispatchColumnContent {
 }
 
 extension on _LeftDispatchColumnContent {
-  String get transportType {
+  String get _transportType {
     final type = transportSubPath.type;
 
     switch (type) {
@@ -114,7 +118,7 @@ extension on _LeftDispatchColumnContent {
 
   Widget _transportTypeText() {
     return Text(
-      '$transportType 도착까지',
+      '$_transportType 도착까지',
       style: const TextStyle(
         fontFamily: FontFamily.gmarketSansBold,
         fontSize: 18,
@@ -124,12 +128,18 @@ extension on _LeftDispatchColumnContent {
 }
 
 extension on _LeftDispatchColumnContent {
+  String get _expectArrivalString {
+    final expectArrivalTime =
+        DateTime.now().add(Duration(minutes: expectTotalMinute));
+    return "${expectArrivalTime.addZeroToHour()}:${expectArrivalTime.addZeroToMinute()}";
+  }
+
   Widget _expectArrivalText() {
     const double fontSize = 13;
 
-    return const Row(
+    return Row(
       children: [
-        Text(
+        const Text(
           '약속장소에 ',
           style: TextStyle(
             fontFamily: FontFamily.gmarketSansRegular,
@@ -138,14 +148,14 @@ extension on _LeftDispatchColumnContent {
           ),
         ),
         Text(
-          '14:20',
-          style: TextStyle(
+          _expectArrivalString,
+          style: const TextStyle(
             fontFamily: FontFamily.gmarketSansBold,
             color: Colors.blue,
             fontSize: fontSize,
           ),
         ),
-        Text(
+        const Text(
           ' 도착 예정',
           style: TextStyle(
             fontFamily: FontFamily.gmarketSansRegular,

@@ -1,4 +1,4 @@
-part of '../../eb_home_feature.dart';
+part of '../../../home_feature.dart';
 
 final class HomeStatus extends Equatable {
   final BaseStatus login;

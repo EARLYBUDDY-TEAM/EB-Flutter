@@ -15,8 +15,25 @@ sealed class TransportList extends Equatable {
     return BusList(
       busList: [
         Bus.mock(),
+        Bus.mock(),
+        Bus.mock(),
+        Bus.mock(),
+        Bus.mock(),
+        Bus.mock(),
       ],
     );
+  }
+
+  Transport? get firstOrNull {
+    final self = this;
+    switch (self) {
+      case SubwayList():
+        return self.subwayList.firstOrNull;
+      case BusList():
+        return self.busList.firstOrNull;
+      default:
+        return null;
+    }
   }
 }
 

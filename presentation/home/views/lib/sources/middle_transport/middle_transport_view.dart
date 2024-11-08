@@ -1,68 +1,115 @@
 part of '../../eb_home.dart';
 
 final class _MiddleTransportView extends StatelessWidget {
+  final double horizontalPadding;
+
+  const _MiddleTransportView({
+    super.key,
+    required this.horizontalPadding,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<HomeBloc, HomeState, SealedMiddleTransportState>(
+    return BlocSelector<HomeBloc, HomeState, MiddleTransportInfoState>(
       selector: (state) => state.middleTransportInfoState,
       builder: (context, middleState) {
-        Widget content;
-        switch (middleState) {
-          case AddRouteMiddleTransportState():
-            final schedulePath = middleState.schedulePath;
-            content = MiddleTransportAddRoute(schedulePath: schedulePath);
-          case AddScheduleMiddleTransportState():
-            content = const MiddleTransportAddSchedule();
-          case InfoMiddleTransportState():
-            final trasnportSubPath = middleState.trasnportSubPath;
-            final streamRealTimeInfo = middleState.streamRealTimeInfo;
-            final selectedTransport = middleState.selectedTransport;
-            content = MiddleTransportInfo(
-              selectedTransport: selectedTransport,
-              trasnportSubPath: trasnportSubPath,
-              streamRealTimeInfo: streamRealTimeInfo,
-            );
-          case OverScheduleMiddleTransportState():
-            content = const MiddleTransportOverSchedule();
-          case ArrivalMiddleTransportState():
-            content = const MiddleTransportArrival();
-        }
-        return MiddleTransportForm(
-          content: content,
+        final todayCloseSchedulePath = middleState.todayCloseSchedulePath;
+        return _MiddleTransportStateful(
+          schedulePath: todayCloseSchedulePath,
+          horizontalPadding: horizontalPadding,
         );
       },
     );
   }
 }
 
-final class MiddleTransportForm extends StatelessWidget {
-  final Widget content;
+final class _MiddleTransportStateful extends StatefulWidget {
+  final SchedulePath? schedulePath;
+  final double horizontalPadding;
 
-  const MiddleTransportForm({
+  const _MiddleTransportStateful({
     super.key,
-    required this.content,
+    required this.schedulePath,
+    required this.horizontalPadding,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _MiddleTransportViewState();
+}
+
+final class _MiddleTransportViewState extends State<_MiddleTransportStateful> {
+  late MiddleTranportBloc bloc;
+  var isFirst = true;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!isFirst) {
+      bloc.add(SetupMiddleTransport(schedulePath: widget.schedulePath));
+    }
+
+    return BlocProvider<MiddleTranportBloc>(
+      create: (context) {
+        final tmpBloc = MiddleTranportBloc(
+          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
+        )..add(SetupMiddleTransport(schedulePath: widget.schedulePath));
+        bloc = tmpBloc;
+        isFirst = false;
+        return tmpBloc;
+      },
+      child: _MiddleTransportCardContent(
+        horizontalPadding: widget.horizontalPadding,
+      ),
+    );
+  }
+}
+
+final class _MiddleTransportCardContent extends StatelessWidget {
+  final double horizontalPadding;
+
+  const _MiddleTransportCardContent({
+    super.key,
+    required this.horizontalPadding,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 150,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: content,
+    return SizedBox(
+      height: 170,
+      child: BlocSelector<MiddleTranportBloc, MiddleTransportState,
+          MiddleTransportViewState>(
+        selector: (state) => state.viewState,
+        builder: (context, viewState) {
+          switch (viewState) {
+            case AddRouteMiddleTransportState():
+              final schedulePath = viewState.schedulePath;
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: horizontalPadding,
+                  vertical: 20,
+                ),
+                child: MiddleTransportAddRouteCard(schedulePath: schedulePath),
+              );
+            case AddScheduleMiddleTransportState():
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: horizontalPadding,
+                  vertical: 20,
+                ),
+                child: const MiddleTransportAddScheduleCard(),
+              );
+            case InfoMiddleTransportState():
+              final cardStateList = viewState.cardStateList;
+              final currentIndex = viewState.currentIndex;
+              final streamRealTimeInfo = viewState.streamRealTimeInfo;
+
+              return MiddleTransportInfoView(
+                currentIndex: currentIndex,
+                streamRealTimeInfo: streamRealTimeInfo,
+                cardStateList: cardStateList,
+                horizontalPadding: horizontalPadding,
+              );
+          }
+        },
       ),
     );
   }

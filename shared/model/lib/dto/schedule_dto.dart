@@ -61,11 +61,11 @@ final class ScheduleDTO {
       "title": title,
       "memo": memo,
       "time": time,
-      "notifySchedule": notifySchedule,
-      "notifyTransport": notifyTransport,
-      "notifyTransportRange": notifyTransportRange,
-      "startPlaceDTO": startPlaceDTO?.toMap(),
-      "endPlaceDTO": endPlaceDTO?.toMap(),
+      "notify_schedule": notifySchedule,
+      "notify_transport": notifyTransport,
+      "notify_transport_range": notifyTransportRange,
+      "startPlaceInfo": startPlaceDTO?.toMap(),
+      "endPlaceInfo": endPlaceDTO?.toMap(),
     };
   }
 }

@@ -1,11 +1,11 @@
-part of '../eb_home_feature.dart';
+part of '../../home_feature.dart';
 
 final class HomeState extends Equatable {
   final HomeStatus status;
   final DaySchedule daySchedule;
   final CalendarState calendarState;
   final SealedTopScheduleState topScheduleInfoState;
-  final SealedMiddleTransportState middleTransportInfoState;
+  final MiddleTransportInfoState middleTransportInfoState;
   final BottomScheduleListState bottomScheduleListState;
 
   HomeState({
@@ -13,14 +13,14 @@ final class HomeState extends Equatable {
     DaySchedule? daySchedule,
     CalendarState? calendarState,
     SealedTopScheduleState? topScheduleInfoState,
-    SealedMiddleTransportState? middleTransportInfoState,
+    MiddleTransportInfoState? middleTransportInfoState,
     BottomScheduleListState? bottomScheduleListState,
   })  : status = status ?? const HomeStatus(),
         daySchedule = daySchedule ?? DaySchedule(),
         calendarState = calendarState ?? CalendarState(),
         topScheduleInfoState = topScheduleInfoState ?? NoneTopScheduleState(),
         middleTransportInfoState =
-            middleTransportInfoState ?? AddScheduleMiddleTransportState(),
+            middleTransportInfoState ?? const MiddleTransportInfoState(),
         bottomScheduleListState =
             bottomScheduleListState ?? BottomScheduleListState();
 
@@ -39,7 +39,7 @@ final class HomeState extends Equatable {
     DaySchedule? daySchedule,
     CalendarState? calendarState,
     SealedTopScheduleState? topScheduleInfoState,
-    SealedMiddleTransportState? middleTransportInfoState,
+    MiddleTransportInfoState? middleTransportInfoState,
     BottomScheduleListState? bottomScheduleListState,
   }) =>
       HomeState(

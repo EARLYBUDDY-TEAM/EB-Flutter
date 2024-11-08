@@ -62,7 +62,7 @@ final class EBPathDTO {
       "payment": payment,
       "busTransitCount": busTransitCount,
       "subwayTransitCount": subwayTransitCount,
-      "ebSubPaths": ebSubPaths.map((s) => s.toMap()).toList(),
+      "subPaths": ebSubPaths.map((s) => s.toMap()).toList(),
     };
   }
 
@@ -144,6 +144,10 @@ final class EBSubPathDTO {
       "transports": transports?.map((t) => t.toMap()).toList(),
       "stations": stations?.map((s) => s.toMap()).toList(),
     };
+  }
+
+  static EBSubPathDTO mockDongToGwang() {
+    return EBSubPathDTO.fromJson(dummySubPathDongToGwangMap);
   }
 }
 

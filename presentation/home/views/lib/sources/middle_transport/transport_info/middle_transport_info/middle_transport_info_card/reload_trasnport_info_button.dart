@@ -1,11 +1,19 @@
-part of '../../../eb_home.dart';
+part of '../../../../../eb_home.dart';
 
-final class _ReloadTransportInfoButton extends StatefulWidget {
+final class _ReloadTransportInfoCardButton extends StatefulWidget {
+  final int index;
+
+  const _ReloadTransportInfoCardButton({
+    super.key,
+    required this.index,
+  });
+
   @override
-  State<StatefulWidget> createState() => _ReloadTransportInfoButtonState();
+  State<StatefulWidget> createState() => _ReloadTransportInfoCardButtonState();
 }
 
-final class _ReloadTransportInfoButtonState extends State
+final class _ReloadTransportInfoCardButtonState
+    extends State<_ReloadTransportInfoCardButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool absorbing = true;
@@ -40,12 +48,18 @@ final class _ReloadTransportInfoButtonState extends State
               setState(() {
                 absorbing = false;
               });
+
               _controller.reverse(from: 1.0);
-              context.read<HomeBloc>().add(PressReloadButton());
+              context
+                  .read<MiddleTranportBloc>()
+                  .add(PressReloadButton(selectedIndex: widget.index));
               await Future.delayed(const Duration(milliseconds: 1100));
-              setState(() {
-                absorbing = true;
-              });
+
+              if (mounted) {
+                setState(() {
+                  absorbing = true;
+                });
+              }
             },
             child: Container(
               width: 30,

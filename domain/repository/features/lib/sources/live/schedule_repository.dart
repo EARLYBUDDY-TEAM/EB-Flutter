@@ -45,7 +45,6 @@ final class ScheduleRepository {
     final pathDTO = ebPath?.toDTO();
     final pathMap = pathDTO?.toMap();
 
-    log(pathMap.toString());
     final request = AddScheduleRequest.update(
       accessToken: accessToken,
       scheduleMap: scheduleMap,

@@ -28,9 +28,10 @@ final class _HomeViewState extends State<HomeView> {
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
           cancelModalViewAction: () {
-            Navigator.of(context).popUntil(
-              (route) => route.settings.name == "HomeView",
-            );
+            // Navigator.of(context).popUntil(
+            //   (route) => route.settings.name == "HomeView",
+            // );
+            Navigator.of(context).pop();
           },
         )..add(OnAppearHomeView());
       },

@@ -1,4 +1,4 @@
-part of '../eb_home_feature.dart';
+part of '../../home_feature.dart';
 
 sealed class HomeEvent extends Equatable {}
 
@@ -49,20 +49,4 @@ final class SetCalendarState extends HomeEvent {
 
   @override
   List<Object?> get props => [calendarState];
-}
-
-final class PressReloadButton extends HomeEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-final class SelectTransport extends HomeEvent {
-  final Transport selectedTransport;
-
-  SelectTransport({
-    required this.selectedTransport,
-  });
-
-  @override
-  List<Object?> get props => [selectedTransport];
 }

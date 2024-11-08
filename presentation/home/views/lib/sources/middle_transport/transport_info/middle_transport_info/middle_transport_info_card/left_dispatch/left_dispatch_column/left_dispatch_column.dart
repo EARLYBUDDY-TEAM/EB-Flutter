@@ -1,13 +1,17 @@
-part of '../../../../../eb_home.dart';
+part of '../../../../../../../eb_home.dart';
 
 final class _LeftDispatchColumn extends StatelessWidget {
   final Transport? selectedTransport;
   final EBSubPath transportSubPath;
+  final int expectTotalMinute;
+  final int index;
 
   const _LeftDispatchColumn({
     super.key,
     required this.transportSubPath,
     required this.selectedTransport,
+    required this.expectTotalMinute,
+    required this.index,
   });
 
   @override
@@ -26,16 +30,16 @@ final class _LeftDispatchColumn extends StatelessWidget {
           selectedTransport: selectedTransport,
           busList: transportList.busList,
           transportSubPath: transportSubPath,
+          expectTotalMinute: expectTotalMinute,
+          index: index,
         );
       default:
-        return _LeftDispatchColumnContent(
-          selectedTransport: selectedTransport,
-          transportSubPath: transportSubPath,
-        );
+        break;
     }
     return _LeftDispatchColumnContent(
       selectedTransport: selectedTransport,
       transportSubPath: transportSubPath,
+      expectTotalMinute: expectTotalMinute,
     );
   }
 }

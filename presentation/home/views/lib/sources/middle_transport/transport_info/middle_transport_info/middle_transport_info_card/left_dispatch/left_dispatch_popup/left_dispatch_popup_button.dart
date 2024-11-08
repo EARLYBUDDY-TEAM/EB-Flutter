@@ -1,15 +1,19 @@
-part of '../../../../../eb_home.dart';
+part of '../../../../../../../eb_home.dart';
 
 final class _LeftDispatchPopupButtonBus extends StatefulWidget {
   final Transport? selectedTransport;
   final EBSubPath transportSubPath;
   final List<Bus> busList;
+  final int index;
+  final int expectTotalMinute;
 
   const _LeftDispatchPopupButtonBus({
     super.key,
     required this.selectedTransport,
     required this.busList,
     required this.transportSubPath,
+    required this.index,
+    required this.expectTotalMinute,
   });
 
   @override
@@ -43,10 +47,14 @@ final class _LeftDispatchPopupButtonStateBus
       child: _LeftDispatchColumnContent(
         selectedTransport: widget.selectedTransport,
         transportSubPath: widget.transportSubPath,
+        expectTotalMinute: widget.expectTotalMinute,
       ),
       onSelected: (selectedItem) {
-        context.read<HomeBloc>().add(
-              SelectTransport(selectedTransport: selectedItem),
+        context.read<MiddleTranportBloc>().add(
+              SelectTransport(
+                selectedTransport: selectedItem,
+                selectedIndex: widget.index,
+              ),
             );
       },
     );

@@ -33,6 +33,8 @@ final class EBSubPath extends Equatable {
     int? distance,
     TransportList? transportList,
     List<Station>? stationList,
+    DateTime? expectStartTime,
+    int? expectTotalTime,
   }) {
     return EBSubPath(
       type: type ?? this.type,
@@ -196,5 +198,10 @@ final class EBSubPath extends Equatable {
         Station(name: '수서역'),
       ],
     );
+  }
+
+  static EBSubPath mockDongToGwang() {
+    final dto = EBSubPathDTO.mockDongToGwang();
+    return EBSubPath.fromDTO(ebSubPathDTO: dto);
   }
 }

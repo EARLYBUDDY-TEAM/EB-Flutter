@@ -1,4 +1,4 @@
-part of '../../../../../eb_home.dart';
+part of '../../../../../../../eb_home.dart';
 
 final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
   final IconData icon;

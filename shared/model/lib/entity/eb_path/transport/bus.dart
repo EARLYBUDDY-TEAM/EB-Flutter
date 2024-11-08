@@ -58,6 +58,8 @@ final class Bus extends Transport {
   List<Object?> get props => [number, type];
 
   static Bus mock() {
-    return Bus(number: '301', type: '지선');
+    final random = Random();
+    final int num = 100 + random.nextInt(999 - 100);
+    return Bus(number: "$num", type: '지선');
   }
 }
