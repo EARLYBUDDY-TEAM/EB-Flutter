@@ -39,3 +39,14 @@ final class SelectTransport extends MiddleTransportEvent {
         selectedIndex,
       ];
 }
+
+final class ChangeTransportInfoCard extends MiddleTransportEvent {
+  final int expectIndex;
+
+  ChangeTransportInfoCard({
+    required this.expectIndex,
+  });
+
+  @override
+  List<Object?> get props => [expectIndex];
+}

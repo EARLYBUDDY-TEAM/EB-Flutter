@@ -1,6 +1,6 @@
 part of '../../../../../eb_home.dart';
 
-final class MiddleTransportInfoView extends StatelessWidget {
+final class MiddleTransportInfoView extends StatefulWidget {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
   final Stream<RealTimeInfo?> streamRealTimeInfo;
@@ -9,31 +9,78 @@ final class MiddleTransportInfoView extends StatelessWidget {
   const MiddleTransportInfoView({
     super.key,
     required this.currentIndex,
-    required this.horizontalPadding,
     required this.cardStateList,
     required this.streamRealTimeInfo,
+    required this.horizontalPadding,
   });
 
   @override
+  State<StatefulWidget> createState() => MiddleTransportInfoViewState();
+}
+
+final class MiddleTransportInfoViewState
+    extends State<MiddleTransportInfoView> {
+  late ScrollController _scrollController;
+  late int tmpIndex;
+
+  Function() _scrollListener({
+    required BuildContext context,
+    required double screenWidth,
+  }) {
+    return () {
+      final expectIndex = (_scrollController.offset / screenWidth).round();
+      if (expectIndex != tmpIndex) {
+        tmpIndex = expectIndex;
+        context.read<MiddleTranportBloc>().add(
+              ChangeTransportInfoCard(expectIndex: expectIndex),
+            );
+      }
+    };
+  }
+
+  @override
+  void didUpdateWidget(covariant MiddleTransportInfoView oldWidget) {
+    if (oldWidget.currentIndex != widget.currentIndex) {
+      tmpIndex = widget.currentIndex;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void initState() {
+    tmpIndex = widget.currentIndex;
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cardWidth = ScreenSize.width(context) - (20 * 2);
+    final screenWidth = ScreenSize.width(context);
+    final cardWidth = screenWidth - (20 * 2);
 
     return ListView.separated(
+      controller: _scrollController
+        ..addListener(
+          _scrollListener(
+            context: context,
+            screenWidth: screenWidth,
+          ),
+        ),
       physics: _SnapPageScrollPhysics(
-        elementPadding: horizontalPadding,
+        elementPadding: widget.horizontalPadding,
         elementWidth: cardWidth,
       ),
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      padding: EdgeInsets.symmetric(horizontal: widget.horizontalPadding),
       scrollDirection: Axis.horizontal,
       itemBuilder: _itemBuilder(itemWidth: cardWidth),
-      itemCount: cardStateList.length,
+      itemCount: widget.cardStateList.length,
       separatorBuilder: _separatorBuilder,
     );
   }
 
   Widget Function(BuildContext, int) get _separatorBuilder {
     return (context, index) => SizedBox(
-          width: horizontalPadding,
+          width: widget.horizontalPadding,
         );
   }
 
@@ -41,30 +88,21 @@ final class MiddleTransportInfoView extends StatelessWidget {
     required double itemWidth,
   }) {
     return (context, index) {
+      final streamRealTimeInfo =
+          (widget.currentIndex == index) ? widget.streamRealTimeInfo : null;
+
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: SizedBox(
           width: itemWidth,
           child: MiddleTransportInfoCard(
             index: index,
-            cardState: cardStateList[index],
-            streamRealTimeInfo:
-                (currentIndex == index) ? streamRealTimeInfo : null,
+            cardState: widget.cardStateList[index],
+            streamRealTimeInfo: streamRealTimeInfo,
           ),
         ),
       );
     };
-  }
-
-  Widget mockItem({
-    required double itemWidth,
-    required int index,
-  }) {
-    return Container(
-      width: itemWidth,
-      color: EBColors.random,
-      child: Center(child: Text("Index : $index")),
-    );
   }
 }
 

@@ -16,6 +16,10 @@ final class MiddleTranportBloc
       _onPressReloadButton,
       transformer: _throttle(),
     );
+    on<ChangeTransportInfoCard>(
+      _onChangeTransportInfoCard,
+      transformer: _debounce(),
+    );
   }
 }
 
@@ -214,5 +218,29 @@ extension on MiddleTranportBloc {
 
     final subPath = viewState.cardStateList[event.selectedIndex].subPath;
     _realTimeInfoSubject.add(subPath);
+  }
+}
+
+extension on MiddleTranportBloc {
+  void _onChangeTransportInfoCard(
+    ChangeTransportInfoCard event,
+    Emitter<MiddleTransportState> emit,
+  ) {
+    final viewState = state.viewState;
+
+    if (viewState is! InfoMiddleTransportState) {
+      return;
+    }
+
+    final currentIndex = event.expectIndex;
+    final newViewState = viewState.copyWith(currentIndex: currentIndex);
+
+    emit(state.copyWith(viewState: newViewState));
+  }
+
+  EventTransformer<Event> _debounce<Event>({
+    Duration duration = const Duration(milliseconds: 1500),
+  }) {
+    return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
   }
 }
