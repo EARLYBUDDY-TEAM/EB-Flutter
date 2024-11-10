@@ -137,7 +137,8 @@ extension on _LeftDispatchColumnContent {
   Widget _expectArrivalText() {
     const double fontSize = 13;
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           '약속장소에 ',
@@ -147,21 +148,25 @@ extension on _LeftDispatchColumnContent {
             fontSize: fontSize,
           ),
         ),
-        Text(
-          _expectArrivalString,
-          style: const TextStyle(
-            fontFamily: FontFamily.gmarketSansBold,
-            color: Colors.blue,
-            fontSize: fontSize,
-          ),
-        ),
-        const Text(
-          ' 도착 예정',
-          style: TextStyle(
-            fontFamily: FontFamily.gmarketSansRegular,
-            color: Colors.black87,
-            fontSize: fontSize,
-          ),
+        Row(
+          children: [
+            Text(
+              _expectArrivalString,
+              style: const TextStyle(
+                fontFamily: FontFamily.gmarketSansBold,
+                color: Colors.blue,
+                fontSize: fontSize,
+              ),
+            ),
+            const Text(
+              ' 도착 예정',
+              style: TextStyle(
+                fontFamily: FontFamily.gmarketSansRegular,
+                color: Colors.black87,
+                fontSize: fontSize,
+              ),
+            ),
+          ],
         ),
       ],
     );

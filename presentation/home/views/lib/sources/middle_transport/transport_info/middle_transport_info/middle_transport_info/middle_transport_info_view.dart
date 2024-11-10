@@ -5,14 +5,15 @@ final class MiddleTransportInfoView extends StatefulWidget {
   final List<InfoMiddleTransportCardState> cardStateList;
   final Stream<RealTimeInfo?> streamRealTimeInfo;
   final double horizontalPadding;
+  final double spacing = 15;
 
   const MiddleTransportInfoView({
     super.key,
     required this.currentIndex,
     required this.cardStateList,
     required this.streamRealTimeInfo,
-    required this.horizontalPadding,
-  });
+    required double horizontalPadding,
+  }) : horizontalPadding = horizontalPadding + 5;
 
   @override
   State<StatefulWidget> createState() => MiddleTransportInfoViewState();
@@ -56,7 +57,9 @@ final class MiddleTransportInfoViewState
   @override
   Widget build(BuildContext context) {
     final screenWidth = ScreenSize.width(context);
-    final cardWidth = screenWidth - (20 * 2);
+    final cardWidth = screenWidth - (widget.horizontalPadding * 2);
+    final rest =
+        screenWidth - widget.horizontalPadding - cardWidth - widget.spacing;
 
     return ListView.separated(
       controller: _scrollController
@@ -67,21 +70,22 @@ final class MiddleTransportInfoViewState
           ),
         ),
       physics: _SnapPageScrollPhysics(
-        elementPadding: widget.horizontalPadding,
+        elementPadding: widget.spacing,
         elementWidth: cardWidth,
+        rest: rest,
       ),
       padding: EdgeInsets.symmetric(horizontal: widget.horizontalPadding),
       scrollDirection: Axis.horizontal,
       itemBuilder: _itemBuilder(itemWidth: cardWidth),
       itemCount: widget.cardStateList.length,
-      separatorBuilder: _separatorBuilder,
+      separatorBuilder: _separatorBuilder(spacing: widget.spacing),
     );
   }
 
-  Widget Function(BuildContext, int) get _separatorBuilder {
-    return (context, index) => SizedBox(
-          width: widget.horizontalPadding,
-        );
+  Widget Function(BuildContext, int) _separatorBuilder({
+    required double spacing,
+  }) {
+    return (context, index) => SizedBox(width: spacing);
   }
 
   Widget? Function(BuildContext, int) _itemBuilder({
@@ -111,15 +115,18 @@ final class _SnapPageScrollPhysics extends ScrollPhysics {
     super.parent,
     required this.elementWidth,
     required this.elementPadding,
+    required this.rest,
   });
 
   final double elementWidth;
   final double elementPadding;
+  final double rest;
 
   @override
   _SnapPageScrollPhysics applyTo(ScrollPhysics? ancestor) {
     return _SnapPageScrollPhysics(
       parent: buildParent(ancestor),
+      rest: rest,
       elementWidth: elementWidth,
       elementPadding: elementPadding,
     );
@@ -133,7 +140,8 @@ final class _SnapPageScrollPhysics extends ScrollPhysics {
     final pageWidth = elementWidth + elementPadding;
     final page = position.pixels / pageWidth + velocity / 3000;
     final offset = (position.viewportDimension - elementWidth) / 2;
-    final target = page.roundToDouble() * pageWidth - offset + elementPadding;
+    final target =
+        page.roundToDouble() * pageWidth - offset + elementPadding + rest;
     return math.max(0, math.min(target, position.maxScrollExtent));
   }
 

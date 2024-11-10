@@ -83,10 +83,10 @@ final class _RightDisPatchColumnContent extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "$arrival1 전",
+          arrival1,
           style: const TextStyle(
             fontFamily: FontFamily.gmarketSansBold,
-            fontSize: 35,
+            fontSize: 40,
           ),
         ),
         const SizedBox(width: 3),

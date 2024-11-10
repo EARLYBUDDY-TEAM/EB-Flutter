@@ -65,6 +65,9 @@ final class _MiddleTransportViewState extends State<_MiddleTransportStateful> {
 
 final class _MiddleTransportCardContent extends StatelessWidget {
   final double horizontalPadding;
+  double cardHeight(double height) {
+    return height + 20;
+  }
 
   const _MiddleTransportCardContent({
     super.key,
@@ -74,7 +77,7 @@ final class _MiddleTransportCardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170,
+      height: cardHeight(160),
       child: BlocSelector<MiddleTranportBloc, MiddleTransportState,
           MiddleTransportViewState>(
         selector: (state) => state.viewState,

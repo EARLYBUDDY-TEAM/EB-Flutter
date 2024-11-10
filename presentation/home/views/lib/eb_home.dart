@@ -36,6 +36,7 @@ part 'sources/home_content/home_content.dart';
 part 'sources/middle_transport/add/middle_transport_add.dart';
 part 'sources/middle_transport/middle_transport_view.dart';
 part 'sources/middle_transport/transport_info/middle_transport_info/middle_transport_info/middle_transport_info_view.dart';
+part 'sources/middle_transport/transport_info/middle_transport_info/middle_transport_info/horizontal_scroll_card_view.dart';
 part 'sources/middle_transport/transport_info/middle_transport_info/middle_transport_info_card/middle_transport_info_card.dart';
 part 'sources/middle_transport/transport_info/middle_transport_info/middle_transport_info_card/left_dispatch/left_dispatch_column/left_dispatch_column.dart';
 part 'sources/middle_transport/transport_info/middle_transport_info/middle_transport_info_card/left_dispatch/left_dispatch_column/left_dispatch_column_content.dart';
