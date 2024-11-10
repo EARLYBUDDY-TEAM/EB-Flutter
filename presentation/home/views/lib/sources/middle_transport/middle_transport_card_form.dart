@@ -1,11 +1,15 @@
 part of '../../eb_home.dart';
 
 final class MiddleTransportCardForm extends StatelessWidget {
+  final double horizontalPadding;
+  final double verticalPadding;
   final Widget child;
 
   const MiddleTransportCardForm({
     super.key,
     required this.child,
+    this.horizontalPadding = 20,
+    this.verticalPadding = 20,
   });
 
   @override
@@ -25,7 +29,10 @@ final class MiddleTransportCardForm extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: verticalPadding,
+        ),
         child: child,
       ),
     );

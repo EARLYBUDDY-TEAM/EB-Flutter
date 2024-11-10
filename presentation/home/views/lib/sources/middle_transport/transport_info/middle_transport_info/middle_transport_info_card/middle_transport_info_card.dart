@@ -15,6 +15,8 @@ final class MiddleTransportInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MiddleTransportCardForm(
+      verticalPadding: 10,
+      horizontalPadding: 10,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

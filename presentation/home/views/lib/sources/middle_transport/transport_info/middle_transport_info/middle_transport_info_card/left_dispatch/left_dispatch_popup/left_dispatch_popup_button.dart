@@ -34,7 +34,7 @@ final class _LeftDispatchPopupButtonStateBus
     );
   }
 
-  PopupMenuButton<Bus> _popupMenuButton(BuildContext context) {
+  Widget _popupMenuButton(BuildContext context) {
     return PopupMenuButton<Bus>(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -44,10 +44,13 @@ final class _LeftDispatchPopupButtonStateBus
       constraints: const BoxConstraints(maxHeight: 300),
       tooltip: "",
       itemBuilder: _itemBuilder(context),
-      child: _LeftDispatchColumnContent(
-        selectedTransport: widget.selectedTransport,
-        transportSubPath: widget.transportSubPath,
-        expectTotalMinute: widget.expectTotalMinute,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: _LeftDispatchColumnContent(
+          selectedTransport: widget.selectedTransport,
+          transportSubPath: widget.transportSubPath,
+          expectTotalMinute: widget.expectTotalMinute,
+        ),
       ),
       onSelected: (selectedItem) {
         context.read<MiddleTranportBloc>().add(
