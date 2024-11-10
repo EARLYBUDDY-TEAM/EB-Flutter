@@ -1,14 +1,14 @@
 part of '../../middle_transport_feature.dart';
 
 final class MiddleTransportState extends Equatable {
-  final MiddleTransportViewState viewState;
+  final SealedMiddleTransportViewState viewState;
 
   MiddleTransportState({
-    MiddleTransportViewState? viewState,
+    SealedMiddleTransportViewState? viewState,
   }) : viewState = viewState ?? AddScheduleMiddleTransportState();
 
   MiddleTransportState copyWith({
-    MiddleTransportViewState? viewState,
+    SealedMiddleTransportViewState? viewState,
   }) =>
       MiddleTransportState(
         viewState: viewState ?? this.viewState,

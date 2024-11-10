@@ -59,6 +59,9 @@ class _ExpandedSectionState extends State<ExpandedSection>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-        axisAlignment: 1.0, sizeFactor: animation, child: widget.child);
+      axisAlignment: 1.0,
+      sizeFactor: animation,
+      child: widget.child,
+    );
   }
 }

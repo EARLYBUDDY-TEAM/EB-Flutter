@@ -44,23 +44,23 @@ final class _ReloadTransportInfoCardButtonState
           shape: const CircleBorder(),
           clipBehavior: Clip.hardEdge,
           child: InkWell(
-            onTap: () async {
-              setState(() {
-                absorbing = false;
-              });
+            // onTap: () async {
+            //   setState(() {
+            //     absorbing = false;
+            //   });
 
-              _controller.reverse(from: 1.0);
-              context
-                  .read<MiddleTranportBloc>()
-                  .add(PressReloadButton(selectedIndex: widget.index));
-              await Future.delayed(const Duration(milliseconds: 1100));
+            //   _controller.reverse(from: 1.0);
+            //   context
+            //       .read<MiddleTranportBloc>()
+            //       .add(PressReloadButton(selectedIndex: widget.index));
+            //   await Future.delayed(const Duration(milliseconds: 1100));
 
-              if (mounted) {
-                setState(() {
-                  absorbing = true;
-                });
-              }
-            },
+            //   if (mounted) {
+            //     setState(() {
+            //       absorbing = true;
+            //     });
+            //   }
+            // },
             child: Container(
               width: 30,
               decoration: BoxDecoration(

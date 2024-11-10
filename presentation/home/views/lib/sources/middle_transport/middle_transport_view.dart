@@ -14,7 +14,7 @@ final class _MiddleTransportView extends StatelessWidget {
       selector: (state) => state.middleTransportInfoState,
       builder: (context, middleState) {
         final todayCloseSchedulePath = middleState.todayCloseSchedulePath;
-        return _MiddleTransportStateful(
+        return _MiddleTransportStatefulView(
           schedulePath: todayCloseSchedulePath,
           horizontalPadding: horizontalPadding,
         );
@@ -23,21 +23,22 @@ final class _MiddleTransportView extends StatelessWidget {
   }
 }
 
-final class _MiddleTransportStateful extends StatefulWidget {
+final class _MiddleTransportStatefulView extends StatefulWidget {
   final SchedulePath? schedulePath;
   final double horizontalPadding;
 
-  const _MiddleTransportStateful({
+  const _MiddleTransportStatefulView({
     super.key,
     required this.schedulePath,
     required this.horizontalPadding,
   });
 
   @override
-  State<StatefulWidget> createState() => _MiddleTransportViewState();
+  State<StatefulWidget> createState() => _MiddleTransportStatefulViewState();
 }
 
-final class _MiddleTransportViewState extends State<_MiddleTransportStateful> {
+final class _MiddleTransportStatefulViewState
+    extends State<_MiddleTransportStatefulView> {
   late MiddleTranportBloc bloc;
   var isFirst = true;
 
@@ -79,7 +80,7 @@ final class _MiddleTransportCardContent extends StatelessWidget {
     return SizedBox(
       height: cardHeight(160),
       child: BlocSelector<MiddleTranportBloc, MiddleTransportState,
-          MiddleTransportViewState>(
+          SealedMiddleTransportViewState>(
         selector: (state) => state.viewState,
         builder: (context, viewState) {
           switch (viewState) {
@@ -105,7 +106,7 @@ final class _MiddleTransportCardContent extends StatelessWidget {
               final currentIndex = viewState.currentIndex;
               final streamRealTimeInfo = viewState.streamRealTimeInfo;
 
-              return MiddleTransportInfoView(
+              return MiddleTransportInfoStatefulView(
                 currentIndex: currentIndex,
                 streamRealTimeInfo: streamRealTimeInfo,
                 cardStateList: cardStateList,

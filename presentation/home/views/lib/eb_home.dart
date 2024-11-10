@@ -15,6 +15,7 @@ import 'package:eb_search_place/eb_search_place.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:eb_repository_interface/eb_repository_interface.dart';

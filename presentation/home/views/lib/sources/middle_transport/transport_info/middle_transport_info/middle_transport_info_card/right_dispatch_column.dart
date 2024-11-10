@@ -58,14 +58,29 @@ final class _RightDisPatchColumnContent extends StatelessWidget {
     final arrival1 = convertArrivalIntToString(arrivalSec1);
     final arrival2 = convertArrivalIntToString(arrivalSec2);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        _arrival1Text(arrival1),
-        const SizedBox(height: 5),
-        _arrival2TextAndReloadButton(arrival2),
-      ],
+    return Material(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () {
+          log("checkckck");
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              _arrival1Text(arrival1),
+              const SizedBox(height: 5),
+              _arrival2TextAndReloadButton(arrival2),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

@@ -1,28 +1,30 @@
 part of '../../../../../eb_home.dart';
 
-final class MiddleTransportInfoView extends StatefulWidget {
+final class MiddleTransportInfoStatefulView extends StatefulWidget {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
   final Stream<RealTimeInfo?> streamRealTimeInfo;
   final double horizontalPadding;
-  final double spacing = 15;
 
-  const MiddleTransportInfoView({
+  const MiddleTransportInfoStatefulView({
     super.key,
     required this.currentIndex,
     required this.cardStateList,
     required this.streamRealTimeInfo,
     required double horizontalPadding,
-  }) : horizontalPadding = horizontalPadding + 5;
+  }) : horizontalPadding = horizontalPadding + 3;
 
   @override
-  State<StatefulWidget> createState() => MiddleTransportInfoViewState();
+  State<StatefulWidget> createState() => MiddleTransportInfoStatefulViewState();
 }
 
-final class MiddleTransportInfoViewState
-    extends State<MiddleTransportInfoView> {
+final class MiddleTransportInfoStatefulViewState
+    extends State<MiddleTransportInfoStatefulView>
+    with TickerProviderStateMixin {
   late ScrollController _scrollController;
   late int tmpIndex;
+
+  final double spacing = 8;
 
   Function() _scrollListener({
     required BuildContext context,
@@ -39,8 +41,9 @@ final class MiddleTransportInfoViewState
     };
   }
 
+  // 필요함??
   @override
-  void didUpdateWidget(covariant MiddleTransportInfoView oldWidget) {
+  void didUpdateWidget(covariant MiddleTransportInfoStatefulView oldWidget) {
     if (oldWidget.currentIndex != widget.currentIndex) {
       tmpIndex = widget.currentIndex;
     }
@@ -55,11 +58,16 @@ final class MiddleTransportInfoViewState
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = ScreenSize.width(context);
     final cardWidth = screenWidth - (widget.horizontalPadding * 2);
-    final rest =
-        screenWidth - widget.horizontalPadding - cardWidth - widget.spacing;
+    final rest = screenWidth - widget.horizontalPadding - cardWidth - spacing;
 
     return ListView.separated(
       controller: _scrollController
@@ -70,7 +78,7 @@ final class MiddleTransportInfoViewState
           ),
         ),
       physics: _SnapPageScrollPhysics(
-        elementPadding: widget.spacing,
+        elementPadding: spacing,
         elementWidth: cardWidth,
         rest: rest,
       ),
@@ -78,7 +86,7 @@ final class MiddleTransportInfoViewState
       scrollDirection: Axis.horizontal,
       itemBuilder: _itemBuilder(itemWidth: cardWidth),
       itemCount: widget.cardStateList.length,
-      separatorBuilder: _separatorBuilder(spacing: widget.spacing),
+      separatorBuilder: _separatorBuilder(spacing: spacing),
     );
   }
 
@@ -99,7 +107,7 @@ final class MiddleTransportInfoViewState
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: SizedBox(
           width: itemWidth,
-          child: MiddleTransportInfoCard(
+          child: _MiddleTransportInfoCardStatefulView(
             index: index,
             cardState: widget.cardStateList[index],
             streamRealTimeInfo: streamRealTimeInfo,

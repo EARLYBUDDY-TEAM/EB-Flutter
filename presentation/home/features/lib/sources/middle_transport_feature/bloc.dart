@@ -130,7 +130,7 @@ extension on MiddleTranportBloc {
     return currentIndex;
   }
 
-  MiddleTransportViewState initMiddleTransportViewState({
+  SealedMiddleTransportViewState initMiddleTransportViewState({
     required SchedulePath? schedulePath,
   }) {
     if (schedulePath == null) {
@@ -233,13 +233,19 @@ extension on MiddleTranportBloc {
     }
 
     final currentIndex = event.expectIndex;
-    final newViewState = viewState.copyWith(currentIndex: currentIndex);
+
+    final subPath = viewState.cardStateList[currentIndex].subPath;
+    final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: subPath);
+    final newViewState = viewState.copyWith(
+      currentIndex: currentIndex,
+      streamRealTimeInfo: streamRealTimeInfo,
+    );
 
     emit(state.copyWith(viewState: newViewState));
   }
 
   EventTransformer<Event> _debounce<Event>({
-    Duration duration = const Duration(milliseconds: 1500),
+    Duration duration = const Duration(milliseconds: 1000),
   }) {
     return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
   }
