@@ -39,22 +39,24 @@ final class _MiddleTransportStatefulView extends StatefulWidget {
 
 final class _MiddleTransportStatefulViewState
     extends State<_MiddleTransportStatefulView> {
-  late MiddleTranportBloc bloc;
-  var isFirst = true;
+  MiddleTranportBloc? bloc;
+
+  @override
+  void didUpdateWidget(covariant _MiddleTransportStatefulView oldWidget) {
+    if ((oldWidget.schedulePath != widget.schedulePath) && (bloc != null)) {
+      bloc!.add(SetupMiddleTransport(schedulePath: widget.schedulePath));
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (!isFirst) {
-      bloc.add(SetupMiddleTransport(schedulePath: widget.schedulePath));
-    }
-
     return BlocProvider<MiddleTranportBloc>(
       create: (context) {
         final tmpBloc = MiddleTranportBloc(
           homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
         )..add(SetupMiddleTransport(schedulePath: widget.schedulePath));
         bloc = tmpBloc;
-        isFirst = false;
         return tmpBloc;
       },
       child: _MiddleTransportCardContent(
