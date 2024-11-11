@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:eb_resource/eb_resource.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,3 +26,4 @@ part 'sources/screen_size.dart';
 part 'sources/decorations/eb_box_shadow.dart';
 part 'sources/helper_modal_bottom_sheet.dart';
 part 'sources/type_casting.dart';
+part 'sources/snap_card_view.dart';

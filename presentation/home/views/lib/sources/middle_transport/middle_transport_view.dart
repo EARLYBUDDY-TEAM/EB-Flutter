@@ -108,7 +108,7 @@ final class _MiddleTransportCardContent extends StatelessWidget {
               final currentIndex = viewState.currentIndex;
               final streamRealTimeInfo = viewState.streamRealTimeInfo;
 
-              return MiddleTransportInfoStatefulView(
+              return MiddleTransportInfoView(
                 currentIndex: currentIndex,
                 streamRealTimeInfo: streamRealTimeInfo,
                 cardStateList: cardStateList,
