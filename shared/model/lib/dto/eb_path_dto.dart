@@ -69,6 +69,10 @@ final class EBPathDTO {
   static EBPathDTO mockDongToGwang() {
     return EBPathDTO.fromJson(dummyPathDongToGwangMap);
   }
+
+  static EBPathDTO mockGasanToSuwon() {
+    return EBPathDTO.fromJson(dummyPathGasanToSuwonMap);
+  }
 }
 
 final class EBSubPathDTO {
@@ -148,6 +152,10 @@ final class EBSubPathDTO {
 
   static EBSubPathDTO mockDongToGwang() {
     return EBSubPathDTO.fromJson(dummySubPathDongToGwangMap);
+  }
+
+  static EBSubPathDTO mockGasanToSuwon() {
+    return EBSubPathDTO.fromJson(dummySubPathGasanToSuwonMap);
   }
 }
 

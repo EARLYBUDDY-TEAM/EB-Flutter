@@ -18,28 +18,23 @@ final class _LeftDispatchColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final transportList = transportSubPath.transportList;
 
-    switch (transportList) {
-      case SubwayList():
-        return const Text("subway");
-      case BusList():
-        final busList = transportList.busList;
-        if (busList.isEmpty) {
-          break;
-        }
-        return _LeftDispatchPopupButtonBus(
-          selectedTransport: selectedTransport,
-          busList: transportList.busList,
-          transportSubPath: transportSubPath,
-          expectTotalMinute: expectTotalMinute,
-          index: index,
-        );
-      default:
-        break;
-    }
-    return _LeftDispatchColumnContent(
-      selectedTransport: selectedTransport,
-      transportSubPath: transportSubPath,
-      expectTotalMinute: expectTotalMinute,
-    );
+    final content = (transportList is BusList)
+        ? _LeftDispatchPopupButtonBus(
+            selectedTransport: selectedTransport,
+            busList: transportList.busList,
+            transportSubPath: transportSubPath,
+            expectTotalMinute: expectTotalMinute,
+            index: index,
+          )
+        : Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: _LeftDispatchColumnContent(
+              selectedTransport: selectedTransport,
+              transportSubPath: transportSubPath,
+              expectTotalMinute: expectTotalMinute,
+            ),
+          );
+
+    return content;
   }
 }

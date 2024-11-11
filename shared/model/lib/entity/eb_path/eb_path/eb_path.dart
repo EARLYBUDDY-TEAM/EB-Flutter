@@ -112,4 +112,9 @@ final class EBPath extends Equatable {
     final dto = EBPathDTO.mockDongToGwang();
     return EBPath.fromDTO(ebPathDTO: dto);
   }
+
+  static EBPath mockGasanToSuwon() {
+    final dto = EBPathDTO.mockGasanToSuwon();
+    return EBPath.fromDTO(ebPathDTO: dto);
+  }
 }

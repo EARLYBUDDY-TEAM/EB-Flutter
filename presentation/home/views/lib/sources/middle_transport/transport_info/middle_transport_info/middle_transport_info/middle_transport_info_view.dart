@@ -21,13 +21,21 @@ final class MiddleTransportInfoView extends StatelessWidget {
       listHorizontalPadding: horizontalPadding,
       cardSpacing: 3,
       initialIndex: currentIndex,
-      onChangeIndex: (index) {
-        context.read<MiddleTranportBloc>().add(
-              ChangeTransportInfoCard(expectIndex: index),
-            );
-      },
+      onChangeIndex: (index) => _onChangeIndex(
+        context: context,
+        index: index,
+      ),
       itemBuilder: _itemBuilder,
     );
+  }
+
+  void _onChangeIndex({
+    required BuildContext context,
+    required int index,
+  }) {
+    context.read<MiddleTranportBloc>().add(
+          ChangeTransportInfoCard(expectIndex: index),
+        );
   }
 
   Widget? Function(BuildContext, int) _itemBuilder(

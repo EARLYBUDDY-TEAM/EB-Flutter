@@ -89,11 +89,6 @@ final class _MiddleTransportInfoCardStatefulViewState
                   expectTotalMinute: widget.cardState.expectTotalMinute,
                   index: widget.index,
                 ),
-                // _RightDisPatchColumn(
-                //   index: index,
-                //   streamRealTimeInfo: streamRealTimeInfo,
-                // ),
-
                 _RightDisPatchColumnContent(
                   index: widget.index,
                   arrivalSec1: arrivalSec1,
