@@ -3,7 +3,7 @@ part of '../../../../../eb_home.dart';
 final class _MiddleTransportInfoCardStatefulView extends StatefulWidget {
   final int index;
   final InfoMiddleTransportCardState cardState;
-  final Stream<RealTimeInfo?>? streamRealTimeInfo;
+  final Stream<RealTimeInfoMap>? streamRealTimeInfo;
 
   const _MiddleTransportInfoCardStatefulView({
     super.key,
@@ -41,14 +41,13 @@ final class _MiddleTransportInfoCardStatefulViewState
   }
 
   _setScaleEffect({
-    required int? arrivalSec1,
-    required int? arrivalSec2,
+    required RealTimeInfoMap? realTimeInfoList,
   }) {
     if (!isFirstStream) {
       return;
     }
 
-    if ((arrivalSec1 == null) || (arrivalSec2 == null)) {
+    if ((realTimeInfoList == null) || (realTimeInfoList.isEmpty)) {
       return;
     }
 
@@ -69,16 +68,10 @@ final class _MiddleTransportInfoCardStatefulViewState
       child: StreamBuilder(
         stream: widget.streamRealTimeInfo,
         builder: (context, snapshot) {
-          final arrivalSec1 = snapshot.data?.arrivalSec1;
-          final arrivalSec2 = snapshot.data?.arrivalSec2;
-          final realTimeInfo = _makeRealTimeInfo(
-            arrivalSec1: arrivalSec1,
-            arrivalSec2: arrivalSec2,
-          );
+          final realTimeInfoMap = snapshot.data;
 
           _setScaleEffect(
-            arrivalSec1: arrivalSec1,
-            arrivalSec2: arrivalSec2,
+            realTimeInfoList: realTimeInfoMap,
           );
 
           return MiddleTransportCardForm(
@@ -95,7 +88,9 @@ final class _MiddleTransportInfoCardStatefulViewState
                 ),
                 _RightDisPatchColumn(
                   index: widget.index,
-                  realTimeInfo: realTimeInfo,
+                  realTimeInfo: _getRealTimeInfo(
+                    realTimeInfoMap: realTimeInfoMap,
+                  ),
                 ),
               ],
             ),
@@ -105,16 +100,25 @@ final class _MiddleTransportInfoCardStatefulViewState
     );
   }
 
-  RealTimeInfo? _makeRealTimeInfo({
-    required int? arrivalSec1,
-    required int? arrivalSec2,
+  RealTimeInfo? _getRealTimeInfo({
+    required RealTimeInfoMap? realTimeInfoMap,
   }) {
-    if ((arrivalSec1 == null) || (arrivalSec2 == null)) {
+    if (realTimeInfoMap == null) {
       return null;
     }
-    return RealTimeInfo(
-      arrivalSec1: arrivalSec1,
-      arrivalSec2: arrivalSec2,
-    );
+
+    final selectedTransport = widget.cardState.selectedTransport;
+    if (selectedTransport == null) {
+      return null;
+    }
+    String transportNumber;
+    switch (selectedTransport) {
+      case Subway():
+        transportNumber = selectedTransport.type;
+      case Bus():
+        transportNumber = selectedTransport.number;
+    }
+
+    return realTimeInfoMap[transportNumber];
   }
 }

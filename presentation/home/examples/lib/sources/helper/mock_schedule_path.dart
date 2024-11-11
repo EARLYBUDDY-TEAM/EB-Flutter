@@ -44,10 +44,10 @@ List<SchedulePath> mockSchedulePath() {
   final today = DateTime.now().add(const Duration(hours: 2));
 
   final schedule = Schedule.mock(time: today);
-  // final tmpEBPath = EBPath.mockDongToGwang();
-  // final tmpSubPath = EBSubPath.mockDongToGwang();
-  final tmpEBPath = EBPath.mockGasanToSuwon();
-  final tmpSubPath = EBSubPath.mockGasanToSuwon();
+  final tmpEBPath = EBPath.mockDongToGwang();
+  final tmpSubPath = EBSubPath.mockDongToGwang();
+  // final tmpEBPath = EBPath.mockGasanToSuwon();
+  // final tmpSubPath = EBSubPath.mockGasanToSuwon();
   final ebSubPathList = [
     tmpSubPath,
     tmpSubPath,

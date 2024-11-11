@@ -48,12 +48,20 @@ final class HomeRepository implements HomeRepositoryAB {
     switch (result) {
       case Success():
         final SuccessResponse successResponse = result.success;
-        final RealTimeInfoDTO realTimeInfoDTO = successResponse.model;
-        final realTimeInfo =
-            RealTimeInfo.fromDTO(realTimeInfoDTO: realTimeInfoDTO);
+        final RealTimeInfoDTOList realTimeInfoDTOList = successResponse.model;
+        final dtoList = realTimeInfoDTOList.realTimeInfoDTOList;
+
+        final RealTimeInfoMap realTimeInfoMap = {
+          for (var r in dtoList)
+            r.transportNumber: RealTimeInfo.initWithOptional(
+              arrivalSec1: r.arrivalSec1,
+              arrivalSec2: r.arrivalSec2,
+            )
+        };
+
         final newSuccessResponse = SuccessResponse(
           statusCode: successResponse.statusCode,
-          model: realTimeInfo,
+          model: realTimeInfoMap,
         );
         final newResult = Success(success: newSuccessResponse);
         return newResult;

@@ -25,32 +25,34 @@ final class MiddleTranportBloc
 }
 
 extension on MiddleTranportBloc {
-  Future<RealTimeInfo?> getRealTimeInfo({
+  Future<RealTimeInfoMap> getRealTimeInfo({
     required EBSubPath subPath,
   }) async {
-    await Future.delayed(const Duration(seconds: 1));
-    return RealTimeInfo.mock();
+    final stationID = subPath.startStationID;
+    if (stationID == null) {
+      return {};
+    }
 
-    // final type = subPath.type;
-    // Result result;
-    // switch (type) {
-    //   case 1:
-    //     const stationID = 0;
-    //     result =
-    //         await _homeRepository.getSubwayRealTimeInfo(stationID: stationID);
-    //   case 2:
-    //     const stationID = 0;
-    //     result = await _homeRepository.getBusRealTimeInfo(stationID: stationID);
-    //   default:
-    //     return null;
-    // }
+    final type = subPath.type;
+    Result result;
+    switch (type) {
+      case 1:
+        result =
+            await _homeRepository.getSubwayRealTimeInfo(stationID: stationID);
+      case 2:
+        result = await _homeRepository.getBusRealTimeInfo(stationID: stationID);
+      default:
+        return {};
+    }
 
-    // switch (result) {
-    //   case Success():
-    //     return result.success.model;
-    //   case Failure():
-    //     return null;
-    // }
+    switch (result) {
+      case Success():
+        final RealTimeInfoMap realTimeInfoList = result.success.model;
+        return realTimeInfoList;
+
+      case Failure():
+        return {};
+    }
   }
 
   Future<void> _tearDownStream() async {
@@ -63,7 +65,7 @@ extension on MiddleTranportBloc {
     });
   }
 
-  Future<Stream<RealTimeInfo?>> _makeStreamRealTimeInfo({
+  Future<Stream<RealTimeInfoMap>> _makeStreamRealTimeInfo({
     required EBSubPath subPath,
   }) async {
     await _tearDownStream();

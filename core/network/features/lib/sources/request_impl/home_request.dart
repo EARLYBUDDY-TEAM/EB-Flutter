@@ -17,13 +17,12 @@ final class HomeRequest {
     );
   }
 
-  static ApiRequest<RealTimeInfoDTO> getBusRealTimeInfo({
-    required int stationID,
-  }) {
-    const path = "/home/get_info_with_bus_station_id";
+  static ApiRequest<RealTimeInfoDTOList> getBusRealTimeInfo(
+      {required int stationID, get_bus_realtime_info}) {
+    const path = "/realtime/get_bus_realtime_info";
     final query = {"station_id": "$stationID"};
-    RealTimeInfoDTO converter(dynamic responseData) =>
-        RealTimeInfoDTO.fromJson(responseData);
+    RealTimeInfoDTOList converter(dynamic responseData) =>
+        RealTimeInfoDTOList.fromJson(responseData);
 
     return ApiRequest(
       path: path,

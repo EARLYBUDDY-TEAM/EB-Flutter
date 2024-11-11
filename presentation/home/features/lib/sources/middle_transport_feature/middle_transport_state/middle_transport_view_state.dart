@@ -5,7 +5,7 @@ sealed class SealedMiddleTransportViewState extends Equatable {}
 final class InfoMiddleTransportState extends SealedMiddleTransportViewState {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
-  final Stream<RealTimeInfo?> streamRealTimeInfo;
+  final Stream<RealTimeInfoMap> streamRealTimeInfo;
   final bool reloadTrigger;
 
   InfoMiddleTransportState({
@@ -18,7 +18,7 @@ final class InfoMiddleTransportState extends SealedMiddleTransportViewState {
   InfoMiddleTransportState copyWith({
     int? currentIndex,
     List<InfoMiddleTransportCardState>? cardStateList,
-    Stream<RealTimeInfo?>? streamRealTimeInfo,
+    Stream<RealTimeInfoMap>? streamRealTimeInfo,
     bool? reloadTrigger,
   }) {
     return InfoMiddleTransportState(

@@ -5,8 +5,10 @@ final class MockHomeView extends StatelessWidget {
   final _homeDelegate = HomeDelegate();
   final _findrouteDelegate = FindRouteDelegate();
   final _addScheduleDelegate = AddScheduleDelegate();
-  final HomeRepositoryAB _homeRepository =
-      TestHomeRepository(schedulePathList: mockSchedulePath());
+  // final HomeRepositoryAB _homeRepository =
+  //     TestHomeRepository(schedulePathList: mockSchedulePath());
+
+  final HomeRepositoryAB _homeRepository = HomeRepository();
   final _scheduleRepository = ScheduleRepository();
   final _findrouteRepository = FindRouteRepository();
   late final _tokenEvent = TokenEvent(
