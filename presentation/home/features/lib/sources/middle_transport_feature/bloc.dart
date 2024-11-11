@@ -4,7 +4,8 @@ final class MiddleTranportBloc
     extends Bloc<MiddleTransportEvent, MiddleTransportState> {
   final HomeRepositoryAB _homeRepository;
 
-  late BehaviorSubject<EBSubPath> _realTimeInfoSubject;
+  BehaviorSubject<EBSubPath>? _realTimeInfoSubject;
+  StreamSubscription<dynamic>? _timerSubscription;
 
   MiddleTranportBloc({
     required HomeRepositoryAB homeRepository,
@@ -52,20 +53,37 @@ extension on MiddleTranportBloc {
     // }
   }
 
-  Stream<RealTimeInfo?> _makeStreamRealTimeInfo({
-    required EBSubPath subPath,
-  }) {
-    _realTimeInfoSubject = BehaviorSubject<EBSubPath>.seeded(subPath);
+  Future<void> _tearDownStream() async {
+    await _realTimeInfoSubject?.close().then((_) {
+      _realTimeInfoSubject = null;
+    });
 
-    final streamRealtimeInfo = _realTimeInfoSubject.flatMap(
+    await _timerSubscription?.cancel().then((_) {
+      _timerSubscription = null;
+    });
+  }
+
+  Future<Stream<RealTimeInfo?>> _makeStreamRealTimeInfo({
+    required EBSubPath subPath,
+  }) async {
+    await _tearDownStream();
+
+    final newRealTimeInfoSubject = BehaviorSubject<EBSubPath>.seeded(subPath);
+    _realTimeInfoSubject = newRealTimeInfoSubject;
+
+    final streamRealtimeInfo = _realTimeInfoSubject!.flatMap(
       (subPath) async* {
         final fetchedRealTimeInfo = await getRealTimeInfo(subPath: subPath);
         yield fetchedRealTimeInfo;
       },
     );
 
-    var stream = Stream.periodic(const Duration(seconds: 15));
-    stream.listen((_) => _realTimeInfoSubject.add(subPath));
+    _timerSubscription =
+        Stream.periodic(const Duration(seconds: 10)).listen((_) {
+      if (_realTimeInfoSubject != null) {
+        _realTimeInfoSubject!.add(subPath);
+      }
+    });
 
     return streamRealtimeInfo;
   }
@@ -130,9 +148,9 @@ extension on MiddleTranportBloc {
     return currentIndex;
   }
 
-  SealedMiddleTransportViewState initMiddleTransportViewState({
+  Future<SealedMiddleTransportViewState> initMiddleTransportViewState({
     required SchedulePath? schedulePath,
-  }) {
+  }) async {
     if (schedulePath == null) {
       return AddScheduleMiddleTransportState();
     }
@@ -155,7 +173,7 @@ extension on MiddleTranportBloc {
       cardStateList: cardStateList,
     );
     final curInfoMiddleTransportCardState = cardStateList[currentIndex];
-    final streamRealTimeInfo = _makeStreamRealTimeInfo(
+    final streamRealTimeInfo = await _makeStreamRealTimeInfo(
       subPath: curInfoMiddleTransportCardState.subPath,
     );
 
@@ -166,12 +184,13 @@ extension on MiddleTranportBloc {
     );
   }
 
-  void _onSetupMiddleTransport(
+  Future<void> _onSetupMiddleTransport(
     SetupMiddleTransport event,
     Emitter<MiddleTransportState> emit,
-  ) {
+  ) async {
     final schedulePath = event.schedulePath;
-    final viewState = initMiddleTransportViewState(schedulePath: schedulePath);
+    final viewState =
+        await initMiddleTransportViewState(schedulePath: schedulePath);
     emit(state.copyWith(viewState: viewState));
   }
 }
@@ -216,16 +235,20 @@ extension on MiddleTranportBloc {
       return;
     }
 
+    if (_realTimeInfoSubject == null) {
+      return;
+    }
+
     final subPath = viewState.cardStateList[event.selectedIndex].subPath;
-    _realTimeInfoSubject.add(subPath);
+    _realTimeInfoSubject!.add(subPath);
   }
 }
 
 extension on MiddleTranportBloc {
-  void _onChangeTransportInfoCard(
+  Future<void> _onChangeTransportInfoCard(
     ChangeTransportInfoCard event,
     Emitter<MiddleTransportState> emit,
-  ) {
+  ) async {
     final viewState = state.viewState;
 
     if (viewState is! InfoMiddleTransportState) {
@@ -233,9 +256,8 @@ extension on MiddleTranportBloc {
     }
 
     final currentIndex = event.expectIndex;
-
     final subPath = viewState.cardStateList[currentIndex].subPath;
-    final streamRealTimeInfo = _makeStreamRealTimeInfo(subPath: subPath);
+    final streamRealTimeInfo = await _makeStreamRealTimeInfo(subPath: subPath);
     final newViewState = viewState.copyWith(
       currentIndex: currentIndex,
       streamRealTimeInfo: streamRealTimeInfo,

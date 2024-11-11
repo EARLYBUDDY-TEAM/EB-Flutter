@@ -14,7 +14,7 @@ final class _MiddleTransportView extends StatelessWidget {
       selector: (state) => state.middleTransportInfoState,
       builder: (context, middleState) {
         final todayCloseSchedulePath = middleState.todayCloseSchedulePath;
-        return _MiddleTransportStatefulView(
+        return _MiddleTransportBlocView(
           schedulePath: todayCloseSchedulePath,
           horizontalPadding: horizontalPadding,
         );
@@ -23,26 +23,26 @@ final class _MiddleTransportView extends StatelessWidget {
   }
 }
 
-final class _MiddleTransportStatefulView extends StatefulWidget {
+final class _MiddleTransportBlocView extends StatefulWidget {
   final SchedulePath? schedulePath;
   final double horizontalPadding;
 
-  const _MiddleTransportStatefulView({
+  const _MiddleTransportBlocView({
     super.key,
     required this.schedulePath,
     required this.horizontalPadding,
   });
 
   @override
-  State<StatefulWidget> createState() => _MiddleTransportStatefulViewState();
+  State<StatefulWidget> createState() => _MiddleTransportBlocViewState();
 }
 
-final class _MiddleTransportStatefulViewState
-    extends State<_MiddleTransportStatefulView> {
+final class _MiddleTransportBlocViewState
+    extends State<_MiddleTransportBlocView> {
   MiddleTranportBloc? bloc;
 
   @override
-  void didUpdateWidget(covariant _MiddleTransportStatefulView oldWidget) {
+  void didUpdateWidget(covariant _MiddleTransportBlocView oldWidget) {
     if ((oldWidget.schedulePath != widget.schedulePath) && (bloc != null)) {
       bloc!.add(SetupMiddleTransport(schedulePath: widget.schedulePath));
     }
