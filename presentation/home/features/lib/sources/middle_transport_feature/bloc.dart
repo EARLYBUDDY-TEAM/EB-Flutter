@@ -79,7 +79,7 @@ extension on MiddleTranportBloc {
     );
 
     _timerSubscription =
-        Stream.periodic(const Duration(seconds: 10)).listen((_) {
+        Stream.periodic(const Duration(seconds: 15)).listen((_) {
       if (_realTimeInfoSubject != null) {
         _realTimeInfoSubject!.add(subPath);
       }

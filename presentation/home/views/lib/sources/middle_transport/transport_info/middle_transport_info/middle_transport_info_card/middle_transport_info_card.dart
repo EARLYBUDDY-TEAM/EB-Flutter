@@ -71,6 +71,10 @@ final class _MiddleTransportInfoCardStatefulViewState
         builder: (context, snapshot) {
           final arrivalSec1 = snapshot.data?.arrivalSec1;
           final arrivalSec2 = snapshot.data?.arrivalSec2;
+          final realTimeInfo = _makeRealTimeInfo(
+            arrivalSec1: arrivalSec1,
+            arrivalSec2: arrivalSec2,
+          );
 
           _setScaleEffect(
             arrivalSec1: arrivalSec1,
@@ -89,16 +93,28 @@ final class _MiddleTransportInfoCardStatefulViewState
                   expectTotalMinute: widget.cardState.expectTotalMinute,
                   index: widget.index,
                 ),
-                _RightDisPatchColumnContent(
+                _RightDisPatchColumn(
                   index: widget.index,
-                  arrivalSec1: arrivalSec1,
-                  arrivalSec2: arrivalSec2,
+                  realTimeInfo: realTimeInfo,
                 ),
               ],
             ),
           );
         },
       ),
+    );
+  }
+
+  RealTimeInfo? _makeRealTimeInfo({
+    required int? arrivalSec1,
+    required int? arrivalSec2,
+  }) {
+    if ((arrivalSec1 == null) || (arrivalSec2 == null)) {
+      return null;
+    }
+    return RealTimeInfo(
+      arrivalSec1: arrivalSec1,
+      arrivalSec2: arrivalSec2,
     );
   }
 }

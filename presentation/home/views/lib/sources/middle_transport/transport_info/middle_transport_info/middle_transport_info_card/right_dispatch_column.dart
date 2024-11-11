@@ -1,42 +1,41 @@
 part of '../../../../../eb_home.dart';
 
-final class _RightDisPatchColumn extends StatefulWidget {
+// final class _RightDisPatchColumn extends StatefulWidget {
+//   final int index;
+//   final Stream<RealTimeInfo?>? streamRealTimeInfo;
+
+//   const _RightDisPatchColumn({
+//     super.key,
+//     required this.index,
+//     required this.streamRealTimeInfo,
+//   });
+
+//   @override
+//   State<StatefulWidget> createState() => _RightDisPatchColumnState();
+// }
+
+// final class _RightDisPatchColumnState extends State<_RightDisPatchColumn> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder(
+//       stream: widget.streamRealTimeInfo,
+//       builder: (context, snapshot) {
+//         final arrivalSec1 = snapshot.data?.arrivalSec1;
+//         final arrivalSec2 = snapshot.data?.arrivalSec2;
+
+//         return _RightDisPatchColumnContent(
+//           index: widget.index,
+//           arrivalSec1: arrivalSec1,
+//           arrivalSec2: arrivalSec2,
+//         );
+//       },
+//     );
+//   }
+// }
+
+final class _RightDisPatchColumn extends StatelessWidget {
   final int index;
-  final Stream<RealTimeInfo?>? streamRealTimeInfo;
-
-  const _RightDisPatchColumn({
-    super.key,
-    required this.index,
-    required this.streamRealTimeInfo,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _RightDisPatchColumnState();
-}
-
-final class _RightDisPatchColumnState extends State<_RightDisPatchColumn> {
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: widget.streamRealTimeInfo,
-      builder: (context, snapshot) {
-        final arrivalSec1 = snapshot.data?.arrivalSec1;
-        final arrivalSec2 = snapshot.data?.arrivalSec2;
-
-        return _RightDisPatchColumnContent(
-          index: widget.index,
-          arrivalSec1: arrivalSec1,
-          arrivalSec2: arrivalSec2,
-        );
-      },
-    );
-  }
-}
-
-final class _RightDisPatchColumnContent extends StatelessWidget {
-  final int index;
-  final int? arrivalSec1;
-  final int? arrivalSec2;
+  final RealTimeInfo? realTimeInfo;
 
   String convertArrivalIntToString(int? arrivalSec) {
     if (arrivalSec == null) {
@@ -47,16 +46,15 @@ final class _RightDisPatchColumnContent extends StatelessWidget {
     return EBTime.intMinuteToString(minute);
   }
 
-  const _RightDisPatchColumnContent({
+  const _RightDisPatchColumn({
     required this.index,
-    required this.arrivalSec1,
-    required this.arrivalSec2,
+    required this.realTimeInfo,
   });
 
   @override
   Widget build(BuildContext context) {
-    final arrival1 = convertArrivalIntToString(arrivalSec1);
-    final arrival2 = convertArrivalIntToString(arrivalSec2);
+    final arrival1 = convertArrivalIntToString(realTimeInfo?.arrivalSec1);
+    final arrival2 = convertArrivalIntToString(realTimeInfo?.arrivalSec2);
 
     return Material(
       color: Colors.white,
@@ -66,7 +64,9 @@ final class _RightDisPatchColumnContent extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () {
-          log("checkckck");
+          context
+              .read<MiddleTranportBloc>()
+              .add(PressReloadButton(selectedIndex: index));
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -89,7 +89,9 @@ final class _RightDisPatchColumnContent extends StatelessWidget {
       children: [
         _arrival2Text(arrival2),
         const SizedBox(width: 5),
-        _ReloadTransportInfoCardButton(index: index),
+        _ReloadIconTransportInfoCard(
+          realTimeInfo: realTimeInfo,
+        ),
       ],
     );
   }

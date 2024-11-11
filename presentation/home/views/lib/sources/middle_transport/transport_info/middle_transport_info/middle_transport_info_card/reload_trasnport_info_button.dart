@@ -1,22 +1,21 @@
 part of '../../../../../eb_home.dart';
 
-final class _ReloadTransportInfoCardButton extends StatefulWidget {
-  final int index;
+final class _ReloadIconTransportInfoCard extends StatefulWidget {
+  final RealTimeInfo? realTimeInfo;
 
-  const _ReloadTransportInfoCardButton({
+  const _ReloadIconTransportInfoCard({
     super.key,
-    required this.index,
+    required this.realTimeInfo,
   });
 
   @override
-  State<StatefulWidget> createState() => _ReloadTransportInfoCardButtonState();
+  State<StatefulWidget> createState() => _ReloadIconTransportInfoCardState();
 }
 
-final class _ReloadTransportInfoCardButtonState
-    extends State<_ReloadTransportInfoCardButton>
+final class _ReloadIconTransportInfoCardState
+    extends State<_ReloadIconTransportInfoCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool absorbing = true;
 
   @override
   void initState() {
@@ -34,45 +33,34 @@ final class _ReloadTransportInfoCardButtonState
   }
 
   @override
+  void didUpdateWidget(covariant _ReloadIconTransportInfoCard oldWidget) {
+    if (widget.realTimeInfo != null) {
+      if (oldWidget.realTimeInfo != widget.realTimeInfo) {
+        _startAnimation();
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _startAnimation() {
+    setState(() {
+      _controller.reverse(from: 1.0);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AbsorbPointer(
-      absorbing: !absorbing,
-      child: RotationTransition(
-        turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-        child: Material(
-          color: Colors.white,
-          shape: const CircleBorder(),
-          clipBehavior: Clip.hardEdge,
-          child: InkWell(
-            // onTap: () async {
-            //   setState(() {
-            //     absorbing = false;
-            //   });
-
-            //   _controller.reverse(from: 1.0);
-            //   context
-            //       .read<MiddleTranportBloc>()
-            //       .add(PressReloadButton(selectedIndex: widget.index));
-            //   await Future.delayed(const Duration(milliseconds: 1100));
-
-            //   if (mounted) {
-            //     setState(() {
-            //       absorbing = true;
-            //     });
-            //   }
-            // },
-            child: Container(
-              width: 30,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey),
-              ),
-              child: const Icon(
-                Icons.replay_outlined,
-                color: Colors.grey,
-              ),
-            ),
-          ),
+    return RotationTransition(
+      turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+      child: Container(
+        width: 30,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.grey),
+        ),
+        child: const Icon(
+          Icons.replay_outlined,
+          color: Colors.grey,
         ),
       ),
     );
