@@ -3,17 +3,19 @@ part of '../../../../../../../eb_home.dart';
 final class _LeftDispatchPopupButtonBus extends StatefulWidget {
   final Transport? selectedTransport;
   final EBSubPath transportSubPath;
-  final List<Bus> busList;
+  final Map<String, Bus> busMap;
   final int index;
   final int expectTotalMinute;
+  final List<RealTimeInfo>? realTimeInfoList;
 
   const _LeftDispatchPopupButtonBus({
     super.key,
     required this.selectedTransport,
-    required this.busList,
+    required this.busMap,
     required this.transportSubPath,
     required this.index,
     required this.expectTotalMinute,
+    required this.realTimeInfoList,
   });
 
   @override
@@ -71,31 +73,33 @@ final class _LeftDispatchPopupButtonStateBus
     BuildContext context,
   ) {
     return (context) {
-      final List<PopupMenuEntry<Bus>> menuItemList = [];
+      final realTimeInfoList = widget.realTimeInfoList;
+      if (realTimeInfoList == null) {
+        return [];
+      }
 
-      for (int index = 0; index < widget.busList.length; index++) {
-        final curBus = widget.busList[index];
-        final name = curBus.number;
-        final color = curBus.color();
+      final List<PopupMenuEntry<Bus>> menuItemList =
+          realTimeInfoList.expand<PopupMenuEntry<Bus>>(
+        (r) {
+          final curBus = widget.busMap[r.transportName];
+          if (curBus == null) {
+            return [];
+          }
 
-        final PopupMenuEntry<Bus> item = PopupMenuItem(
-          value: curBus,
-          child: _LeftDisPatchPopupMenuItemContent.bus(
-            name: name,
-            color: color,
-            arrivalSec1: 250,
-            arrivalSec2: 980,
-            leftStation1: 2,
-            leftStation2: 5,
-          ),
-        );
+          final PopupMenuEntry<Bus> item = PopupMenuItem(
+            value: curBus,
+            child: _LeftDisPatchPopupMenuItemContent.bus(
+              bus: curBus,
+              realTimeInfo: r,
+            ),
+          );
 
-        menuItemList.add(item);
+          return [item, const PopupMenuDivider()];
+        },
+      ).toList();
 
-        final isNotLast = (index != widget.busList.length - 1);
-        if (isNotLast) {
-          menuItemList.add(const PopupMenuDivider());
-        }
+      if (menuItemList.isNotEmpty) {
+        menuItemList.removeLast();
       }
 
       return menuItemList;

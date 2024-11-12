@@ -3,7 +3,7 @@ part of '../../../../../eb_home.dart';
 final class _MiddleTransportInfoCardStatefulView extends StatefulWidget {
   final int index;
   final InfoMiddleTransportCardState cardState;
-  final Stream<RealTimeInfoMap>? streamRealTimeInfo;
+  final Stream<List<RealTimeInfo>>? streamRealTimeInfo;
 
   const _MiddleTransportInfoCardStatefulView({
     super.key,
@@ -41,7 +41,7 @@ final class _MiddleTransportInfoCardStatefulViewState
   }
 
   _setScaleEffect({
-    required RealTimeInfoMap? realTimeInfoList,
+    required List<RealTimeInfo>? realTimeInfoList,
   }) {
     if (!isFirstStream) {
       return;
@@ -68,10 +68,10 @@ final class _MiddleTransportInfoCardStatefulViewState
       child: StreamBuilder(
         stream: widget.streamRealTimeInfo,
         builder: (context, snapshot) {
-          final realTimeInfoMap = snapshot.data;
+          final realTimeInfoList = snapshot.data;
 
           _setScaleEffect(
-            realTimeInfoList: realTimeInfoMap,
+            realTimeInfoList: realTimeInfoList,
           );
 
           return MiddleTransportCardForm(
@@ -85,11 +85,12 @@ final class _MiddleTransportInfoCardStatefulViewState
                   transportSubPath: widget.cardState.subPath,
                   expectTotalMinute: widget.cardState.expectTotalMinute,
                   index: widget.index,
+                  realTimeInfoList: realTimeInfoList,
                 ),
                 _RightDisPatchColumn(
                   index: widget.index,
                   realTimeInfo: _getRealTimeInfo(
-                    realTimeInfoMap: realTimeInfoMap,
+                    realTimeInfoList: realTimeInfoList,
                   ),
                 ),
               ],
@@ -101,9 +102,9 @@ final class _MiddleTransportInfoCardStatefulViewState
   }
 
   RealTimeInfo? _getRealTimeInfo({
-    required RealTimeInfoMap? realTimeInfoMap,
+    required List<RealTimeInfo>? realTimeInfoList,
   }) {
-    if (realTimeInfoMap == null) {
+    if (realTimeInfoList == null) {
       return null;
     }
 
@@ -111,14 +112,20 @@ final class _MiddleTransportInfoCardStatefulViewState
     if (selectedTransport == null) {
       return null;
     }
-    String transportNumber;
+    String transportName;
     switch (selectedTransport) {
       case Subway():
-        transportNumber = selectedTransport.type;
+        transportName = selectedTransport.type;
       case Bus():
-        transportNumber = selectedTransport.number;
+        transportName = selectedTransport.number;
     }
 
-    return realTimeInfoMap[transportNumber];
+    for (var realTimeInfo in realTimeInfoList) {
+      if (realTimeInfo.transportName == transportName) {
+        return realTimeInfo;
+      }
+    }
+
+    return null;
   }
 }

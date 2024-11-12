@@ -4,10 +4,10 @@ final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
   final IconData icon;
   final String name;
   final Color color;
-  final int arrivalSec1;
-  final int leftStation1;
-  final int arrivalSec2;
-  final int leftStation2;
+  final int? arrivalSec1;
+  final int? leftStation1;
+  final int? arrivalSec2;
+  final int? leftStation2;
 
   const _LeftDisPatchPopupMenuItemContent({
     super.key,
@@ -36,42 +36,17 @@ final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
   }
 
   factory _LeftDisPatchPopupMenuItemContent.bus({
-    required String name,
-    required Color color,
-    required int arrivalSec1,
-    required int arrivalSec2,
-    required int leftStation1,
-    required int leftStation2,
+    required Bus bus,
+    required RealTimeInfo? realTimeInfo,
   }) {
-    const icon = CupertinoIcons.bus;
     return _LeftDisPatchPopupMenuItemContent(
-      icon: icon,
-      name: name,
-      color: color,
-      arrivalSec1: arrivalSec1,
-      arrivalSec2: arrivalSec2,
-      leftStation1: leftStation1,
-      leftStation2: leftStation2,
-    );
-  }
-
-  factory _LeftDisPatchPopupMenuItemContent.subway({
-    required String name,
-    required Color color,
-    required int arrivalSec1,
-    required int arrivalSec2,
-    required int leftStation1,
-    required int leftStation2,
-  }) {
-    const icon = Icons.subway_outlined;
-    return _LeftDisPatchPopupMenuItemContent(
-      icon: icon,
-      name: name,
-      color: color,
-      arrivalSec1: arrivalSec1,
-      arrivalSec2: arrivalSec2,
-      leftStation1: leftStation1,
-      leftStation2: leftStation2,
+      icon: CupertinoIcons.bus,
+      name: bus.number,
+      color: bus.color(),
+      arrivalSec1: realTimeInfo?.arrivalSec1,
+      arrivalSec2: realTimeInfo?.arrivalSec2,
+      leftStation1: realTimeInfo?.leftStation1,
+      leftStation2: realTimeInfo?.leftStation2,
     );
   }
 }
@@ -100,12 +75,13 @@ extension on _LeftDisPatchPopupMenuItemContent {
 
 extension on _LeftDisPatchPopupMenuItemContent {
   String _arrivalInfoString({
-    required int arrivalSec,
-    required int leftStation,
+    required int? arrivalSec,
+    required int? leftStation,
   }) {
-    final tmpTime = EBTime.intSecToString(arrivalSec);
+    final tmpTime =
+        (arrivalSec == null) ? "-분" : EBTime.intSecToString(arrivalSec);
     final time = (tmpTime == '0분') ? '곧 도착' : tmpTime;
-    final station = "($leftStation정류장)";
+    final station = (leftStation == null) ? "(-정류장)" : "($leftStation정류장)";
     return time + station;
   }
 

@@ -3,7 +3,7 @@ part of '../../../../../eb_home.dart';
 final class MiddleTransportInfoView extends StatelessWidget {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
-  final Stream<RealTimeInfoMap> streamRealTimeInfo;
+  final Stream<List<RealTimeInfo>> streamRealTimeInfo;
   final double horizontalPadding;
 
   const MiddleTransportInfoView({

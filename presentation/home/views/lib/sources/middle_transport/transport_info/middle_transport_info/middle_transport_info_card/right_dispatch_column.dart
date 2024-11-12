@@ -1,38 +1,5 @@
 part of '../../../../../eb_home.dart';
 
-// final class _RightDisPatchColumn extends StatefulWidget {
-//   final int index;
-//   final Stream<RealTimeInfo?>? streamRealTimeInfo;
-
-//   const _RightDisPatchColumn({
-//     super.key,
-//     required this.index,
-//     required this.streamRealTimeInfo,
-//   });
-
-//   @override
-//   State<StatefulWidget> createState() => _RightDisPatchColumnState();
-// }
-
-// final class _RightDisPatchColumnState extends State<_RightDisPatchColumn> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: widget.streamRealTimeInfo,
-//       builder: (context, snapshot) {
-//         final arrivalSec1 = snapshot.data?.arrivalSec1;
-//         final arrivalSec2 = snapshot.data?.arrivalSec2;
-
-//         return _RightDisPatchColumnContent(
-//           index: widget.index,
-//           arrivalSec1: arrivalSec1,
-//           arrivalSec2: arrivalSec2,
-//         );
-//       },
-//     );
-//   }
-// }
-
 final class _RightDisPatchColumn extends StatelessWidget {
   final int index;
   final RealTimeInfo? realTimeInfo;

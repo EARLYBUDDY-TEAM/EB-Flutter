@@ -25,12 +25,12 @@ final class MiddleTranportBloc
 }
 
 extension on MiddleTranportBloc {
-  Future<RealTimeInfoMap> getRealTimeInfo({
+  Future<List<RealTimeInfo>> getRealTimeInfo({
     required EBSubPath subPath,
   }) async {
     final stationID = subPath.startStationID;
     if (stationID == null) {
-      return {};
+      return [];
     }
 
     final type = subPath.type;
@@ -42,16 +42,16 @@ extension on MiddleTranportBloc {
       case 2:
         result = await _homeRepository.getBusRealTimeInfo(stationID: stationID);
       default:
-        return {};
+        return [];
     }
 
     switch (result) {
       case Success():
-        final RealTimeInfoMap realTimeInfoList = result.success.model;
+        final List<RealTimeInfo> realTimeInfoList = result.success.model;
         return realTimeInfoList;
 
       case Failure():
-        return {};
+        return [];
     }
   }
 
@@ -65,7 +65,7 @@ extension on MiddleTranportBloc {
     });
   }
 
-  Future<Stream<RealTimeInfoMap>> _makeStreamRealTimeInfo({
+  Future<Stream<List<RealTimeInfo>>> _makeStreamRealTimeInfo({
     required EBSubPath subPath,
   }) async {
     await _tearDownStream();
