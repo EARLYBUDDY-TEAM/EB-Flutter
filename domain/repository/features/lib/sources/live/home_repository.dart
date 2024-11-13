@@ -71,10 +71,38 @@ final class HomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> getSubwayRealTimeInfo({
+  Future<Result> getTotalSubwaySchedule({
     required int stationID,
-  }) {
-    // TODO: implement getSubwayRealTimeInfo
-    throw UnimplementedError();
+    required int wayCode,
+  }) async {
+    final request = HomeRequest.getTotalSubwaySchedule(
+      stationID: stationID,
+      wayCode: wayCode,
+    );
+
+    final result = await service.request(request);
+
+    switch (result) {
+      case Success():
+        final SuccessResponse successResponse = result.success;
+        final TotalSubwayScheduleDTO totalSubwayScheduleDTO =
+            successResponse.model;
+        final TotalSubwaySchedule totalSubwaySchedule =
+            TotalSubwaySchedule.fromDTO(
+          dto: totalSubwayScheduleDTO,
+        );
+
+        final newSuccessResponse = SuccessResponse(
+          statusCode: successResponse.statusCode,
+          model: totalSubwaySchedule,
+        );
+        final newResult = Success(success: newSuccessResponse);
+        return newResult;
+      case Failure():
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
+        return result;
+    }
   }
 }

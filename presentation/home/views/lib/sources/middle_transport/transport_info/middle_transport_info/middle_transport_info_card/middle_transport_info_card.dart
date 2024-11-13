@@ -1,15 +1,15 @@
 part of '../../../../../eb_home.dart';
 
 final class _MiddleTransportInfoCardStatefulView extends StatefulWidget {
-  final int index;
+  final int myIndex;
   final InfoMiddleTransportCardState cardState;
-  final Stream<List<RealTimeInfo>>? streamRealTimeInfo;
+  final StreamRealTimeInfo? streamBusRealTimeInfo;
 
   const _MiddleTransportInfoCardStatefulView({
     super.key,
-    required this.index,
+    required this.myIndex,
     required this.cardState,
-    this.streamRealTimeInfo,
+    this.streamBusRealTimeInfo,
   });
 
   @override
@@ -34,7 +34,7 @@ final class _MiddleTransportInfoCardStatefulViewState
   @override
   void didUpdateWidget(
       covariant _MiddleTransportInfoCardStatefulView oldWidget) {
-    final isFirst = (widget.streamRealTimeInfo != null) ? true : false;
+    final isFirst = (widget.streamBusRealTimeInfo != null) ? true : false;
     isFirstStream = isFirst;
     _scale = _minScale;
     super.didUpdateWidget(oldWidget);
@@ -66,7 +66,7 @@ final class _MiddleTransportInfoCardStatefulViewState
       curve: Curves.easeOutQuart,
       duration: const Duration(milliseconds: 450),
       child: StreamBuilder(
-        stream: widget.streamRealTimeInfo,
+        stream: widget.streamBusRealTimeInfo,
         builder: (context, snapshot) {
           final realTimeInfoList = snapshot.data;
 
@@ -84,11 +84,11 @@ final class _MiddleTransportInfoCardStatefulViewState
                   selectedTransport: widget.cardState.selectedTransport,
                   transportSubPath: widget.cardState.subPath,
                   expectTotalMinute: widget.cardState.expectTotalMinute,
-                  index: widget.index,
+                  myIndex: widget.myIndex,
                   realTimeInfoList: realTimeInfoList,
                 ),
                 _RightDisPatchColumn(
-                  index: widget.index,
+                  index: widget.myIndex,
                   realTimeInfo: _getRealTimeInfo(
                     realTimeInfoList: realTimeInfoList,
                   ),

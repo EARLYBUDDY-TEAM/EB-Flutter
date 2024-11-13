@@ -7,6 +7,7 @@ final dummySubPathGasanToSuwonMap = {
   "startX": "126.882549",
   "startY": "37.481629",
   "start_station_id": 172,
+  "way_code": 2,
   "endName": "수원",
   "distance": 27400,
   "transports": [
@@ -45,6 +46,7 @@ final dummyPathGasanToSuwonMap = {
       "startX": "None",
       "startY": "None",
       "start_station_id": null,
+      "way_code": null,
       "endName": "가산디지털단지",
       "distance": 12,
       "transports": null,
@@ -57,6 +59,7 @@ final dummyPathGasanToSuwonMap = {
       "startX": "126.882549",
       "startY": "37.481629",
       "start_station_id": 172,
+      "way_code": 2,
       "endName": "수원",
       "distance": 27400,
       "transports": [
@@ -86,6 +89,7 @@ final dummyPathGasanToSuwonMap = {
       "startX": "None",
       "startY": "None",
       "start_station_id": null,
+      "way_code": null,
       "endName": "수원역 1호선",
       "distance": 63,
       "transports": null,

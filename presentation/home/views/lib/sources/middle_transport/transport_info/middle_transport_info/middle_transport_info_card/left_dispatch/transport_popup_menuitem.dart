@@ -1,6 +1,6 @@
-part of '../../../../../../../eb_home.dart';
+part of '../../../../../../eb_home.dart';
 
-final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
+final class _TransportPopupMenuItemContent extends StatelessWidget {
   final IconData icon;
   final String name;
   final Color color;
@@ -9,7 +9,7 @@ final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
   final int? arrivalSec2;
   final int? leftStation2;
 
-  const _LeftDisPatchPopupMenuItemContent({
+  const _TransportPopupMenuItemContent({
     super.key,
     required this.icon,
     required this.name,
@@ -35,11 +35,11 @@ final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
     );
   }
 
-  factory _LeftDisPatchPopupMenuItemContent.bus({
+  factory _TransportPopupMenuItemContent.bus({
     required Bus bus,
     required RealTimeInfo? realTimeInfo,
   }) {
-    return _LeftDisPatchPopupMenuItemContent(
+    return _TransportPopupMenuItemContent(
       icon: CupertinoIcons.bus,
       name: bus.number,
       color: bus.color(),
@@ -49,9 +49,24 @@ final class _LeftDisPatchPopupMenuItemContent extends StatelessWidget {
       leftStation2: realTimeInfo?.leftStation2,
     );
   }
+
+  factory _TransportPopupMenuItemContent.subway({
+    required Subway subway,
+    required RealTimeInfo? realTimeInfo,
+  }) {
+    return _TransportPopupMenuItemContent(
+      icon: Icons.subway_outlined,
+      name: subway.type,
+      color: subway.color(),
+      arrivalSec1: realTimeInfo?.arrivalSec1,
+      arrivalSec2: realTimeInfo?.arrivalSec2,
+      leftStation1: realTimeInfo?.leftStation1,
+      leftStation2: realTimeInfo?.leftStation2,
+    );
+  }
 }
 
-extension on _LeftDisPatchPopupMenuItemContent {
+extension on _TransportPopupMenuItemContent {
   Widget _transportName() {
     return Row(
       children: [
@@ -73,7 +88,7 @@ extension on _LeftDisPatchPopupMenuItemContent {
   }
 }
 
-extension on _LeftDisPatchPopupMenuItemContent {
+extension on _TransportPopupMenuItemContent {
   String _arrivalInfoString({
     required int? arrivalSec,
     required int? leftStation,

@@ -1,18 +1,9 @@
-part of '../../../entity.dart';
+part of '../../entity.dart';
 
-final class SubwayList extends TransportList {
-  final List<Subway> subwayList;
-
-  SubwayList({
-    required this.subwayList,
-  });
-
-  List<TransportDTO> toDTO() {
-    return subwayList.map((s) => s.toDTO()).toList();
+sealed class Transport extends Equatable {
+  TransportDTO toDTO() {
+    throw UnimplementedError('구현부');
   }
-
-  @override
-  List<Object?> get props => [subwayList];
 }
 
 final class Subway extends Transport {
@@ -31,6 +22,7 @@ final class Subway extends Transport {
     );
   }
 
+  @override
   TransportDTO toDTO() {
     return TransportDTO(
       subwayType: type,
@@ -101,5 +93,55 @@ final class Subway extends Transport {
 
   static Subway mock() {
     return Subway(type: '1호선');
+  }
+}
+
+final class Bus extends Transport {
+  final String number;
+  final String type;
+
+  Bus({
+    required this.number,
+    required this.type,
+  });
+
+  static Bus fromDTO({required TransportDTO transportDTO}) {
+    final number = transportDTO.busNumber ?? DefaultValue.String;
+    final type = transportDTO.busType ?? DefaultValue.String;
+    return Bus(
+      number: number,
+      type: type,
+    );
+  }
+
+  @override
+  TransportDTO toDTO() {
+    return TransportDTO(
+      subwayType: null,
+      busNumber: number,
+      busType: type,
+    );
+  }
+
+  Color color() {
+    switch (type) {
+      case '간선':
+        return EBColors.bus.ganson;
+      case '지선':
+        return EBColors.bus.jison;
+      case '광역':
+        return EBColors.bus.gwangyok;
+      default:
+        return EBColors.bus.others;
+    }
+  }
+
+  @override
+  List<Object?> get props => [number, type];
+
+  static Bus mock() {
+    final random = Random();
+    final int num = 100 + random.nextInt(999 - 100);
+    return Bus(number: "$num", type: '지선');
   }
 }

@@ -16,8 +16,9 @@ abstract class HomeRepositoryAB {
   }
 
   /// 지하철 실시간 정보 가져오기
-  Future<Result> getSubwayRealTimeInfo({
+  Future<Result> getTotalSubwaySchedule({
     required int stationID,
+    required int wayCode,
   }) async {
     throw UnimplementedError('구현부');
   }

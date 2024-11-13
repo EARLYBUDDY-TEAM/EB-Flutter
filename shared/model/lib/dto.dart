@@ -7,3 +7,4 @@ part 'dto/eb_path_dto.dart';
 part 'dto/schedule_dto.dart';
 part 'dto/schedule_path_dto.dart';
 part 'dto/realtime_info_dto.dart';
+part 'dto/subway_schedule_dto.dart';

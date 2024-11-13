@@ -3,7 +3,7 @@ part of '../../../../../eb_home.dart';
 final class MiddleTransportInfoView extends StatelessWidget {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
-  final Stream<List<RealTimeInfo>> streamRealTimeInfo;
+  final StreamRealTimeInfo? streamRealTimeInfo;
   final double horizontalPadding;
 
   const MiddleTransportInfoView({
@@ -49,9 +49,9 @@ final class MiddleTransportInfoView extends StatelessWidget {
         child: SizedBox(
           width: cardWidth,
           child: _MiddleTransportInfoCardStatefulView(
-            index: index,
+            myIndex: index,
             cardState: cardStateList[index],
-            streamRealTimeInfo: newStreamRealTimeInfo,
+            streamBusRealTimeInfo: newStreamRealTimeInfo,
           ),
         ),
       );

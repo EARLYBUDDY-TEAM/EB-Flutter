@@ -105,14 +105,14 @@ TransportLineInfo subPathToLineInfo({
 
   final transportList = ebSubPath.transportList;
   switch (transportList) {
-    case SubwayList():
-      final subway = transportList.subwayList.firstOrNull;
+    case List<Subway>():
+      final subway = transportList.firstOrNull;
       if (subway != null) {
         name = subway.type;
         color = subway.color();
       }
-    case BusList():
-      final bus = transportList.busList.firstOrNull;
+    case List<Bus>():
+      final bus = transportList.firstOrNull;
       if (bus != null) {
         name = bus.number;
         color = bus.color();

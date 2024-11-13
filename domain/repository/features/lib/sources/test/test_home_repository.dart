@@ -23,10 +23,15 @@ final class TestHomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> getSubwayRealTimeInfo({required int stationID}) async {
+  Future<Result> getTotalSubwaySchedule({
+    required int stationID,
+    required int wayCode,
+  }) async {
     final mockRealTimeInfo = await delayMockRealTimeInfo();
-    final successResponse =
-        SuccessResponse(statusCode: 200, model: mockRealTimeInfo);
+    final successResponse = SuccessResponse(
+      statusCode: 200,
+      model: mockRealTimeInfo,
+    );
     return Success(success: successResponse);
   }
 

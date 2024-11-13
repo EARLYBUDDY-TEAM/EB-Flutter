@@ -28,7 +28,8 @@ final dummySubPathDongToGwangMap = {
     {"busType": "간선", "busNumber": "101", "subwayType": null},
     {"busType": "간선", "busNumber": "260", "subwayType": null}
   ],
-  "start_station_id": 80606
+  "start_station_id": 80606,
+  "way_code": null,
 };
 
 final dummyPathDongToGwangMap = {
@@ -48,7 +49,8 @@ final dummyPathDongToGwangMap = {
       "transports": [
         {"busType": null, "busNumber": "null", "subwayType": null}
       ],
-      "start_station_id": null
+      "start_station_id": null,
+      "way_code": null,
     },
     {
       "time": 14,
@@ -78,7 +80,8 @@ final dummyPathDongToGwangMap = {
         {"busType": "간선", "busNumber": "101", "subwayType": null},
         {"busType": "간선", "busNumber": "260", "subwayType": null}
       ],
-      "start_station_id": 80606
+      "start_station_id": 80606,
+      "way_code": null,
     },
     {
       "time": 3,
@@ -92,7 +95,8 @@ final dummyPathDongToGwangMap = {
       "transports": [
         {"busType": null, "busNumber": "null", "subwayType": null}
       ],
-      "start_station_id": null
+      "start_station_id": null,
+      "way_code": null
     }
   ],
   "walkTime": 6,

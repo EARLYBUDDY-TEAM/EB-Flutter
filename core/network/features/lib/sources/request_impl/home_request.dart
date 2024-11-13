@@ -31,4 +31,24 @@ final class HomeRequest {
       method: HTTPMethod.get,
     );
   }
+
+  static ApiRequest<TotalSubwayScheduleDTO> getTotalSubwaySchedule({
+    required int stationID,
+    required int wayCode,
+  }) {
+    const path = "/realtime/get_total_subway_schedule";
+    final query = {
+      "station_id": "$stationID",
+      "way_code": "$wayCode",
+    };
+    converter(dynamic responseData) =>
+        TotalSubwayScheduleDTO.fromJson(responseData);
+
+    return ApiRequest(
+      path: path,
+      query: query,
+      converter: converter,
+      method: HTTPMethod.get,
+    );
+  }
 }

@@ -82,6 +82,7 @@ final class EBSubPathDTO {
   final String? startX;
   final String? startY;
   final int? startStationID;
+  final int? wayCode;
   final String endName;
   final int distance;
   final List<TransportDTO>? transports;
@@ -94,6 +95,7 @@ final class EBSubPathDTO {
     required this.startX,
     required this.startY,
     required this.startStationID,
+    required this.wayCode,
     required this.endName,
     required this.distance,
     required this.transports,
@@ -128,6 +130,7 @@ final class EBSubPathDTO {
       startX: j['startX'],
       startY: j['startY'],
       startStationID: j['start_station_id'],
+      wayCode: j['way_code'],
       endName: j['endName'],
       distance: j['distance'],
       transports: trans,
@@ -143,6 +146,7 @@ final class EBSubPathDTO {
       "startX": startX,
       "startY": startY,
       "start_station_id": startStationID,
+      "way_code": wayCode,
       "endName": endName,
       "distance": distance,
       "transports": transports?.map((t) => t.toMap()).toList(),

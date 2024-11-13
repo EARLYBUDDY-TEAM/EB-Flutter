@@ -2,14 +2,11 @@ part of '../../middle_transport_feature.dart';
 
 final class MiddleTranportBloc
     extends Bloc<MiddleTransportEvent, MiddleTransportState> {
-  final HomeRepositoryAB _homeRepository;
-
-  BehaviorSubject<EBSubPath>? _realTimeInfoSubject;
-  StreamSubscription<dynamic>? _timerSubscription;
+  final RealTimeInfoEvent _realTimeInfoEvent;
 
   MiddleTranportBloc({
-    required HomeRepositoryAB homeRepository,
-  })  : _homeRepository = homeRepository,
+    required RealTimeInfoEvent realTimeInfoEvent,
+  })  : _realTimeInfoEvent = realTimeInfoEvent,
         super(MiddleTransportState()) {
     on<SetupMiddleTransport>(_onSetupMiddleTransport);
     on<SelectTransport>(_onSelectTransport);
@@ -25,73 +22,6 @@ final class MiddleTranportBloc
 }
 
 extension on MiddleTranportBloc {
-  Future<List<RealTimeInfo>> getRealTimeInfo({
-    required EBSubPath subPath,
-  }) async {
-    final stationID = subPath.startStationID;
-    if (stationID == null) {
-      return [];
-    }
-
-    final type = subPath.type;
-    Result result;
-    switch (type) {
-      case 1:
-        result =
-            await _homeRepository.getSubwayRealTimeInfo(stationID: stationID);
-      case 2:
-        result = await _homeRepository.getBusRealTimeInfo(stationID: stationID);
-      default:
-        return [];
-    }
-
-    switch (result) {
-      case Success():
-        final List<RealTimeInfo> realTimeInfoList = result.success.model;
-        return realTimeInfoList;
-
-      case Failure():
-        return [];
-    }
-  }
-
-  Future<void> _tearDownStream() async {
-    await _realTimeInfoSubject?.close().then((_) {
-      _realTimeInfoSubject = null;
-    });
-
-    await _timerSubscription?.cancel().then((_) {
-      _timerSubscription = null;
-    });
-  }
-
-  Future<Stream<List<RealTimeInfo>>> _makeStreamRealTimeInfo({
-    required EBSubPath subPath,
-  }) async {
-    await _tearDownStream();
-
-    final newRealTimeInfoSubject = BehaviorSubject<EBSubPath>.seeded(subPath);
-    _realTimeInfoSubject = newRealTimeInfoSubject;
-
-    final streamRealtimeInfo = _realTimeInfoSubject!.flatMap(
-      (subPath) async* {
-        final fetchedRealTimeInfo = await getRealTimeInfo(subPath: subPath);
-        yield fetchedRealTimeInfo;
-      },
-    );
-
-    _timerSubscription =
-        Stream.periodic(const Duration(seconds: 15)).listen((_) {
-      if (_realTimeInfoSubject != null) {
-        _realTimeInfoSubject!.add(subPath);
-      }
-    });
-
-    return streamRealtimeInfo;
-  }
-}
-
-extension on MiddleTranportBloc {
   Transport? getSelectedTransport({
     required EBSubPath subPath,
   }) {
@@ -102,31 +32,33 @@ extension on MiddleTranportBloc {
     required DateTime scheduleTime,
     required EBPath ebPath,
   }) {
-    var flagTotalTime = ebPath.time;
+    var flagTotalMinute = ebPath.time;
     var flagStartTime = scheduleTime.subtract(Duration(minutes: ebPath.time));
-    final tmpList = ebPath.ebSubPathList.map<InfoMiddleTransportCardState>(
+    final cardStateList = ebPath.ebSubPathList.where(
       (s) {
-        final subPath = s;
+        return (s.type != 3);
+      },
+    ).map<InfoMiddleTransportCardState>(
+      (s) {
         final expectStartTime = flagStartTime;
         flagStartTime = flagStartTime.add(Duration(minutes: s.time));
-        final expectTotalTime = flagTotalTime;
-        flagTotalTime -= s.time;
-        final selectedTransport = getSelectedTransport(subPath: s);
+        final expectTotalMinute = flagTotalMinute;
+        flagTotalMinute -= s.time;
+        final subPath = s;
+        final selectedTransport = getSelectedTransport(subPath: subPath);
 
-        return InfoMiddleTransportCardState(
+        final cardState = InfoMiddleTransportCardState(
           selectedTransport: selectedTransport,
-          subPath: subPath,
           expectStartTime: expectStartTime,
-          expectTotalMinute: expectTotalTime,
+          expectTotalMinute: expectTotalMinute,
+          subPath: subPath,
         );
-      },
-    ).where(
-      (s) {
-        return (s.subPath.type != 3);
+
+        return cardState;
       },
     ).toList();
 
-    return tmpList;
+    return cardStateList;
   }
 
   int getCurrentIndex({
@@ -174,15 +106,14 @@ extension on MiddleTranportBloc {
     final currentIndex = getCurrentIndex(
       cardStateList: cardStateList,
     );
-    final curInfoMiddleTransportCardState = cardStateList[currentIndex];
-    final streamRealTimeInfo = await _makeStreamRealTimeInfo(
-      subPath: curInfoMiddleTransportCardState.subPath,
-    );
+    final subPath = cardStateList[currentIndex].subPath;
+    final streamRealTimeInfo =
+        await _realTimeInfoEvent.makeStreamRealTimeInfo(subPath: subPath);
 
-    return InfoMiddleTransportState(
+    return InfoMiddleTransportViewState(
       currentIndex: currentIndex,
       cardStateList: cardStateList,
-      streamRealTimeInfo: streamRealTimeInfo,
+      streamBusRealTimeInfo: streamRealTimeInfo,
     );
   }
 
@@ -204,19 +135,21 @@ extension on MiddleTranportBloc {
   ) {
     final viewState = state.viewState;
 
-    if (viewState is! InfoMiddleTransportState) {
+    if (viewState is! InfoMiddleTransportViewState) {
       return;
     }
+
+    final index = event.selectedIndex;
     final newViewState = viewState.copyWith(
-      currentIndex: event.selectedIndex,
+      currentIndex: index,
       reloadTrigger: !viewState.reloadTrigger,
     );
-    final cardState = newViewState.cardStateList[event.selectedIndex];
-    final newCardState = cardState.copyWith(
+    final curCardState = newViewState.cardStateList[index];
+    final newCardState = curCardState.copyWith(
       selectedTransport: () => event.selectedTransport,
     );
+    newViewState.cardStateList[index] = newCardState;
 
-    newViewState.cardStateList[event.selectedIndex] = newCardState;
     emit(state.copyWith(viewState: newViewState));
   }
 }
@@ -233,16 +166,14 @@ extension on MiddleTranportBloc {
     Emitter<MiddleTransportState> emit,
   ) {
     final viewState = state.viewState;
-    if (viewState is! InfoMiddleTransportState) {
+    if (viewState is! InfoMiddleTransportViewState) {
       return;
     }
 
-    if (_realTimeInfoSubject == null) {
-      return;
-    }
-
-    final subPath = viewState.cardStateList[event.selectedIndex].subPath;
-    _realTimeInfoSubject!.add(subPath);
+    final index = event.selectedIndex;
+    final curCardState = viewState.cardStateList[index];
+    final subPath = curCardState.subPath;
+    _realTimeInfoEvent.reloadRealTimeInfo(subPath: subPath);
   }
 }
 
@@ -253,16 +184,17 @@ extension on MiddleTranportBloc {
   ) async {
     final viewState = state.viewState;
 
-    if (viewState is! InfoMiddleTransportState) {
+    if (viewState is! InfoMiddleTransportViewState) {
       return;
     }
 
-    final currentIndex = event.expectIndex;
-    final subPath = viewState.cardStateList[currentIndex].subPath;
-    final streamRealTimeInfo = await _makeStreamRealTimeInfo(subPath: subPath);
+    final index = event.expectIndex;
+    final subPath = viewState.cardStateList[index].subPath;
+    final streamRealTimeInfo =
+        await _realTimeInfoEvent.makeStreamRealTimeInfo(subPath: subPath);
     final newViewState = viewState.copyWith(
-      currentIndex: currentIndex,
-      streamRealTimeInfo: streamRealTimeInfo,
+      currentIndex: index,
+      streamBusRealTimeInfo: () => streamRealTimeInfo,
     );
 
     emit(state.copyWith(viewState: newViewState));

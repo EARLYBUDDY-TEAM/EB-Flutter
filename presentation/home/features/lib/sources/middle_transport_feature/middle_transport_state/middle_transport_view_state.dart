@@ -2,29 +2,32 @@ part of '../../../middle_transport_feature.dart';
 
 sealed class SealedMiddleTransportViewState extends Equatable {}
 
-final class InfoMiddleTransportState extends SealedMiddleTransportViewState {
+final class InfoMiddleTransportViewState
+    extends SealedMiddleTransportViewState {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
-  final Stream<List<RealTimeInfo>> streamRealTimeInfo;
+  final StreamRealTimeInfo? streamBusRealTimeInfo;
   final bool reloadTrigger;
 
-  InfoMiddleTransportState({
+  InfoMiddleTransportViewState({
     required this.currentIndex,
     required this.cardStateList,
-    required this.streamRealTimeInfo,
+    required this.streamBusRealTimeInfo,
     this.reloadTrigger = false,
   });
 
-  InfoMiddleTransportState copyWith({
+  InfoMiddleTransportViewState copyWith({
     int? currentIndex,
     List<InfoMiddleTransportCardState>? cardStateList,
-    Stream<List<RealTimeInfo>>? streamRealTimeInfo,
+    Stream<List<RealTimeInfo>>? Function()? streamBusRealTimeInfo,
     bool? reloadTrigger,
   }) {
-    return InfoMiddleTransportState(
+    return InfoMiddleTransportViewState(
       currentIndex: currentIndex ?? this.currentIndex,
       cardStateList: cardStateList ?? this.cardStateList,
-      streamRealTimeInfo: streamRealTimeInfo ?? this.streamRealTimeInfo,
+      streamBusRealTimeInfo: streamBusRealTimeInfo != null
+          ? streamBusRealTimeInfo()
+          : this.streamBusRealTimeInfo,
       reloadTrigger: reloadTrigger ?? this.reloadTrigger,
     );
   }
@@ -33,7 +36,7 @@ final class InfoMiddleTransportState extends SealedMiddleTransportViewState {
   List<Object?> get props => [
         currentIndex,
         cardStateList,
-        streamRealTimeInfo,
+        streamBusRealTimeInfo,
         reloadTrigger,
       ];
 }

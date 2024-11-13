@@ -1,5 +1,7 @@
 part of '../../entity.dart';
 
+typedef StreamRealTimeInfo = Stream<List<RealTimeInfo>>;
+
 final class RealTimeInfo extends Equatable {
   final String transportName;
   final int? arrivalSec1;

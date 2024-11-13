@@ -54,8 +54,10 @@ final class _MiddleTransportBlocViewState
     return BlocProvider<MiddleTranportBloc>(
       create: (context) {
         final tmpBloc = MiddleTranportBloc(
-          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
-        )..add(SetupMiddleTransport(schedulePath: widget.schedulePath));
+          realTimeInfoEvent: RepositoryProvider.of<RealTimeInfoEvent>(context),
+        )..add(
+            SetupMiddleTransport(schedulePath: widget.schedulePath),
+          );
         bloc = tmpBloc;
         return tmpBloc;
       },
@@ -103,14 +105,14 @@ final class _MiddleTransportCardContent extends StatelessWidget {
                 ),
                 child: const MiddleTransportAddScheduleCard(),
               );
-            case InfoMiddleTransportState():
+            case InfoMiddleTransportViewState():
               final cardStateList = viewState.cardStateList;
               final currentIndex = viewState.currentIndex;
-              final streamRealTimeInfo = viewState.streamRealTimeInfo;
+              final streamBusRealTimeInfo = viewState.streamBusRealTimeInfo;
 
               return MiddleTransportInfoView(
                 currentIndex: currentIndex,
-                streamRealTimeInfo: streamRealTimeInfo,
+                streamRealTimeInfo: streamBusRealTimeInfo,
                 cardStateList: cardStateList,
                 horizontalPadding: horizontalPadding,
               );
