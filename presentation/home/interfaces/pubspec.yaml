@@ -14,6 +14,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   table_calendar: ^3.1.0
   modal_bottom_sheet: ^3.0.0
+  flutter_local_notifications: ^18.0.1
 
   eb_delegate: any
   eb_repository: any

@@ -27,6 +27,7 @@ final class _HomeViewState extends State<HomeView> {
           homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
+          notificationEvent: RepositoryProvider.of<NotificationEvent>(context),
           cancelModalViewAction: () {
             // Navigator.of(context).popUntil(
             //   (route) => route.settings.name == "HomeView",
@@ -65,10 +66,12 @@ final class EBHomeView extends StatelessWidget {
 
   Widget _addScheduleButton(BuildContext context) {
     return _ScheduleAddButton(
-      onPressed: () => Navigator.of(context).push(
-        AddScheduleView.pageInitAddSchedule(context: context),
-      ),
-    );
+        // onPressed: () => Navigator.of(context).push(
+        //   AddScheduleView.pageInitAddSchedule(context: context),
+        // ),
+        onPressed: () async {
+      await RepositoryProvider.of<NotificationEvent>(context).show();
+    });
   }
 
   Widget _homeContent() {

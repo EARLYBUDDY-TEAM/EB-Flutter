@@ -28,6 +28,7 @@ final class RootView extends StatelessWidget {
   late final _realTimeInfoEvent = RealTimeInfoEvent(
     homeRepositoryAB: _homeRepository,
   );
+  late final _notificationEvent = NotificationEvent();
   // 좀더 하위뷰에서 주입하기..
 
   RootView({
@@ -77,6 +78,7 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
         RepositoryProvider.value(value: _realTimeInfoEvent),
+        RepositoryProvider.value(value: _notificationEvent),
       ],
       child: const _RootBlocView(),
     );

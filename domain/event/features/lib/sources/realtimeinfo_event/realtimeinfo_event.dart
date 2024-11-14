@@ -175,9 +175,9 @@ extension on RealTimeInfoEvent {
   ) {
     final now = DateTime.now();
     final dateName = DateFormat.EEEE().format(now);
-    if (dateName == Day.Saturday.name) {
+    if (dateName == EBDay.Saturday.name) {
       return totalSubwaySchedule.saturDaySchedule;
-    } else if (dateName == Day.Sunday.name) {
+    } else if (dateName == EBDay.Sunday.name) {
       return totalSubwaySchedule.holidayDaySchedule;
     } else {
       return totalSubwaySchedule.weekDaySchedule;

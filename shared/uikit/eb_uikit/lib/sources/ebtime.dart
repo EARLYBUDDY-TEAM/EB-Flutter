@@ -1,6 +1,6 @@
 part of '../eb_uikit.dart';
 
-enum Day {
+enum EBDay {
   Monday,
   Tuesday,
   Wednesday,
