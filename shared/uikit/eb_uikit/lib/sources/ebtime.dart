@@ -1,5 +1,34 @@
 part of '../eb_uikit.dart';
 
+enum Day {
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+  Sunday,
+}
+
+extension TimeOfDayExtension on TimeOfDay {
+  int toInt() {
+    return (hour * 60) + minute;
+  }
+
+  CompareDateResult compareTo(TimeOfDay other) {
+    final myTime = toInt();
+    final otherTime = other.toInt();
+
+    if (myTime < otherTime) {
+      return CompareDateResult.right;
+    } else if (myTime > otherTime) {
+      return CompareDateResult.left;
+    } else {
+      return CompareDateResult.same;
+    }
+  }
+}
+
 extension EBTime on DateTime {
   DateTime toDate() {
     return DateTime(year, month, day);

@@ -36,6 +36,10 @@ final class TotalSubwayScheduleDTO {
       holidayDaySchedule: holidaySchedule,
     );
   }
+
+  static TotalSubwayScheduleDTO mock() {
+    return TotalSubwayScheduleDTO.fromJson(dummySubwayScheduleDTO);
+  }
 }
 
 final class SubwayScheduleDTO {

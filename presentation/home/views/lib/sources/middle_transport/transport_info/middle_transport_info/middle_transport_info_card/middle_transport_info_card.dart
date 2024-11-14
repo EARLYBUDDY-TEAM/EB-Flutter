@@ -74,6 +74,12 @@ final class _MiddleTransportInfoCardStatefulViewState
             realTimeInfoList: realTimeInfoList,
           );
 
+          final curRealTimeInfo = _getRealTimeInfo(
+            realTimeInfoList: realTimeInfoList,
+          );
+
+          log(realTimeInfoList.toString());
+
           return MiddleTransportCardForm(
             verticalPadding: 10,
             horizontalPadding: 10,
@@ -89,9 +95,7 @@ final class _MiddleTransportInfoCardStatefulViewState
                 ),
                 _RightDisPatchColumn(
                   index: widget.myIndex,
-                  realTimeInfo: _getRealTimeInfo(
-                    realTimeInfoList: realTimeInfoList,
-                  ),
+                  realTimeInfo: curRealTimeInfo,
                 ),
               ],
             ),

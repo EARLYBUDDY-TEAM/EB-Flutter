@@ -18,17 +18,25 @@ final class TotalSubwaySchedule extends Equatable {
         holidayDaySchedule,
       ];
 
+  static Iterable<SubwaySchedule> Function(SubwayScheduleDTO)
+      get _subwayScheduleFromDTOInExpand {
+    return (dto) {
+      final tmpSubwaySchedule = SubwaySchedule.fromDTO(dto: dto);
+      return (tmpSubwaySchedule != null) ? [tmpSubwaySchedule] : [];
+    };
+  }
+
   static TotalSubwaySchedule fromDTO({required TotalSubwayScheduleDTO dto}) {
     final weekDaySchedule = dto.weekDaySchedule
-        .map<SubwaySchedule>((w) => SubwaySchedule.fromDTO(dto: w))
+        .expand<SubwaySchedule>(_subwayScheduleFromDTOInExpand)
         .toList();
 
     final saturDaySchedule = dto.saturDaySchedule
-        .map<SubwaySchedule>((s) => SubwaySchedule.fromDTO(dto: s))
+        .expand<SubwaySchedule>(_subwayScheduleFromDTOInExpand)
         .toList();
 
     final holidayDaySchedule = dto.holidayDaySchedule
-        .map<SubwaySchedule>((h) => SubwaySchedule.fromDTO(dto: h))
+        .expand<SubwaySchedule>(_subwayScheduleFromDTOInExpand)
         .toList();
 
     return TotalSubwaySchedule(
@@ -37,11 +45,16 @@ final class TotalSubwaySchedule extends Equatable {
       holidayDaySchedule: holidayDaySchedule,
     );
   }
+
+  static TotalSubwaySchedule mock() {
+    final dto = TotalSubwayScheduleDTO.mock();
+    return TotalSubwaySchedule.fromDTO(dto: dto);
+  }
 }
 
 final class SubwaySchedule extends Equatable {
-  final String departureTime;
-  final int firstLastFlag;
+  final TimeOfDay departureTime;
+  final bool firstLastFlag;
 
   const SubwaySchedule({
     required this.departureTime,
@@ -54,7 +67,38 @@ final class SubwaySchedule extends Equatable {
         firstLastFlag,
       ];
 
-  SubwaySchedule.fromDTO({required SubwayScheduleDTO dto})
-      : departureTime = dto.departureTime,
-        firstLastFlag = dto.firstLastFlag;
+  static SubwaySchedule? fromDTO({
+    required SubwayScheduleDTO dto,
+  }) {
+    final firstLastFlag = (dto.firstLastFlag == 1) ? true : false;
+    final departureTime = _deparetureTimeStringToDateTime(dto.departureTime);
+    if (departureTime == null) {
+      return null;
+    }
+
+    return SubwaySchedule(
+      departureTime: departureTime,
+      firstLastFlag: firstLastFlag,
+    );
+  }
+
+  static TimeOfDay? _deparetureTimeStringToDateTime(
+      String departureTimeString) {
+    final List<int> departureTimeList = departureTimeString
+        .split(":")
+        .map<int>(
+          (e) => int.parse(e),
+        )
+        .toList();
+
+    if (departureTimeList.length != 2) {
+      return null;
+    }
+
+    final int hour = departureTimeList[0];
+    final int minute = departureTimeList[1];
+    final departureTime = TimeOfDay(hour: hour, minute: minute);
+
+    return departureTime;
+  }
 }

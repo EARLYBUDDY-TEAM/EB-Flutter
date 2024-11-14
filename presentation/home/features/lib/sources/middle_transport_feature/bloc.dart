@@ -113,7 +113,7 @@ extension on MiddleTranportBloc {
     return InfoMiddleTransportViewState(
       currentIndex: currentIndex,
       cardStateList: cardStateList,
-      streamBusRealTimeInfo: streamRealTimeInfo,
+      streamRealTimeInfo: streamRealTimeInfo,
     );
   }
 
@@ -194,7 +194,7 @@ extension on MiddleTranportBloc {
         await _realTimeInfoEvent.makeStreamRealTimeInfo(subPath: subPath);
     final newViewState = viewState.copyWith(
       currentIndex: index,
-      streamBusRealTimeInfo: () => streamRealTimeInfo,
+      streamRealTimeInfo: () => streamRealTimeInfo,
     );
 
     emit(state.copyWith(viewState: newViewState));

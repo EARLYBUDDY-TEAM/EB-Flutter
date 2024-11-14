@@ -6,28 +6,28 @@ final class InfoMiddleTransportViewState
     extends SealedMiddleTransportViewState {
   final int currentIndex;
   final List<InfoMiddleTransportCardState> cardStateList;
-  final StreamRealTimeInfo? streamBusRealTimeInfo;
+  final StreamRealTimeInfo? streamRealTimeInfo;
   final bool reloadTrigger;
 
   InfoMiddleTransportViewState({
     required this.currentIndex,
     required this.cardStateList,
-    required this.streamBusRealTimeInfo,
+    required this.streamRealTimeInfo,
     this.reloadTrigger = false,
   });
 
   InfoMiddleTransportViewState copyWith({
     int? currentIndex,
     List<InfoMiddleTransportCardState>? cardStateList,
-    Stream<List<RealTimeInfo>>? Function()? streamBusRealTimeInfo,
+    Stream<List<RealTimeInfo>>? Function()? streamRealTimeInfo,
     bool? reloadTrigger,
   }) {
     return InfoMiddleTransportViewState(
       currentIndex: currentIndex ?? this.currentIndex,
       cardStateList: cardStateList ?? this.cardStateList,
-      streamBusRealTimeInfo: streamBusRealTimeInfo != null
-          ? streamBusRealTimeInfo()
-          : this.streamBusRealTimeInfo,
+      streamRealTimeInfo: streamRealTimeInfo != null
+          ? streamRealTimeInfo()
+          : this.streamRealTimeInfo,
       reloadTrigger: reloadTrigger ?? this.reloadTrigger,
     );
   }
@@ -36,7 +36,7 @@ final class InfoMiddleTransportViewState
   List<Object?> get props => [
         currentIndex,
         cardStateList,
-        streamBusRealTimeInfo,
+        streamRealTimeInfo,
         reloadTrigger,
       ];
 }

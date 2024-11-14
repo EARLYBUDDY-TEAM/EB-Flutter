@@ -35,9 +35,7 @@ final class _ReloadIconTransportInfoCardState
   @override
   void didUpdateWidget(covariant _ReloadIconTransportInfoCard oldWidget) {
     if (widget.realTimeInfo != null) {
-      if (oldWidget.realTimeInfo != widget.realTimeInfo) {
-        _startAnimation();
-      }
+      _startAnimation();
     }
     super.didUpdateWidget(oldWidget);
   }
