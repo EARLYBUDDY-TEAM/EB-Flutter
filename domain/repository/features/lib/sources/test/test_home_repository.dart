@@ -1,23 +1,49 @@
 part of '../../eb_repository.dart';
 
 final class TestHomeRepository implements HomeRepositoryAB {
-  final List<Schedule> scheduleList;
+  final List<SchedulePath> schedulePathList;
 
   TestHomeRepository({
-    required this.scheduleList,
+    required this.schedulePathList,
   });
 
   @override
   Future<Result> getAllSchedules({required String accessToken}) async {
     final successResponse =
-        SuccessResponse(statusCode: 200, model: scheduleList);
+        SuccessResponse(statusCode: 200, model: schedulePathList);
     return Success(success: successResponse);
   }
 
   @override
-  Future<Result> deleteScheduleCard(
-      {required String accessToken, required String scheduleID}) async {
-    final successResponse = SuccessResponse(statusCode: 200, model: EmptyDTO());
+  Future<Result> getBusRealTimeInfo({required int stationID}) async {
+    final mockRealTimeInfo = await delayMockRealTimeInfo();
+    final successResponse =
+        SuccessResponse(statusCode: 200, model: mockRealTimeInfo);
     return Success(success: successResponse);
+  }
+
+  @override
+  Future<Result> getTotalSubwaySchedule({
+    required int stationID,
+    required int wayCode,
+  }) async {
+    final mockRealTimeInfo = await delayMockRealTimeInfo();
+    final successResponse = SuccessResponse(
+      statusCode: 200,
+      model: mockRealTimeInfo,
+    );
+    return Success(success: successResponse);
+  }
+
+  Future<RealTimeInfo> delayMockRealTimeInfo() async {
+    final random = math.Random();
+    const double minSec = 0.5;
+    const double maxSec = 2.0;
+    final tmpDelaySec = random.nextDouble() * (maxSec - minSec) + minSec;
+    final delayMilliSecond = (tmpDelaySec * 1000).round();
+
+    await Future.delayed(Duration(milliseconds: delayMilliSecond));
+
+    return RealTimeInfo.mock();
   }
 }

@@ -1,6 +1,7 @@
 part of '../eb_find_route.dart';
 
 final class _FindRouteAppBar extends AppBar {
+  final String titleText;
   final String? parentName;
   final Function()? cancelAction;
   final Function()? backAction;
@@ -10,6 +11,7 @@ final class _FindRouteAppBar extends AppBar {
   final double fontSize = 17;
 
   _FindRouteAppBar({
+    required this.titleText,
     this.parentName,
     this.backAction,
     this.cancelAction,
@@ -22,7 +24,7 @@ final class _FindRouteAppBar extends AppBar {
   @override
   bool get automaticallyImplyLeading => false;
   @override
-  double? get leadingWidth => 150; // dynamic하게 적용법?
+  double? get leadingWidth => 120; // dynamic하게 적용법?
 
   @override
   Widget? get leading => (parentName != null)
@@ -34,7 +36,7 @@ final class _FindRouteAppBar extends AppBar {
 
   @override
   Widget? get title => Text(
-        '경로 선택',
+        titleText,
         style: TextStyle(
           color: Colors.black,
           fontSize: fontSize,

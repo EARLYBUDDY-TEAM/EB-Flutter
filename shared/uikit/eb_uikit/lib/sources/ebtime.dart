@@ -1,5 +1,34 @@
 part of '../eb_uikit.dart';
 
+enum Day {
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+  Sunday,
+}
+
+extension TimeOfDayExtension on TimeOfDay {
+  int toInt() {
+    return (hour * 60) + minute;
+  }
+
+  CompareDateResult compareTo(TimeOfDay other) {
+    final myTime = toInt();
+    final otherTime = other.toInt();
+
+    if (myTime < otherTime) {
+      return CompareDateResult.right;
+    } else if (myTime > otherTime) {
+      return CompareDateResult.left;
+    } else {
+      return CompareDateResult.same;
+    }
+  }
+}
+
 extension EBTime on DateTime {
   DateTime toDate() {
     return DateTime(year, month, day);
@@ -62,14 +91,24 @@ extension EBTime on DateTime {
     }
   }
 
-  static String intToString(int time) {
-    if (time <= 0) {
+  static String intSecToString(int sec) {
+    if (sec < 60) {
       return '0분';
     }
 
-    final int h = time ~/ 60;
+    final int m = sec ~/ 60;
+    final String minute = "$m분";
+    return minute;
+  }
+
+  static String intMinuteToString(int min) {
+    if (min <= 0) {
+      return '0분';
+    }
+
+    final int h = min ~/ 60;
     final String hour = h == 0 ? '' : '$h시간';
-    final int m = time % 60;
+    final int m = min % 60;
     final String minute = '$m분';
     return hour == '' ? minute : '$hour $minute';
   }

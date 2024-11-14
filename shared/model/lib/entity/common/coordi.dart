@@ -14,11 +14,11 @@ final class Coordi extends Equatable {
   })  : x = coordiDTO.x,
         y = coordiDTO.y;
 
-  Map<String, dynamic> toMap() {
-    return {
-      "x": x,
-      "y": y,
-    };
+  CoordiDTO toDTO() {
+    return CoordiDTO(
+      x: x,
+      y: y,
+    );
   }
 
   @override

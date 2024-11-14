@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:eb_location/eb_location.dart';
 import 'package:eb_network/eb_network.dart';

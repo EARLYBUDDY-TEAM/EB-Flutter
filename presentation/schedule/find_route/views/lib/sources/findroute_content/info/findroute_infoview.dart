@@ -5,15 +5,13 @@ final class _FindRouteInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FindRouteBloc, FindRouteState>(
-      buildWhen: (previous, current) {
-        return previous.searchPlaceInfo != current.searchPlaceInfo;
+    return BlocSelector<FindRouteBloc, FindRouteState, SearchPlaceInfo>(
+      selector: (state) {
+        return state.searchPlaceInfo;
       },
-      builder: (context, state) {
-        final startPlaceName = state.searchPlaceInfo.startPlace.name;
-        final endPlaceName = state.searchPlaceInfo.endPlace.name;
-        final pageChangeStartPlace = state.searchPlaceInfo.pageChangeStartPlace;
-        final pageChangeEndPlace = state.searchPlaceInfo.pageChangeEndPlace;
+      builder: (context, searchPlaceInfo) {
+        final startPlaceName = searchPlaceInfo.startPlace?.name;
+        final endPlaceName = searchPlaceInfo.endPlace?.name;
 
         return Padding(
           padding: EdgeInsets.only(
@@ -32,13 +30,11 @@ final class _FindRouteInfoView extends StatelessWidget {
                     _start(
                       context,
                       startPlaceName,
-                      pageChangeStartPlace,
                     ),
                     _divider(),
                     _end(
                       context,
                       endPlaceName,
-                      pageChangeEndPlace,
                     ),
                   ],
                 ),
@@ -67,55 +63,87 @@ final class _FindRouteInfoView extends StatelessWidget {
 
   Widget _start(
     BuildContext context,
-    String startPlaceName,
-    MaterialPageRoute<dynamic> Function(BuildContext) pageChangeStartPlace,
+    String? startPlaceName,
   ) {
+    final setting = context.read<FindRouteBloc>().state.setting;
+    MaterialPageRoute<dynamic> Function(BuildContext)? pageChangeStartPlace;
+    switch (setting) {
+      case ReadFindRouteSetting():
+        pageChangeStartPlace = null;
+      case WriteFindRouteSetting():
+        pageChangeStartPlace = setting.pageChangeStartPlace;
+      case WriteAndUpdateFindRouteSetting():
+        pageChangeStartPlace = setting.pageChangeStartPlace;
+    }
     return _placeText(
-      context,
-      startPlaceName,
-      pageChangeStartPlace,
+      context: context,
+      placeName: startPlaceName ?? "출발 장소",
+      pageRoute: pageChangeStartPlace,
     );
   }
 
   Widget _end(
     BuildContext context,
-    String endPlaceName,
-    MaterialPageRoute<dynamic> Function(BuildContext) pageChangeEndPlace,
+    String? endPlaceName,
   ) {
+    final setting = context.read<FindRouteBloc>().state.setting;
+    MaterialPageRoute<dynamic> Function(BuildContext)? pageChangeEndPlace;
+    switch (setting) {
+      case ReadFindRouteSetting():
+        pageChangeEndPlace = null;
+      case WriteFindRouteSetting():
+        pageChangeEndPlace = setting.pageChangeEndPlace;
+      case WriteAndUpdateFindRouteSetting():
+        pageChangeEndPlace = setting.pageChangeEndPlace;
+    }
+
     return _placeText(
-      context,
-      endPlaceName,
-      pageChangeEndPlace,
+      context: context,
+      placeName: endPlaceName ?? "도착 장소",
+      pageRoute: pageChangeEndPlace,
     );
   }
 
-  Widget _placeText(
-    BuildContext context,
-    String placeName,
-    MaterialPageRoute<dynamic> Function(BuildContext) pageRoute,
-  ) {
-    return Row(
-      children: [
-        Text(
-          placeName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareExtraBold,
-            color: Colors.grey.withOpacity(0.7),
-            fontSize: 15,
-          ),
+  Widget _placeText({
+    required BuildContext context,
+    required String placeName,
+    required MaterialPageRoute<dynamic> Function(BuildContext)? pageRoute,
+  }) {
+    final List<Widget> children = [
+      Text(
+        placeName,
+        style: TextStyle(
+          fontFamily: FontFamily.nanumSquareExtraBold,
+          color: Colors.grey.withOpacity(0.7),
+          fontSize: 15,
         ),
-        const Spacer(),
-        EBRoundedButton(
-          text: '변경',
-          height: 25,
-          onPressed: () {
-            Navigator.push(
-              context,
-              pageRoute(context),
-            );
-          },
-        ),
-      ],
+      ),
+      const Spacer(),
+    ];
+
+    if (pageRoute != null) {
+      children.add(_changeButton(
+        context: context,
+        pageRoute: pageRoute,
+      ));
+    }
+
+    return Row(children: children);
+  }
+
+  Widget _changeButton({
+    required BuildContext context,
+    required MaterialPageRoute<dynamic> Function(BuildContext) pageRoute,
+  }) {
+    return EBRoundedButton(
+      text: '변경',
+      height: 25,
+      onPressed: () {
+        Navigator.push(
+          context,
+          pageRoute(context),
+        );
+      },
     );
   }
 }

@@ -11,27 +11,39 @@ final class _StartInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (ebSubPath.type) {
-      case (1):
-        return _StartInfoOther.subway(
-          subway: ebSubPath.transports[0].subway!,
-          startName: ebSubPath.startName,
-          startCoordi: ebSubPath.startCoordi!,
-          fontSize: fontSize,
-        );
-      case (2):
-        return _StartInfoOther.bus(
-          bus: ebSubPath.transports[0].bus!,
-          startName: ebSubPath.startName,
-          startCoordi: ebSubPath.startCoordi!,
-          fontSize: fontSize,
-        );
-      default:
-        return _StartInfoWalk(
-          startName: ebSubPath.startName,
-          fontSize: fontSize - 2,
-        );
+    final transportList = ebSubPath.transportList;
+    final startCoordi = ebSubPath.startCoordi;
+    final startName = ebSubPath.startName;
+
+    Widget content = _StartInfoWalk(
+      startName: startName,
+      fontSize: fontSize - 2,
+    );
+
+    if (transportList.isNotEmpty) {
+      switch (transportList) {
+        case List<Subway>():
+          final subway = transportList.first;
+          content = _StartInfoOther.subway(
+            subway: subway,
+            startName: startName,
+            startCoordi: startCoordi,
+            fontSize: fontSize,
+          );
+        case List<Bus>():
+          final bus = transportList.first;
+          content = _StartInfoOther.bus(
+            bus: bus,
+            startName: startName,
+            startCoordi: startCoordi,
+            fontSize: fontSize,
+          );
+        default:
+          break;
+      }
     }
+
+    return content;
   }
 }
 
@@ -62,7 +74,7 @@ final class _StartInfoOther extends StatelessWidget {
   final String transNumber;
   final Color color;
   final String startName;
-  final Coordi startCoordi;
+  final Coordi? startCoordi;
   final double fontSize;
 
   const _StartInfoOther({
@@ -76,46 +88,107 @@ final class _StartInfoOther extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        _StartTransportNumber(
-          number: transNumber,
-          color: color,
-          fontSize: fontSize - 2,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          startName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            fontSize: fontSize,
-            color: EBColors.text,
+    return BlocSelector<FindRouteBloc, FindRouteState, SealedFindRouteSetting>(
+      selector: (state) {
+        return state.setting;
+      },
+      builder: (context, setting) {
+        final parentViewName =
+            (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
+
+        return Row(
+          mainAxisSize: MainAxisSize.max,
+          children: _children(
+            context: context,
+            parentViewName: parentViewName,
+            startCoordi: startCoordi,
+            setting: setting,
           ),
-        ),
-        const Spacer(),
-        EBRoundedButton(
-          text: '지도보기',
-          height: 25,
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => FindRouteKakaoMapView(
-                  placeName: startName,
-                  coordi: startCoordi,
-                ),
-              ),
-            );
-          },
-        ),
-      ],
+        );
+      },
     );
+  }
+
+  List<Widget> _children({
+    required BuildContext context,
+    required String parentViewName,
+    required Coordi? startCoordi,
+    required SealedFindRouteSetting setting,
+  }) {
+    final List<Widget> widgetList = [
+      _StartTransportNumber(
+        number: transNumber,
+        color: color,
+        fontSize: fontSize - 2,
+      ),
+      const SizedBox(width: 8),
+      Text(
+        startName,
+        style: TextStyle(
+          fontFamily: FontFamily.nanumSquareBold,
+          fontSize: fontSize,
+          color: EBColors.text,
+        ),
+      ),
+      const Spacer(),
+    ];
+
+    if (startCoordi != null) {
+      widgetList.add(
+        _showMapButton(
+            context: context,
+            parentViewName: parentViewName,
+            startCoordi: startCoordi,
+            setting: setting),
+      );
+    }
+
+    return widgetList;
+  }
+
+  Widget _showMapButton({
+    required BuildContext context,
+    required String parentViewName,
+    required Coordi startCoordi,
+    required SealedFindRouteSetting setting,
+  }) {
+    return EBRoundedButton(
+      text: '지도보기',
+      height: 25,
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => FindRouteKakaoMapView(
+              parentViewName: parentViewName,
+              placeName: startName,
+              coordi: startCoordi,
+              cancelAction: _cancelAction(
+                context: context,
+                setting: setting,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Function()? _cancelAction({
+    required BuildContext context,
+    required SealedFindRouteSetting setting,
+  }) {
+    return (setting is ReadFindRouteSetting)
+        ? () {
+            final homeDelegate = RepositoryProvider.of<HomeDelegate>(context);
+            homeDelegate.cancelModalView.add(());
+          }
+        : null;
   }
 
   factory _StartInfoOther.bus({
     required Bus bus,
     required String startName,
-    required Coordi startCoordi,
+    required Coordi? startCoordi,
     required double fontSize,
   }) {
     return _StartInfoOther(
@@ -130,7 +203,7 @@ final class _StartInfoOther extends StatelessWidget {
   factory _StartInfoOther.subway({
     required Subway subway,
     required String startName,
-    required Coordi startCoordi,
+    required Coordi? startCoordi,
     required double fontSize,
   }) {
     return _StartInfoOther(

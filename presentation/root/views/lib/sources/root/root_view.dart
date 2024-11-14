@@ -20,6 +20,14 @@ final class RootView extends StatelessWidget {
     loginDelegate: _loginDelegate,
     tokenRepository: _tokenRepository,
   );
+  late final _scheduleEvent = ScheduleEvent(
+    loadingDelegate: _loadingDelegate,
+    scheduleRepository: _scheduleRepository,
+    tokenEvent: _tokenEvent,
+  );
+  late final _realTimeInfoEvent = RealTimeInfoEvent(
+    homeRepositoryAB: _homeRepository,
+  );
   // 좀더 하위뷰에서 주입하기..
 
   RootView({
@@ -67,6 +75,8 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _tokenRepository),
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _tokenEvent),
+        RepositoryProvider.value(value: _scheduleEvent),
+        RepositoryProvider.value(value: _realTimeInfoEvent),
       ],
       child: const _RootBlocView(),
     );

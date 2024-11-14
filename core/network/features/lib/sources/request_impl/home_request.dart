@@ -17,19 +17,38 @@ final class HomeRequest {
     );
   }
 
-  static ApiRequest<EmptyDTO> deleteScheduleCard({
-    required String accessToken,
-    required String scheduleID,
-  }) {
-    const path = '/home/delete_schedule';
-    final Map<String, String> query = {"scheduleID": scheduleID};
-    final header = {"access_token": accessToken};
+  static ApiRequest<RealTimeInfoDTOList> getBusRealTimeInfo(
+      {required int stationID, get_bus_realtime_info}) {
+    const path = "/realtime/get_bus_realtime_info";
+    final query = {"station_id": "$stationID"};
+    RealTimeInfoDTOList converter(dynamic responseData) =>
+        RealTimeInfoDTOList.fromJson(responseData);
 
     return ApiRequest(
       path: path,
       query: query,
-      headers: header,
-      method: HTTPMethod.delete,
+      converter: converter,
+      method: HTTPMethod.get,
+    );
+  }
+
+  static ApiRequest<TotalSubwayScheduleDTO> getTotalSubwaySchedule({
+    required int stationID,
+    required int wayCode,
+  }) {
+    const path = "/realtime/get_total_subway_schedule";
+    final query = {
+      "station_id": "$stationID",
+      "way_code": "$wayCode",
+    };
+    converter(dynamic responseData) =>
+        TotalSubwayScheduleDTO.fromJson(responseData);
+
+    return ApiRequest(
+      path: path,
+      query: query,
+      converter: converter,
+      method: HTTPMethod.get,
     );
   }
 }

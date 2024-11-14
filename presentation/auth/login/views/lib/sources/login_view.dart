@@ -3,9 +3,9 @@ part of '../eb_login.dart';
 final class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
-  static Route<void> route() {
+  static Route<void> route(BuildContext context) {
     return MaterialPageRoute<void>(
-      builder: (_) => const LoginView(),
+      builder: (context) => const LoginView(),
     );
   }
 

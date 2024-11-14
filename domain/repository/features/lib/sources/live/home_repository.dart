@@ -39,21 +39,66 @@ final class HomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> deleteScheduleCard({
-    required String accessToken,
-    required String scheduleID,
+  Future<Result> getBusRealTimeInfo({
+    required int stationID,
   }) async {
-    final request = HomeRequest.deleteScheduleCard(
-      accessToken: accessToken,
-      scheduleID: scheduleID,
+    final request = HomeRequest.getBusRealTimeInfo(stationID: stationID);
+    final result = await service.request(request);
+
+    switch (result) {
+      case Success():
+        final SuccessResponse successResponse = result.success;
+        final RealTimeInfoDTOList realTimeInfoDTOList = successResponse.model;
+        final dtoList = realTimeInfoDTOList.realTimeInfoDTOList;
+        final List<RealTimeInfo> realTimeInfoList = dtoList
+            .map<RealTimeInfo>(
+              (r) => RealTimeInfo.fromDTO(dto: r),
+            )
+            .toList();
+
+        final newSuccessResponse = SuccessResponse(
+          statusCode: successResponse.statusCode,
+          model: realTimeInfoList,
+        );
+        final newResult = Success(success: newSuccessResponse);
+        return newResult;
+      case Failure():
+        final FailureResponse failureResponse = result.failure;
+        log(failureResponse.error.toString());
+        log(failureResponse.statusCode.toString());
+        return result;
+    }
+  }
+
+  @override
+  Future<Result> getTotalSubwaySchedule({
+    required int stationID,
+    required int wayCode,
+  }) async {
+    final request = HomeRequest.getTotalSubwaySchedule(
+      stationID: stationID,
+      wayCode: wayCode,
     );
 
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
-        return result;
-      case (Failure()):
+      case Success():
+        final SuccessResponse successResponse = result.success;
+        final TotalSubwayScheduleDTO totalSubwayScheduleDTO =
+            successResponse.model;
+        final TotalSubwaySchedule totalSubwaySchedule =
+            TotalSubwaySchedule.fromDTO(
+          dto: totalSubwayScheduleDTO,
+        );
+
+        final newSuccessResponse = SuccessResponse(
+          statusCode: successResponse.statusCode,
+          model: totalSubwaySchedule,
+        );
+        final newResult = Success(success: newSuccessResponse);
+        return newResult;
+      case Failure():
         final FailureResponse failureResponse = result.failure;
         log(failureResponse.error.toString());
         log(failureResponse.statusCode.toString());

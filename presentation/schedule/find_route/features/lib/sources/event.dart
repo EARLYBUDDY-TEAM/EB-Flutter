@@ -38,13 +38,6 @@ final class SetSearchPlaceInfo extends FindRouteEvent {
       ];
 }
 
-final class OnAppearFindRouteView extends FindRouteEvent {
-  const OnAppearFindRouteView();
-
-  @override
-  List<Object?> get props => [];
-}
-
 final class CancelViewAction extends FindRouteEvent {
   const CancelViewAction();
 
@@ -57,4 +50,26 @@ final class PressSelectRouteButton extends FindRouteEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+final class SetupFindRouteView extends FindRouteEvent {
+  final SealedFindRouteSetting setting;
+
+  const SetupFindRouteView({
+    required this.setting,
+  });
+
+  @override
+  List<Object?> get props => [setting];
+}
+
+final class SetUpdateResult extends FindRouteEvent {
+  final BaseStatus result;
+
+  const SetUpdateResult({
+    required this.result,
+  });
+
+  @override
+  List<Object?> get props => [result];
 }

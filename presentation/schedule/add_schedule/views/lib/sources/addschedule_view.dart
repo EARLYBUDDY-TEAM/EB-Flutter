@@ -46,35 +46,30 @@ final class AddScheduleView extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         return AddScheduleBloc(
-          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
           homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+          scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
           addScheduleDelegate:
               RepositoryProvider.of<AddScheduleDelegate>(context),
-          scheduleRepository:
-              RepositoryProvider.of<ScheduleRepository>(context),
-          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-          cancelModalViewAction: () {
-            Navigator.of(context).pop();
-          },
+          cancelModalViewAction: () => Navigator.of(context).pop(),
         )..add(SetupAddScheduleView(setting: setting));
       },
       child: const _AddScheduleContent(),
     );
   }
 
-  static MaterialPageRoute pageFindRoute({
+  static MaterialPageRoute pageWriteFindRoute({
+    required BuildContext context,
     required Place startPlace,
     required Place endPlace,
     String? parentName,
   }) {
-    return MaterialPageRoute(
-      builder: (_) => FindRouteView(
-        startPlace: startPlace,
-        endPlace: endPlace,
-        pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
-        pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
-        parentName: parentName,
-      ),
+    return FindRouteView.pageWriteFindRoute(
+      context: context,
+      startPlace: startPlace,
+      endPlace: endPlace,
+      pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
+      pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
+      parentName: parentName,
     );
   }
 }

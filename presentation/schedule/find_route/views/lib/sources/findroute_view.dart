@@ -1,10 +1,9 @@
 part of '../eb_find_route.dart';
 
 final class FindRouteView extends StatelessWidget {
-  final Place startPlace;
-  final Place endPlace;
-  final MaterialPageRoute Function(BuildContext) pageChangeStartPlace;
-  final MaterialPageRoute Function(BuildContext) pageChangeEndPlace;
+  final Place? startPlace;
+  final Place? endPlace;
+  final SealedFindRouteSetting setting;
   final String? parentName;
 
   const FindRouteView({
@@ -12,9 +11,73 @@ final class FindRouteView extends StatelessWidget {
     this.parentName,
     required this.startPlace,
     required this.endPlace,
-    required this.pageChangeStartPlace,
-    required this.pageChangeEndPlace,
+    required this.setting,
   });
+
+  static MaterialPageRoute pageReadFindRoute({
+    required BuildContext context,
+    required Place startPlace,
+    required Place endPlace,
+    required EBPath path,
+    String? parentName,
+  }) {
+    return MaterialPageRoute(
+      builder: (context) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        setting: ReadFindRouteSetting(path: path),
+        parentName: parentName,
+      ),
+    );
+  }
+
+  static MaterialPageRoute pageWriteFindRoute({
+    required BuildContext context,
+    required Place? startPlace,
+    required Place? endPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeStartPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeEndPlace,
+    String? parentName,
+  }) {
+    return MaterialPageRoute(
+      builder: (context) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        setting: WriteFindRouteSetting(
+          pageChangeStartPlace: pageChangeStartPlace,
+          pageChangeEndPlace: pageChangeEndPlace,
+        ),
+        parentName: parentName,
+      ),
+    );
+  }
+
+  static MaterialPageRoute pageWriteAndUpdateFindRoute({
+    required BuildContext context,
+    required SchedulePath schedulePath,
+    required Place? startPlace,
+    required Place? endPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeStartPlace,
+    required MaterialPageRoute Function(BuildContext context)
+        pageChangeEndPlace,
+    String? parentName,
+  }) {
+    return MaterialPageRoute(
+      builder: (context) => FindRouteView(
+        startPlace: startPlace,
+        endPlace: endPlace,
+        setting: WriteAndUpdateFindRouteSetting(
+          schedulePath: schedulePath,
+          pageChangeStartPlace: pageChangeStartPlace,
+          pageChangeEndPlace: pageChangeEndPlace,
+        ),
+        parentName: parentName,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,47 +87,61 @@ final class FindRouteView extends StatelessWidget {
         findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
         addScheduleDelegate:
             RepositoryProvider.of<AddScheduleDelegate>(context),
+        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
+        scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
         findRouteState: FindRouteState(
           searchPlaceInfo: SearchPlaceInfo(
             startPlace: startPlace,
             endPlace: endPlace,
-            pageChangeStartPlace: pageChangeStartPlace,
-            pageChangeEndPlace: pageChangeEndPlace,
           ),
+          setting: setting,
         ),
-      )..add(const OnAppearFindRouteView()),
-      child: _FindRouteScaffold(
+      )..add(SetupFindRouteView(setting: setting)),
+      child: FindRouteScaffold(
         parentName: parentName,
       ),
     );
   }
 }
 
-final class _FindRouteScaffold extends StatelessWidget {
+final class FindRouteScaffold extends StatelessWidget {
   final String? parentName;
   final selectRouteName = '경로 목록';
 
-  const _FindRouteScaffold({
+  const FindRouteScaffold({
+    super.key,
     required this.parentName,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FindRouteBloc, FindRouteState>(
+    return BlocConsumer<FindRouteBloc, FindRouteState>(
+      listener: (context, state) {
+        _showUpdateScheduleResultAlert(
+          context: context,
+          result: state.updateResult,
+        );
+      },
       buildWhen: (previous, current) {
-        return previous.contentStatus != current.contentStatus;
+        final flag1 = previous.contentStatus != current.contentStatus;
+        final flag2 = previous.routeInfo != current.routeInfo;
+
+        return (flag1 || flag2);
       },
       builder: (context, state) {
         final contentStatus = state.contentStatus;
+        final setting = state.setting;
 
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: _FindRouteAppBar(
-            parentName: (contentStatus is DetailFindRouteStatus)
-                ? selectRouteName
-                : parentName,
+            titleText: _titleText(setting: setting),
+            parentName: _parentName(
+              setting: setting,
+              contentStatus: contentStatus,
+            ),
             backAction: _backAction(
               contentStatus: contentStatus,
               context: context,
@@ -73,19 +150,49 @@ final class _FindRouteScaffold extends StatelessWidget {
                 context.read<FindRouteBloc>().add(const CancelViewAction()),
           ),
           body: Stack(
-            children: _children(contentStatus),
+            children: _children(
+              contentStatus: contentStatus,
+              setting: setting,
+            ),
           ),
         );
       },
     );
   }
 
-  List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
+  String _titleText({
+    required SealedFindRouteSetting setting,
+  }) {
+    return (setting is ReadFindRouteSetting) ? "경로 보기" : '경로 선택';
+  }
+
+  String? _parentName({
+    required SealedFindRouteSetting setting,
+    required SealedFindRouteContentStatus contentStatus,
+  }) {
+    if (setting is ReadFindRouteSetting) {
+      return null;
+    }
+    return (contentStatus is DetailFindRouteStatus)
+        ? selectRouteName
+        : parentName;
+  }
+
+  List<Widget> _children({
+    required SealedFindRouteContentStatus contentStatus,
+    required SealedFindRouteSetting setting,
+  }) {
     final List<Widget> listWidget = [
-      Column(
-        children: [_FindRouteSwitchContent()],
-      ),
+      SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: _FindRouteSwitchContent(),
+      )
     ];
+
+    if (setting is ReadFindRouteSetting) {
+      return listWidget;
+    }
 
     if (contentStatus is DetailFindRouteStatus) {
       listWidget.add(_SelectRouteButton());
@@ -111,11 +218,58 @@ final class _FindRouteScaffold extends StatelessWidget {
   }
 
   void _showSelectRouteView(BuildContext context) {
+    final state = context.read<FindRouteBloc>().state;
+    final contentStatus = state.createSelectContentStatus();
+
     context.read<FindRouteBloc>().add(
           SetFindRouteContentStatus(
-            contentStatus: SelectFindRouteStatus(),
+            contentStatus: contentStatus,
           ),
         );
+  }
+
+  void _showUpdateScheduleResultAlert({
+    required BuildContext context,
+    required BaseStatus result,
+  }) {
+    String title;
+    String? content;
+    bool popAddScheduleView;
+
+    switch (result) {
+      case BaseStatus.init:
+        return;
+      case BaseStatus.success:
+        title = "일정을 수정했습니다!";
+        popAddScheduleView = true;
+      case BaseStatus.fail:
+        title = "일정수정에 실패했습니다.";
+        content = "네트워크 상태를 확인후 다시 시도해주세요.";
+        popAddScheduleView = false;
+    }
+
+    EBAlert.showModalPopup(
+      context: context,
+      title: title,
+      content: content,
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            Navigator.of(context).pop();
+            context.read<FindRouteBloc>().add(
+                  const SetUpdateResult(
+                    result: BaseStatus.init,
+                  ),
+                );
+            if (popAddScheduleView) {
+              context.read<FindRouteBloc>().add(const CancelViewAction());
+            }
+          },
+          isDefaultAction: true,
+        ),
+      ],
+    );
   }
 }
 
@@ -133,12 +287,18 @@ final class _FindRouteSwitchContent extends StatelessWidget {
 
         switch (contentStatus) {
           case EmptyDataFindRouteStatus():
-            return _FindRouteEmptyDataView(
+            return FindRouteEmptyDataView(
               headerHeight: headerHeight,
             );
           default:
-            return _FindRouteScrollView(
-              headerHeight: headerHeight,
+            return Column(
+              children: [
+                Expanded(
+                  child: _FindRouteScrollView(
+                    headerHeight: headerHeight,
+                  ),
+                ),
+              ],
             );
         }
       },

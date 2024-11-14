@@ -8,10 +8,17 @@ abstract class HomeRepositoryAB {
     throw UnimplementedError('구현부');
   }
 
-  // 스케줄 지우기
-  Future<Result> deleteScheduleCard({
-    required String accessToken,
-    required String scheduleID,
+  /// 버스 실시간 정보 가져오기
+  Future<Result> getBusRealTimeInfo({
+    required int stationID,
+  }) async {
+    throw UnimplementedError('구현부');
+  }
+
+  /// 지하철 실시간 정보 가져오기
+  Future<Result> getTotalSubwaySchedule({
+    required int stationID,
+    required int wayCode,
   }) async {
     throw UnimplementedError('구현부');
   }

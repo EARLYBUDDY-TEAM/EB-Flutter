@@ -12,8 +12,11 @@ final class ScheduleRepository {
     required Schedule schedule,
     required EBPath? ebPath,
   }) async {
-    final scheduleMap = schedule.toMap();
-    final pathMap = ebPath?.toMap();
+    final scheduleDTO = schedule.toDTO();
+    final scheduleMap = scheduleDTO.toMap();
+    final ebPathDTO = ebPath?.toDTO();
+    final pathMap = ebPathDTO?.toMap();
+
     final request = AddScheduleRequest.create(
       accessToken: accessToken,
       scheduleMap: scheduleMap,
@@ -37,9 +40,11 @@ final class ScheduleRepository {
     required Schedule schedule,
     required EBPath? ebPath,
   }) async {
-    final scheduleMap = schedule.toMap();
-    final pathMap = ebPath?.toMap();
-    log(pathMap.toString());
+    final scheduleDTO = schedule.toDTO();
+    final scheduleMap = scheduleDTO.toMap();
+    final pathDTO = ebPath?.toDTO();
+    final pathMap = pathDTO?.toMap();
+
     final request = AddScheduleRequest.update(
       accessToken: accessToken,
       scheduleMap: scheduleMap,

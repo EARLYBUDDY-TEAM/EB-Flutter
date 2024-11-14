@@ -71,6 +71,17 @@ final class PlaceDTO {
       coordi: coordi,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "name": name,
+      "address": address,
+      "category": category,
+      "distance": distance,
+      "coordi": coordi.toMap(),
+    };
+  }
 }
 
 final class CoordiDTO {
@@ -87,5 +98,12 @@ final class CoordiDTO {
       x: j['x'],
       y: j['y'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "x": x,
+      "y": y,
+    };
   }
 }

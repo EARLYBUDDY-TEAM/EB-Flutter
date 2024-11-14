@@ -17,31 +17,58 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _rowChildren,
+        children: _rowChildren(context),
       ),
     );
   }
 
-  List<Widget> get _rowChildren {
+  List<Widget> _rowChildren(BuildContext context) {
     final List<Widget> content = [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: _columnChildren,
       ),
     ];
-    if (schedule.startPlace != null) {
-      content.add(_showRouteButton());
+    if ((ebPath != null) &&
+        (schedule.startPlace != null) &&
+        (schedule.endPlace != null)) {
+      content.add(
+        _showRouteButton(
+          context: context,
+          startPlace: schedule.startPlace!,
+          endPlace: schedule.endPlace!,
+          path: ebPath!,
+        ),
+      );
     }
     return content;
   }
 
-  Widget _showRouteButton() {
+  Widget _showRouteButton({
+    required BuildContext context,
+    required Place startPlace,
+    required Place endPlace,
+    required EBPath path,
+  }) {
     return EBRoundedButton(
       text: "  경로보기  ",
       fontSize: 20,
       height: 40,
       color: textColor,
-      onPressed: () {},
+      onPressed: () => showCupertinoModalBottomSheet(
+        expand: true,
+        context: context,
+        backgroundColor: Colors.white,
+        builder: builderModalBottomSheet(
+          context: context,
+          onGenerateRoute: FindRouteView.pageReadFindRoute(
+            context: context,
+            startPlace: startPlace,
+            endPlace: endPlace,
+            path: path,
+          ),
+        ),
+      ),
     );
   }
 

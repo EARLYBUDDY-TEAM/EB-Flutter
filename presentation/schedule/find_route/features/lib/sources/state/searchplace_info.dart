@@ -1,27 +1,21 @@
 part of '../../../eb_find_route_feature.dart';
 
 final class SearchPlaceInfo extends Equatable {
-  final Place startPlace;
-  final Place endPlace;
-  final MaterialPageRoute Function(BuildContext context) pageChangeStartPlace;
-  final MaterialPageRoute Function(BuildContext context) pageChangeEndPlace;
+  final Place? startPlace;
+  final Place? endPlace;
 
   const SearchPlaceInfo({
     required this.startPlace,
     required this.endPlace,
-    required this.pageChangeStartPlace,
-    required this.pageChangeEndPlace,
   });
 
   SearchPlaceInfo copyWith({
-    Place? startPlace,
-    Place? endPlace,
+    Place? Function()? startPlace,
+    Place? Function()? endPlace,
   }) =>
       SearchPlaceInfo(
-        startPlace: startPlace ?? this.startPlace,
-        endPlace: endPlace ?? this.endPlace,
-        pageChangeStartPlace: pageChangeStartPlace,
-        pageChangeEndPlace: pageChangeEndPlace,
+        startPlace: startPlace != null ? startPlace() : this.startPlace,
+        endPlace: endPlace != null ? endPlace() : this.endPlace,
       );
 
   @override

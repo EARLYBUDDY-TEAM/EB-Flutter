@@ -11,27 +11,35 @@ final class _EndInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (ebSubPath.type) {
-      case (1):
-        final subway = ebSubPath.transports[0].subway!;
-        return _EndInfoOther.subway(
-          subway: subway,
-          endName: ebSubPath.endName,
-          fontSize: fontSize,
-        );
-      case (2):
-        final bus = ebSubPath.transports[0].bus!;
-        return _EndInfoOther.bus(
-          bus: bus,
-          endName: ebSubPath.endName,
-          fontSize: fontSize,
-        );
-      default:
-        return _EndInfoWalk(
-          endName: ebSubPath.endName,
-          fontSize: fontSize - 2,
-        );
+    final transportList = ebSubPath.transportList;
+    final endName = ebSubPath.endName;
+    Widget content = _EndInfoWalk(
+      endName: endName,
+      fontSize: fontSize - 2,
+    );
+
+    if (transportList.isNotEmpty) {
+      switch (transportList) {
+        case List<Subway>():
+          final subway = transportList.first;
+          content = _EndInfoOther.subway(
+            subway: subway,
+            endName: endName,
+            fontSize: fontSize,
+          );
+        case List<Bus>():
+          final bus = transportList.first;
+          content = _EndInfoOther.bus(
+            bus: bus,
+            endName: endName,
+            fontSize: fontSize,
+          );
+        default:
+          break;
+      }
     }
+
+    return content;
   }
 }
 

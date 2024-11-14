@@ -56,14 +56,23 @@ final class _VTransportLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (ebSubPath.type) {
-      case (1):
-        final color = ebSubPath.transports[0].subway?.color() ?? Colors.grey;
-        return _VTransportLineOther(color: color);
-      default:
-        final color = ebSubPath.transports[0].bus?.color() ?? Colors.grey;
-        return _VTransportLineOther(color: color);
+    final transportList = ebSubPath.transportList;
+    Color lineColor = Colors.grey;
+
+    if (transportList.isNotEmpty) {
+      switch (transportList) {
+        case List<Subway>():
+          final subway = transportList.first;
+          lineColor = subway.color();
+        case List<Bus>():
+          final bus = transportList.first;
+          lineColor = bus.color();
+        default:
+          break;
+      }
     }
+
+    return _VTransportLineOther(color: lineColor);
   }
 }
 

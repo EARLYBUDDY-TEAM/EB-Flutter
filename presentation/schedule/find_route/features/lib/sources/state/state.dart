@@ -2,38 +2,67 @@ part of '../../../eb_find_route_feature.dart';
 
 final class FindRouteState extends Equatable {
   final SearchPlaceInfo searchPlaceInfo;
-  final EBRoute? ebRoute;
-  final FindRouteViewState viewState;
+  final RouteInfo routeInfo;
+  final BaseStatus updateResult;
   final SealedFindRouteContentStatus contentStatus;
+  final SealedFindRouteSetting setting;
 
   FindRouteState({
     required this.searchPlaceInfo,
-    EBRoute? ebRoute,
-    FindRouteViewState? viewState,
+    required this.setting,
+    this.routeInfo = const RouteInfo(),
     SealedFindRouteContentStatus? contentStatus,
-  })  : ebRoute = ebRoute,
-        viewState = viewState ?? const FindRouteViewState(),
-        contentStatus = contentStatus ?? EmptyDataFindRouteStatus();
+    BaseStatus? updateResult,
+  })  : contentStatus = contentStatus ?? EmptyDataFindRouteStatus(),
+        updateResult = updateResult ?? BaseStatus.init;
 
   FindRouteState copyWith({
     SearchPlaceInfo? searchPlaceInfo,
-    EBRoute? Function()? ebRoute,
-    FindRouteViewState? viewState,
+    int? Function()? selectedIndex,
+    RouteInfo? routeInfo,
     SealedFindRouteContentStatus? contentStatus,
+    BaseStatus? updateResult,
   }) {
     return FindRouteState(
       searchPlaceInfo: searchPlaceInfo ?? this.searchPlaceInfo,
-      ebRoute: ebRoute != null ? ebRoute() : this.ebRoute,
-      viewState: viewState ?? this.viewState,
+      routeInfo: routeInfo ?? this.routeInfo,
       contentStatus: contentStatus ?? this.contentStatus,
+      updateResult: updateResult ?? this.updateResult,
+      setting: setting,
+    );
+  }
+
+  SelectFindRouteStatus createSelectContentStatus({
+    RouteInfo? routeInfo,
+  }) {
+    final tmpRouteInfo = routeInfo ?? this.routeInfo;
+    final ebPaths = tmpRouteInfo.ebRoute.ebPaths;
+    final lineOfPaths = tmpRouteInfo.transportLineOfRoute.lineOfRoute;
+    return SelectFindRouteStatus(
+      ebPaths: ebPaths,
+      lineOfPaths: lineOfPaths,
+    );
+  }
+
+  DetailFindRouteStatus createDetailContentStatus({
+    required int selectedIndex,
+    RouteInfo? routeInfo,
+  }) {
+    final tmpRouteInfo = routeInfo ?? this.routeInfo;
+    final path = tmpRouteInfo.ebRoute.ebPaths[selectedIndex];
+
+    return DetailFindRouteStatus(
+      selectedIndex: selectedIndex,
+      path: path,
     );
   }
 
   @override
   List<Object?> get props => [
         searchPlaceInfo,
-        ebRoute,
-        viewState,
+        routeInfo,
         contentStatus,
+        updateResult,
+        setting,
       ];
 }

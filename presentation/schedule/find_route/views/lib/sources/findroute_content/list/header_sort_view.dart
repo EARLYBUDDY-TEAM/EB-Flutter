@@ -51,31 +51,56 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
     ];
 
     if (contentStatus is DetailFindRouteStatus) {
-      content.add(_pathInfo());
+      final pathTime = contentStatus.path.time;
+      final pathType = contentStatus.path.type;
+      content.add(
+        _pathInfo(
+          pathTime: pathTime,
+          pathType: pathType,
+        ),
+      );
     }
 
     return content;
   }
 
-  Widget _pathInfo() {
+  Widget _pathInfo({
+    required int pathTime,
+    required int pathType,
+  }) {
+    final timeString = EBTime.intMinuteToString(pathTime);
+    final pathTypeString = _getPathType(pathType);
+
     return DefaultTextStyle(
       style: TextStyle(
           fontFamily: FontFamily.nanumSquareBold, color: EBColors.text),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text('버스 + 지하철'),
-          SizedBox(height: 10),
           Text(
-            '1시간 30분',
-            style: TextStyle(
+            pathTypeString,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            timeString,
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _getPathType(int pathType) {
+    if (pathType == 1) {
+      return '지하철';
+    } else if (pathType == 2) {
+      return '버스';
+    } else {
+      return '지하철 + 버스';
+    }
   }
 
   Widget _arrivalInfo() {

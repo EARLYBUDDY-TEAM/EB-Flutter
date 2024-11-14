@@ -1,9 +1,10 @@
 part of '../eb_home.dart';
 
 final class HomeView extends StatefulWidget {
-  static Route<void> route() {
+  static Route<void> route(BuildContext context) {
     return MaterialPageRoute<void>(
-      builder: (_) => const HomeView(),
+      settings: const RouteSettings(name: "HomeView"),
+      builder: (context) => const HomeView(),
     );
   }
 
@@ -19,12 +20,21 @@ final class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(
-        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
-        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-        homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
-        tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-      )..add(const OnAppearHomeView()),
+      create: (context) {
+        return HomeBloc(
+          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+          homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
+          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+          scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
+          cancelModalViewAction: () {
+            // Navigator.of(context).popUntil(
+            //   (route) => route.settings.name == "HomeView",
+            // );
+            Navigator.of(context).pop();
+          },
+        )..add(OnAppearHomeView());
+      },
       child: const EBHomeView(),
     );
   }
@@ -110,7 +120,7 @@ extension on EBHomeView {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetHomeStatus(register: BaseStatus.init));
+                .add(SetHomeStatus(register: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,
@@ -144,7 +154,7 @@ extension on EBHomeView {
 
     final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
     ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-      context.read<HomeBloc>().add(const SetHomeStatus(login: BaseStatus.init));
+      context.read<HomeBloc>().add(SetHomeStatus(login: BaseStatus.init));
     });
   }
 }
@@ -185,7 +195,7 @@ extension on EBHomeView {
           onPressed: () {
             context
                 .read<HomeBloc>()
-                .add(const SetHomeStatus(getAllScheduleCard: BaseStatus.init));
+                .add(SetHomeStatus(getAllScheduleCard: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,

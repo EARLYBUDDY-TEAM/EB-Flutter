@@ -1,46 +1,25 @@
 part of 'home_example.dart';
 
-List<Schedule> mockScheduleCardList() {
-  final List<Schedule> mockScheduleList = [];
-  final today = DateTime.now().add(const Duration(minutes: 10));
-  final yesterday = today.add(const Duration(days: -1));
-  final nextDay = today.add(const Duration(days: 1));
-
-  // for (int i = 1; i < 20; i++) {
-  //   final tmpDay = today.add(Duration(days: i));
-  //   final tmpSchedule = i % 2 == 0
-  //       ? ScheduleCard.mock(time: tmpDay)
-  //       : ScheduleCard.mockwithPlace(time: tmpDay);
-  //   mockScheduleList.add(tmpSchedule);
-  // }
-
-  // for (int i = 1; i < 10; i++) {
-  //   mockScheduleList.add(ScheduleCard.mockwithPlace(time: today));
-  //   mockScheduleList.add(ScheduleCard.mockwithPlace(time: nextDay));
-  // }
-
-  // return mockScheduleList;
-
-  for (int i = 1; i < 10; i++) {
-    mockScheduleList.add(Schedule.mock(time: yesterday));
-    mockScheduleList.add(Schedule.mock(time: today));
-    mockScheduleList.add(Schedule.mock(time: nextDay));
-
-    final tmpDay = nextDay.add(Duration(days: i));
-    mockScheduleList.add(Schedule.mock(time: tmpDay));
-  }
-  return mockScheduleList;
-}
-
 final class MockHomeView extends StatelessWidget {
-  final _homeDelegate = HomeDelegate();
   final _loadingDelegate = LoadingDelegate();
-  final HomeRepositoryAB _homeRepository =
-      TestHomeRepository(scheduleList: mockScheduleCardList());
+  final _homeDelegate = HomeDelegate();
+  final _findrouteDelegate = FindRouteDelegate();
+  final _addScheduleDelegate = AddScheduleDelegate();
+  // final HomeRepositoryAB _homeRepository =
+  //     TestHomeRepository(schedulePathList: mockSchedulePath());
+
+  final HomeRepositoryAB _homeRepository = HomeRepository();
+  final _scheduleRepository = ScheduleRepository();
+  final _findrouteRepository = FindRouteRepository();
   late final _tokenEvent = TokenEvent(
     rootDelegate: RootDelegate(),
     loginDelegate: LoginDelegate(),
     tokenRepository: TokenRepository(),
+  );
+  late final _scheduleEvent = ScheduleEvent(
+    loadingDelegate: _loadingDelegate,
+    scheduleRepository: _scheduleRepository,
+    tokenEvent: _tokenEvent,
   );
 
   MockHomeView({super.key});
@@ -51,10 +30,14 @@ final class MockHomeView extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _loadingDelegate),
         RepositoryProvider.value(value: _homeDelegate),
+        RepositoryProvider.value(value: _findrouteDelegate),
+        RepositoryProvider.value(value: _addScheduleDelegate),
         RepositoryProvider.value(value: _homeRepository),
+        RepositoryProvider.value(value: _findrouteRepository),
         RepositoryProvider.value(value: _tokenEvent),
+        RepositoryProvider.value(value: _scheduleEvent),
       ],
-      child: _MockHomeBlocProviderView(),
+      child: MaterialApp(home: _MockHomeBlocProviderView()),
     );
   }
 }
@@ -63,13 +46,22 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(
-        loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
-        homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
-        homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
-        tokenEvent: RepositoryProvider.of<TokenEvent>(context),
-      )..add(const OnAppearHomeView()),
+      create: (context) {
+        final bloc = HomeBloc(
+          loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+          homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
+          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+          scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
+          cancelModalViewAction: () {
+            Navigator.of(context).pop();
+          },
+        )..add(OnAppearHomeView());
+
+        return bloc;
+      },
       child: _MockHomeAppView(),
+      // child: const MockMiddleTransportView(),
     );
   }
 }
@@ -77,8 +69,6 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
 final class _MockHomeAppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: EBHomeView(),
-    );
+    return const EBHomeView();
   }
 }

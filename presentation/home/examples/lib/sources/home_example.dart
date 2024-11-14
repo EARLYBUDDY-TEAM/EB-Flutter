@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eb_home/eb_home.dart';
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_repository/eb_repository.dart';
@@ -14,12 +16,16 @@ part 'mock_alert_home_view.dart';
 part 'mock_bottom_schedulecardview.dart';
 part 'mock_home_view.dart';
 part 'mock_home_calendar.dart';
+part 'mock_middle_transport_view.dart';
+part 'mock_data.dart';
+part 'helper/mock_schedule_path.dart';
 
-class HomeExample extends StatelessWidget {
+final class HomeExample extends StatelessWidget {
   const HomeExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _MockAlertHomeView();
+    return MockHomeView();
+    // return const MockMiddleTransportView();
   }
 }
