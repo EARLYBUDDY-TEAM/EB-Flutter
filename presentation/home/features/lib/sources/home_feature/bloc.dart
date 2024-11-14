@@ -168,6 +168,11 @@ extension on HomeBloc {
       daySchedule: daySchedule,
     );
 
+    final todayCloseSchedulePath = daySchedule.getCloseTodaySchedulePath();
+    final middleTransportInfoState = MiddleTransportInfoState(
+      todayCloseSchedulePath: todayCloseSchedulePath,
+    );
+
     final bottomScheduleListState = BottomScheduleListState.init(
       calendarState: state.calendarState,
       daySchedule: daySchedule,
@@ -178,6 +183,7 @@ extension on HomeBloc {
         status: homeStatus,
         daySchedule: daySchedule,
         topScheduleInfoState: topScheduleInfoState,
+        middleTransportInfoState: middleTransportInfoState,
         bottomScheduleListState: bottomScheduleListState,
       ),
     );
