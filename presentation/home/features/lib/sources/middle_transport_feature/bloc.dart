@@ -34,11 +34,8 @@ extension on MiddleTranportBloc {
   }) {
     var flagTotalMinute = ebPath.time;
     var flagStartTime = scheduleTime.subtract(Duration(minutes: ebPath.time));
-    final cardStateList = ebPath.ebSubPathList.where(
-      (s) {
-        return (s.type != 3);
-      },
-    ).map<InfoMiddleTransportCardState>(
+    final cardStateList =
+        ebPath.ebSubPathList.map<InfoMiddleTransportCardState>(
       (s) {
         final expectStartTime = flagStartTime;
         flagStartTime = flagStartTime.add(Duration(minutes: s.time));
@@ -55,6 +52,10 @@ extension on MiddleTranportBloc {
         );
 
         return cardState;
+      },
+    ).where(
+      (s) {
+        return (s.subPath.type != 3);
       },
     ).toList();
 

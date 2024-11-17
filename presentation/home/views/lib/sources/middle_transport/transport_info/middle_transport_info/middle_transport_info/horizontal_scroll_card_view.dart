@@ -79,7 +79,7 @@ final class HorizontalScrollCardViewState
           child: Card(
             elevation: 6,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: cardViewList,

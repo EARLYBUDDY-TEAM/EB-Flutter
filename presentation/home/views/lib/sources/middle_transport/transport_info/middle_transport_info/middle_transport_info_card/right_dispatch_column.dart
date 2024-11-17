@@ -26,7 +26,7 @@ final class _RightDisPatchColumn extends StatelessWidget {
     return Material(
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
@@ -36,13 +36,14 @@ final class _RightDisPatchColumn extends StatelessWidget {
               .add(PressReloadButton(selectedIndex: index));
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               _arrival1Text(arrival1),
-              const SizedBox(height: 5),
+              const SizedBox(height: 7),
               _arrival2TextAndReloadButton(arrival2),
             ],
           ),
@@ -64,13 +65,17 @@ final class _RightDisPatchColumn extends StatelessWidget {
   }
 
   Widget _arrival1Text(String arrival1) {
+    final newArrival1String = (arrival1 == '0분') ? "곧 도착" : arrival1;
+    final newColor = (arrival1 == '0분') ? EBColors.error : EBColors.text;
+
     return Row(
       children: [
         Text(
-          arrival1,
-          style: const TextStyle(
+          newArrival1String,
+          style: TextStyle(
             fontFamily: FontFamily.gmarketSansBold,
-            fontSize: 40,
+            fontSize: 46,
+            color: newColor,
           ),
         ),
         const SizedBox(width: 3),
@@ -84,7 +89,7 @@ final class _RightDisPatchColumn extends StatelessWidget {
       style: const TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
         color: Colors.black87,
-        fontSize: 12,
+        fontSize: 13,
       ),
     );
   }

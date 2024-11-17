@@ -93,6 +93,7 @@ extension on _LeftDispatchColumnContent {
   Widget _stationNameText() {
     return Text(
       _stationName,
+      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
         color: Colors.black87,

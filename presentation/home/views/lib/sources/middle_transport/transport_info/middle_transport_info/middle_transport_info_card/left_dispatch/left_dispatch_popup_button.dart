@@ -28,7 +28,7 @@ final class _LeftDispatchPopupButtonState
   Widget build(BuildContext context) {
     return Material(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
       ),
       clipBehavior: Clip.hardEdge,
       color: Colors.white,
@@ -39,7 +39,7 @@ final class _LeftDispatchPopupButtonState
   Widget _popupMenuButton(BuildContext context) {
     return PopupMenuButton<Transport>(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
       ),
       shadowColor: Colors.black87,
       color: Colors.white,
@@ -47,7 +47,7 @@ final class _LeftDispatchPopupButtonState
       tooltip: "",
       itemBuilder: _itemBuilder(context),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(8),
         child: _LeftDispatchColumnContent(
           selectedTransport: widget.selectedTransport,
           transportSubPath: widget.transportSubPath,

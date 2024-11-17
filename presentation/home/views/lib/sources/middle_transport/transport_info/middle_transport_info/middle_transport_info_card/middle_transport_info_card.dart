@@ -79,18 +79,20 @@ final class _MiddleTransportInfoCardStatefulViewState
           );
 
           return MiddleTransportCardForm(
-            verticalPadding: 10,
-            horizontalPadding: 10,
+            verticalPadding: 8,
+            horizontalPadding: 8,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _LeftDispatchColumn(
-                  selectedTransport: widget.cardState.selectedTransport,
-                  transportSubPath: widget.cardState.subPath,
-                  expectTotalMinute: widget.cardState.expectTotalMinute,
-                  myIndex: widget.myIndex,
-                  realTimeInfoList: realTimeInfoList,
+                Expanded(
+                  child: _LeftDispatchColumn(
+                    selectedTransport: widget.cardState.selectedTransport,
+                    transportSubPath: widget.cardState.subPath,
+                    expectTotalMinute: widget.cardState.expectTotalMinute,
+                    myIndex: widget.myIndex,
+                    realTimeInfoList: realTimeInfoList,
+                  ),
                 ),
+                const SizedBox(width: 4),
                 _RightDisPatchColumn(
                   index: widget.myIndex,
                   realTimeInfo: curRealTimeInfo,
