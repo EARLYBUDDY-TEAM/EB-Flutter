@@ -113,6 +113,7 @@ extension on HomeBloc {
         );
 
         final todayCloseSchedulePath = daySchedule.closeTodaySchedulePath;
+        log(todayCloseSchedulePath.toString());
         final middleTransportInfoState = MiddleTransportInfoState(
           todayCloseSchedulePath: todayCloseSchedulePath,
         );

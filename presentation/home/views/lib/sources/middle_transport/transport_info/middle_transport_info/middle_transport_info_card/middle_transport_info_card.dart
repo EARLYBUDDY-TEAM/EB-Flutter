@@ -78,8 +78,6 @@ final class _MiddleTransportInfoCardStatefulViewState
             realTimeInfoList: realTimeInfoList,
           );
 
-          log(realTimeInfoList.toString());
-
           return MiddleTransportCardForm(
             verticalPadding: 10,
             horizontalPadding: 10,

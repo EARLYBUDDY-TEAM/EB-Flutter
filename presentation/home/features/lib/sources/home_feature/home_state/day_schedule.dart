@@ -10,10 +10,9 @@ final class DaySchedule extends Equatable {
   DaySchedule({
     DayScheduleMap? data,
     bool? reloadTrigger,
-    SchedulePath? closeTodaySchedulePath,
+    this.closeTodaySchedulePath,
   })  : data = data ?? {},
-        reloadTrigger = reloadTrigger ?? false,
-        closeTodaySchedulePath = closeTodaySchedulePath;
+        reloadTrigger = reloadTrigger ?? false;
 
   @override
   List<Object?> get props => [data, reloadTrigger];
@@ -133,14 +132,15 @@ final class DaySchedule extends Equatable {
   static SchedulePath? _getCloseTodaySchedulePath(
     DayScheduleMap dayScheduleMap,
   ) {
-    final now = DateTime.now().toDate();
-    final todaySchedulePathList = dayScheduleMap[now];
+    final today = DateTime.now().toDate();
+    final todaySchedulePathList = dayScheduleMap[today];
     if (todaySchedulePathList == null) {
       return null;
     }
 
     SchedulePath? closeSchedulePath;
 
+    final now = DateTime.now();
     for (var schedulePath in todaySchedulePathList) {
       final compareResult =
           EBTime.compare(left: now, right: schedulePath.schedule.time);

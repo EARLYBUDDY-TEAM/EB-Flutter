@@ -35,7 +35,6 @@ final class HorizontalScrollCardViewState
               previousIndex = currentIndex;
             }
             currentIndex = index;
-            log(index.toString());
           });
         },
       ),
