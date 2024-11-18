@@ -1,4 +1,4 @@
-part of '../../../../../eb_home.dart';
+part of '../../../../../../eb_home.dart';
 
 final class _ReloadIconTransportInfoCard extends StatefulWidget {
   final RealTimeInfo? realTimeInfo;

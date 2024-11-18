@@ -1,4 +1,4 @@
-part of '../../../eb_home.dart';
+part of '../../../../../eb_home.dart';
 
 final class MiddleTransportOverScheduleCard extends StatelessWidget {
   final title = "늦지 않게 출발하셨나요?";

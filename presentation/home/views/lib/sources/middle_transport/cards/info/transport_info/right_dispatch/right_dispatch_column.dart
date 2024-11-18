@@ -1,4 +1,4 @@
-part of '../../../../../eb_home.dart';
+part of '../../../../../../eb_home.dart';
 
 final class _RightDisPatchColumn extends StatelessWidget {
   final int index;
