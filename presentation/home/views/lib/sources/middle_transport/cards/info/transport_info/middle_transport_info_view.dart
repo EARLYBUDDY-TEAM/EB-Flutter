@@ -17,7 +17,7 @@ final class MiddleTransportInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SnapCardView(
-      cardCount: cardStateList.length,
+      cardCount: cardStateList.length + 1,
       listHorizontalPadding: horizontalPadding,
       cardSpacing: 3,
       initialIndex: currentIndex,
@@ -42,6 +42,14 @@ final class MiddleTransportInfoView extends StatelessWidget {
     required double cardWidth,
   }) {
     return (context, index) {
+      if (index == cardStateList.length) {
+        return _MiddleTransportCardWithScale(
+          cardWidth: cardWidth,
+          scaleTrigger: (currentIndex == index),
+          child: const MiddleTransportArrivalCard(),
+        );
+      }
+
       final newStreamRealTimeInfo =
           (currentIndex == index) ? streamRealTimeInfo : null;
       final cardState = cardStateList[index];

@@ -190,7 +190,17 @@ extension on MiddleTranportBloc {
     }
 
     final index = event.expectIndex;
-    final subPath = viewState.cardStateList[index].subPath;
+    final cardStateList = viewState.cardStateList;
+    if (index == cardStateList.length) {
+      final newViewState = viewState.copyWith(
+        currentIndex: index,
+        streamRealTimeInfo: () => null,
+      );
+      emit(state.copyWith(viewState: newViewState));
+      return;
+    }
+
+    final subPath = cardStateList[index].subPath;
     final streamRealTimeInfo =
         await _realTimeInfoEvent.makeStreamRealTimeInfo(subPath: subPath);
     final newViewState = viewState.copyWith(
