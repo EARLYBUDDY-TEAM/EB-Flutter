@@ -1,14 +1,32 @@
 part of 'home_example.dart';
 
+final mockSchedulePathList = mockSchedulePath();
+List<String> getTransportNameList() {
+  final transportList =
+      mockSchedulePathList.first.ebPath!.ebSubPathList.first.transportList;
+  return transportList.map<String>(
+    (t) {
+      switch (t) {
+        case Subway():
+          return t.type;
+        case Bus():
+          return t.number;
+      }
+    },
+  ).toList();
+}
+
 final class MockHomeView extends StatelessWidget {
   final _loadingDelegate = LoadingDelegate();
   final _homeDelegate = HomeDelegate();
   final _findrouteDelegate = FindRouteDelegate();
   final _addScheduleDelegate = AddScheduleDelegate();
-  // final HomeRepositoryAB _homeRepository =
-  //     TestHomeRepository(schedulePathList: mockSchedulePath());
+  late final HomeRepositoryAB _homeRepository = TestHomeRepository(
+    schedulePathList: mockSchedulePathList,
+    transportNameList: getTransportNameList(),
+  );
 
-  final HomeRepositoryAB _homeRepository = HomeRepository();
+  // final HomeRepositoryAB _homeRepository = HomeRepository();
   final _scheduleRepository = ScheduleRepository();
   final _findrouteRepository = FindRouteRepository();
   late final _tokenEvent = TokenEvent(
@@ -20,6 +38,10 @@ final class MockHomeView extends StatelessWidget {
     loadingDelegate: _loadingDelegate,
     scheduleRepository: _scheduleRepository,
     tokenEvent: _tokenEvent,
+  );
+  late final _notificationEvent = NotificationEvent();
+  late final _realTimeInfoEvent = RealTimeInfoEvent(
+    homeRepositoryAB: _homeRepository,
   );
 
   MockHomeView({super.key});
@@ -36,6 +58,8 @@ final class MockHomeView extends StatelessWidget {
         RepositoryProvider.value(value: _findrouteRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
+        RepositoryProvider.value(value: _notificationEvent),
+        RepositoryProvider.value(value: _realTimeInfoEvent),
       ],
       child: MaterialApp(home: _MockHomeBlocProviderView()),
     );

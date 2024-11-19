@@ -1,4 +1,4 @@
-part of '../../../../../eb_find_route.dart';
+part of '../../../../../../eb_find_route.dart';
 
 final class _StartInfo extends StatelessWidget {
   final EBSubPath ebSubPath;
@@ -66,6 +66,7 @@ final class _StartInfoWalk extends StatelessWidget {
         fontSize: fontSize,
         color: EBColors.text,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
@@ -97,12 +98,12 @@ final class _StartInfoOther extends StatelessWidget {
             (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
 
         return Row(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: _children(
             context: context,
             parentViewName: parentViewName,
-            startCoordi: startCoordi,
             setting: setting,
+            startCoordi: startCoordi,
           ),
         );
       },
@@ -116,73 +117,26 @@ final class _StartInfoOther extends StatelessWidget {
     required SealedFindRouteSetting setting,
   }) {
     final List<Widget> widgetList = [
-      _StartTransportNumber(
-        number: transNumber,
+      _DetailStartInfoPopupButton(
+        transNumber: transNumber,
         color: color,
-        fontSize: fontSize - 2,
+        startName: startName,
+        fontSize: fontSize,
       ),
-      const SizedBox(width: 8),
-      Text(
-        startName,
-        style: TextStyle(
-          fontFamily: FontFamily.nanumSquareBold,
-          fontSize: fontSize,
-          color: EBColors.text,
-        ),
-      ),
-      const Spacer(),
     ];
 
     if (startCoordi != null) {
       widgetList.add(
-        _showMapButton(
-            context: context,
-            parentViewName: parentViewName,
-            startCoordi: startCoordi,
-            setting: setting),
+        DetailShowMapButton(
+          parentViewName: parentViewName,
+          startCoordi: startCoordi,
+          setting: setting,
+          startName: startName,
+        ),
       );
     }
 
     return widgetList;
-  }
-
-  Widget _showMapButton({
-    required BuildContext context,
-    required String parentViewName,
-    required Coordi startCoordi,
-    required SealedFindRouteSetting setting,
-  }) {
-    return EBRoundedButton(
-      text: '지도보기',
-      height: 25,
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => FindRouteKakaoMapView(
-              parentViewName: parentViewName,
-              placeName: startName,
-              coordi: startCoordi,
-              cancelAction: _cancelAction(
-                context: context,
-                setting: setting,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Function()? _cancelAction({
-    required BuildContext context,
-    required SealedFindRouteSetting setting,
-  }) {
-    return (setting is ReadFindRouteSetting)
-        ? () {
-            final homeDelegate = RepositoryProvider.of<HomeDelegate>(context);
-            homeDelegate.cancelModalView.add(());
-          }
-        : null;
   }
 
   factory _StartInfoOther.bus({
@@ -212,46 +166,6 @@ final class _StartInfoOther extends StatelessWidget {
       startName: startName,
       startCoordi: startCoordi,
       fontSize: fontSize,
-    );
-  }
-}
-
-final class _StartTransportNumber extends StatelessWidget {
-  final String number;
-  final Color color;
-  final double fontSize;
-
-  const _StartTransportNumber({
-    super.key,
-    required this.number,
-    required this.color,
-    required this.fontSize,
-  });
-
-  /*
-  한글일때 마지막글자 패딩값
-  */
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(25),
-        ),
-      ),
-      child: Center(
-        child: Text(
-          number,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareExtraBold,
-            fontSize: fontSize,
-            color: Colors.white,
-          ),
-        ),
-      ),
     );
   }
 }

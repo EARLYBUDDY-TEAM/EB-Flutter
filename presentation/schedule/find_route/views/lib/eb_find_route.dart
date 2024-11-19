@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_find_route_feature/eb_find_route_feature.dart';
 import 'package:eb_uikit/eb_uikit.dart';
@@ -29,7 +31,9 @@ part 'sources/findroute_content/list/detail/listitem_walk.dart';
 part 'sources/findroute_content/list/detail/listitem.dart';
 part 'sources/findroute_content/list/detail/info/endinfo.dart';
 part 'sources/findroute_content/list/detail/info/laneinfo.dart';
-part 'sources/findroute_content/list/detail/info/startinfo.dart';
+part 'sources/findroute_content/list/detail/info/startinfo/startinfo.dart';
+part 'sources/findroute_content/list/detail/info/startinfo/detail_start_info_popup_button.dart';
+part 'sources/findroute_content/list/detail/info/startinfo/detail_show_map_button.dart';
 part 'sources/findroute_content/list/detail/icon/icontransport.dart';
 part 'sources/findroute_content/list/empty/empty_data_view.dart';
 part 'sources/findroute_content/kakaomap/findroute_kakaomap.dart';

@@ -62,6 +62,7 @@ final class _EndInfoWalk extends StatelessWidget {
         fontSize: fontSize,
         color: EBColors.text,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
@@ -94,6 +95,7 @@ final class _EndInfoOther extends StatelessWidget {
             fontSize: fontSize,
             color: EBColors.text,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
