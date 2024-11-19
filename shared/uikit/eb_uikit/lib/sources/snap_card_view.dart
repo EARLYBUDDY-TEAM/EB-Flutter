@@ -1,95 +1,109 @@
 part of '../eb_uikit.dart';
 
-final class SnapCardView extends StatefulWidget {
+final class SnapCardScrollController extends ScrollController {
   final int cardCount;
-  final int initialIndex;
-  final double listHorizontalPadding;
+  final double cardWidth;
   final double cardSpacing;
-  final Function(int index) onChangeIndex;
-  final Widget? Function(BuildContext, int) Function(
-      {required double cardWidth}) itemBuilder;
+  final double cardRest;
+  final Function(int index)? onChangeIndex;
 
-  const SnapCardView({
-    super.key,
+  SnapCardScrollController({
     required this.cardCount,
-    required this.initialIndex,
-    required this.onChangeIndex,
-    required this.listHorizontalPadding,
+    required this.cardWidth,
     required this.cardSpacing,
-    required this.itemBuilder,
+    required this.cardRest,
+    this.onChangeIndex,
   });
 
-  @override
-  State<StatefulWidget> createState() => _SnapCardViewState();
+  static SnapCardScrollController initWithScreenWidth({
+    required double screenWidth,
+    required double cardSpacing,
+    required double cardRest,
+    required int cardCount,
+    Function(int index)? onChangeIndex,
+  }) {
+    final cardWidth = screenWidth - ((cardSpacing + cardRest) * 2);
+    return SnapCardScrollController(
+      cardCount: cardCount,
+      cardSpacing: cardSpacing,
+      cardRest: cardRest,
+      onChangeIndex: onChangeIndex,
+      cardWidth: cardWidth,
+    );
+  }
+
+  void moveTo({
+    required int index,
+  }) {
+    final double offset = (cardWidth + cardSpacing) * index;
+    animateTo(
+      offset,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+  }
 }
 
-final class _SnapCardViewState extends State<SnapCardView> {
-  late ScrollController _scrollController;
-  late int tmpIndex;
+// final class SnapCardView extends StatefulWidget {
 
-  Function() _scrollListener({
-    required double screenWidth,
-  }) {
-    return () {
-      final expectIndex = (_scrollController.offset / screenWidth).round();
-      if (expectIndex != tmpIndex) {
-        tmpIndex = expectIndex;
-        widget.onChangeIndex(expectIndex);
-      }
-    };
-  }
+//   const SnapCardView({
+//     super.key,
+//     required this.scrollController,
+//     required this.itemBuilder,
+//   });
 
-  void _setIndex() {
-    tmpIndex = widget.initialIndex;
-  }
+//   @override
+//   State<StatefulWidget> createState() => _SnapCardViewState();
+// }
 
-  @override
-  void didUpdateWidget(covariant SnapCardView oldWidget) {
-    if (oldWidget.initialIndex != widget.initialIndex) {
-      _setIndex();
+final class SnapCardView extends StatelessWidget {
+  final Widget? Function(BuildContext, int) Function({
+    required double cardWidth,
+  }) itemBuilder;
+  final SnapCardScrollController controller;
+  int tmpIndex = 0;
+
+  SnapCardView({
+    super.key,
+    required this.itemBuilder,
+    required this.controller,
+  });
+
+  SnapCardScrollController get _scrollController {
+    final onChangeIndex = controller.onChangeIndex;
+    final cardWidth = controller.cardWidth;
+    final cardSpacing = controller.cardSpacing;
+
+    if (onChangeIndex != null) {
+      controller.addListener(() {
+        final expectIndex =
+            ((controller.offset) / (cardWidth + cardSpacing)).round();
+        if (expectIndex != tmpIndex) {
+          tmpIndex = expectIndex;
+          onChangeIndex(expectIndex);
+        }
+      });
     }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void initState() {
-    _setIndex();
-    _scrollController = ScrollController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+    return controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = ScreenSize.width(context);
-    final cardWidth = screenWidth - (widget.listHorizontalPadding * 2);
-    final rest = screenWidth -
-        widget.listHorizontalPadding -
-        cardWidth -
-        widget.cardSpacing;
+    final c = controller;
+    final horizontalPadding = (c.cardSpacing + c.cardRest);
 
     return ListView.separated(
-      controller: _scrollController
-        ..addListener(
-          _scrollListener(
-            screenWidth: screenWidth,
-          ),
-        ),
+      controller: _scrollController,
       physics: _SnapPageScrollPhysics(
-        elementPadding: widget.cardSpacing,
-        elementWidth: cardWidth,
-        rest: rest,
+        elementPadding: c.cardSpacing,
+        elementWidth: c.cardWidth,
+        rest: c.cardRest,
       ),
-      padding: EdgeInsets.symmetric(horizontal: widget.listHorizontalPadding),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       scrollDirection: Axis.horizontal,
-      itemBuilder: widget.itemBuilder(cardWidth: cardWidth),
-      itemCount: widget.cardCount,
-      separatorBuilder: _separatorBuilder(cardSpacing: widget.cardSpacing),
+      itemBuilder: itemBuilder(cardWidth: c.cardWidth),
+      itemCount: c.cardCount,
+      separatorBuilder: _separatorBuilder(cardSpacing: c.cardSpacing),
     );
   }
 

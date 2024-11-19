@@ -8,11 +8,13 @@ final class InfoMiddleTransportViewState
   final List<InfoMiddleTransportCardState> cardStateList;
   final StreamRealTimeInfo? streamRealTimeInfo;
   final bool reloadTrigger;
+  final bool onTapImminentCard;
 
   InfoMiddleTransportViewState({
     required this.currentIndex,
     required this.cardStateList,
     required this.streamRealTimeInfo,
+    this.onTapImminentCard = false,
     this.reloadTrigger = false,
   });
 
@@ -21,15 +23,16 @@ final class InfoMiddleTransportViewState
     List<InfoMiddleTransportCardState>? cardStateList,
     Stream<List<RealTimeInfo>>? Function()? streamRealTimeInfo,
     bool? reloadTrigger,
+    bool? onTapImminentCard,
   }) {
     return InfoMiddleTransportViewState(
-      currentIndex: currentIndex ?? this.currentIndex,
-      cardStateList: cardStateList ?? this.cardStateList,
-      streamRealTimeInfo: streamRealTimeInfo != null
-          ? streamRealTimeInfo()
-          : this.streamRealTimeInfo,
-      reloadTrigger: reloadTrigger ?? this.reloadTrigger,
-    );
+        currentIndex: currentIndex ?? this.currentIndex,
+        cardStateList: cardStateList ?? this.cardStateList,
+        streamRealTimeInfo: streamRealTimeInfo != null
+            ? streamRealTimeInfo()
+            : this.streamRealTimeInfo,
+        reloadTrigger: reloadTrigger ?? this.reloadTrigger,
+        onTapImminentCard: onTapImminentCard ?? this.onTapImminentCard);
   }
 
   @override
@@ -38,6 +41,7 @@ final class InfoMiddleTransportViewState
         cardStateList,
         streamRealTimeInfo,
         reloadTrigger,
+        onTapImminentCard,
       ];
 }
 

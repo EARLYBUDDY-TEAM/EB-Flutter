@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 import 'dart:ffi';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_resource/eb_resource.dart';
@@ -11,6 +13,7 @@ part 'mock_ebtextfield.dart';
 part 'mock_eb_images.dart';
 part 'mock_eb_fonts.dart';
 part 'mock_loadingview.dart';
+part 'mock_snap_card_view.dart';
 
 class EBUIkitExample extends StatelessWidget {
   const EBUIkitExample({super.key});
@@ -23,7 +26,8 @@ class EBUIkitExample extends StatelessWidget {
       // home: _MockEBTextField(),
       // home: _MockEBImages(),
       // home: MockEBFonts(),
-      home: MockLoadingView(),
+      // home: MockLoadingView(),
+      home: _MockSnapCardView(),
     );
   }
 }

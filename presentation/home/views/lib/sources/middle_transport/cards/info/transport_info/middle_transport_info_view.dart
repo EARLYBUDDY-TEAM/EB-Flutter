@@ -6,7 +6,9 @@ final class MiddleTransportInfoView extends StatelessWidget {
   final StreamRealTimeInfo? streamRealTimeInfo;
   final double horizontalPadding;
 
-  const MiddleTransportInfoView({
+  late SnapCardScrollController controller;
+
+  MiddleTransportInfoView({
     super.key,
     required this.currentIndex,
     required this.cardStateList,
@@ -16,17 +18,50 @@ final class MiddleTransportInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SnapCardView(
-      cardCount: cardStateList.length + 1,
-      listHorizontalPadding: horizontalPadding,
-      cardSpacing: 3,
-      initialIndex: currentIndex,
-      onChangeIndex: (index) => _onChangeIndex(
-        context: context,
-        index: index,
-      ),
-      itemBuilder: _itemBuilder,
+    return BlocBuilder<MiddleTranportBloc, MiddleTransportState>(
+      buildWhen: _onTapImminentCard,
+      builder: (context, state) {
+        final cardCount = cardStateList.length + 1;
+        final screenWidth = ScreenSize.width(context);
+        const cardSpacing = 3;
+        final cardRest = horizontalPadding - cardSpacing;
+        controller = SnapCardScrollController.initWithScreenWidth(
+          cardCount: cardCount,
+          screenWidth: screenWidth,
+          cardSpacing: 3,
+          cardRest: cardRest,
+          onChangeIndex: (index) => _onChangeIndex(
+            context: context,
+            index: index,
+          ),
+        );
+        return SnapCardView(
+          controller: controller,
+          itemBuilder: _itemBuilder,
+        );
+      },
     );
+  }
+
+  bool Function(MiddleTransportState, MiddleTransportState)?
+      get _onTapImminentCard {
+    return (previous, current) {
+      final curViewState = current.viewState;
+      final preViewState = previous.viewState;
+
+      if (curViewState is InfoMiddleTransportViewState) {
+        if (preViewState is! InfoMiddleTransportViewState) {
+          controller.moveTo(index: 0);
+          return false;
+        }
+        if (preViewState.onTapImminentCard != curViewState.onTapImminentCard) {
+          controller.moveTo(index: 0);
+          return false;
+        }
+      }
+
+      return false;
+    };
   }
 
   void _onChangeIndex({

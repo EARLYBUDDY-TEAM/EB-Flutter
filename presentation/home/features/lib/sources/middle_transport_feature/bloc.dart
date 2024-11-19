@@ -18,6 +18,9 @@ final class MiddleTranportBloc
       _onChangeTransportInfoCard,
       transformer: _debounce(),
     );
+    on<OnTapMiddleTransportImminentCard>(
+      _onOnTapMiddleTransportImminentCard,
+    );
   }
 }
 
@@ -215,5 +218,22 @@ extension on MiddleTranportBloc {
     Duration duration = const Duration(milliseconds: 1000),
   }) {
     return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
+  }
+}
+
+extension on MiddleTranportBloc {
+  void _onOnTapMiddleTransportImminentCard(
+    OnTapMiddleTransportImminentCard event,
+    Emitter<MiddleTransportState> emit,
+  ) {
+    final viewState = state.viewState;
+    if (viewState is! InfoMiddleTransportViewState) {
+      return;
+    }
+
+    final newViewState = viewState.copyWith(
+      onTapImminentCard: !viewState.onTapImminentCard,
+    );
+    emit(state.copyWith(viewState: newViewState));
   }
 }

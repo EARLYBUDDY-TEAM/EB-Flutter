@@ -50,3 +50,8 @@ final class ChangeTransportInfoCard extends MiddleTransportEvent {
   @override
   List<Object?> get props => [expectIndex];
 }
+
+final class OnTapMiddleTransportImminentCard extends MiddleTransportEvent {
+  @override
+  List<Object?> get props => [];
+}
