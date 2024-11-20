@@ -12,3 +12,14 @@ final class SelectTransport extends DetailRouteEvent {
   @override
   List<Object?> get props => [selected];
 }
+
+final class SetupDetailRoute extends DetailRouteEvent {
+  final EBSubPath subPath;
+
+  SetupDetailRoute({
+    required this.subPath,
+  });
+
+  @override
+  List<Object?> get props => [subPath];
+}

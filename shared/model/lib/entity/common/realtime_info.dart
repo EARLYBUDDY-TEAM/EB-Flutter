@@ -51,4 +51,32 @@ final class RealTimeInfo extends Equatable {
       leftStation2: leftStation2,
     );
   }
+
+  static RealTimeInfo? getRealTimeInfo({
+    required List<RealTimeInfo>? realTimeInfoList,
+    required Transport? selectedTransport,
+  }) {
+    if (realTimeInfoList == null) {
+      return null;
+    }
+
+    if (selectedTransport == null) {
+      return null;
+    }
+    String transportName;
+    switch (selectedTransport) {
+      case Subway():
+        transportName = selectedTransport.type;
+      case Bus():
+        transportName = selectedTransport.number;
+    }
+
+    for (var realTimeInfo in realTimeInfoList) {
+      if (realTimeInfo.transportName == transportName) {
+        return realTimeInfo;
+      }
+    }
+
+    return null;
+  }
 }

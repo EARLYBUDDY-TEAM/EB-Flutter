@@ -104,7 +104,6 @@ final class _StartInfoOther extends StatelessWidget {
 
     final List<Widget> widgetList = [
       _DetailStartInfoPopupButton(
-        realTimeInfoList: _mockRealTimeInfo,
         transportMap: transportMap,
         startName: startName,
         fontSize: fontSize,
@@ -123,13 +122,5 @@ final class _StartInfoOther extends StatelessWidget {
     }
 
     return widgetList;
-  }
-
-  List<RealTimeInfo> get _mockRealTimeInfo {
-    return transportList.map<RealTimeInfo>((t) {
-      return RealTimeInfo.mock(
-        transportName: t.getName(),
-      );
-    }).toList();
   }
 }

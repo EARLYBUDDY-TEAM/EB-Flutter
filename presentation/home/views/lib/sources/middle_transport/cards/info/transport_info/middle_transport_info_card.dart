@@ -20,9 +20,11 @@ final class _MiddleTransportInfoCard extends StatelessWidget {
       stream: streamBusRealTimeInfo,
       builder: (context, snapshot) {
         final realTimeInfoList = snapshot.data;
+        final selectedTransport = cardState.selectedTransport;
 
-        final curRealTimeInfo = _getRealTimeInfo(
+        final curRealTimeInfo = RealTimeInfo.getRealTimeInfo(
           realTimeInfoList: realTimeInfoList,
+          selectedTransport: selectedTransport,
         );
 
         final scaleTrigger = _getScaleTrigger(curRealTimeInfo: curRealTimeInfo);
@@ -75,33 +77,5 @@ final class _MiddleTransportInfoCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  RealTimeInfo? _getRealTimeInfo({
-    required List<RealTimeInfo>? realTimeInfoList,
-  }) {
-    if (realTimeInfoList == null) {
-      return null;
-    }
-
-    final selectedTransport = cardState.selectedTransport;
-    if (selectedTransport == null) {
-      return null;
-    }
-    String transportName;
-    switch (selectedTransport) {
-      case Subway():
-        transportName = selectedTransport.type;
-      case Bus():
-        transportName = selectedTransport.number;
-    }
-
-    for (var realTimeInfo in realTimeInfoList) {
-      if (realTimeInfo.transportName == transportName) {
-        return realTimeInfo;
-      }
-    }
-
-    return null;
   }
 }

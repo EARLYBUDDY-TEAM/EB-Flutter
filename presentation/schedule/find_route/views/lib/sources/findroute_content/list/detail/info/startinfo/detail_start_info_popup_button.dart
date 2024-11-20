@@ -2,7 +2,6 @@ part of '../../../../../../eb_find_route.dart';
 
 final class _DetailStartInfoPopupButton extends StatelessWidget {
   final TransportMap transportMap;
-  final List<RealTimeInfo>? realTimeInfoList;
   final String startName;
   final double fontSize;
 
@@ -11,22 +10,35 @@ final class _DetailStartInfoPopupButton extends StatelessWidget {
     required this.startName,
     required this.fontSize,
     required this.transportMap,
-    required this.realTimeInfoList,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<DetailRouteBloc, DetailRouteState, Transport?>(
-      selector: (state) => state.selectedTransport,
-      builder: (context, selectedTransport) {
-        return TransportPopupButton(
-          popupButtonContent: _popupButtonContent(
-            selectedTransport: selectedTransport,
-          ),
-          selectAction: _selectAction(context),
-          transportMap: transportMap,
-          realTimeInfoList: realTimeInfoList,
-          selectedTransport: selectedTransport,
+    return BlocBuilder<DetailRouteBloc, DetailRouteState>(
+      builder: (context, state) {
+        final selectedTransport = state.selectedTransport;
+        final streamRealTimeInfo = state.streamRealTimeInfo;
+
+        return StreamBuilder(
+          stream: streamRealTimeInfo,
+          builder: (context, snapshot) {
+            final realTimeInfoList = snapshot.data;
+            final realTimeInfo = RealTimeInfo.getRealTimeInfo(
+              realTimeInfoList: realTimeInfoList,
+              selectedTransport: selectedTransport,
+            );
+
+            return TransportPopupButton(
+              popupButtonContent: _popupButtonContent(
+                selectedTransport: selectedTransport,
+                realTimeInfo: realTimeInfo,
+              ),
+              selectAction: _selectAction(context),
+              transportMap: transportMap,
+              realTimeInfoList: realTimeInfoList,
+              selectedTransport: selectedTransport,
+            );
+          },
         );
       },
     );
@@ -34,9 +46,11 @@ final class _DetailStartInfoPopupButton extends StatelessWidget {
 
   Widget _popupButtonContent({
     required Transport? selectedTransport,
+    required RealTimeInfo? realTimeInfo,
   }) {
     return _DetailStartInfoPopupButtonContent(
       selectedTransport: selectedTransport,
+      realTimeInfo: realTimeInfo,
       startName: startName,
       fontSize: fontSize,
     );
@@ -53,6 +67,7 @@ final class _DetailStartInfoPopupButton extends StatelessWidget {
 
 final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
   final Transport? selectedTransport;
+  final RealTimeInfo? realTimeInfo;
   final String startName;
   final double fontSize;
 
@@ -61,6 +76,7 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
     required this.selectedTransport,
     required this.startName,
     required this.fontSize,
+    required this.realTimeInfo,
   });
 
   @override
@@ -70,7 +86,10 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
       children: [
         _startInfo(),
         const SizedBox(height: 5),
-        _realTimeInfo(),
+        _realTimeInfo(
+          arrivalSec1: realTimeInfo?.arrivalSec1,
+          arrivalSec2: realTimeInfo?.arrivalSec2,
+        ),
       ],
     );
   }
@@ -96,9 +115,22 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
     );
   }
 
-  Widget _realTimeInfo() {
+  String _arrivalSecToString(int? arrivalSec) {
+    final tmpTime =
+        (arrivalSec == null) ? "-분" : EBTime.intSecToString(arrivalSec);
+    final time = (tmpTime == '0분') ? '곧 도착' : tmpTime;
+    return time;
+  }
+
+  Widget _realTimeInfo({
+    required int? arrivalSec1,
+    required int? arrivalSec2,
+  }) {
+    final arrival1 = _arrivalSecToString(arrivalSec1);
+    final arrival2 = _arrivalSecToString(arrivalSec2);
+
     return Text(
-      "14분 후, 28분 후",
+      "$arrival1, $arrival2",
       style: TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
         fontSize: 15,

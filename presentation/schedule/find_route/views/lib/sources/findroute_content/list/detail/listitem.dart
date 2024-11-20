@@ -1,23 +1,25 @@
 part of '../../../../eb_find_route.dart';
 
 final class DetailRouteListItem extends StatelessWidget {
-  final EBSubPath ebSubPath;
+  final EBSubPath subPath;
 
   const DetailRouteListItem({
     super.key,
-    required this.ebSubPath,
+    required this.subPath,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DetailRouteBloc>(
       create: (context) {
-        final selectedTransport = ebSubPath.transportList.firstOrNull;
-
-        return DetailRouteBloc(selectedTransport: selectedTransport);
+        return DetailRouteBloc(
+          realTimeInfoEvent: RepositoryProvider.of<RealTimeInfoEvent>(context),
+        )..add(
+            SetupDetailRoute(subPath: subPath),
+          );
       },
       child: DetailRouteListItemContent(
-        ebSubPath: ebSubPath,
+        ebSubPath: subPath,
       ),
     );
   }
