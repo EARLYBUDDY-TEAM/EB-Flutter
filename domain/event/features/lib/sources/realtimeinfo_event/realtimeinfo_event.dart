@@ -3,16 +3,16 @@ part of '../../eb_event.dart';
 final class RealTimeInfoEvent {
   final HomeRepositoryAB _homeRepository;
   final SubwayScheduleProvider _subwayScheduleProvider;
+  final int reloadLoopSec = 15;
 
   BehaviorSubject<EBSubPath>? _realTimeInfoSubject;
   StreamSubscription<dynamic>? _timerSubscription;
 
   RealTimeInfoEvent({
-    required HomeRepositoryAB homeRepositoryAB,
-    SubwayScheduleProvider? subwayScheduleProvider,
-  })  : _homeRepository = homeRepositoryAB,
-        _subwayScheduleProvider =
-            subwayScheduleProvider ?? SubwayScheduleProvider();
+    required HomeRepositoryAB homeRepository,
+    required SubwayScheduleProvider subwayScheduleProvider,
+  })  : _homeRepository = homeRepository,
+        _subwayScheduleProvider = subwayScheduleProvider;
 
   void reloadRealTimeInfo({
     required EBSubPath subPath,
@@ -39,7 +39,7 @@ final class RealTimeInfoEvent {
     );
 
     _timerSubscription =
-        Stream.periodic(const Duration(seconds: 15)).listen((_) {
+        Stream.periodic(Duration(seconds: reloadLoopSec)).listen((_) {
       if (_realTimeInfoSubject != null) {
         _realTimeInfoSubject!.add(subPath);
       }

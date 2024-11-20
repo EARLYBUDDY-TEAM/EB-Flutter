@@ -53,8 +53,14 @@ final class _MiddleTransportBlocViewState
   Widget build(BuildContext context) {
     return BlocProvider<MiddleTranportBloc>(
       create: (context) {
+        final realTimeInfoEvent = RealTimeInfoEvent(
+          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
+          subwayScheduleProvider:
+              RepositoryProvider.of<SubwayScheduleProvider>(context),
+        );
+
         final tmpBloc = MiddleTranportBloc(
-          realTimeInfoEvent: RepositoryProvider.of<RealTimeInfoEvent>(context),
+          realTimeInfoEvent: realTimeInfoEvent,
         )..add(
             SetupMiddleTransport(schedulePath: widget.schedulePath),
           );

@@ -14,9 +14,12 @@ final class DetailRouteState extends Equatable {
     StreamRealTimeInfo? Function()? streamRealTimeInfo,
   }) {
     return DetailRouteState(
-      selectedTransport: selectedTransport != null ? selectedTransport() : null,
-      streamRealTimeInfo:
-          streamRealTimeInfo != null ? streamRealTimeInfo() : null,
+      selectedTransport: selectedTransport != null
+          ? selectedTransport()
+          : this.selectedTransport,
+      streamRealTimeInfo: streamRealTimeInfo != null
+          ? streamRealTimeInfo()
+          : this.streamRealTimeInfo,
     );
   }
 

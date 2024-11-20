@@ -54,11 +54,7 @@ extension on FindRouteBloc {
     Emitter<FindRouteState> emit,
   ) {
     final contentStatus = event.contentStatus;
-    if (contentStatus is DetailFindRouteStatus) {
-      log(contentStatus.path.toString());
-    }
-
-    emit(state.copyWith(contentStatus: event.contentStatus));
+    emit(state.copyWith(contentStatus: contentStatus));
   }
 }
 

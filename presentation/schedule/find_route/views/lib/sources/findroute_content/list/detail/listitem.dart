@@ -12,8 +12,14 @@ final class DetailRouteListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<DetailRouteBloc>(
       create: (context) {
+        final realTimeInfoEvent = RealTimeInfoEvent(
+          homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
+          subwayScheduleProvider:
+              RepositoryProvider.of<SubwayScheduleProvider>(context),
+        );
+
         return DetailRouteBloc(
-          realTimeInfoEvent: RepositoryProvider.of<RealTimeInfoEvent>(context),
+          realTimeInfoEvent: realTimeInfoEvent,
         )..add(
             SetupDetailRoute(subPath: subPath),
           );

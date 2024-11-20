@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:eb_event/eb_event.dart';
+import 'package:eb_repository_interface/eb_repository_interface.dart';
 
 part 'sources/findroute_view.dart';
 part 'sources/findroute_appbar.dart';

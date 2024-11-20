@@ -46,7 +46,7 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
 
   List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
     List<Widget> content = [
-      _arrivalInfo(),
+      _arrivalInfo(minutes: 100),
       const Spacer(),
     ];
 
@@ -73,7 +73,9 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
 
     return DefaultTextStyle(
       style: TextStyle(
-          fontFamily: FontFamily.nanumSquareBold, color: EBColors.text),
+        fontFamily: FontFamily.nanumSquareBold,
+        color: EBColors.text,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -103,19 +105,21 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
     }
   }
 
-  Widget _arrivalInfo() {
+  Widget _arrivalInfo({required int minutes}) {
+    final expectArrivalTime = DateTime.now().add(Duration(minutes: minutes));
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _date(),
+        _date(expectArrivalTime),
         const SizedBox(height: 3),
         _hour(),
       ],
     );
   }
 
-  Text _date() {
+  Text _date(DateTime expectArrivalTime) {
     return const Text(
       '12월 21일 (토요일)',
       style: TextStyle(

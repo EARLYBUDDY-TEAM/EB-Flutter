@@ -48,11 +48,14 @@ final class _DetailStartInfoPopupButton extends StatelessWidget {
     required Transport? selectedTransport,
     required RealTimeInfo? realTimeInfo,
   }) {
-    return _DetailStartInfoPopupButtonContent(
-      selectedTransport: selectedTransport,
-      realTimeInfo: realTimeInfo,
-      startName: startName,
-      fontSize: fontSize,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+      child: _DetailStartInfoPopupButtonContent(
+        selectedTransport: selectedTransport,
+        realTimeInfo: realTimeInfo,
+        startName: startName,
+        fontSize: fontSize,
+      ),
     );
   }
 
