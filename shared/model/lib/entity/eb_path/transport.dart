@@ -1,8 +1,44 @@
 part of '../../entity.dart';
 
+typedef TransportMap = Map<String, Transport>;
+
+TransportMap createTransportMap(
+  List<Transport> transportList,
+) {
+  Map<String, Transport> tmpTransportMap = {};
+  switch (transportList) {
+    case List<Subway>():
+      tmpTransportMap = {for (var t in transportList) t.type: t};
+    case List<Bus>():
+      tmpTransportMap = {for (var t in transportList) t.number: t};
+  }
+
+  return tmpTransportMap;
+}
+
 sealed class Transport extends Equatable {
   TransportDTO toDTO() {
     throw UnimplementedError('구현부');
+  }
+
+  Color getColor() {
+    final self = this;
+    switch (self) {
+      case Subway():
+        return self.color();
+      case Bus():
+        return self.color();
+    }
+  }
+
+  String getName() {
+    final self = this;
+    switch (self) {
+      case Subway():
+        return self.type;
+      case Bus():
+        return self.number;
+    }
   }
 }
 

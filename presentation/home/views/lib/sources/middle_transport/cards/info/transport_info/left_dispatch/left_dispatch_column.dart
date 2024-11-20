@@ -19,7 +19,7 @@ final class _LeftDispatchColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final transportList = transportSubPath.transportList;
-    final transportMap = _createTransportMap(transportList);
+    final transportMap = createTransportMap(transportList);
 
     return _LeftDispatchPopupButton(
       selectedTransport: selectedTransport,
@@ -29,19 +29,5 @@ final class _LeftDispatchColumn extends StatelessWidget {
       myIndex: myIndex,
       realTimeInfoList: realTimeInfoList,
     );
-  }
-
-  Map<String, Transport> _createTransportMap(
-    List<Transport> transportList,
-  ) {
-    Map<String, Transport> tmpTransportMap = {};
-    switch (transportList) {
-      case List<Subway>():
-        tmpTransportMap = {for (var t in transportList) t.type: t};
-      case List<Bus>():
-        tmpTransportMap = {for (var t in transportList) t.number: t};
-    }
-
-    return tmpTransportMap;
   }
 }

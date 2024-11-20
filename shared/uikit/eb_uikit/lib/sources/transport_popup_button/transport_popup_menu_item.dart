@@ -1,6 +1,6 @@
-part of '../../../../../../eb_home.dart';
+part of '../../eb_uikit.dart';
 
-final class _TransportPopupMenuItemContent extends StatelessWidget {
+final class TransportPopupMenuItemContent extends StatelessWidget {
   final IconData icon;
   final String name;
   final Color color;
@@ -9,7 +9,7 @@ final class _TransportPopupMenuItemContent extends StatelessWidget {
   final int? arrivalSec2;
   final int? leftStation2;
 
-  const _TransportPopupMenuItemContent({
+  const TransportPopupMenuItemContent({
     super.key,
     required this.icon,
     required this.name,
@@ -35,11 +35,11 @@ final class _TransportPopupMenuItemContent extends StatelessWidget {
     );
   }
 
-  factory _TransportPopupMenuItemContent.bus({
+  factory TransportPopupMenuItemContent.bus({
     required Bus bus,
     required RealTimeInfo? realTimeInfo,
   }) {
-    return _TransportPopupMenuItemContent(
+    return TransportPopupMenuItemContent(
       icon: CupertinoIcons.bus,
       name: bus.number,
       color: bus.color(),
@@ -50,11 +50,11 @@ final class _TransportPopupMenuItemContent extends StatelessWidget {
     );
   }
 
-  factory _TransportPopupMenuItemContent.subway({
+  factory TransportPopupMenuItemContent.subway({
     required Subway subway,
     required RealTimeInfo? realTimeInfo,
   }) {
-    return _TransportPopupMenuItemContent(
+    return TransportPopupMenuItemContent(
       icon: Icons.subway_outlined,
       name: subway.type,
       color: subway.color(),
@@ -66,7 +66,7 @@ final class _TransportPopupMenuItemContent extends StatelessWidget {
   }
 }
 
-extension on _TransportPopupMenuItemContent {
+extension on TransportPopupMenuItemContent {
   Widget _transportName() {
     return Row(
       children: [
@@ -88,7 +88,7 @@ extension on _TransportPopupMenuItemContent {
   }
 }
 
-extension on _TransportPopupMenuItemContent {
+extension on TransportPopupMenuItemContent {
   String _arrivalInfoString({
     required int? arrivalSec,
     required int? leftStation,

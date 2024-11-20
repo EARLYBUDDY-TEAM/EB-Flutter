@@ -21,26 +21,12 @@ final class _StartInfo extends StatelessWidget {
     );
 
     if (transportList.isNotEmpty) {
-      switch (transportList) {
-        case List<Subway>():
-          final subway = transportList.first;
-          content = _StartInfoOther.subway(
-            subway: subway,
-            startName: startName,
-            startCoordi: startCoordi,
-            fontSize: fontSize,
-          );
-        case List<Bus>():
-          final bus = transportList.first;
-          content = _StartInfoOther.bus(
-            bus: bus,
-            startName: startName,
-            startCoordi: startCoordi,
-            fontSize: fontSize,
-          );
-        default:
-          break;
-      }
+      content = _StartInfoOther(
+        startName: startName,
+        fontSize: fontSize,
+        startCoordi: startCoordi,
+        transportList: transportList,
+      );
     }
 
     return content;
@@ -72,19 +58,17 @@ final class _StartInfoWalk extends StatelessWidget {
 }
 
 final class _StartInfoOther extends StatelessWidget {
-  final String transNumber;
-  final Color color;
+  final List<Transport> transportList;
   final String startName;
   final Coordi? startCoordi;
   final double fontSize;
 
   const _StartInfoOther({
     super.key,
-    required this.transNumber,
-    required this.color,
     required this.startName,
     required this.fontSize,
     required this.startCoordi,
+    required this.transportList,
   });
 
   @override
@@ -116,10 +100,12 @@ final class _StartInfoOther extends StatelessWidget {
     required Coordi? startCoordi,
     required SealedFindRouteSetting setting,
   }) {
+    final transportMap = createTransportMap(transportList);
+
     final List<Widget> widgetList = [
       _DetailStartInfoPopupButton(
-        transNumber: transNumber,
-        color: color,
+        realTimeInfoList: _mockRealTimeInfo,
+        transportMap: transportMap,
         startName: startName,
         fontSize: fontSize,
       ),
@@ -139,33 +125,11 @@ final class _StartInfoOther extends StatelessWidget {
     return widgetList;
   }
 
-  factory _StartInfoOther.bus({
-    required Bus bus,
-    required String startName,
-    required Coordi? startCoordi,
-    required double fontSize,
-  }) {
-    return _StartInfoOther(
-      transNumber: bus.number,
-      color: bus.color(),
-      startName: startName,
-      startCoordi: startCoordi,
-      fontSize: fontSize,
-    );
-  }
-
-  factory _StartInfoOther.subway({
-    required Subway subway,
-    required String startName,
-    required Coordi? startCoordi,
-    required double fontSize,
-  }) {
-    return _StartInfoOther(
-      transNumber: subway.type,
-      color: subway.color(),
-      startName: startName,
-      startCoordi: startCoordi,
-      fontSize: fontSize,
-    );
+  List<RealTimeInfo> get _mockRealTimeInfo {
+    return transportList.map<RealTimeInfo>((t) {
+      return RealTimeInfo.mock(
+        transportName: t.getName(),
+      );
+    }).toList();
   }
 }
