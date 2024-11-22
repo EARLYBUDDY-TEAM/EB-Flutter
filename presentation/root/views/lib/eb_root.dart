@@ -39,6 +39,7 @@ final class PrepareRoot {
       baseUrl: ENV_KAKAOMAP.url,
     );
     await LocationProvider.shared.checkPermission();
+    await NotificationEvent.initialize();
 
     return myWidgetsBinding;
   }

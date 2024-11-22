@@ -26,7 +26,7 @@ final class _DetailRouteListView extends StatelessWidget {
       if (index != subPaths.length) {
         return Column(
           children: [
-            DetailRouteListItem(ebSubPath: subPaths[index]),
+            DetailRouteListItem(subPath: subPaths[index]),
             _ListDivider(),
           ],
         );

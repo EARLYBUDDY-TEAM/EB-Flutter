@@ -32,6 +32,28 @@ final class HomeRequest {
     );
   }
 
+  static ApiRequest<RealTimeInfoDTOList> getSubwayRealTimeInfo({
+    required String stationName,
+    required String lineName,
+    required int direction,
+  }) {
+    const path = "/realtime/get_subway_realtime_info";
+    final query = {
+      "station_name": stationName,
+      "line_name": lineName,
+      "direction": "$direction",
+    };
+    RealTimeInfoDTOList converter(dynamic responseData) =>
+        RealTimeInfoDTOList.fromJson(responseData);
+
+    return ApiRequest(
+      path: path,
+      query: query,
+      converter: converter,
+      method: HTTPMethod.get,
+    );
+  }
+
   static ApiRequest<TotalSubwayScheduleDTO> getTotalSubwaySchedule({
     required int stationID,
     required int wayCode,

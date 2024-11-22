@@ -62,6 +62,7 @@ final class _EndInfoWalk extends StatelessWidget {
         fontSize: fontSize,
         color: EBColors.text,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
@@ -87,12 +88,16 @@ final class _EndInfoOther extends StatelessWidget {
           fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
-        Text(
-          endName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            fontSize: fontSize,
-            color: EBColors.text,
+        SizedBox(
+          width: 150,
+          child: Text(
+            endName,
+            style: TextStyle(
+              fontFamily: FontFamily.nanumSquareBold,
+              fontSize: fontSize,
+              color: EBColors.text,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

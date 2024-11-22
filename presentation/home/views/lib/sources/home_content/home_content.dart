@@ -15,11 +15,9 @@ final class _HomeContent extends StatelessWidget {
     return Column(
       children: [
         _addHorizontalPadding(_TopScheduleInfoView()),
-        // SizedBox(height: spacing),
         _MiddleTransportView(
           horizontalPadding: horizontalPadding,
         ),
-        // SizedBox(height: spacing),
         _addHorizontalPadding(const HomeCalendar()),
         SizedBox(height: spacing),
         _addHorizontalPadding(const HomeBottomListView()),

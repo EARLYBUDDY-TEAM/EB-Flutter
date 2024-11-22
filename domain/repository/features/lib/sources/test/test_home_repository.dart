@@ -2,9 +2,11 @@ part of '../../eb_repository.dart';
 
 final class TestHomeRepository implements HomeRepositoryAB {
   final List<SchedulePath> schedulePathList;
+  final List<String> transportNameList;
 
   TestHomeRepository({
     required this.schedulePathList,
+    required this.transportNameList,
   });
 
   @override
@@ -16,7 +18,7 @@ final class TestHomeRepository implements HomeRepositoryAB {
 
   @override
   Future<Result> getBusRealTimeInfo({required int stationID}) async {
-    final mockRealTimeInfo = await delayMockRealTimeInfo();
+    final mockRealTimeInfo = await delayMockRealTimeInfoList();
     final successResponse =
         SuccessResponse(statusCode: 200, model: mockRealTimeInfo);
     return Success(success: successResponse);
@@ -27,7 +29,7 @@ final class TestHomeRepository implements HomeRepositoryAB {
     required int stationID,
     required int wayCode,
   }) async {
-    final mockRealTimeInfo = await delayMockRealTimeInfo();
+    final mockRealTimeInfo = await delayMockRealTimeInfoList();
     final successResponse = SuccessResponse(
       statusCode: 200,
       model: mockRealTimeInfo,
@@ -35,7 +37,7 @@ final class TestHomeRepository implements HomeRepositoryAB {
     return Success(success: successResponse);
   }
 
-  Future<RealTimeInfo> delayMockRealTimeInfo() async {
+  Future<List<RealTimeInfo>> delayMockRealTimeInfoList() async {
     final random = math.Random();
     const double minSec = 0.5;
     const double maxSec = 2.0;
@@ -44,6 +46,20 @@ final class TestHomeRepository implements HomeRepositoryAB {
 
     await Future.delayed(Duration(milliseconds: delayMilliSecond));
 
-    return RealTimeInfo.mock();
+    return transportNameList.map<RealTimeInfo>(
+      (e) {
+        return RealTimeInfo.mock(transportName: e);
+      },
+    ).toList();
+  }
+
+  @override
+  Future<Result> getSubwayRealTimeInfo({
+    required String stationName,
+    required String lineName,
+    required int direction,
+  }) async {
+    // TODO: implement getSubwayRealTimeInfo
+    throw UnimplementedError();
   }
 }

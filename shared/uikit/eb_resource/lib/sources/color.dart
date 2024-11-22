@@ -11,6 +11,7 @@ final class EBColors {
   static Color purple2 = const Color(0xff5C6EFF);
   static Color inactive = const Color(0xffA8A8A8);
   static Color text = const Color(0xff3C3C3C);
+  static Color error = const Color(0xffFF5858);
 
   static Color get random =>
       Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);

@@ -5,10 +5,12 @@ typedef DayScheduleMap = Map<DateTime, List<SchedulePath>>;
 final class DaySchedule extends Equatable {
   final DayScheduleMap data;
   final bool reloadTrigger;
+  final SchedulePath? closeTodaySchedulePath;
 
   DaySchedule({
     DayScheduleMap? data,
     bool? reloadTrigger,
+    this.closeTodaySchedulePath,
   })  : data = data ?? {},
         reloadTrigger = reloadTrigger ?? false;
 
@@ -18,10 +20,14 @@ final class DaySchedule extends Equatable {
   DaySchedule copyWith({
     DayScheduleMap? data,
     bool? reloadTrigger,
+    SchedulePath? Function()? closeTodaySchedulePath,
   }) {
     return DaySchedule(
       data: data ?? this.data,
       reloadTrigger: reloadTrigger ?? this.reloadTrigger,
+      closeTodaySchedulePath: (closeTodaySchedulePath != null)
+          ? closeTodaySchedulePath()
+          : this.closeTodaySchedulePath,
     );
   }
 
@@ -30,8 +36,12 @@ final class DaySchedule extends Equatable {
   }) {
     var dayScheduleMap = _getDayScheduleMap(allSchedules);
     dayScheduleMap = _orderTodayDaySchedule(dayScheduleMap);
+    final closeTodaySchedulePath = _getCloseTodaySchedulePath(dayScheduleMap);
 
-    return DaySchedule(data: dayScheduleMap);
+    return DaySchedule(
+      data: dayScheduleMap,
+      closeTodaySchedulePath: closeTodaySchedulePath,
+    );
   }
 
   static DayScheduleMap _orderTodayDaySchedule(DayScheduleMap dayScheduleMap) {
@@ -119,15 +129,18 @@ final class DaySchedule extends Equatable {
     return data.containsKey(key);
   }
 
-  SchedulePath? getCloseTodaySchedulePath() {
-    final now = DateTime.now();
-    final todaySchedulePathList = getValue(selectedDay: now);
-    if (todaySchedulePathList.isEmpty) {
+  static SchedulePath? _getCloseTodaySchedulePath(
+    DayScheduleMap dayScheduleMap,
+  ) {
+    final today = DateTime.now().toDate();
+    final todaySchedulePathList = dayScheduleMap[today];
+    if (todaySchedulePathList == null) {
       return null;
     }
 
     SchedulePath? closeSchedulePath;
 
+    final now = DateTime.now();
     for (var schedulePath in todaySchedulePathList) {
       final compareResult =
           EBTime.compare(left: now, right: schedulePath.schedule.time);

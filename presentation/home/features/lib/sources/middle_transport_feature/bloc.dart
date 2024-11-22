@@ -18,6 +18,9 @@ final class MiddleTranportBloc
       _onChangeTransportInfoCard,
       transformer: _debounce(),
     );
+    on<OnTapMiddleTransportImminentCard>(
+      _onOnTapMiddleTransportImminentCard,
+    );
   }
 }
 
@@ -34,11 +37,8 @@ extension on MiddleTranportBloc {
   }) {
     var flagTotalMinute = ebPath.time;
     var flagStartTime = scheduleTime.subtract(Duration(minutes: ebPath.time));
-    final cardStateList = ebPath.ebSubPathList.where(
-      (s) {
-        return (s.type != 3);
-      },
-    ).map<InfoMiddleTransportCardState>(
+    final cardStateList =
+        ebPath.ebSubPathList.map<InfoMiddleTransportCardState>(
       (s) {
         final expectStartTime = flagStartTime;
         flagStartTime = flagStartTime.add(Duration(minutes: s.time));
@@ -55,6 +55,10 @@ extension on MiddleTranportBloc {
         );
 
         return cardState;
+      },
+    ).where(
+      (s) {
+        return (s.subPath.type != 3);
       },
     ).toList();
 
@@ -189,7 +193,17 @@ extension on MiddleTranportBloc {
     }
 
     final index = event.expectIndex;
-    final subPath = viewState.cardStateList[index].subPath;
+    final cardStateList = viewState.cardStateList;
+    if (index == cardStateList.length) {
+      final newViewState = viewState.copyWith(
+        currentIndex: index,
+        streamRealTimeInfo: () => null,
+      );
+      emit(state.copyWith(viewState: newViewState));
+      return;
+    }
+
+    final subPath = cardStateList[index].subPath;
     final streamRealTimeInfo =
         await _realTimeInfoEvent.makeStreamRealTimeInfo(subPath: subPath);
     final newViewState = viewState.copyWith(
@@ -204,5 +218,22 @@ extension on MiddleTranportBloc {
     Duration duration = const Duration(milliseconds: 1000),
   }) {
     return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
+  }
+}
+
+extension on MiddleTranportBloc {
+  void _onOnTapMiddleTransportImminentCard(
+    OnTapMiddleTransportImminentCard event,
+    Emitter<MiddleTransportState> emit,
+  ) {
+    final viewState = state.viewState;
+    if (viewState is! InfoMiddleTransportViewState) {
+      return;
+    }
+
+    final newViewState = viewState.copyWith(
+      onTapImminentCard: !viewState.onTapImminentCard,
+    );
+    emit(state.copyWith(viewState: newViewState));
   }
 }

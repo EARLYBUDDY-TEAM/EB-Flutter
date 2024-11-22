@@ -1,6 +1,6 @@
 part of '../eb_uikit.dart';
 
-enum Day {
+enum EBDay {
   Monday,
   Tuesday,
   Wednesday,
@@ -8,6 +8,13 @@ enum Day {
   Friday,
   Saturday,
   Sunday,
+
+  // final dateName = DateFormat.EEEE().format(now);
+  //   if (dateName == EBDay.Saturday.name) {
+
+  // static EBDay initWith(DateTime datetime) {
+  //   datetime
+  // }
 }
 
 extension TimeOfDayExtension on TimeOfDay {
