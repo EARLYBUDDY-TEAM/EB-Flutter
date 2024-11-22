@@ -105,14 +105,17 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
           fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
-        Text(
-          startName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            fontSize: fontSize,
-            color: EBColors.text,
+        SizedBox(
+          width: 150,
+          child: Text(
+            startName,
+            style: TextStyle(
+              fontFamily: FontFamily.nanumSquareBold,
+              fontSize: fontSize,
+              color: EBColors.text,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
-          overflow: TextOverflow.ellipsis,
         ),
       ],
     );

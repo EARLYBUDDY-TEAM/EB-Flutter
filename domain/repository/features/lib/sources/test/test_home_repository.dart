@@ -52,4 +52,14 @@ final class TestHomeRepository implements HomeRepositoryAB {
       },
     ).toList();
   }
+
+  @override
+  Future<Result> getSubwayRealTimeInfo({
+    required String stationName,
+    required String lineName,
+    required int direction,
+  }) async {
+    // TODO: implement getSubwayRealTimeInfo
+    throw UnimplementedError();
+  }
 }
