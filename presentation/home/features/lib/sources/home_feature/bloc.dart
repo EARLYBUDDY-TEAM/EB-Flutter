@@ -117,6 +117,10 @@ extension on HomeBloc {
           todayCloseSchedulePath: todayCloseSchedulePath,
         );
 
+        // _notificationEvent.setScheduleNotification(
+        //   schedule: todayCloseSchedulePath?.schedule,
+        // );
+
         final bottomScheduleListState = BottomScheduleListState.init(
           calendarState: calendarState,
           daySchedule: daySchedule,

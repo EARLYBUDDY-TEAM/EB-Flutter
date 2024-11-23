@@ -32,7 +32,6 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   flutter_native_splash: ^2.4.1
-
   eb_root: any
   eb_env: any
   
@@ -47,9 +46,16 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/app_icon.png"
 
 flutter_native_splash:
   background_image: "assets/splash.png"

@@ -69,7 +69,7 @@ final class EBHomeView extends StatelessWidget {
         //   AddScheduleView.pageInitAddSchedule(context: context),
         // ),
         onPressed: () async {
-      await RepositoryProvider.of<NotificationEvent>(context).show();
+      // await RepositoryProvider.of<NotificationEvent>(context).show();
     });
   }
 
