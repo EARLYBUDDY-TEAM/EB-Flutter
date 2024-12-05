@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "280836859349",
+    "project_id": "earlybuddy-63514",
+    "storage_bucket": "earlybuddy-63514.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280836859349:android:aaacf629ec76bb8e82095c",
+        "android_client_info": {
+          "package_name": "com.earlybuddy.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhEqgks5dmRXYR8MaKCHDQlcLaSoOBceg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -34,6 +34,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   eb_root: any
   eb_env: any
+  eb_notification_manager: any
   
 
 dev_dependencies:
@@ -55,10 +56,15 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/app_icon.png"
+  image_path: "assets/images/app_icon.png"
 
 flutter_native_splash:
-  background_image: "assets/splash.png"
+  background_image: "assets/images/splash.png"
+
+
+
+assets:
+  - assets/data/
 
 # The following section is specific to Flutter packages.
 flutter:

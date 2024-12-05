@@ -76,7 +76,6 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
           homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
           tokenEvent: RepositoryProvider.of<TokenEvent>(context),
           scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
-          notificationEvent: RepositoryProvider.of<NotificationEvent>(context),
           cancelModalViewAction: () {
             Navigator.of(context).pop();
           },

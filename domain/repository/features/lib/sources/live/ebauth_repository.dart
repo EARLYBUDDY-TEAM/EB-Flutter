@@ -11,7 +11,12 @@ final class EBAuthRepository {
     required String email,
     required String password,
   }) async {
-    final request = LoginRequest.init(email: email, password: password);
+    final fcmToken = await NotificationManager.getFCMToken() ?? '';
+    final request = LoginRequest.init(
+      email: email,
+      password: password,
+      fcmToken: fcmToken,
+    );
     final result = await _networkService.request(request);
     switch (result) {
       case (Success()):

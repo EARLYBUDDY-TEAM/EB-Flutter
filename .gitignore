@@ -21,3 +21,5 @@ build/
 
 .flutter-plugins-dependencies
 pubspec.lock
+
+auth.json

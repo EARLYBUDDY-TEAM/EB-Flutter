@@ -30,7 +30,11 @@ final class MiddleTransportArrivalCard extends StatelessWidget {
       verticalPadding: 10,
       child: _MiddleTransportImminentCard(
         title: title,
-        onTap: () {},
+        onTap: () {
+          context
+              .read<MiddleTranportBloc>()
+              .add(OnTapMiddleTransportImminentCard());
+        },
       ),
     );
   }
@@ -55,11 +59,7 @@ final class _MiddleTransportImminentCard extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
-        onTap: () {
-          context
-              .read<MiddleTranportBloc>()
-              .add(OnTapMiddleTransportImminentCard());
-        },
+        onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

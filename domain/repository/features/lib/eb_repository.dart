@@ -8,6 +8,7 @@ import 'package:eb_repository_interface/eb_repository_interface.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
 import 'package:eb_model/eb_model.dart';
 import 'package:eb_uikit/eb_uikit.dart';
+import 'package:eb_notification_manager/eb_notification_manager.dart';
 
 part 'sources/live/ebauth_repository.dart';
 part 'sources/live/findroute_repository.dart';
