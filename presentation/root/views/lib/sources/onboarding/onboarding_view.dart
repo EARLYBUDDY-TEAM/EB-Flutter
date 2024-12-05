@@ -21,13 +21,17 @@ final class OnboardingContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = ScreenSize.height(context);
-    final bottomPadding = ScreenSize.safeArea.bottom(context);
+    final imageHeight = screenHeight * 0.8;
+    final restHeight = screenHeight - imageHeight;
+    final safeAreaBottom = ScreenSize.safeArea.bottom(context);
+    final bottomIndicatorHeight = restHeight + safeAreaBottom;
+    final bottomPadding = bottomIndicatorHeight / 3;
 
     return IntroductionScreen(
       pages: [
-        _onboardingImage(image: images.onboarding1, height: screenHeight),
-        _onboardingImage(image: images.onboarding2, height: screenHeight),
-        _onboardingImage(image: images.onboarding3, height: screenHeight),
+        _onboardingImage(image: images.onboarding1, height: imageHeight),
+        _onboardingImage(image: images.onboarding2, height: imageHeight),
+        _onboardingImage(image: images.onboarding3, height: imageHeight),
       ],
       done: Text("완료", style: _textStyle()),
       onDone: () {
@@ -72,7 +76,9 @@ final class OnboardingContent extends StatelessWidget {
         alignment: Alignment.center,
         fit: BoxFit.cover,
       ),
-      decoration: const PageDecoration(fullScreen: true, safeArea: 100),
+      decoration: const PageDecoration(
+        fullScreen: true,
+      ),
     );
   }
 

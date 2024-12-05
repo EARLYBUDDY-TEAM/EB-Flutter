@@ -19,5 +19,8 @@ build/
 # Melos
 **/pubspec_overrides.yaml
 
+.flutter-plugins
 .flutter-plugins-dependencies
 pubspec.lock
+
+auth.json

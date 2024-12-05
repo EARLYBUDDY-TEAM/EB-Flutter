@@ -1,5 +1,47 @@
 part of '../../eb_root.dart';
 
+final class RootAutoLoginView extends StatelessWidget {
+  final _authRepository = EBAuthRepository();
+  final _tokenRepository = TokenRepository();
+  final _homeDelegate = HomeDelegate();
+  final _rootDelegate = RootDelegate();
+
+  RootAutoLoginView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return RootView(
+      ebAuthRepository: _authRepository,
+      tokenRepository: _tokenRepository,
+      homeDelegate: _homeDelegate,
+      rootDelegate: _rootDelegate,
+    );
+  }
+
+  Future<void> setAutoLogin() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    final email = ENV_TESTUSER.email;
+    final password = ENV_TESTUSER.password;
+
+    final Result result = await _authRepository.logIn(
+      email: email,
+      password: password,
+    );
+
+    switch (result) {
+      case Success():
+        final Token token = result.success.model;
+        await _tokenRepository.saveToken(token);
+        _homeDelegate.loginStatus.add(BaseStatus.success);
+        _rootDelegate.authStatus.add(Authenticated());
+      case Failure():
+        log('login fail ...');
+        return;
+    }
+  }
+}
+
 final class RootView extends StatelessWidget {
   final HomeDelegate _homeDelegate;
   final LoginDelegate _loginDelegate;
@@ -25,7 +67,6 @@ final class RootView extends StatelessWidget {
     scheduleRepository: _scheduleRepository,
     tokenEvent: _tokenEvent,
   );
-  late final _notificationEvent = NotificationEvent();
   final _subwayScheduleProvider = SubwayScheduleProvider();
   // 좀더 하위뷰에서 주입하기..
 
@@ -75,7 +116,6 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
-        RepositoryProvider.value(value: _notificationEvent),
         RepositoryProvider.value(value: _subwayScheduleProvider),
       ],
       child: const _RootBlocView(),

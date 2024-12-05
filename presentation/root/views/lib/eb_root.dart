@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_repository_interface/eb_repository_interface.dart';
@@ -12,6 +14,7 @@ import 'package:eb_search_place/eb_search_place.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
 import 'package:eb_event/eb_event.dart';
+import 'package:eb_model/eb_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +42,6 @@ final class PrepareRoot {
       baseUrl: ENV_KAKAOMAP.url,
     );
     await LocationProvider.shared.checkPermission();
-    await NotificationEvent.initialize();
 
     return myWidgetsBinding;
   }

@@ -5,7 +5,6 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepositoryAB _homeRepository;
   final TokenEvent _tokenEvent;
   final ScheduleEvent _scheduleEvent;
-  final NotificationEvent _notificationEvent;
 
   final Function() _cancelModalViewAction;
 
@@ -20,14 +19,12 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required HomeRepositoryAB homeRepository,
     required ScheduleEvent scheduleEvent,
     required TokenEvent tokenEvent,
-    required NotificationEvent notificationEvent,
     required void Function() cancelModalViewAction,
     HomeState? homeState,
   })  : _loadingDelegate = loadingDelegate,
         _homeRepository = homeRepository,
         _scheduleEvent = scheduleEvent,
         _tokenEvent = tokenEvent,
-        _notificationEvent = notificationEvent,
         _cancelModalViewAction = cancelModalViewAction,
         super(homeState ?? HomeState()) {
     on<SetHomeStatus>(_onSetHomeStatus);
