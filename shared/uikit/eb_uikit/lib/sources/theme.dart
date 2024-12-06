@@ -1,27 +1,43 @@
 part of '../eb_uikit.dart';
 
 final class EBTheme {
-  static ThemeData light() {
+  final highlightColor = EBColors.blue3.withOpacity(0.05);
+  final splashColor = EBColors.blue3.withOpacity(0.1);
+
+  ThemeData light() {
     const mode = ThemeMode.light;
     return _ebTheme(mode);
   }
 
-  static ThemeData dark() {
+  ThemeData dark() {
     const mode = ThemeMode.dark;
     return _ebTheme(mode);
   }
 
-  static ThemeData _ebTheme(ThemeMode mode) {
+  ThemeData _ebTheme(ThemeMode mode) {
     return ThemeData(
+      highlightColor: highlightColor,
+      splashColor: splashColor,
       textButtonTheme: _textButtonTheme,
       timePickerTheme: _timePickerTheme,
       colorScheme: _colorScheme(mode),
+      buttonTheme: _buttonTheme(mode),
     );
   }
 
-  static TextButtonThemeData get _textButtonTheme {
+  ButtonThemeData _buttonTheme(ThemeMode mode) {
+    return ButtonThemeData(
+      highlightColor: highlightColor,
+      splashColor: splashColor,
+    );
+  }
+
+  TextButtonThemeData get _textButtonTheme {
     return TextButtonThemeData(
       style: ButtonStyle(
+        overlayColor: WidgetStateProperty.resolveWith((states) {
+          return splashColor;
+        }),
         textStyle: WidgetStateProperty.resolveWith((states) {
           return const TextStyle(
             fontFamily: FontFamily.nanumSquareExtraBold,
@@ -34,7 +50,7 @@ final class EBTheme {
     );
   }
 
-  static TimePickerThemeData get _timePickerTheme {
+  TimePickerThemeData get _timePickerTheme {
     return TimePickerThemeData(
       hourMinuteColor: EBColors.purple1.withOpacity(0.4),
       dayPeriodColor: Colors.pink.shade100.withOpacity(0.5),
@@ -42,7 +58,7 @@ final class EBTheme {
     );
   }
 
-  static ColorScheme _colorScheme(ThemeMode mode) {
+  ColorScheme _colorScheme(ThemeMode mode) {
     switch (mode) {
       case (ThemeMode.light):
         return ColorScheme.light(

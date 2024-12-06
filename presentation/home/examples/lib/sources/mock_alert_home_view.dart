@@ -29,7 +29,7 @@ final class _MockAlertHomeViewApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: EBTheme.light(),
+      theme: EBTheme().light(),
       home: const HomeView(),
     );
   }

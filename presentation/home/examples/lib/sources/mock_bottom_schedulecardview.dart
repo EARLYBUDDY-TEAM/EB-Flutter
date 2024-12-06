@@ -6,7 +6,7 @@ part of 'home_example.dart';
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//       theme: EBTheme.light(),
+//       theme: EBTheme().light(),
 //       home: Scaffold(
 //         body: SingleChildScrollView(
 //           child: _MockBottomScheduleCardListView(),

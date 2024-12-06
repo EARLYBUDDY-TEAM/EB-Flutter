@@ -36,7 +36,7 @@ final class _RootNaviState extends State<_RootNaviView> {
         Locale('en'),
         Locale('ko'),
       ],
-      theme: EBTheme.light(),
+      theme: EBTheme().light(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return WithLoadingView(

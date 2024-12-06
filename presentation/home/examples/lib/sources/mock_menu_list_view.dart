@@ -6,6 +6,7 @@ final class MockMenuListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: EBTheme().light(),
       onGenerateRoute: (settings) {
         if (settings.name == "/") {
           return MaterialPageRoute(
