@@ -18,6 +18,7 @@ part 'mock_home_view.dart';
 part 'mock_home_calendar.dart';
 part 'mock_middle_transport_view.dart';
 part 'mock_data.dart';
+part 'mock_menu_list_view.dart';
 part 'helper/mock_schedule_path.dart';
 
 final class HomeExample extends StatelessWidget {
@@ -25,7 +26,8 @@ final class HomeExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MockHomeView();
+    // return MockHomeView();
     // return const MockMiddleTransportView();
+    return const MockMenuListView();
   }
 }

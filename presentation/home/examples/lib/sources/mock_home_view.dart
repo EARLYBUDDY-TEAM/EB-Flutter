@@ -41,7 +41,6 @@ final class MockHomeView extends StatelessWidget {
     scheduleRepository: _scheduleRepository,
     tokenEvent: _tokenEvent,
   );
-  late final _notificationEvent = NotificationEvent();
 
   MockHomeView({super.key});
 
@@ -57,7 +56,6 @@ final class MockHomeView extends StatelessWidget {
         RepositoryProvider.value(value: _findrouteRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
-        RepositoryProvider.value(value: _notificationEvent),
         RepositoryProvider.value(value: _subwayScheduleProvider),
       ],
       child: MaterialApp(home: _MockHomeBlocProviderView()),

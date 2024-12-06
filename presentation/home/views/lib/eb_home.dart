@@ -45,3 +45,6 @@ part 'sources/middle_transport/cards/info/transport_info/left_dispatch/left_disp
 part 'sources/middle_transport/cards/info/transport_info/right_dispatch/right_dispatch_column.dart';
 part 'sources/middle_transport/cards/info/transport_info/right_dispatch/reload_trasnport_info_button.dart';
 part 'sources/middle_transport/cards/info/imminent/middle_transport_imminent.dart';
+part 'sources/menu_list_view/menu_list_view.dart';
+part 'sources/menu_list_view/menu_list_content.dart';
+part 'sources/menu_list_view/list_content/notification_toggle_button.dart';
