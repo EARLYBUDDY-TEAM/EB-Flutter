@@ -48,3 +48,4 @@ part 'sources/middle_transport/cards/info/imminent/middle_transport_imminent.dar
 part 'sources/menu_list_view/menu_list_view.dart';
 part 'sources/menu_list_view/menu_list_content.dart';
 part 'sources/menu_list_view/list_content/notification_toggle_button.dart';
+part 'sources/menu_list_view/list_content/account_management_view.dart';

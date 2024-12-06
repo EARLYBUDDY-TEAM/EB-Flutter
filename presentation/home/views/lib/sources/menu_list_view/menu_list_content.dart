@@ -20,7 +20,13 @@ final class _HomeMenuListContent extends StatelessWidget {
         _divider(),
         _row(
           title: '계정 관리',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => _AccountManagementView(),
+              ),
+            );
+          },
         ),
         _divider(),
         _row(
