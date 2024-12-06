@@ -5,6 +5,7 @@ final class LoginState extends Equatable {
   final PasswordState passwordState;
   final LoginStatus status;
   final BaseStatus tokenStatus;
+  final bool isAutoLogin;
 
   bool get inputIsValid =>
       (emailState.email.isValid && passwordState.password.isValid);
@@ -14,6 +15,7 @@ final class LoginState extends Equatable {
     this.passwordState = const PasswordState(),
     this.status = LoginStatus.initial,
     this.tokenStatus = BaseStatus.init,
+    this.isAutoLogin = false,
   });
 
   LoginState copyWith({
@@ -21,12 +23,14 @@ final class LoginState extends Equatable {
     PasswordState? passwordState,
     LoginStatus? status,
     BaseStatus? tokenStatus,
+    bool? isAutoLogin,
   }) {
     return LoginState(
       emailState: emailState ?? this.emailState,
       passwordState: passwordState ?? this.passwordState,
       status: status ?? this.status,
       tokenStatus: tokenStatus ?? this.tokenStatus,
+      isAutoLogin: isAutoLogin ?? this.isAutoLogin,
     );
   }
 
@@ -36,6 +40,7 @@ final class LoginState extends Equatable {
         passwordState,
         status,
         tokenStatus,
+        isAutoLogin,
       ];
 }
 

@@ -50,6 +50,9 @@ final class PrepareRoot {
     final List<SecureStorageKey> keysToEliminate = [
       SecureStorageKey.accessToken,
       SecureStorageKey.refreshToken,
+      SecureStorageKey.isAutoLogin,
+      SecureStorageKey.email,
+      SecureStorageKey.password,
     ];
 
     final prefs = await SharedPreferences.getInstance();

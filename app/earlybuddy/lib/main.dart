@@ -19,9 +19,9 @@ void main() async {
   final isFirstLaunch = await PrepareRoot.checkFirstLaunch();
   FlutterNativeSplash.remove();
 
-  // isFirstLaunch ? runApp(const OnboardingView()) : runApp(RootView());
+  isFirstLaunch ? runApp(const OnboardingView()) : runApp(RootView());
 
-  final rootAutoLoginView = RootAutoLoginView();
-  runApp(rootAutoLoginView);
-  await rootAutoLoginView.setAutoLogin();
+  // final rootAutoLoginView = RootAutoLoginView();
+  // runApp(rootAutoLoginView);
+  // await rootAutoLoginView.setAutoLogin();
 }

@@ -6,6 +6,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
+  final SecureStorage _secureStorage;
 
   late StreamSubscription<BaseStatus> _tokenStatusSubscription;
 
@@ -16,17 +17,21 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     required LoginDelegate loginDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
+    SecureStorage? secureStorage,
   })  : _authRepository = authRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
+        _secureStorage = secureStorage ?? SecureStorage(),
         super(const LoginState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<PressLoginButton>(_onPressLoginButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
+    on<PressAutoLoginButton>(_onPressAutoLoginButton);
     on<SetTokenStatus>(_onSetTokenStatus);
+    on<SetAutoLogin>(_onSetAutoLogin);
 
     _tokenStatusSubscription = loginDelegate.tokenStatus.listen(
       (status) => add(SetTokenStatus(status: status)),
@@ -56,53 +61,107 @@ extension on LoginBloc {
 }
 
 extension on LoginBloc {
+  Future<void> _writeAutoLoginInfoInSecureStorage({
+    required bool isAutoLogin,
+    required String email,
+    required String password,
+  }) async {
+    if (isAutoLogin == false) {
+      return;
+    }
+
+    await _secureStorage.write(
+      key: SecureStorageKey.isAutoLogin,
+      value: 'true',
+    );
+
+    await _secureStorage.write(
+      key: SecureStorageKey.email,
+      value: email,
+    );
+
+    await _secureStorage.write(
+      key: SecureStorageKey.password,
+      value: password,
+    );
+  }
+
+  Future<void> _loginAction({
+    required Emitter<LoginState> emit,
+    required _LoginInfo loginInfo,
+    Future<void> Function()? successAction,
+  }) async {
+    _loadingDelegate.set();
+    emit(state.copyWith(status: LoginStatus.inProgress));
+
+    final Result result = await _authRepository.logIn(
+      email: loginInfo.email,
+      password: loginInfo.password,
+    );
+
+    switch (result) {
+      case Success():
+        emit(state.copyWith(status: LoginStatus.initial));
+
+        if (successAction != null) {
+          await successAction();
+        }
+
+        Token token = result.success.model;
+        await _tokenRepository.saveToken(token);
+
+        _loadingDelegate.dismiss();
+        _homeDelegate.loginStatus.add(BaseStatus.success);
+        _rootDelegate.authStatus.add(Authenticated());
+      case Failure():
+        _loadingDelegate.dismiss();
+        _failLoginAction(emit);
+    }
+  }
+
+  void _failLoginAction(
+    Emitter<LoginState> emit,
+  ) {
+    final emailState =
+        state.emailState.copyWith(status: EmailFormStatus.onError);
+    final passwordState =
+        state.passwordState.copyWith(status: PasswordFormStatus.onError);
+    emit(
+      state.copyWith(
+        status: LoginStatus.onError,
+        emailState: emailState,
+        passwordState: passwordState,
+      ),
+    );
+  }
+
   Future<void> _onPressLoginButton(
     PressLoginButton event,
     Emitter<LoginState> emit,
   ) async {
+    final email = state.emailState.email.value;
+    final password = state.passwordState.password.value;
+    final loginInfo = _LoginInfo(
+      email: email,
+      password: password,
+    );
+
+    Future<void> successAction() async {
+      await _writeAutoLoginInfoInSecureStorage(
+        isAutoLogin: state.isAutoLogin,
+        email: email,
+        password: password,
+      );
+    }
+
     if (state.inputIsValid) {
-      _loadingDelegate.set();
-      emit(state.copyWith(status: LoginStatus.inProgress));
-
-      final Result result = await _authRepository.logIn(
-        email: state.emailState.email.value,
-        password: state.passwordState.password.value,
+      await _loginAction(
+        emit: emit,
+        successAction: successAction,
+        loginInfo: loginInfo,
       );
-
-      switch (result) {
-        case Success():
-          emit(state.copyWith(status: LoginStatus.initial));
-          Token token = result.success.model;
-          await _tokenRepository.saveToken(token);
-          _loadingDelegate.dismiss();
-          _homeDelegate.loginStatus.add(BaseStatus.success);
-          _rootDelegate.authStatus.add(Authenticated());
-        case Failure():
-          _loadingDelegate.dismiss();
-          final emailState =
-              state.emailState.copyWith(status: EmailFormStatus.onError);
-          final passwordState =
-              state.passwordState.copyWith(status: PasswordFormStatus.onError);
-          emit(
-            state.copyWith(
-              status: LoginStatus.onError,
-              emailState: emailState,
-              passwordState: passwordState,
-            ),
-          );
-      }
     } else {
-      final emailState =
-          state.emailState.copyWith(status: EmailFormStatus.onError);
-      final passwordState =
-          state.passwordState.copyWith(status: PasswordFormStatus.onError);
-      emit(
-        state.copyWith(
-          status: LoginStatus.onError,
-          emailState: emailState,
-          passwordState: passwordState,
-        ),
-      );
+      _failLoginAction(emit);
     }
   }
 }
@@ -138,5 +197,68 @@ extension on LoginBloc {
     Emitter<LoginState> emit,
   ) {
     emit(state.copyWith(tokenStatus: event.status));
+  }
+}
+
+extension on LoginBloc {
+  Future<void> _onPressAutoLoginButton(
+    PressAutoLoginButton event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        isAutoLogin: event.isAutoLogin,
+      ),
+    );
+  }
+}
+
+extension on LoginBloc {
+  Future<_LoginInfo?> _getLoginInfo() async {
+    try {
+      final email = await _secureStorage.read(key: SecureStorageKey.email);
+      final password =
+          await _secureStorage.read(key: SecureStorageKey.password);
+
+      return _LoginInfo(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      log('_getLoginInfo: $e');
+      return null;
+    }
+  }
+
+  Future<bool> _isAutoLogin() async {
+    try {
+      final isAutoLogin =
+          await _secureStorage.read(key: SecureStorageKey.isAutoLogin);
+
+      return isAutoLogin == 'true';
+    } catch (e) {
+      log('_isAutoLogin: $e');
+      return false;
+    }
+  }
+
+  Future<void> _onSetAutoLogin(
+    SetAutoLogin event,
+    Emitter<LoginState> emit,
+  ) async {
+    final isAutoLogin = await _isAutoLogin();
+    if (!isAutoLogin) {
+      return;
+    }
+
+    final loginInfo = await _getLoginInfo();
+    if (loginInfo == null) {
+      return;
+    }
+
+    await _loginAction(
+      emit: emit,
+      loginInfo: loginInfo,
+    );
   }
 }

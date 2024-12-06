@@ -19,7 +19,7 @@ final class LoginView extends StatelessWidget {
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
-      ),
+      )..add(const SetAutoLogin()),
       child: _LoginContent(),
     );
   }
@@ -55,6 +55,8 @@ class _LoginContent extends StatelessWidget {
                   _EmailInput(),
                   const SizedBox(height: 10),
                   _PasswordInput(),
+                  const SizedBox(height: 10),
+                  _AutoLoginColumn(),
                   const SizedBox(height: 40),
                   const _LoginButton(),
                   const SizedBox(height: 10),

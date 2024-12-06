@@ -211,6 +211,13 @@ extension on MiddleTranportBloc {
       streamRealTimeInfo: () => streamRealTimeInfo,
     );
 
+    final curCardState = cardStateList[index];
+    final expectStartTime = curCardState.expectStartTime;
+    final expectTotalTime = curCardState.expectTotalMinute;
+    log("index : $index");
+    log("expectStartTime: $expectStartTime");
+    log("expectTotalTime: $expectTotalTime");
+
     emit(state.copyWith(viewState: newViewState));
   }
 
