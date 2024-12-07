@@ -61,3 +61,14 @@ final class SetAutoLogin extends LoginEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class CompleteLogout extends LoginEvent {
+  final BaseStatus status;
+
+  const CompleteLogout({
+    required this.status,
+  });
+
+  @override
+  List<Object?> get props => [status];
+}

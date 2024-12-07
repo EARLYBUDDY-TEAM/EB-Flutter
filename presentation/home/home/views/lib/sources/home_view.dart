@@ -94,7 +94,6 @@ extension on EBHomeView {
       listener: (context, state) async {
         await _showReigsterResultAlert(
           context,
-          state.status.register,
         );
       },
       listenWhen: (previous, current) {
@@ -105,15 +104,10 @@ extension on EBHomeView {
 
   Future<void> _showReigsterResultAlert(
     BuildContext context,
-    BaseStatus registerStatus,
   ) async {
-    if (registerStatus != BaseStatus.success) {
-      return;
-    }
-
     await Future<void>.delayed(const Duration(seconds: 1));
 
-    EBAlert.showModalPopup(
+    await EBAlert.showModalPopup(
       context: context,
       title: '얼리버디 회원이 되신걸 축하합니다.',
       content: '',
@@ -121,9 +115,6 @@ extension on EBHomeView {
         EBAlert.makeAction(
           name: '확인',
           onPressed: () {
-            context
-                .read<HomeBloc>()
-                .add(SetHomeStatus(register: BaseStatus.init));
             Navigator.of(context).pop();
           },
           isDefaultAction: true,
@@ -137,7 +128,7 @@ extension on EBHomeView {
   BlocListener<HomeBloc, HomeState> loginResultSnackBarListener() {
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) async {
-        await _showLoginResultSnackBar(context, state.status.login);
+        await _showLoginResultSnackBar(context);
       },
       listenWhen: (previous, current) {
         return previous.status.login != current.status.login;
@@ -147,18 +138,11 @@ extension on EBHomeView {
 
   Future<void> _showLoginResultSnackBar(
     BuildContext context,
-    BaseStatus loginStatus,
   ) async {
-    if (loginStatus != BaseStatus.success) {
-      return;
-    }
-
     await Future<void>.delayed(const Duration(seconds: 1));
 
     final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
-    ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((_) {
-      context.read<HomeBloc>().add(SetHomeStatus(login: BaseStatus.init));
-    });
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 

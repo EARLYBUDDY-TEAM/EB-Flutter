@@ -1,19 +1,17 @@
 part of '../../../home_feature.dart';
 
 final class HomeStatus extends Equatable {
-  final BaseStatus login;
-  final BaseStatus register;
+  final bool login;
+  final bool register;
   final BaseStatus getAllScheduleCard;
   final BaseStatus deleteScheduleCard;
 
   const HomeStatus({
-    BaseStatus? login,
-    BaseStatus? register,
+    this.login = false,
+    this.register = false,
     BaseStatus? getAllScheduleCard,
     BaseStatus? deleteScheduleCard,
-  })  : login = login ?? BaseStatus.init,
-        register = register ?? BaseStatus.init,
-        getAllScheduleCard = getAllScheduleCard ?? BaseStatus.init,
+  })  : getAllScheduleCard = getAllScheduleCard ?? BaseStatus.init,
         deleteScheduleCard = deleteScheduleCard ?? BaseStatus.init;
 
   @override
@@ -25,8 +23,8 @@ final class HomeStatus extends Equatable {
       ];
 
   HomeStatus copyWith({
-    BaseStatus? login,
-    BaseStatus? register,
+    bool? login,
+    bool? register,
     BaseStatus? getAllScheduleCard,
     BaseStatus? deleteScheduleCard,
   }) =>

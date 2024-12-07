@@ -65,9 +65,19 @@ extension on HomeBloc {
     SetHomeStatus event,
     Emitter<HomeState> emit,
   ) {
+    final loginStatus = event.login ?? BaseStatus.init;
+    final login = loginStatus == BaseStatus.success
+        ? !state.status.login
+        : state.status.login;
+
+    final registerStatus = event.register ?? BaseStatus.init;
+    final register = registerStatus == BaseStatus.success
+        ? !state.status.register
+        : state.status.register;
+
     final homeStatus = state.status.copyWith(
-      login: event.login,
-      register: event.register,
+      login: login,
+      register: register,
       getAllScheduleCard: event.getAllScheduleCard,
       deleteScheduleCard: event.deleteScheduleCard,
     );

@@ -13,3 +13,5 @@ part 'sources/login_view.dart';
 part 'sources/title.dart';
 part 'sources/input_forms.dart';
 part 'sources/buttons.dart';
+part 'sources/login_content.dart';
+part 'sources/login_multi_bloc_listener.dart';

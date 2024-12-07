@@ -14,8 +14,9 @@ final class _RootBlocView extends StatelessWidget {
         ),
         BlocProvider<MenuBloc>(
           create: (context) => MenuBloc(
-              // rootDelegate: RepositoryProvider.of<RootDelegate>(context),
-              ),
+            rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+            loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+          ),
         ),
       ],
       child: _RootNaviView(),

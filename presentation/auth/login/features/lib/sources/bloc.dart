@@ -9,6 +9,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final SecureStorage _secureStorage;
 
   late StreamSubscription<BaseStatus> _tokenStatusSubscription;
+  late StreamSubscription<void> _completeLogoutSubscription;
 
   LoginBloc({
     required EBAuthRepository authRepository,
@@ -32,15 +33,23 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<PressAutoLoginButton>(_onPressAutoLoginButton);
     on<SetTokenStatus>(_onSetTokenStatus);
     on<SetAutoLogin>(_onSetAutoLogin);
+    on<CompleteLogout>(_onShowLogoutSnackBar);
 
     _tokenStatusSubscription = loginDelegate.tokenStatus.listen(
       (status) => add(SetTokenStatus(status: status)),
+    );
+
+    log('LoginBloc INIT !!!');
+
+    _completeLogoutSubscription = loginDelegate.completeLogout.listen(
+      (status) => add(CompleteLogout(status: status)),
     );
   }
 
   @override
   Future<void> close() async {
     await _tokenStatusSubscription.cancel();
+    await _completeLogoutSubscription.cancel();
     await super.close();
   }
 }
@@ -92,7 +101,7 @@ extension on LoginBloc {
     Future<void> Function()? successAction,
   }) async {
     _loadingDelegate.set();
-    emit(state.copyWith(status: LoginStatus.inProgress));
+    emit(state.copyWith(loginStatus: LoginStatus.inProgress));
 
     final Result result = await _authRepository.logIn(
       email: loginInfo.email,
@@ -101,7 +110,7 @@ extension on LoginBloc {
 
     switch (result) {
       case Success():
-        emit(state.copyWith(status: LoginStatus.initial));
+        emit(state.copyWith(loginStatus: LoginStatus.initial));
 
         if (successAction != null) {
           await successAction();
@@ -128,7 +137,7 @@ extension on LoginBloc {
         state.passwordState.copyWith(status: PasswordFormStatus.onError);
     emit(
       state.copyWith(
-        status: LoginStatus.onError,
+        loginStatus: LoginStatus.onError,
         emailState: emailState,
         passwordState: passwordState,
       ),
@@ -187,7 +196,7 @@ extension on LoginBloc {
     PressAlertOkButton event,
     Emitter<LoginState> emit,
   ) {
-    emit(state.copyWith(status: LoginStatus.initial));
+    emit(state.copyWith(loginStatus: LoginStatus.initial));
   }
 }
 
@@ -246,13 +255,17 @@ extension on LoginBloc {
     SetAutoLogin event,
     Emitter<LoginState> emit,
   ) async {
+    log('onSetAutoLogin !!!');
+
     final isAutoLogin = await _isAutoLogin();
     if (!isAutoLogin) {
+      log('isAutoLogin: $isAutoLogin');
       return;
     }
 
     final loginInfo = await _getLoginInfo();
     if (loginInfo == null) {
+      log('loginInfo: $loginInfo');
       return;
     }
 
@@ -260,5 +273,19 @@ extension on LoginBloc {
       emit: emit,
       loginInfo: loginInfo,
     );
+  }
+}
+
+extension on LoginBloc {
+  void _onShowLogoutSnackBar(
+    CompleteLogout event,
+    Emitter<LoginState> emit,
+  ) {
+    if (event.status != BaseStatus.success) {
+      return;
+    }
+
+    final completeLogout = !state.completeLogout;
+    emit(state.copyWith(completeLogout: completeLogout));
   }
 }
