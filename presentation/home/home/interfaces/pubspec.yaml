@@ -1,4 +1,4 @@
-name: eb_root_interface
+name: eb_home_interface
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
@@ -10,22 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
-  intl: ^0.19.0
-  introduction_screen: ^3.1.14
-  shared_preferences: ^2.3.2
+  table_calendar: ^3.1.0
+  modal_bottom_sheet: ^3.0.0
+  flutter_local_notifications: ^18.0.1
 
   eb_delegate: any
   eb_repository: any
-  eb_model: any
   eb_uikit: any
   eb_state: any
-  eb_home: any
-  eb_login: any
+  eb_add_schedule: any
+  eb_search_place: any
   eb_menu: any
 
 dev_dependencies:

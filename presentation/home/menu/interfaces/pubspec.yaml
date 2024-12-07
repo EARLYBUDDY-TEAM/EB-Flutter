@@ -1,4 +1,4 @@
-name: eb_root_interface
+name: eb_menu_interface
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
@@ -10,23 +10,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
-  intl: ^0.19.0
-  introduction_screen: ^3.1.14
-  shared_preferences: ^2.3.2
 
   eb_delegate: any
   eb_repository: any
-  eb_model: any
   eb_uikit: any
   eb_state: any
-  eb_home: any
-  eb_login: any
-  eb_menu: any
 
 dev_dependencies:
   flutter_test:

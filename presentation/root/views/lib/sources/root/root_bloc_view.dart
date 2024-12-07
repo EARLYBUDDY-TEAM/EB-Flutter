@@ -5,12 +5,27 @@ final class _RootBlocView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RootBloc(
-        rootDelegate: RepositoryProvider.of<RootDelegate>(context),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RootBloc>(
+          create: (context) => RootBloc(
+            rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+          ),
+        ),
+        BlocProvider<MenuBloc>(
+          create: (context) => MenuBloc(
+              // rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+              ),
+        ),
+      ],
       child: _RootNaviView(),
     );
+    // return BlocProvider(
+    //   create: (context) => RootBloc(
+    //     rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+    //   ),
+    //   child: _RootNaviView(),
+    // );
   }
 }
 
