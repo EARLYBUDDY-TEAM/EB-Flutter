@@ -53,7 +53,11 @@ final class _AccountManagementContent extends StatelessWidget {
         _logout(context),
         _row(
           title: '비밀번호 변경',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              _ChangePasswordView.route(context),
+            );
+          },
         ),
         _row(
           title: '회원 탈퇴',
