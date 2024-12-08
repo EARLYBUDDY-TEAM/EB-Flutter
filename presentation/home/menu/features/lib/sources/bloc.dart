@@ -5,15 +5,18 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final RootDelegate _rootDelegate;
   final LoginDelegate _loginDelegate;
   final SecureStorage _secureStorage;
+  final EBAuthRepository _ebAuthRepository;
 
   MenuBloc({
     required LoadingDelegate loadingDelegate,
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
+    required EBAuthRepository ebAuthRepository,
     SecureStorage? secureStorage,
   })  : _loadingDelegate = loadingDelegate,
         _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
+        _ebAuthRepository = ebAuthRepository,
         _secureStorage = secureStorage ?? SecureStorage(),
         super(const MenuState()) {
     on<PressLogoutButton>(_onPressLogoutButton);
@@ -125,10 +128,32 @@ extension on MenuBloc {
   ) async {
     _loadingDelegate.set();
 
-    await Future.delayed(const Duration(milliseconds: 1500));
-    add(SetChangePasswordStatus(status: BaseStatus.fail));
+    String email = '';
+    try {
+      email = await _secureStorage.read(key: SecureStorageKey.email);
+    } catch (e) {
+      log(e.toString());
+      return;
+    }
+
+    if (email.isEmpty) {
+      return;
+    }
+
+    final password = state.passwordState.password.value;
+    final result = await _ebAuthRepository.changePassword(
+      email: email,
+      password: password,
+    );
 
     _loadingDelegate.dismiss();
+
+    switch (result) {
+      case (SuccessResponse()):
+        add(SetChangePasswordStatus(status: BaseStatus.success));
+      case (FailureResponse()):
+        add(SetChangePasswordStatus(status: BaseStatus.fail));
+    }
   }
 }
 

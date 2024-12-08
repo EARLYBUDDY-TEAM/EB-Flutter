@@ -12,7 +12,7 @@ final class EBAuthRepository {
     required String password,
   }) async {
     final fcmToken = await NotificationManager.getFCMToken() ?? '';
-    final request = LoginRequest.init(
+    final request = AuthRequest.login(
       email: email,
       password: password,
       fcmToken: fcmToken,
@@ -34,8 +34,29 @@ final class EBAuthRepository {
     required String email,
     required String password,
   }) async {
-    final request = RegisterRequest.init(
+    final request = AuthRequest.register(
       nickName: nickName,
+      email: email,
+      password: password,
+    );
+
+    final result = await _networkService.request(request);
+
+    switch (result) {
+      case (SuccessResponse()):
+        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result;
+    }
+  }
+
+  Future<NetworkResponse<EmptyDTO>> changePassword({
+    required String email,
+    required String password,
+  }) async {
+    final request = AuthRequest.changePassword(
       email: email,
       password: password,
     );

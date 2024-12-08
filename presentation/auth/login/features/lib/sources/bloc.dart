@@ -75,15 +75,6 @@ extension on LoginBloc {
     required String email,
     required String password,
   }) async {
-    if (isAutoLogin == false) {
-      return;
-    }
-
-    await _secureStorage.write(
-      key: SecureStorageKey.isAutoLogin,
-      value: 'true',
-    );
-
     await _secureStorage.write(
       key: SecureStorageKey.email,
       value: email,
@@ -92,6 +83,15 @@ extension on LoginBloc {
     await _secureStorage.write(
       key: SecureStorageKey.password,
       value: password,
+    );
+
+    if (isAutoLogin == false) {
+      return;
+    }
+
+    await _secureStorage.write(
+      key: SecureStorageKey.isAutoLogin,
+      value: 'true',
     );
   }
 
