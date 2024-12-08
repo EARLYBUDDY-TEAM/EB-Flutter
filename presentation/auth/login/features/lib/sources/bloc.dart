@@ -103,26 +103,26 @@ extension on LoginBloc {
     _loadingDelegate.set();
     emit(state.copyWith(loginStatus: LoginStatus.inProgress));
 
-    final Result result = await _authRepository.logIn(
+    final NetworkResponse<Token> result = await _authRepository.logIn(
       email: loginInfo.email,
       password: loginInfo.password,
     );
 
     switch (result) {
-      case Success():
+      case SuccessResponse():
         emit(state.copyWith(loginStatus: LoginStatus.initial));
 
         if (successAction != null) {
           await successAction();
         }
 
-        Token token = result.success.model;
+        final Token token = result.model;
         await _tokenRepository.saveToken(token);
 
         _loadingDelegate.dismiss();
         _homeDelegate.loginStatus.add(BaseStatus.success);
         _rootDelegate.authStatus.add(Authenticated());
-      case Failure():
+      case FailureResponse():
         _loadingDelegate.dismiss();
         _failLoginAction(emit);
     }

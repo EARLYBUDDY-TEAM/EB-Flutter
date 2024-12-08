@@ -70,14 +70,15 @@ extension on FindRouteBloc {
 
     _loadingDelegate.set();
 
-    final Result result = await _findRouteRepository.getEBRoute(
+    final NetworkResponse<EBRoute> result =
+        await _findRouteRepository.getEBRoute(
       start: state.searchPlaceInfo.startPlace!,
       end: state.searchPlaceInfo.endPlace!,
     );
 
     switch (result) {
-      case Success():
-        final EBRoute ebRoute = result.success.model;
+      case SuccessResponse():
+        final EBRoute ebRoute = result.model;
         final transportLineOfRoute =
             getTransportLineOfRoute(paths: ebRoute.ebPaths);
         final routeInfo = RouteInfo(
@@ -95,8 +96,8 @@ extension on FindRouteBloc {
             contentStatus: contentStatus,
           ),
         );
-      case Failure():
-        log(result.failure.statusCode.toString());
+      case FailureResponse():
+        log(result.statusCode.toString());
         emit(
           state.copyWith(
             routeInfo: const RouteInfo(),

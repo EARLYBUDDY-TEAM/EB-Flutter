@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_event/eb_event.dart';
+import 'package:eb_network/eb_network.dart';
 
 part 'sources/findroute_feature/bloc.dart';
 part 'sources/findroute_feature/event.dart';

@@ -21,7 +21,8 @@ final class ScheduleEvent {
   }) async {
     _loadingDelegate.set();
 
-    Future<Result> createScheduleEvent(String accessToken) async {
+    Future<NetworkResponse<EmptyDTO>> createScheduleEvent(
+        String accessToken) async {
       return await _scheduleRepository.create(
         accessToken: accessToken,
         schedule: schedule,
@@ -29,19 +30,17 @@ final class ScheduleEvent {
       );
     }
 
-    final Result addScheduleResult =
+    final NetworkResponse<EmptyDTO> addScheduleResult =
         await _tokenEvent.checkExpired(withEvent: createScheduleEvent);
 
     _loadingDelegate.dismiss();
 
     switch (addScheduleResult) {
-      case Success():
+      case SuccessResponse():
         successAction();
-      case Failure():
-        if (addScheduleResult.failure is FailureResponse) {
-          if (addScheduleResult.failure.statusCode != 490) {
-            failAction();
-          }
+      case FailureResponse():
+        if (addScheduleResult.statusCode != 490) {
+          failAction();
         }
     }
   }
@@ -54,7 +53,8 @@ final class ScheduleEvent {
   }) async {
     _loadingDelegate.set();
 
-    Future<Result> updateScheduleEvent(String accessToken) async {
+    Future<NetworkResponse<EmptyDTO>> updateScheduleEvent(
+        String accessToken) async {
       return await _scheduleRepository.update(
         accessToken: accessToken,
         schedule: schedule,
@@ -62,19 +62,17 @@ final class ScheduleEvent {
       );
     }
 
-    final Result updateScheduleResult =
+    final NetworkResponse<EmptyDTO> updateScheduleResult =
         await _tokenEvent.checkExpired(withEvent: updateScheduleEvent);
 
     _loadingDelegate.dismiss();
 
     switch (updateScheduleResult) {
-      case Success():
+      case SuccessResponse():
         successAction();
-      case Failure():
-        if (updateScheduleResult.failure is FailureResponse) {
-          if (updateScheduleResult.failure.statusCode != 490) {
-            failAction();
-          }
+      case FailureResponse():
+        if (updateScheduleResult.statusCode != 490) {
+          failAction();
         }
     }
   }
@@ -86,27 +84,26 @@ final class ScheduleEvent {
   }) async {
     _loadingDelegate.set();
 
-    Future<Result> deleteScheduleEvent(String accessToken) async {
+    Future<NetworkResponse<EmptyDTO>> deleteScheduleEvent(
+        String accessToken) async {
       return _scheduleRepository.delete(
         accessToken: accessToken,
         scheduleID: scheduleID,
       );
     }
 
-    final Result deleteScheduleResult =
+    final NetworkResponse<EmptyDTO> deleteScheduleResult =
         await _tokenEvent.checkExpired(withEvent: deleteScheduleEvent);
 
     _loadingDelegate.dismiss();
 
     switch (deleteScheduleResult) {
-      case Success():
+      case SuccessResponse():
         successAction();
 
-      case Failure():
-        if (deleteScheduleResult.failure is FailureResponse) {
-          if (deleteScheduleResult.failure.statusCode != 490) {
-            failAction();
-          }
+      case FailureResponse():
+        if (deleteScheduleResult.statusCode != 490) {
+          failAction();
         }
     }
   }

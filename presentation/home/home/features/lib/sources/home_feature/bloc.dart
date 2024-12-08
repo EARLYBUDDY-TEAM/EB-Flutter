@@ -93,24 +93,24 @@ extension on HomeBloc {
   ) async {
     _loadingDelegate.set();
 
-    getAllScheduleCardsEvent(String accessToken) async {
+    Future<NetworkResponse<List<SchedulePath>>> getAllScheduleCardsEvent(
+        String accessToken) async {
       return await _homeRepository.getAllSchedules(
         accessToken: accessToken,
       );
     }
 
-    final Result getAllSchedulesResult =
+    final NetworkResponse<List<SchedulePath>> getAllSchedulesResult =
         await _tokenEvent.checkExpired(withEvent: getAllScheduleCardsEvent);
 
     _loadingDelegate.dismiss();
 
     switch (getAllSchedulesResult) {
-      case Success():
+      case SuccessResponse():
         final homeStatus =
             state.status.copyWith(getAllScheduleCard: BaseStatus.success);
 
-        final List<SchedulePath> allSchedules =
-            getAllSchedulesResult.success.model;
+        final List<SchedulePath> allSchedules = getAllSchedulesResult.model;
         final daySchedule = DaySchedule.init(allSchedules: allSchedules);
 
         final calendarState = CalendarState();
@@ -139,7 +139,7 @@ extension on HomeBloc {
             bottomScheduleListState: bottomScheduleListState,
           ),
         );
-      case Failure():
+      case FailureResponse():
         _tokenEvent.failureAction(
           result: getAllSchedulesResult,
           withAction: () {

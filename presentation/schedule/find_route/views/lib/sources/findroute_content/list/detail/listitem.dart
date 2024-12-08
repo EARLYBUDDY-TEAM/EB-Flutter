@@ -14,8 +14,6 @@ final class DetailRouteListItem extends StatelessWidget {
       create: (context) {
         final realTimeInfoEvent = RealTimeInfoEvent(
           homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
-          subwayScheduleProvider:
-              RepositoryProvider.of<SubwayScheduleProvider>(context),
         );
 
         return DetailRouteBloc(

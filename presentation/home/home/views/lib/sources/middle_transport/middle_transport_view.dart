@@ -55,8 +55,6 @@ final class _MiddleTransportBlocViewState
       create: (context) {
         final realTimeInfoEvent = RealTimeInfoEvent(
           homeRepository: RepositoryProvider.of<HomeRepositoryAB>(context),
-          subwayScheduleProvider:
-              RepositoryProvider.of<SubwayScheduleProvider>(context),
         );
 
         final tmpBloc = MiddleTranportBloc(

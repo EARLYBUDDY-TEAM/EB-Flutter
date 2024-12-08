@@ -147,33 +147,35 @@ extension on RegisterBloc {
       emit(state.copyWith(status: RegisterStatus.inProgress));
 
       final compressedName = compressName(state.nickNameState.nickName.value);
-      final Result registerResult = await _ebAuthRepository.register(
+      final NetworkResponse<EmptyDTO> registerResult =
+          await _ebAuthRepository.register(
         nickName: compressedName,
         email: state.emailState.email.value,
         password: state.passwordState.password.value,
       );
 
       switch (registerResult) {
-        case Success():
-          final Result loginResult = await _ebAuthRepository.logIn(
+        case SuccessResponse():
+          final NetworkResponse<Token> loginResult =
+              await _ebAuthRepository.logIn(
             email: state.emailState.email.value,
             password: state.passwordState.password.value,
           );
           switch (loginResult) {
-            case Success():
+            case SuccessResponse():
               emit(state.copyWith(status: RegisterStatus.initial));
-              Token token = loginResult.success.model;
+              final Token token = loginResult.model;
               await _tokenRepository.saveToken(token);
               _loadingDelegate.dismiss();
               _rootDelegate.authStatus.add(Authenticated());
               _homeDelegate.registerStatus.add(BaseStatus.success);
-            case Failure():
+            case FailureResponse():
               _loadingDelegate.dismiss();
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }
-        case Failure():
+        case FailureResponse():
           _loadingDelegate.dismiss();
-          switch (registerResult.failure.statusCode) {
+          switch (registerResult.statusCode) {
             case (400):
               emit(
                   state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));

@@ -13,7 +13,7 @@ final class RegisterRequest {
     };
     const path = '/auth/register';
 
-    return ApiRequest(
+    return ApiRequest<EmptyDTO>(
       path: path,
       method: HTTPMethod.post,
       requestData: requestData,

@@ -130,19 +130,19 @@ extension on SearchPlaceBloc {
       return;
     }
 
-    final Result result =
+    final NetworkResponse<List<Place>> result =
         await _searchPlaceRepository.getPlaces(searchText: searchText);
 
     switch (result) {
-      case Success():
-        final List<Place> placeList = result.success.model;
+      case SuccessResponse():
+        final List<Place> placeList = result.model;
         emit(
           state.copyWith(
             placeList: placeList,
             contentStatus: ListSearchPlaceContent(placeList: placeList),
           ),
         );
-      case Failure():
+      case FailureResponse():
         emit(
           state.copyWith(
             placeList: [],

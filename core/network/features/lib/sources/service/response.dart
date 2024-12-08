@@ -1,6 +1,8 @@
 part of 'service.dart';
 
-final class SuccessResponse<M> {
+sealed class NetworkResponse<M> {}
+
+final class SuccessResponse<M> extends NetworkResponse<M> {
   final int statusCode;
   final M model;
 
@@ -8,9 +10,19 @@ final class SuccessResponse<M> {
     required this.statusCode,
     required this.model,
   });
+
+  SuccessResponse<F> copyWith<F>({
+    required F model,
+    int? statusCode,
+  }) {
+    return SuccessResponse<F>(
+      statusCode: statusCode ?? this.statusCode,
+      model: model,
+    );
+  }
 }
 
-final class FailureResponse {
+final class FailureResponse<M> extends NetworkResponse<M> {
   final int statusCode;
   final NetworkError error;
 
@@ -18,4 +30,14 @@ final class FailureResponse {
     required this.statusCode,
     required this.error,
   });
+
+  FailureResponse<F> copyWith<F>({
+    int? statusCode,
+    NetworkError? error,
+  }) {
+    return FailureResponse<F>(
+      statusCode: statusCode ?? this.statusCode,
+      error: error ?? this.error,
+    );
+  }
 }

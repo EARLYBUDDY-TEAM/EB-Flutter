@@ -10,7 +10,7 @@ final class SearchPlaceRepository {
   })  : service = networkService ?? NetworkService.shared,
         locationProvider = locationProvider ?? LocationProvider.shared;
 
-  Future<Result> getPlaces({
+  Future<NetworkResponse<List<Place>>> getPlaces({
     required String searchText,
   }) async {
     final Coordi coordi = await locationProvider.getCurrentLocation();
@@ -22,21 +22,14 @@ final class SearchPlaceRepository {
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
-        final PlaceListDTO dto = result.success.model;
+      case (SuccessResponse()):
         final List<Place> placeList =
-            dto.places.map((p) => Place.fromDTO(placeDTO: p)).toList();
-        return Success(
-          success: SuccessResponse(
-            model: placeList,
-            statusCode: result.success.statusCode,
-          ),
-        );
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+            result.model.places.map((p) => Place.fromDTO(placeDTO: p)).toList();
+        return result.copyWith<List<Place>>(model: placeList);
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<List<Place>>();
     }
   }
 }

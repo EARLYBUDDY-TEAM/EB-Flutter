@@ -10,31 +10,24 @@ final class TestHomeRepository implements HomeRepositoryAB {
   });
 
   @override
-  Future<Result> getAllSchedules({required String accessToken}) async {
-    final successResponse =
-        SuccessResponse(statusCode: 200, model: schedulePathList);
-    return Success(success: successResponse);
+  Future<NetworkResponse<List<SchedulePath>>> getAllSchedules({
+    required String accessToken,
+  }) async {
+    return SuccessResponse(
+      statusCode: 200,
+      model: schedulePathList,
+    );
   }
 
   @override
-  Future<Result> getBusRealTimeInfo({required int stationID}) async {
-    final mockRealTimeInfo = await delayMockRealTimeInfoList();
-    final successResponse =
-        SuccessResponse(statusCode: 200, model: mockRealTimeInfo);
-    return Success(success: successResponse);
-  }
-
-  @override
-  Future<Result> getTotalSubwaySchedule({
+  Future<NetworkResponse<List<RealTimeInfo>>> getBusRealTimeInfo({
     required int stationID,
-    required int wayCode,
   }) async {
     final mockRealTimeInfo = await delayMockRealTimeInfoList();
-    final successResponse = SuccessResponse(
+    return SuccessResponse(
       statusCode: 200,
       model: mockRealTimeInfo,
     );
-    return Success(success: successResponse);
   }
 
   Future<List<RealTimeInfo>> delayMockRealTimeInfoList() async {
@@ -54,12 +47,15 @@ final class TestHomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> getSubwayRealTimeInfo({
+  Future<NetworkResponse<List<RealTimeInfo>>> getSubwayRealTimeInfo({
     required String stationName,
     required String lineName,
     required int direction,
   }) async {
-    // TODO: implement getSubwayRealTimeInfo
-    throw UnimplementedError();
+    final mockRealTimeInfo = await delayMockRealTimeInfoList();
+    return SuccessResponse(
+      statusCode: 200,
+      model: mockRealTimeInfo,
+    );
   }
 }

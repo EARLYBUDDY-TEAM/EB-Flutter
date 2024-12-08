@@ -8,7 +8,7 @@ final class HomeRepository implements HomeRepositoryAB {
   }) : service = networkService ?? NetworkService();
 
   @override
-  Future<Result> getAllSchedules({
+  Future<NetworkResponse<List<SchedulePath>>> getAllSchedules({
     required String accessToken,
   }) async {
     final request = HomeRequest.getAllSchedules(
@@ -17,29 +17,20 @@ final class HomeRepository implements HomeRepositoryAB {
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
-        final SuccessResponse successResponse = result.success;
-        final SchedulePathListDTO schedulePathListDTO = successResponse.model;
-        final List<SchedulePath> schedulePathList = schedulePathListDTO
-            .allScheduleDTO
+      case (SuccessResponse()):
+        final List<SchedulePath> schedulePathList = result.model.allScheduleDTO
             .map((dto) => SchedulePath.fromDTO(dto: dto))
             .toList();
-        final newSuccessResponse = SuccessResponse(
-          statusCode: successResponse.statusCode,
-          model: schedulePathList,
-        );
-        final newResult = Success(success: newSuccessResponse);
-        return newResult;
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+        return result.copyWith<List<SchedulePath>>(model: schedulePathList);
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<List<SchedulePath>>();
     }
   }
 
   @override
-  Future<Result> getBusRealTimeInfo({
+  Future<NetworkResponse<List<RealTimeInfo>>> getBusRealTimeInfo({
     required int stationID,
   }) async {
     final request = HomeRequest.getBusRealTimeInfo(stationID: stationID);
@@ -50,7 +41,7 @@ final class HomeRepository implements HomeRepositoryAB {
   }
 
   @override
-  Future<Result> getSubwayRealTimeInfo({
+  Future<NetworkResponse<List<RealTimeInfo>>> getSubwayRealTimeInfo({
     required String stationName,
     required String lineName,
     required int direction,
@@ -65,70 +56,25 @@ final class HomeRepository implements HomeRepositoryAB {
     final decoded = _decodeRealTimeInfo(result: result);
     return decoded;
   }
-
-  @override
-  Future<Result> getTotalSubwaySchedule({
-    required int stationID,
-    required int wayCode,
-  }) async {
-    final request = HomeRequest.getTotalSubwaySchedule(
-      stationID: stationID,
-      wayCode: wayCode,
-    );
-
-    final result = await service.request(request);
-
-    switch (result) {
-      case Success():
-        final SuccessResponse successResponse = result.success;
-        final TotalSubwayScheduleDTO totalSubwayScheduleDTO =
-            successResponse.model;
-        final TotalSubwaySchedule totalSubwaySchedule =
-            TotalSubwaySchedule.fromDTO(
-          dto: totalSubwayScheduleDTO,
-        );
-
-        final newSuccessResponse = SuccessResponse(
-          statusCode: successResponse.statusCode,
-          model: totalSubwaySchedule,
-        );
-        final newResult = Success(success: newSuccessResponse);
-        return newResult;
-      case Failure():
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
-    }
-  }
 }
 
 extension on HomeRepository {
-  Result _decodeRealTimeInfo({
-    required Result result,
+  NetworkResponse<List<RealTimeInfo>> _decodeRealTimeInfo({
+    required NetworkResponse<RealTimeInfoDTOList> result,
   }) {
     switch (result) {
-      case Success():
-        final SuccessResponse successResponse = result.success;
-        final RealTimeInfoDTOList realTimeInfoDTOList = successResponse.model;
-        final dtoList = realTimeInfoDTOList.realTimeInfoDTOList;
+      case SuccessResponse():
+        final dtoList = result.model.realTimeInfoDTOList;
         final List<RealTimeInfo> realTimeInfoList = dtoList
             .map<RealTimeInfo>(
               (r) => RealTimeInfo.fromDTO(dto: r),
             )
             .toList();
-
-        final newSuccessResponse = SuccessResponse(
-          statusCode: successResponse.statusCode,
-          model: realTimeInfoList,
-        );
-        final newResult = Success(success: newSuccessResponse);
-        return newResult;
-      case Failure():
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+        return result.copyWith<List<RealTimeInfo>>(model: realTimeInfoList);
+      case FailureResponse():
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<List<RealTimeInfo>>();
     }
   }
 }

@@ -1,4 +1,4 @@
-part of '../eb_network_interface.dart';
+part of 'service.dart';
 
 enum NetworkError {
   jsonDecode,
@@ -6,5 +6,6 @@ enum NetworkError {
   clientError,
   serverError,
   noResponseData,
+  secureStorageError,
   unknown,
 }

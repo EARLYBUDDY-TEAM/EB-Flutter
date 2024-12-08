@@ -24,18 +24,18 @@ final class RootAutoLoginView extends StatelessWidget {
     final email = ENV_TESTUSER.email;
     final password = ENV_TESTUSER.password;
 
-    final Result result = await _authRepository.logIn(
+    final NetworkResponse<Token> result = await _authRepository.logIn(
       email: email,
       password: password,
     );
 
     switch (result) {
-      case Success():
-        final Token token = result.success.model;
+      case SuccessResponse():
+        final Token token = result.model;
         await _tokenRepository.saveToken(token);
         _homeDelegate.loginStatus.add(BaseStatus.success);
         _rootDelegate.authStatus.add(Authenticated());
-      case Failure():
+      case FailureResponse():
         log('login fail ...');
         return;
     }
@@ -67,7 +67,6 @@ final class RootView extends StatelessWidget {
     scheduleRepository: _scheduleRepository,
     tokenEvent: _tokenEvent,
   );
-  final _subwayScheduleProvider = SubwayScheduleProvider();
   // 좀더 하위뷰에서 주입하기..
 
   RootView({
@@ -116,7 +115,6 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
-        RepositoryProvider.value(value: _subwayScheduleProvider),
       ],
       child: const _RootBlocView(),
     );

@@ -16,34 +16,37 @@ final class TokenEvent {
         _tokenRepository = tokenRepository,
         _secureStorage = secureStorage ?? SecureStorage();
 
-  Future<Result> checkExpired({
-    required Future<Result> Function(String accessToken) withEvent,
+  Future<NetworkResponse<M>> checkExpired<M>({
+    required Future<NetworkResponse<M>> Function(String accessToken) withEvent,
   }) async {
     String accessToken;
     try {
       accessToken =
           await _secureStorage.read(key: SecureStorageKey.accessToken);
     } catch (e) {
-      return Failure(failure: e);
+      return FailureResponse(
+        statusCode: 444,
+        error: NetworkError.secureStorageError,
+      );
     }
-    final Result firstResult = await withEvent(accessToken);
+    final NetworkResponse<M> firstResult = await withEvent(accessToken);
     switch (firstResult) {
-      case Success():
+      case SuccessResponse():
         return firstResult;
-      case Failure():
-        final FailureResponse firstFailure = firstResult.failure;
-        switch (firstFailure.statusCode) {
+      case FailureResponse():
+        switch (firstResult.statusCode) {
           case (490):
             final recreateTokenResult = await _tokenRepository.recreateToken();
             switch (recreateTokenResult) {
-              case (Success()):
-                final Token token = recreateTokenResult.success.model;
-                final Result secondResult = await withEvent(token.accessToken);
+              case SuccessResponse():
+                final Token token = recreateTokenResult.model;
+                final NetworkResponse<M> secondResult =
+                    await withEvent(token.accessToken);
                 return secondResult;
-              case (Failure()):
+              case (FailureResponse()):
                 _loginDelegate.tokenStatus.add(BaseStatus.fail);
                 _rootDelegate.authStatus.add(UnAuthenticated());
-                return recreateTokenResult;
+                return recreateTokenResult.copyWith<M>();
             }
           default:
             return firstResult;
@@ -52,10 +55,10 @@ final class TokenEvent {
   }
 
   void failureAction({
-    required Failure result,
+    required FailureResponse result,
     required Function() withAction,
   }) {
-    if (result.failure.statusCode != 490) {
+    if (result.statusCode != 490) {
       withAction();
     }
   }
