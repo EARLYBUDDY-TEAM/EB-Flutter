@@ -126,7 +126,7 @@ extension on MenuBloc {
     _loadingDelegate.set();
 
     await Future.delayed(const Duration(milliseconds: 1500));
-    add(SetChangePasswordStatus(status: BaseStatus.success));
+    add(SetChangePasswordStatus(status: BaseStatus.fail));
 
     _loadingDelegate.dismiss();
   }

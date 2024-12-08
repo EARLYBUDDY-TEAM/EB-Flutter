@@ -9,9 +9,15 @@ final class _ChangePasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: _ChangePasswordContent(),
+    return MultiBlocListener(
+      listeners: [
+        _successChangePasswordListener(),
+        _failChangePasswordListener(),
+      ],
+      child: Scaffold(
+        appBar: _appBar(context),
+        body: _ChangePasswordContent(),
+      ),
     );
   }
 
@@ -34,11 +40,8 @@ final class _ChangePasswordView extends StatelessWidget {
   }
 }
 
-final class _ChangePasswordContent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final bottomPadding = ScreenSize.safeArea.bottom(context) + 20;
-
+extension on _ChangePasswordView {
+  BlocListener<MenuBloc, MenuState> _successChangePasswordListener() {
     return BlocListener<MenuBloc, MenuState>(
       listenWhen: (previous, current) {
         final flag1 =
@@ -54,23 +57,63 @@ final class _ChangePasswordContent extends StatelessWidget {
               SetChangePasswordStatus(status: BaseStatus.init),
             );
       },
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            _title(),
-            const SizedBox(height: 30),
-            _ChangePasswordInput(),
-            _ChangePasswordConfirmInput(),
-            const SizedBox(height: 30),
-            _description(),
-            const Spacer(),
-            _ChangePasswordButton(),
-            SizedBox(height: bottomPadding),
+    );
+  }
+}
+
+extension on _ChangePasswordView {
+  BlocListener<MenuBloc, MenuState> _failChangePasswordListener() {
+    return BlocListener<MenuBloc, MenuState>(
+      listenWhen: (previous, current) {
+        final flag1 =
+            previous.changePasswordStatus != current.changePasswordStatus;
+        final flag2 = current.changePasswordStatus == BaseStatus.fail;
+        return flag1 && flag2;
+      },
+      listener: (context, state) async {
+        await EBAlert.showModalPopup(
+          context: context,
+          title: '비밀번호 변경에 실패했습니다.',
+          content: '네트워크 연결상태를 확인해주세요.',
+          actions: [
+            EBAlert.makeAction(
+              name: '확인',
+              onPressed: () {
+                context.read<MenuBloc>().add(
+                      SetChangePasswordStatus(status: BaseStatus.init),
+                    );
+                Navigator.of(context).pop();
+              },
+              isDefaultAction: true,
+            )
           ],
-        ),
+        );
+      },
+    );
+  }
+}
+
+final class _ChangePasswordContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = ScreenSize.safeArea.bottom(context) + 20;
+
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          _title(),
+          const SizedBox(height: 30),
+          _ChangePasswordInput(),
+          _ChangePasswordConfirmInput(),
+          const SizedBox(height: 30),
+          _description(),
+          const Spacer(),
+          _ChangePasswordButton(),
+          SizedBox(height: bottomPadding),
+        ],
       ),
     );
   }
