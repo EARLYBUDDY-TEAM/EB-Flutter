@@ -9,7 +9,7 @@ final class _ChangePasswordButton extends StatelessWidget {
           name: '변경',
           onPressed: state.isInputValid
               ? () {
-                  // context.read<MenuBloc>().add(const PressChangePasswordButton());
+                  context.read<MenuBloc>().add(PressChangePasswordButton());
                 }
               : null,
         );

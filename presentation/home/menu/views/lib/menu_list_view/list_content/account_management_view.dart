@@ -1,8 +1,11 @@
 part of '../../../eb_menu.dart';
 
 final class _AccountManagementView extends StatelessWidget {
+  static const routeName = '_AccountManagementView';
+
   static MaterialPageRoute route(BuildContext context) {
     return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
       builder: (context) => _AccountManagementView(),
     );
   }

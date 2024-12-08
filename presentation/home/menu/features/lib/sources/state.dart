@@ -4,22 +4,26 @@ final class MenuState extends Equatable {
   final bool isInputValid;
   final _PasswordState passwordState;
   final _PasswordConfirmState passwordConfirmState;
+  final BaseStatus changePasswordStatus;
 
   const MenuState({
     this.isInputValid = false,
     this.passwordState = const _PasswordState(),
     this.passwordConfirmState = const _PasswordConfirmState(),
+    this.changePasswordStatus = BaseStatus.init,
   });
 
   MenuState copyWith({
     bool? isInputValid,
     _PasswordState? passwordState,
     _PasswordConfirmState? passwordConfirmState,
+    BaseStatus? changePasswordStatus,
   }) {
     return MenuState(
       isInputValid: isInputValid ?? this.isInputValid,
       passwordState: passwordState ?? this.passwordState,
       passwordConfirmState: passwordConfirmState ?? this.passwordConfirmState,
+      changePasswordStatus: changePasswordStatus ?? this.changePasswordStatus,
     );
   }
 
@@ -28,6 +32,7 @@ final class MenuState extends Equatable {
         isInputValid,
         passwordState,
         passwordConfirmState,
+        changePasswordStatus,
       ];
 }
 

@@ -1,21 +1,26 @@
 part of '../eb_menu_feature.dart';
 
 final class MenuBloc extends Bloc<MenuEvent, MenuState> {
+  final LoadingDelegate _loadingDelegate;
   final RootDelegate _rootDelegate;
   final LoginDelegate _loginDelegate;
   final SecureStorage _secureStorage;
 
   MenuBloc({
+    required LoadingDelegate loadingDelegate,
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
     SecureStorage? secureStorage,
-  })  : _rootDelegate = rootDelegate,
+  })  : _loadingDelegate = loadingDelegate,
+        _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
         _secureStorage = secureStorage ?? SecureStorage(),
         super(const MenuState()) {
     on<PressLogoutButton>(_onPressLogoutButton);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
+    on<PressChangePasswordButton>(_onPressChangePasswordButton);
+    on<SetChangePasswordStatus>(_onSetChangePasswordStatus);
   }
 }
 
@@ -110,5 +115,32 @@ extension on MenuBloc {
     final isInputValid = (state.passwordState.status == FormStatus.complete) &&
         (state.passwordConfirmState.status == FormStatus.complete);
     emit(state.copyWith(isInputValid: isInputValid));
+  }
+}
+
+extension on MenuBloc {
+  Future<void> _onPressChangePasswordButton(
+    PressChangePasswordButton event,
+    Emitter<MenuState> emit,
+  ) async {
+    _loadingDelegate.set();
+
+    await Future.delayed(const Duration(milliseconds: 1500));
+    add(SetChangePasswordStatus(status: BaseStatus.success));
+
+    _loadingDelegate.dismiss();
+  }
+}
+
+extension on MenuBloc {
+  void _onSetChangePasswordStatus(
+    SetChangePasswordStatus event,
+    Emitter<MenuState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        changePasswordStatus: event.status,
+      ),
+    );
   }
 }

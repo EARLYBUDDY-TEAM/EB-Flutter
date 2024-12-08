@@ -39,22 +39,38 @@ final class _ChangePasswordContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomPadding = ScreenSize.safeArea.bottom(context) + 20;
 
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          _title(),
-          const SizedBox(height: 10),
-          _ChangePasswordInput(),
-          _ChangePasswordConfirmInput(),
-          const SizedBox(height: 30),
-          _description(),
-          const Spacer(),
-          _ChangePasswordButton(),
-          SizedBox(height: bottomPadding),
-        ],
+    return BlocListener<MenuBloc, MenuState>(
+      listenWhen: (previous, current) {
+        final flag1 =
+            previous.changePasswordStatus != current.changePasswordStatus;
+        final flag2 = current.changePasswordStatus == BaseStatus.success;
+        return flag1 && flag2;
+      },
+      listener: (context, state) {
+        Navigator.of(context).push(
+          CompleteChangePasswordView.route(context),
+        );
+        context.read<MenuBloc>().add(
+              SetChangePasswordStatus(status: BaseStatus.init),
+            );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            _title(),
+            const SizedBox(height: 30),
+            _ChangePasswordInput(),
+            _ChangePasswordConfirmInput(),
+            const SizedBox(height: 30),
+            _description(),
+            const Spacer(),
+            _ChangePasswordButton(),
+            SizedBox(height: bottomPadding),
+          ],
+        ),
       ),
     );
   }

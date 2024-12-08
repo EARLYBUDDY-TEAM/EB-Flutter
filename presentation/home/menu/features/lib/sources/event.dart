@@ -28,3 +28,21 @@ final class ChangePasswordConfirm extends MenuEvent {
   @override
   List<Object?> get props => [passwordConfirm];
 }
+
+final class PressChangePasswordButton extends MenuEvent {
+  PressChangePasswordButton();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class SetChangePasswordStatus extends MenuEvent {
+  final BaseStatus status;
+
+  SetChangePasswordStatus({
+    required this.status,
+  });
+
+  @override
+  List<Object?> get props => [status];
+}
