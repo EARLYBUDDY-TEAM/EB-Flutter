@@ -64,7 +64,11 @@ final class _AccountManagementContent extends StatelessWidget {
         ),
         _row(
           title: '회원 탈퇴',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              _RemoveUserView.route(context),
+            );
+          },
         ),
       ],
     );

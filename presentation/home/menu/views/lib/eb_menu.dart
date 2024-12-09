@@ -16,3 +16,4 @@ part 'menu_list_view/list_content/change_password/change_password_view.dart';
 part 'menu_list_view/list_content/change_password/change_password_input.dart';
 part 'menu_list_view/list_content/change_password/change_password_button.dart';
 part 'menu_list_view/list_content/change_password/complete_change_password_view.dart';
+part 'menu_list_view/list_content/remove_user_view.dart';
