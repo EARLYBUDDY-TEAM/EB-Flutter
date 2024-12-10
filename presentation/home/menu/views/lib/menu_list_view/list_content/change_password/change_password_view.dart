@@ -44,9 +44,10 @@ extension on _ChangePasswordView {
   BlocListener<MenuBloc, MenuState> _successChangePasswordListener() {
     return BlocListener<MenuBloc, MenuState>(
       listenWhen: (previous, current) {
-        final flag1 =
-            previous.changePasswordStatus != current.changePasswordStatus;
-        final flag2 = current.changePasswordStatus == BaseStatus.success;
+        final flag1 = previous.menuViewStatus.changePasswordStatus !=
+            current.menuViewStatus.changePasswordStatus;
+        final flag2 =
+            current.menuViewStatus.changePasswordStatus == BaseStatus.success;
         return flag1 && flag2;
       },
       listener: (context, state) {
@@ -54,7 +55,9 @@ extension on _ChangePasswordView {
           CompleteChangePasswordView.route(context),
         );
         context.read<MenuBloc>().add(
-              SetChangePasswordStatus(status: BaseStatus.init),
+              SetMenuViewStatus(
+                changePasswordStatus: BaseStatus.init,
+              ),
             );
       },
     );
@@ -65,9 +68,10 @@ extension on _ChangePasswordView {
   BlocListener<MenuBloc, MenuState> _failChangePasswordListener() {
     return BlocListener<MenuBloc, MenuState>(
       listenWhen: (previous, current) {
-        final flag1 =
-            previous.changePasswordStatus != current.changePasswordStatus;
-        final flag2 = current.changePasswordStatus == BaseStatus.fail;
+        final flag1 = previous.menuViewStatus.changePasswordStatus !=
+            current.menuViewStatus.changePasswordStatus;
+        final flag2 =
+            current.menuViewStatus.changePasswordStatus == BaseStatus.fail;
         return flag1 && flag2;
       },
       listener: (context, state) async {
@@ -80,7 +84,9 @@ extension on _ChangePasswordView {
               name: '확인',
               onPressed: () {
                 context.read<MenuBloc>().add(
-                      SetChangePasswordStatus(status: BaseStatus.init),
+                      SetMenuViewStatus(
+                        changePasswordStatus: BaseStatus.init,
+                      ),
                     );
                 Navigator.of(context).pop();
               },

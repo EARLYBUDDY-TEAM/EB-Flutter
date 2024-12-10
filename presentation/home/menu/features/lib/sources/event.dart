@@ -36,13 +36,32 @@ final class PressChangePasswordButton extends MenuEvent {
   List<Object?> get props => [];
 }
 
-final class SetChangePasswordStatus extends MenuEvent {
-  final BaseStatus status;
+final class SetMenuViewStatus extends MenuEvent {
+  final BaseStatus? changePasswordStatus;
+  final BaseStatus? removeUserStatus;
 
-  SetChangePasswordStatus({
-    required this.status,
+  SetMenuViewStatus({
+    this.changePasswordStatus,
+    this.removeUserStatus,
   });
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [
+        changePasswordStatus,
+        removeUserStatus,
+      ];
+}
+
+final class PressRemoveUserButton extends MenuEvent {
+  PressRemoveUserButton();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class SetUnAuthenticated extends MenuEvent {
+  SetUnAuthenticated();
+
+  @override
+  List<Object?> get props => [];
 }

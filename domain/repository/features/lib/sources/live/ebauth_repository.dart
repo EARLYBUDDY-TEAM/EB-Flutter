@@ -72,4 +72,20 @@ final class EBAuthRepository {
         return result;
     }
   }
+
+  Future<NetworkResponse<EmptyDTO>> removeUser({
+    required String accessToken,
+  }) async {
+    final request = AuthRequest.removeUser(accessToken: accessToken);
+    final result = await _networkService.request(request);
+
+    switch (result) {
+      case (SuccessResponse()):
+        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result;
+    }
+  }
 }

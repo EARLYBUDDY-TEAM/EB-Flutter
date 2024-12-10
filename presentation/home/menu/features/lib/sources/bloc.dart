@@ -6,24 +6,29 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final LoginDelegate _loginDelegate;
   final SecureStorage _secureStorage;
   final EBAuthRepository _ebAuthRepository;
+  final TokenEvent _tokenEvent;
 
   MenuBloc({
     required LoadingDelegate loadingDelegate,
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
     required EBAuthRepository ebAuthRepository,
+    required TokenEvent tokenEvent,
     SecureStorage? secureStorage,
   })  : _loadingDelegate = loadingDelegate,
         _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
         _ebAuthRepository = ebAuthRepository,
         _secureStorage = secureStorage ?? SecureStorage(),
+        _tokenEvent = tokenEvent,
         super(const MenuState()) {
     on<PressLogoutButton>(_onPressLogoutButton);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
     on<PressChangePasswordButton>(_onPressChangePasswordButton);
-    on<SetChangePasswordStatus>(_onSetChangePasswordStatus);
+    on<SetMenuViewStatus>(_onSetChangePasswordStatus);
+    on<PressRemoveUserButton>(_onPressRemoveUserButton);
+    on<SetUnAuthenticated>(_onSetUnAuthenticated);
   }
 }
 
@@ -150,22 +155,105 @@ extension on MenuBloc {
 
     switch (result) {
       case (SuccessResponse()):
-        add(SetChangePasswordStatus(status: BaseStatus.success));
+        add(
+          SetMenuViewStatus(
+            changePasswordStatus: BaseStatus.success,
+          ),
+        );
       case (FailureResponse()):
-        add(SetChangePasswordStatus(status: BaseStatus.fail));
+        add(
+          SetMenuViewStatus(
+            changePasswordStatus: BaseStatus.fail,
+          ),
+        );
     }
   }
 }
 
 extension on MenuBloc {
   void _onSetChangePasswordStatus(
-    SetChangePasswordStatus event,
+    SetMenuViewStatus event,
     Emitter<MenuState> emit,
   ) {
+    final menuViewStatus = state.menuViewStatus.copyWith(
+      changePasswordStatus: event.changePasswordStatus,
+      removeUserStatus: event.removeUserStatus,
+    );
+
     emit(
       state.copyWith(
-        changePasswordStatus: event.status,
+        menuViewStatus: menuViewStatus,
       ),
     );
+  }
+}
+
+extension on MenuBloc {
+  Future<void> _onPressRemoveUserButton(
+    PressRemoveUserButton event,
+    Emitter<MenuState> emit,
+  ) async {
+    _loadingDelegate.set();
+
+    Future<NetworkResponse<EmptyDTO>> removeUserEvent(
+      String accessToken,
+    ) async {
+      return await _ebAuthRepository.removeUser(
+        accessToken: accessToken,
+      );
+    }
+
+    // final NetworkResponse<EmptyDTO> removeUserResult =
+    //     await _tokenEvent.checkExpired(withEvent: removeUserEvent);
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    _loadingDelegate.dismiss();
+
+    // switch (removeUserResult) {
+    //   case SuccessResponse():
+    //     add(
+    //       SetMenuViewStatus(
+    //         removeUserStatus: BaseStatus.success,
+    //       ),
+    //     );
+    //   case FailureResponse():
+    //     add(
+    //       SetMenuViewStatus(
+    //         removeUserStatus: BaseStatus.fail,
+    //       ),
+    //     );
+    // }
+
+    add(
+      SetMenuViewStatus(
+        removeUserStatus: BaseStatus.success,
+      ),
+    );
+  }
+}
+
+extension on MenuBloc {
+  Future<void> _onSetUnAuthenticated(
+    SetUnAuthenticated event,
+    Emitter<MenuState> emit,
+  ) async {
+    final List<SecureStorageKey> keysToEliminate = [
+      SecureStorageKey.accessToken,
+      SecureStorageKey.refreshToken,
+      SecureStorageKey.isAutoLogin,
+      SecureStorageKey.email,
+      SecureStorageKey.password,
+    ];
+
+    for (final key in keysToEliminate) {
+      try {
+        await _secureStorage.delete(key: key);
+      } catch (e) {
+        log(e.toString());
+      }
+    }
+
+    _rootDelegate.authStatus.add(UnAuthenticated());
   }
 }

@@ -124,6 +124,7 @@ extension on LoginBloc {
         _rootDelegate.authStatus.add(Authenticated());
       case FailureResponse():
         _loadingDelegate.dismiss();
+        await _secureStorage.delete(key: SecureStorageKey.isAutoLogin);
         _failLoginAction(emit);
     }
   }

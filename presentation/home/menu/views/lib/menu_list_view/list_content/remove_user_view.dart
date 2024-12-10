@@ -9,9 +9,15 @@ final class _RemoveUserView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: const _RemoveUserContent(),
+    return MultiBlocListener(
+      listeners: [
+        _successRemoveUserListener(),
+        _failRemoveUserListener(),
+      ],
+      child: Scaffold(
+        appBar: _appBar(context),
+        body: const _RemoveUserContent(),
+      ),
     );
   }
 
@@ -23,6 +29,78 @@ final class _RemoveUserView extends StatelessWidget {
         },
         icon: const Icon(Icons.arrow_back_ios_new),
       ),
+    );
+  }
+}
+
+extension on _RemoveUserView {
+  BlocListener<MenuBloc, MenuState> _successRemoveUserListener() {
+    return BlocListener<MenuBloc, MenuState>(
+      listenWhen: (previous, current) {
+        final flag1 = previous.menuViewStatus.removeUserStatus !=
+            current.menuViewStatus.removeUserStatus;
+        final flag2 =
+            current.menuViewStatus.removeUserStatus == BaseStatus.success;
+        return flag1 && flag2;
+      },
+      listener: (context, state) async {
+        await EBAlert.showModalPopup(
+          context: context,
+          title: '회원탈퇴 완료',
+          content: '회원님의 정보가 삭제되었습니다.',
+          actions: [
+            EBAlert.makeAction(
+              name: '확인',
+              onPressed: () {
+                context.read<MenuBloc>().add(
+                      SetMenuViewStatus(
+                        removeUserStatus: BaseStatus.init,
+                      ),
+                    );
+                Navigator.of(context).pop();
+              },
+              isDefaultAction: true,
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+extension on _RemoveUserView {
+  BlocListener<MenuBloc, MenuState> _failRemoveUserListener() {
+    return BlocListener<MenuBloc, MenuState>(
+      listenWhen: (previous, current) {
+        final flag1 = previous.menuViewStatus.removeUserStatus !=
+            current.menuViewStatus.removeUserStatus;
+        final flag2 =
+            current.menuViewStatus.removeUserStatus == BaseStatus.fail;
+        return flag1 && flag2;
+      },
+      listener: (context, state) async {
+        await EBAlert.showModalPopup(
+          context: context,
+          title: '회원탈퇴 실패',
+          content: '네트워크 연결상태를 확인해주세요.',
+          actions: [
+            EBAlert.makeAction(
+              name: '확인',
+              onPressed: () async {
+                context.read<MenuBloc>().add(
+                      SetMenuViewStatus(
+                        removeUserStatus: BaseStatus.init,
+                      ),
+                    );
+                Navigator.of(context).pop();
+                await Future.delayed(const Duration(milliseconds: 500));
+                context.read<MenuBloc>().add(SetUnAuthenticated());
+              },
+              isDefaultAction: true,
+            )
+          ],
+        );
+      },
     );
   }
 }
@@ -43,7 +121,7 @@ final class _RemoveUserContent extends StatelessWidget {
           const Spacer(),
           _cancelButton(context),
           const SizedBox(height: 20),
-          _removeUserButton(),
+          _removeUserButton(context),
           const Spacer(),
           const SizedBox(height: 50),
         ],
@@ -87,7 +165,7 @@ final class _RemoveUserContent extends StatelessWidget {
     );
   }
 
-  Widget _removeUserButton() {
+  Widget _removeUserButton(BuildContext context) {
     return Material(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -95,7 +173,9 @@ final class _RemoveUserContent extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.read<MenuBloc>().add(PressRemoveUserButton());
+        },
         child: const SizedBox(
           width: double.infinity,
           child: Padding(
