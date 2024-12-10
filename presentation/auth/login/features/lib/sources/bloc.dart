@@ -39,8 +39,6 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
       (status) => add(SetTokenStatus(status: status)),
     );
 
-    log('LoginBloc INIT !!!');
-
     _completeLogoutSubscription = loginDelegate.completeLogout.listen(
       (status) => add(CompleteLogout(status: status)),
     );
@@ -235,7 +233,6 @@ extension on LoginBloc {
         password: password,
       );
     } catch (e) {
-      log('_getLoginInfo: $e');
       return null;
     }
   }
@@ -247,7 +244,6 @@ extension on LoginBloc {
 
       return isAutoLogin == 'true';
     } catch (e) {
-      log('_isAutoLogin: $e');
       return false;
     }
   }
@@ -256,17 +252,13 @@ extension on LoginBloc {
     SetAutoLogin event,
     Emitter<LoginState> emit,
   ) async {
-    log('onSetAutoLogin !!!');
-
     final isAutoLogin = await _isAutoLogin();
     if (!isAutoLogin) {
-      log('isAutoLogin: $isAutoLogin');
       return;
     }
 
     final loginInfo = await _getLoginInfo();
     if (loginInfo == null) {
-      log('loginInfo: $loginInfo');
       return;
     }
 

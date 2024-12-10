@@ -102,14 +102,7 @@ final class _AccountManagementContent extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Text(
-            "abc@abc.com",
-            style: TextStyle(
-              fontFamily: FontFamily.nanumSquareExtraBold,
-              color: EBColors.blue3,
-              fontSize: fontSize - 3,
-            ),
-          ),
+          _MyEmailView(fontSize: fontSize),
           const Spacer(),
           TextButton(
             child: Text(
@@ -161,6 +154,46 @@ final class _AccountManagementContent extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+final class _MyEmailView extends StatelessWidget {
+  final double fontSize;
+
+  const _MyEmailView({
+    super.key,
+    required this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: _future(),
+      builder: (context, snapshot) {
+        return _emailText(snapshot.data ?? '----');
+      },
+    );
+  }
+
+  Future<String> _future() async {
+    try {
+      final email = await SecureStorage().read(key: SecureStorageKey.email);
+      return email;
+    } catch (e) {
+      log(e.toString());
+      return '----';
+    }
+  }
+
+  Widget _emailText(String email) {
+    return Text(
+      email,
+      style: TextStyle(
+        fontFamily: FontFamily.nanumSquareExtraBold,
+        color: EBColors.blue3,
+        fontSize: fontSize - 3,
       ),
     );
   }

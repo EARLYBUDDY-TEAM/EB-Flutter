@@ -52,17 +52,20 @@ extension on _RemoveUserView {
             EBAlert.makeAction(
               name: '확인',
               onPressed: () {
-                context.read<MenuBloc>().add(
-                      SetMenuViewStatus(
-                        removeUserStatus: BaseStatus.init,
-                      ),
-                    );
                 Navigator.of(context).pop();
               },
               isDefaultAction: true,
             )
           ],
         );
+
+        context.read<MenuBloc>().add(
+              SetMenuViewStatus(
+                removeUserStatus: BaseStatus.init,
+              ),
+            );
+
+        context.read<MenuBloc>().add(SetUnAuthenticated());
       },
     );
   }
@@ -87,19 +90,18 @@ extension on _RemoveUserView {
             EBAlert.makeAction(
               name: '확인',
               onPressed: () async {
-                context.read<MenuBloc>().add(
-                      SetMenuViewStatus(
-                        removeUserStatus: BaseStatus.init,
-                      ),
-                    );
                 Navigator.of(context).pop();
-                await Future.delayed(const Duration(milliseconds: 500));
-                context.read<MenuBloc>().add(SetUnAuthenticated());
               },
               isDefaultAction: true,
             )
           ],
         );
+
+        context.read<MenuBloc>().add(
+              SetMenuViewStatus(
+                removeUserStatus: BaseStatus.init,
+              ),
+            );
       },
     );
   }

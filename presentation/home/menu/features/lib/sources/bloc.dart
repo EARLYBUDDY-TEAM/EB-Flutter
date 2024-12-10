@@ -195,13 +195,13 @@ extension on MenuBloc {
   ) async {
     _loadingDelegate.set();
 
-    Future<NetworkResponse<EmptyDTO>> removeUserEvent(
-      String accessToken,
-    ) async {
-      return await _ebAuthRepository.removeUser(
-        accessToken: accessToken,
-      );
-    }
+    // Future<NetworkResponse<EmptyDTO>> removeUserEvent(
+    //   String accessToken,
+    // ) async {
+    //   return await _ebAuthRepository.removeUser(
+    //     accessToken: accessToken,
+    //   );
+    // }
 
     // final NetworkResponse<EmptyDTO> removeUserResult =
     //     await _tokenEvent.checkExpired(withEvent: removeUserEvent);
