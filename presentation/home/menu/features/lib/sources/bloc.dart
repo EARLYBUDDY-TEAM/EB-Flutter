@@ -222,12 +222,6 @@ extension on MenuBloc {
           ),
         );
     }
-
-    add(
-      SetMenuViewStatus(
-        removeUserStatus: BaseStatus.success,
-      ),
-    );
   }
 }
 

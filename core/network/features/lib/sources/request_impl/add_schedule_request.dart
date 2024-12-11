@@ -11,8 +11,6 @@ final class AddScheduleRequest {
       "pathInfo": pathMap,
     };
 
-    log(requrestData.toString());
-
     return ApiRequest(
       path: '/schedule/create',
       method: HTTPMethod.post,

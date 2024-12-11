@@ -63,13 +63,13 @@ final class AuthRequest {
   static ApiRequest<EmptyDTO> removeUser({
     required String accessToken,
   }) {
-    const path = '/auth/remove_user';
-    final header = {'access_token': accessToken};
+    const path = '/auth/delete_user';
+    final headers = {'access_token': accessToken};
 
     return ApiRequest<EmptyDTO>(
       path: path,
       method: HTTPMethod.delete,
-      headers: header,
+      headers: headers,
     );
   }
 }
