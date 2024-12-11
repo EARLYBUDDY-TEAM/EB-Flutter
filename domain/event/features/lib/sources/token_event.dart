@@ -10,11 +10,11 @@ final class TokenEvent {
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
     required TokenRepository tokenRepository,
-    SecureStorage? secureStorage, // required
+    required SecureStorage secureStorage,
   })  : _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
         _tokenRepository = tokenRepository,
-        _secureStorage = secureStorage ?? SecureStorage();
+        _secureStorage = secureStorage;
 
   Future<NetworkResponse<M>> checkExpired<M>({
     required Future<NetworkResponse<M>> Function(String accessToken) withEvent,

@@ -19,6 +19,7 @@ final class LoginView extends StatelessWidget {
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+        secureStorage: RepositoryProvider.of<SecureStorage>(context),
       )..add(const SetAutoLogin()),
       // ),
       child: _LoginMultiBlocListener(),

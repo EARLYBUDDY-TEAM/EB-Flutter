@@ -18,13 +18,13 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     required LoginDelegate loginDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
-    SecureStorage? secureStorage,
+    required SecureStorage secureStorage,
   })  : _authRepository = authRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
-        _secureStorage = secureStorage ?? SecureStorage(),
+        _secureStorage = secureStorage,
         super(const LoginState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);

@@ -6,6 +6,7 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
+  final SecureStorage _secureStorage;
 
   RegisterBloc({
     required EBAuthRepository ebAuthRepository,
@@ -13,11 +14,13 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     required HomeDelegate homeDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
+    required SecureStorage secureStorage,
   })  : _ebAuthRepository = ebAuthRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
+        _secureStorage = secureStorage,
         super(const RegisterState()) {
     on<ChangeNickName>(_onChangeNickName);
     on<ChangeEmail>(_onChangeEmail);
@@ -138,35 +141,62 @@ extension on RegisterBloc {
 }
 
 extension on RegisterBloc {
-  void _onPressRegisterButton(
+  Future<void> _writeLoginInfoInSecureStorage({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _secureStorage.write(
+        key: SecureStorageKey.email,
+        value: email,
+      );
+
+      await _secureStorage.write(
+        key: SecureStorageKey.password,
+        value: password,
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _onPressRegisterButton(
     PressRegisterButton event,
     Emitter<RegisterState> emit,
   ) async {
     if (state.inputIsValid) {
       _loadingDelegate.set();
       emit(state.copyWith(status: RegisterStatus.inProgress));
+      final email = state.emailState.email.value;
+      final password = state.passwordState.password.value;
 
       final compressedName = compressName(state.nickNameState.nickName.value);
       final NetworkResponse<EmptyDTO> registerResult =
           await _ebAuthRepository.register(
         nickName: compressedName,
-        email: state.emailState.email.value,
-        password: state.passwordState.password.value,
+        email: email,
+        password: password,
       );
 
       switch (registerResult) {
         case SuccessResponse():
           final NetworkResponse<Token> loginResult =
               await _ebAuthRepository.logIn(
-            email: state.emailState.email.value,
-            password: state.passwordState.password.value,
+            email: email,
+            password: password,
           );
           switch (loginResult) {
             case SuccessResponse():
               emit(state.copyWith(status: RegisterStatus.initial));
+              await _writeLoginInfoInSecureStorage(
+                email: email,
+                password: password,
+              );
               final Token token = loginResult.model;
               await _tokenRepository.saveToken(token);
+
               _loadingDelegate.dismiss();
+
               _rootDelegate.authStatus.add(Authenticated());
               _homeDelegate.registerStatus.add(BaseStatus.success);
             case FailureResponse():

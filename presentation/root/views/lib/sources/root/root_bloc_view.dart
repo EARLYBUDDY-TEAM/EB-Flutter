@@ -19,6 +19,7 @@ final class _RootBlocView extends StatelessWidget {
             rootDelegate: RepositoryProvider.of<RootDelegate>(context),
             loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
             ebAuthRepository: RepositoryProvider.of<EBAuthRepository>(context),
+            secureStorage: RepositoryProvider.of<SecureStorage>(context),
           ),
         ),
       ],

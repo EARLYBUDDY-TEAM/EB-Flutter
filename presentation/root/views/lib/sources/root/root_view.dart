@@ -2,7 +2,10 @@ part of '../../eb_root.dart';
 
 final class RootAutoLoginView extends StatelessWidget {
   final _authRepository = EBAuthRepository();
-  final _tokenRepository = TokenRepository();
+  final _tokenRepository = TokenRepository(
+    secureStorage: SecureStorage(),
+    networkService: NetworkService(),
+  );
   final _homeDelegate = HomeDelegate();
   final _rootDelegate = RootDelegate();
 
@@ -12,7 +15,6 @@ final class RootAutoLoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RootView(
       ebAuthRepository: _authRepository,
-      tokenRepository: _tokenRepository,
       homeDelegate: _homeDelegate,
       rootDelegate: _rootDelegate,
     );
@@ -54,13 +56,20 @@ final class RootView extends StatelessWidget {
   final FindRouteRepository _findRouteRepository;
   final ScheduleRepository _scheduleRepository;
   final SearchPlaceRepository _searchPlaceRepository;
-  final TokenRepository _tokenRepository;
+  late final _tokenRepository = TokenRepository(
+    secureStorage: _secureStorage,
+    networkService: _networkService,
+  );
   final HomeRepositoryAB _homeRepository;
+
+  final SecureStorage _secureStorage;
+  final NetworkService _networkService;
 
   late final _tokenEvent = TokenEvent(
     rootDelegate: _rootDelegate,
     loginDelegate: _loginDelegate,
     tokenRepository: _tokenRepository,
+    secureStorage: _secureStorage,
   );
   late final _scheduleEvent = ScheduleEvent(
     loadingDelegate: _loadingDelegate,
@@ -81,8 +90,9 @@ final class RootView extends StatelessWidget {
     FindRouteRepository? findRouteRepository,
     ScheduleRepository? scheduleRepository,
     SearchPlaceRepository? searchPlaceRepository,
-    TokenRepository? tokenRepository,
     HomeRepositoryAB? homeRepository,
+    SecureStorage? secureStorage,
+    NetworkService? networkService,
   })  : _homeDelegate = homeDelegate ?? HomeDelegate(),
         _loginDelegate = loginDelegate ?? LoginDelegate(),
         _rootDelegate = rootDelegate ?? RootDelegate(),
@@ -94,8 +104,9 @@ final class RootView extends StatelessWidget {
         _scheduleRepository = scheduleRepository ?? ScheduleRepository(),
         _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
-        _tokenRepository = tokenRepository ?? TokenRepository(),
-        _homeRepository = homeRepository ?? HomeRepository();
+        _homeRepository = homeRepository ?? HomeRepository(),
+        _secureStorage = secureStorage ?? SecureStorage(),
+        _networkService = networkService ?? NetworkService();
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +126,7 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
+        RepositoryProvider.value(value: _secureStorage),
       ],
       child: const _RootBlocView(),
     );

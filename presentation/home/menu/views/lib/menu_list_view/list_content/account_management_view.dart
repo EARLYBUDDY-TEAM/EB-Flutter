@@ -170,16 +170,18 @@ final class _MyEmailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: _future(),
+      future: _future(context),
       builder: (context, snapshot) {
         return _emailText(snapshot.data ?? '----');
       },
     );
   }
 
-  Future<String> _future() async {
+  Future<String> _future(BuildContext context) async {
+    final secureStorage = RepositoryProvider.of<SecureStorage>(context);
+
     try {
-      final email = await SecureStorage().read(key: SecureStorageKey.email);
+      final email = await secureStorage.read(key: SecureStorageKey.email);
       return email;
     } catch (e) {
       log(e.toString());

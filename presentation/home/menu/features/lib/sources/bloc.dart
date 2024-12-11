@@ -14,13 +14,13 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
     required LoginDelegate loginDelegate,
     required EBAuthRepository ebAuthRepository,
     required TokenEvent tokenEvent,
-    SecureStorage? secureStorage,
+    required SecureStorage secureStorage,
   })  : _loadingDelegate = loadingDelegate,
         _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
         _ebAuthRepository = ebAuthRepository,
-        _secureStorage = secureStorage ?? SecureStorage(),
         _tokenEvent = tokenEvent,
+        _secureStorage = secureStorage,
         super(const MenuState()) {
     on<PressLogoutButton>(_onPressLogoutButton);
     on<ChangePassword>(_onChangePassword);
@@ -195,35 +195,33 @@ extension on MenuBloc {
   ) async {
     _loadingDelegate.set();
 
-    // Future<NetworkResponse<EmptyDTO>> removeUserEvent(
-    //   String accessToken,
-    // ) async {
-    //   return await _ebAuthRepository.removeUser(
-    //     accessToken: accessToken,
-    //   );
-    // }
+    Future<NetworkResponse<EmptyDTO>> removeUserEvent(
+      String accessToken,
+    ) async {
+      return await _ebAuthRepository.removeUser(
+        accessToken: accessToken,
+      );
+    }
 
-    // final NetworkResponse<EmptyDTO> removeUserResult =
-    //     await _tokenEvent.checkExpired(withEvent: removeUserEvent);
-
-    await Future.delayed(const Duration(seconds: 2));
+    final NetworkResponse<EmptyDTO> removeUserResult =
+        await _tokenEvent.checkExpired(withEvent: removeUserEvent);
 
     _loadingDelegate.dismiss();
 
-    // switch (removeUserResult) {
-    //   case SuccessResponse():
-    //     add(
-    //       SetMenuViewStatus(
-    //         removeUserStatus: BaseStatus.success,
-    //       ),
-    //     );
-    //   case FailureResponse():
-    //     add(
-    //       SetMenuViewStatus(
-    //         removeUserStatus: BaseStatus.fail,
-    //       ),
-    //     );
-    // }
+    switch (removeUserResult) {
+      case SuccessResponse():
+        add(
+          SetMenuViewStatus(
+            removeUserStatus: BaseStatus.success,
+          ),
+        );
+      case FailureResponse():
+        add(
+          SetMenuViewStatus(
+            removeUserStatus: BaseStatus.fail,
+          ),
+        );
+    }
 
     add(
       SetMenuViewStatus(

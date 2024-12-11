@@ -5,10 +5,10 @@ final class TokenRepository {
   final NetworkService _networkService;
 
   TokenRepository({
-    SecureStorage? secureStorage,
-    NetworkService? networkService,
-  })  : _secureStorage = secureStorage ?? SecureStorage(),
-        _networkService = networkService ?? NetworkService();
+    required SecureStorage secureStorage,
+    required NetworkService networkService,
+  })  : _secureStorage = secureStorage,
+        _networkService = networkService;
 
   Future<NetworkResponse<Token>> recreateToken() async {
     final refreshToken =

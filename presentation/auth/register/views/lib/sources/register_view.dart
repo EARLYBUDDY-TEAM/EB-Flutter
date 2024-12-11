@@ -12,6 +12,7 @@ final class RegisterView extends StatelessWidget {
         rootDelegate: RepositoryProvider.of<RootDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+        secureStorage: RepositoryProvider.of<SecureStorage>(context),
       ),
       child: _RegisterContent(),
     );
