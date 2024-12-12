@@ -11,13 +11,12 @@ final class AddScheduleRequest {
       "pathInfo": pathMap,
     };
 
-    log(requrestData.toString());
-
     return ApiRequest(
-        path: '/schedule/create',
-        method: HTTPMethod.post,
-        headers: {"access_token": accessToken},
-        requestData: requrestData);
+      path: '/schedule/create',
+      method: HTTPMethod.post,
+      headers: {"access_token": accessToken},
+      requestData: requrestData,
+    );
   }
 
   static ApiRequest<EmptyDTO> update({

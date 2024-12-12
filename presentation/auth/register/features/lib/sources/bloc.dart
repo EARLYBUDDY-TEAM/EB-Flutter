@@ -6,6 +6,7 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
+  final SecureStorage _secureStorage;
 
   RegisterBloc({
     required EBAuthRepository ebAuthRepository,
@@ -13,11 +14,13 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     required HomeDelegate homeDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
+    required SecureStorage secureStorage,
   })  : _ebAuthRepository = ebAuthRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
+        _secureStorage = secureStorage,
         super(const RegisterState()) {
     on<ChangeNickName>(_onChangeNickName);
     on<ChangeEmail>(_onChangeEmail);
@@ -138,42 +141,72 @@ extension on RegisterBloc {
 }
 
 extension on RegisterBloc {
-  void _onPressRegisterButton(
+  Future<void> _writeLoginInfoInSecureStorage({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _secureStorage.write(
+        key: SecureStorageKey.email,
+        value: email,
+      );
+
+      await _secureStorage.write(
+        key: SecureStorageKey.password,
+        value: password,
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _onPressRegisterButton(
     PressRegisterButton event,
     Emitter<RegisterState> emit,
   ) async {
     if (state.inputIsValid) {
       _loadingDelegate.set();
       emit(state.copyWith(status: RegisterStatus.inProgress));
+      final email = state.emailState.email.value;
+      final password = state.passwordState.password.value;
 
-      final compressedName = compressName(state.nickNameState.nickName.value);
-      final Result registerResult = await _ebAuthRepository.register(
-        nickName: compressedName,
-        email: state.emailState.email.value,
-        password: state.passwordState.password.value,
+      final compressedNickName =
+          compressName(state.nickNameState.nickName.value);
+      final NetworkResponse<EmptyDTO> registerResult =
+          await _ebAuthRepository.register(
+        nickName: compressedNickName,
+        email: email,
+        password: password,
       );
 
       switch (registerResult) {
-        case Success():
-          final Result loginResult = await _ebAuthRepository.logIn(
-            email: state.emailState.email.value,
-            password: state.passwordState.password.value,
+        case SuccessResponse():
+          final NetworkResponse<Token> loginResult =
+              await _ebAuthRepository.logIn(
+            email: email,
+            password: password,
           );
           switch (loginResult) {
-            case Success():
+            case SuccessResponse():
               emit(state.copyWith(status: RegisterStatus.initial));
-              Token token = loginResult.success.model;
+              await _writeLoginInfoInSecureStorage(
+                email: email,
+                password: password,
+              );
+              final Token token = loginResult.model;
               await _tokenRepository.saveToken(token);
+
               _loadingDelegate.dismiss();
+
               _rootDelegate.authStatus.add(Authenticated());
-              _homeDelegate.registerStatus.add(BaseStatus.success);
-            case Failure():
+              _homeDelegate.registerStatus.add(compressedNickName);
+            case FailureResponse():
               _loadingDelegate.dismiss();
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }
-        case Failure():
+        case FailureResponse():
           _loadingDelegate.dismiss();
-          switch (registerResult.failure.statusCode) {
+          switch (registerResult.statusCode) {
             case (400):
               emit(
                   state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));

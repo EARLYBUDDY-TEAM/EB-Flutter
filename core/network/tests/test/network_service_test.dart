@@ -19,12 +19,12 @@ void main() {
       );
       var request = MockAPI.mockDTORequest();
 
-      Result result = await service.request(request);
+      NetworkResponse<MockDTO> result = await service.request(request);
       switch (result) {
-        case (Success()):
-          expect(result.success.model.id, 1);
+        case (SuccessResponse()):
+          expect(result.model.id, 1);
           return;
-        case (Failure()):
+        case (FailureResponse()):
           throw 'fail test';
       }
     });
@@ -34,12 +34,12 @@ void main() {
       var service = NetworkService(client: client);
       var request = MockAPI.emptyDTORequest();
 
-      Result result = await service.request(request);
+      NetworkResponse<EmptyDTO> result = await service.request(request);
       switch (result) {
-        case (Success()):
-          expect(result.success.model.runtimeType, EmptyDTO);
+        case (SuccessResponse()):
+          expect(result.model.runtimeType, EmptyDTO);
           return;
-        case (Failure()):
+        case (FailureResponse()):
           throw 'fail test';
       }
     });
@@ -57,12 +57,12 @@ void main() {
       );
       var request = MockAPI.mockDTORequestNoConverter();
 
-      Result result = await service.request(request);
+      NetworkResponse<MockDTO> result = await service.request(request);
       switch (result) {
-        case (Success()):
+        case (SuccessResponse()):
           throw 'fail test';
-        case (Failure()):
-          expect(result.failure.error, NetworkError.noConverter);
+        case (FailureResponse()):
+          expect(result.error, NetworkError.noConverter);
           return;
       }
     });
@@ -77,12 +77,12 @@ void main() {
       );
       var request = MockAPI.mockDTORequest();
 
-      Result result = await service.request(request);
+      NetworkResponse<MockDTO> result = await service.request(request);
       switch (result) {
-        case (Success()):
+        case (SuccessResponse()):
           throw 'fail test';
-        case (Failure()):
-          expect(result.failure.error, NetworkError.jsonDecode);
+        case (FailureResponse()):
+          expect(result.error, NetworkError.jsonDecode);
       }
     });
 
@@ -95,13 +95,13 @@ void main() {
       var service = NetworkService(client: client);
       var request = MockAPI.mockDTORequest();
 
-      Result result = await service.request(request);
+      NetworkResponse<MockDTO> result = await service.request(request);
       switch (result) {
-        case (Success()):
+        case (SuccessResponse()):
           throw 'fail test';
-        case (Failure()):
-          expect(result.failure.error, NetworkError.clientError);
-          expect(result.failure.statusCode, statusCode);
+        case (FailureResponse()):
+          expect(result.error, NetworkError.clientError);
+          expect(result.statusCode, statusCode);
       }
     });
 
@@ -114,13 +114,13 @@ void main() {
       var service = NetworkService(client: client);
       var request = MockAPI.mockDTORequest();
 
-      Result result = await service.request(request);
+      NetworkResponse<MockDTO> result = await service.request(request);
       switch (result) {
-        case (Success()):
+        case (SuccessResponse()):
           throw 'fail test';
-        case (Failure()):
-          expect(result.failure.error, NetworkError.serverError);
-          expect(result.failure.statusCode, statusCode);
+        case (FailureResponse()):
+          expect(result.error, NetworkError.serverError);
+          expect(result.statusCode, statusCode);
       }
     });
   });

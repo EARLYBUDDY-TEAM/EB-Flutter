@@ -7,7 +7,7 @@ final class FindRouteRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService.shared;
 
-  Future<Result> getEBRoute({
+  Future<NetworkResponse<EBRoute>> getEBRoute({
     required Place start,
     required Place end,
   }) async {
@@ -23,20 +23,13 @@ final class FindRouteRepository {
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
-        final EBRouteDTO dto = result.success.model;
-        final EBRoute ebRoute = EBRoute.fromDTO(ebRouteDTO: dto);
-        return Success(
-          success: SuccessResponse(
-            model: ebRoute,
-            statusCode: result.success.statusCode,
-          ),
-        );
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+      case (SuccessResponse()):
+        final EBRoute ebRoute = EBRoute.fromDTO(ebRouteDTO: result.model);
+        return result.copyWith<EBRoute>(model: ebRoute);
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<EBRoute>();
     }
   }
 }

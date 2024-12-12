@@ -2,7 +2,6 @@ part of '../../eb_event.dart';
 
 final class RealTimeInfoEvent {
   final HomeRepositoryAB _homeRepository;
-  final SubwayScheduleProvider _subwayScheduleProvider;
   final int reloadLoopSec = 15;
 
   BehaviorSubject<EBSubPath>? _realTimeInfoSubject;
@@ -10,9 +9,7 @@ final class RealTimeInfoEvent {
 
   RealTimeInfoEvent({
     required HomeRepositoryAB homeRepository,
-    required SubwayScheduleProvider subwayScheduleProvider,
-  })  : _homeRepository = homeRepository,
-        _subwayScheduleProvider = subwayScheduleProvider;
+  }) : _homeRepository = homeRepository;
 
   void reloadRealTimeInfo({
     required EBSubPath subPath,
@@ -114,10 +111,10 @@ extension on RealTimeInfoEvent {
     final result =
         await _homeRepository.getBusRealTimeInfo(stationID: stationID);
     switch (result) {
-      case Success():
-        final List<RealTimeInfo> realTimeInfo = result.success.model;
+      case SuccessResponse():
+        final List<RealTimeInfo> realTimeInfo = result.model;
         return realTimeInfo;
-      case Failure():
+      case FailureResponse():
         return [];
     }
   }
@@ -135,122 +132,11 @@ extension on RealTimeInfoEvent {
       direction: direction,
     );
     switch (result) {
-      case Success():
-        final List<RealTimeInfo> realTimeInfo = result.success.model;
+      case SuccessResponse():
+        final List<RealTimeInfo> realTimeInfo = result.model;
         return realTimeInfo;
-      case Failure():
+      case FailureResponse():
         return [];
     }
   }
 }
-
-// extension on RealTimeInfoEvent {
-//   Future<List<RealTimeInfo>> _getSubwayRealTimeInfo({
-//     required Subway? subway,
-//     required int stationID,
-//     required int wayCode,
-//   }) async {
-//     final key = RequestInfoSubwaySchedule(
-//       stationID: stationID,
-//       wayCode: wayCode,
-//     );
-
-//     if (!_subwayScheduleProvider.isExistData(key: key)) {
-//       final value = await _getTotalSubwaySchedule(
-//         stationID: stationID,
-//         wayCode: wayCode,
-//       );
-
-//       if (value == null) {
-//         return [];
-//       }
-
-//       _subwayScheduleProvider.create(
-//         key: key,
-//         value: value,
-//       );
-//     }
-
-//     final totalSubwaySchedule = _subwayScheduleProvider.read(key: key);
-//     if (totalSubwaySchedule == null) {
-//       return [];
-//     }
-
-//     final subwayScheduleList = selectSubwayScheduleList(totalSubwaySchedule);
-
-//     final arrivalSecList =
-//         getArrivalSecFromSubwayScheduleList(subwayScheduleList);
-
-//     final arrivalSec1 = arrivalSecList.firstOrNull;
-//     final arrivalSec2 =
-//         (arrivalSecList.length == 2) ? arrivalSecList.last : null;
-//     final transportName = subway?.type ?? "-";
-
-//     final subwayRealTimeInfo = RealTimeInfo(
-//       transportName: transportName,
-//       arrivalSec1: arrivalSec1,
-//       leftStation1: null,
-//       arrivalSec2: arrivalSec2,
-//       leftStation2: null,
-//     );
-
-//     return [subwayRealTimeInfo];
-//   }
-
-//   Future<TotalSubwaySchedule?> _getTotalSubwaySchedule({
-//     required int stationID,
-//     required int wayCode,
-//   }) async {
-//     final result = await _homeRepository.getTotalSubwaySchedule(
-//       stationID: stationID,
-//       wayCode: wayCode,
-//     );
-
-//     switch (result) {
-//       case Success():
-//         final TotalSubwaySchedule totalSubwaySchedule = result.success.model;
-//         return totalSubwaySchedule;
-//       case Failure():
-//         return null;
-//     }
-//   }
-
-//   List<SubwaySchedule> selectSubwayScheduleList(
-//     TotalSubwaySchedule totalSubwaySchedule,
-//   ) {
-//     final now = DateTime.now();
-//     final dateName = DateFormat.EEEE().format(now);
-//     if (dateName == EBDay.Saturday.name) {
-//       return totalSubwaySchedule.saturDaySchedule;
-//     } else if (dateName == EBDay.Sunday.name) {
-//       return totalSubwaySchedule.holidayDaySchedule;
-//     } else {
-//       return totalSubwaySchedule.weekDaySchedule;
-//     }
-//   }
-
-//   List<int> getArrivalSecFromSubwayScheduleList(
-//     List<SubwaySchedule> subwayScheduleList,
-//   ) {
-//     final List<int> arrivalSecList = [];
-
-//     for (var subwaySchedule in subwayScheduleList) {
-//       final leftNow = TimeOfDay.now();
-//       final rightDepartureTime = subwaySchedule.departureTime;
-//       final compareResult = leftNow.compareTo(rightDepartureTime);
-
-//       if (compareResult == CompareDateResult.left) {
-//         continue;
-//       }
-
-//       final distMinute = rightDepartureTime.toInt() - leftNow.toInt();
-//       arrivalSecList.add(distMinute * 60);
-
-//       if (2 == arrivalSecList.length) {
-//         break;
-//       }
-//     }
-
-//     return arrivalSecList;
-//   }
-// }

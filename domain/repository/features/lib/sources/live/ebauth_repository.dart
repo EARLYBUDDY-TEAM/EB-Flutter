@@ -7,41 +7,34 @@ final class EBAuthRepository {
     NetworkService? networkService,
   }) : _networkService = networkService ?? NetworkService();
 
-  Future<Result> logIn({
+  Future<NetworkResponse<Token>> logIn({
     required String email,
     required String password,
   }) async {
     final fcmToken = await NotificationManager.getFCMToken() ?? '';
-    final request = LoginRequest.init(
+    final request = AuthRequest.login(
       email: email,
       password: password,
       fcmToken: fcmToken,
     );
     final result = await _networkService.request(request);
     switch (result) {
-      case (Success()):
-        TokenDTO tokenDTO = result.success.model;
-        final Token token = Token.fromDTO(tokenDTO: tokenDTO);
-        return Success(
-          success: SuccessResponse(
-            model: token,
-            statusCode: result.success.statusCode,
-          ),
-        );
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+      case (SuccessResponse()):
+        final Token token = Token.fromDTO(tokenDTO: result.model);
+        return result.copyWith<Token>(model: token);
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<Token>();
     }
   }
 
-  Future<Result> register({
+  Future<NetworkResponse<EmptyDTO>> register({
     required String nickName,
     required String email,
     required String password,
   }) async {
-    final request = RegisterRequest.init(
+    final request = AuthRequest.register(
       nickName: nickName,
       email: email,
       password: password,
@@ -50,12 +43,48 @@ final class EBAuthRepository {
     final result = await _networkService.request(request);
 
     switch (result) {
-      case (Success()):
+      case (SuccessResponse()):
         return result;
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result;
+    }
+  }
+
+  Future<NetworkResponse<EmptyDTO>> changePassword({
+    required String email,
+    required String password,
+  }) async {
+    final request = AuthRequest.changePassword(
+      email: email,
+      password: password,
+    );
+
+    final result = await _networkService.request(request);
+
+    switch (result) {
+      case (SuccessResponse()):
+        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result;
+    }
+  }
+
+  Future<NetworkResponse<EmptyDTO>> removeUser({
+    required String accessToken,
+  }) async {
+    final request = AuthRequest.removeUser(accessToken: accessToken);
+    final result = await _networkService.request(request);
+
+    switch (result) {
+      case (SuccessResponse()):
+        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
         return result;
     }
   }

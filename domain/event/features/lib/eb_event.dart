@@ -19,4 +19,3 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'sources/token_event.dart';
 part 'sources/schedule_event.dart';
 part 'sources/realtimeinfo_event/realtimeinfo_event.dart';
-part 'sources/realtimeinfo_event/subway_schedule_provider.dart';

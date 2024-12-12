@@ -5,10 +5,24 @@ final class _RootBlocView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RootBloc(
-        rootDelegate: RepositoryProvider.of<RootDelegate>(context),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RootBloc>(
+          create: (context) => RootBloc(
+            rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+          ),
+        ),
+        BlocProvider<MenuBloc>(
+          create: (context) => MenuBloc(
+            tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+            loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+            rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+            loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+            ebAuthRepository: RepositoryProvider.of<EBAuthRepository>(context),
+            secureStorage: RepositoryProvider.of<SecureStorage>(context),
+          ),
+        ),
+      ],
       child: _RootNaviView(),
     );
   }
@@ -36,7 +50,7 @@ final class _RootNaviState extends State<_RootNaviView> {
         Locale('en'),
         Locale('ko'),
       ],
-      theme: EBTheme.light(),
+      theme: EBTheme().light(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return WithLoadingView(

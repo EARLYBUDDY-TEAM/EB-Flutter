@@ -7,7 +7,7 @@ final class ScheduleRepository {
     NetworkService? networkService,
   }) : service = networkService ?? NetworkService();
 
-  Future<Result> create({
+  Future<NetworkResponse<EmptyDTO>> create({
     required String accessToken,
     required Schedule schedule,
     required EBPath? ebPath,
@@ -25,17 +25,16 @@ final class ScheduleRepository {
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
+      case (SuccessResponse()):
         return result;
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<EmptyDTO>();
     }
   }
 
-  Future<Result> update({
+  Future<NetworkResponse<EmptyDTO>> update({
     required String accessToken,
     required Schedule schedule,
     required EBPath? ebPath,
@@ -53,17 +52,16 @@ final class ScheduleRepository {
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
+      case (SuccessResponse()):
         return result;
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<EmptyDTO>();
     }
   }
 
-  Future<Result> delete({
+  Future<NetworkResponse<EmptyDTO>> delete({
     required String accessToken,
     required String scheduleID,
   }) async {
@@ -75,13 +73,12 @@ final class ScheduleRepository {
     final result = await service.request(request);
 
     switch (result) {
-      case (Success()):
+      case (SuccessResponse()):
         return result;
-      case (Failure()):
-        final FailureResponse failureResponse = result.failure;
-        log(failureResponse.error.toString());
-        log(failureResponse.statusCode.toString());
-        return result;
+      case (FailureResponse()):
+        log(result.error.toString());
+        log(result.statusCode.toString());
+        return result.copyWith<EmptyDTO>();
     }
   }
 }
