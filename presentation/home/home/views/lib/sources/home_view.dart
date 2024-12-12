@@ -34,7 +34,9 @@ final class _HomeViewState extends State<HomeView> {
           },
         )..add(OnAppearHomeView());
       },
-      child: const EBHomeView(),
+      child: const WithRegisterConfettiView(
+        child: EBHomeView(),
+      ),
     );
   }
 }
@@ -47,7 +49,6 @@ final class EBHomeView extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         loginResultSnackBarListener(),
-        registerResultAlertListener(),
         getAllScheduleCardErrorAlertListener(),
       ],
       child: Stack(
@@ -89,49 +90,15 @@ final class EBHomeView extends StatelessWidget {
 }
 
 extension on EBHomeView {
-  BlocListener<HomeBloc, HomeState> registerResultAlertListener() {
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) async {
-        await _showReigsterResultAlert(
-          context,
-        );
-      },
-      listenWhen: (previous, current) {
-        return previous.status.register != current.status.register;
-      },
-    );
-  }
-
-  Future<void> _showReigsterResultAlert(
-    BuildContext context,
-  ) async {
-    await Future<void>.delayed(const Duration(seconds: 1));
-
-    await EBAlert.showModalPopup(
-      context: context,
-      title: '얼리버디 회원이 되신걸 축하합니다.',
-      content: '',
-      actions: [
-        EBAlert.makeAction(
-          name: '확인',
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          isDefaultAction: true,
-        )
-      ],
-    );
-  }
-}
-
-extension on EBHomeView {
   BlocListener<HomeBloc, HomeState> loginResultSnackBarListener() {
     return BlocListener<HomeBloc, HomeState>(
+      listenWhen: (previous, current) {
+        final previousLogin = previous.status.login;
+        final currentLogin = current.status.login;
+        return previousLogin != currentLogin;
+      },
       listener: (context, state) async {
         await _showLoginResultSnackBar(context);
-      },
-      listenWhen: (previous, current) {
-        return previous.status.login != current.status.login;
       },
     );
   }

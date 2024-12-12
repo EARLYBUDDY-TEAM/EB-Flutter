@@ -5,11 +5,11 @@ final homeDelegate = HomeDelegate();
 final class _MockAlertHomeView extends StatelessWidget {
   final _loadingDelegate = LoadingDelegate();
   final _homeRepository = HomeRepository();
-  late final _tokenEvent = TokenEvent(
-    rootDelegate: RootDelegate(),
-    loginDelegate: LoginDelegate(),
-    tokenRepository: TokenRepository(),
-  );
+  // late final _tokenEvent = TokenEvent(
+  //   rootDelegate: RootDelegate(),
+  //   loginDelegate: LoginDelegate(),
+  //   secureStorage: SecureStorage(),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ final class _MockAlertHomeView extends StatelessWidget {
         RepositoryProvider.value(value: _loadingDelegate),
         RepositoryProvider.value(value: homeDelegate),
         RepositoryProvider.value(value: _homeRepository),
-        RepositoryProvider.value(value: _tokenEvent),
+        // RepositoryProvider.value(value: _tokenEvent),
       ],
       child: _MockAlertHomeViewApp(),
     );

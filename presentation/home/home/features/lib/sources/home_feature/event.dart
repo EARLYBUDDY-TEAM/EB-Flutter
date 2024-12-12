@@ -20,7 +20,7 @@ final class DeleteScheduleCard extends HomeEvent {
 
 final class SetHomeStatus extends HomeEvent {
   final BaseStatus? login;
-  final BaseStatus? register;
+  final String? Function()? register;
   final BaseStatus? getAllScheduleCard;
   final BaseStatus? deleteScheduleCard;
 
@@ -49,4 +49,11 @@ final class SetCalendarState extends HomeEvent {
 
   @override
   List<Object?> get props => [calendarState];
+}
+
+final class PressRegisterConfirmButton extends HomeEvent {
+  PressRegisterConfirmButton();
+
+  @override
+  List<Object?> get props => [];
 }

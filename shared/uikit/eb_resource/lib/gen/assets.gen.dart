@@ -57,12 +57,16 @@ class $AssetsLottiesGen {
   /// File path: assets/lotties/check.json
   LottieGenImage get check => const LottieGenImage('assets/lotties/check.json');
 
+  /// File path: assets/lotties/confetti.json
+  LottieGenImage get confetti =>
+      const LottieGenImage('assets/lotties/confetti.json');
+
   /// File path: assets/lotties/loading.json
   LottieGenImage get loading =>
       const LottieGenImage('assets/lotties/loading.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [check, loading];
+  List<LottieGenImage> get values => [check, confetti, loading];
 }
 
 class Assets {

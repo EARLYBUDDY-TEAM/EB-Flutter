@@ -25,7 +25,9 @@ void main() async {
 
   await LocationProvider.shared.checkPermission();
 
-  runApp(const HomeExample());
+  final mockRegisterConfettiView = MockRegisterConfettiView();
+  runApp(mockRegisterConfettiView);
+  mockRegisterConfettiView.addConfetti();
 
   // await Future<void>.delayed(const Duration(seconds: 2));
   // homeDelegate.loginStatus.add(BaseStatus.success);

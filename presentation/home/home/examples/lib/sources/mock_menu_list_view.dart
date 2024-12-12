@@ -27,9 +27,7 @@ final class PushMockMenuListButton extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: TextButton(
-          onPressed: () {
-            Navigator.of(context).push(HomeMenuListView.route());
-          },
+          onPressed: () {},
           child: const Text("ekbhieaohgieo"),
         ),
       ),

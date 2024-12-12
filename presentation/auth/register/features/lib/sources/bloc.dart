@@ -170,10 +170,11 @@ extension on RegisterBloc {
       final email = state.emailState.email.value;
       final password = state.passwordState.password.value;
 
-      final compressedName = compressName(state.nickNameState.nickName.value);
+      final compressedNickName =
+          compressName(state.nickNameState.nickName.value);
       final NetworkResponse<EmptyDTO> registerResult =
           await _ebAuthRepository.register(
-        nickName: compressedName,
+        nickName: compressedNickName,
         email: email,
         password: password,
       );
@@ -198,7 +199,7 @@ extension on RegisterBloc {
               _loadingDelegate.dismiss();
 
               _rootDelegate.authStatus.add(Authenticated());
-              _homeDelegate.registerStatus.add(BaseStatus.success);
+              _homeDelegate.registerStatus.add(compressedNickName);
             case FailureResponse():
               _loadingDelegate.dismiss();
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));

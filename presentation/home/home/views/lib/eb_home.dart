@@ -22,8 +22,10 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:eb_repository_interface/eb_repository_interface.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:lottie/lottie.dart';
 
 part 'sources/home_view.dart';
+part 'sources/register_confetti_view.dart';
 part 'sources/calendar_view/home_calendar.dart';
 part 'sources/calendar_view/home_calendar_header.dart';
 part 'sources/top_schedule_info/top_schedule_info.dart';

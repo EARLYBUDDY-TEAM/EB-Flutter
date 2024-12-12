@@ -15,8 +15,6 @@ final class WithLoadingView extends StatefulWidget {
 }
 
 final class WithLoadingState extends State<WithLoadingView> {
-  final List<Widget> children = [];
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(

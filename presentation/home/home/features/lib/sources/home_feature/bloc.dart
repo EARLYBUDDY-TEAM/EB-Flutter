@@ -1,6 +1,7 @@
 part of '../../home_feature.dart';
 
 final class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final HomeDelegate _homeDelegate;
   final LoadingDelegate _loadingDelegate;
   final HomeRepositoryAB _homeRepository;
   final TokenEvent _tokenEvent;
@@ -9,7 +10,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final Function() _cancelModalViewAction;
 
   late StreamSubscription<BaseStatus> _loginStatusSubscription;
-  late StreamSubscription<BaseStatus> _registerStatusSubscription;
+  late StreamSubscription<String?> _registerStatusSubscription;
   late StreamSubscription<void> _getAllSchedulesSubscription;
   late StreamSubscription<void> _cancelModalViewSubscription;
 
@@ -21,7 +22,8 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required TokenEvent tokenEvent,
     required void Function() cancelModalViewAction,
     HomeState? homeState,
-  })  : _loadingDelegate = loadingDelegate,
+  })  : _homeDelegate = homeDelegate,
+        _loadingDelegate = loadingDelegate,
         _homeRepository = homeRepository,
         _scheduleEvent = scheduleEvent,
         _tokenEvent = tokenEvent,
@@ -31,13 +33,14 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
+    on<PressRegisterConfirmButton>(_onPressRegisterConfirmButton);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
     );
 
     _registerStatusSubscription = homeDelegate.registerStatus.listen(
-      (status) => add(SetHomeStatus(register: status)),
+      (nickName) => add(SetHomeStatus(register: () => nickName)),
     );
 
     _getAllSchedulesSubscription = homeDelegate.getAllSchedules.listen(
@@ -70,14 +73,9 @@ extension on HomeBloc {
         ? !state.status.login
         : state.status.login;
 
-    final registerStatus = event.register ?? BaseStatus.init;
-    final register = registerStatus == BaseStatus.success
-        ? !state.status.register
-        : state.status.register;
-
     final homeStatus = state.status.copyWith(
       login: login,
-      register: register,
+      register: event.register,
       getAllScheduleCard: event.getAllScheduleCard,
       deleteScheduleCard: event.deleteScheduleCard,
     );
@@ -233,6 +231,20 @@ extension on HomeBloc {
       state.copyWith(
         calendarState: event.calendarState,
         bottomScheduleListState: bottomScheduleListState,
+      ),
+    );
+  }
+}
+
+extension on HomeBloc {
+  void _onPressRegisterConfirmButton(
+    PressRegisterConfirmButton event,
+    Emitter<HomeState> emit,
+  ) {
+    _homeDelegate.registerStatus.add(null);
+    emit(
+      state.copyWith(
+        status: state.status.copyWith(register: () => null),
       ),
     );
   }

@@ -29,18 +29,18 @@ final class MockHomeView extends StatelessWidget {
   // final HomeRepositoryAB _homeRepository = HomeRepository();
   final _scheduleRepository = ScheduleRepository();
   final _findrouteRepository = FindRouteRepository();
-  final _subwayScheduleProvider = SubwayScheduleProvider();
+  // final _subwayScheduleProvider = SubwayScheduleProvider();
 
-  late final _tokenEvent = TokenEvent(
-    rootDelegate: RootDelegate(),
-    loginDelegate: LoginDelegate(),
-    tokenRepository: TokenRepository(),
-  );
-  late final _scheduleEvent = ScheduleEvent(
-    loadingDelegate: _loadingDelegate,
-    scheduleRepository: _scheduleRepository,
-    tokenEvent: _tokenEvent,
-  );
+  // late final _tokenEvent = TokenEvent(
+  //   rootDelegate: RootDelegate(),
+  //   loginDelegate: LoginDelegate(),
+  //   tokenRepository: TokenRepository(),
+  // );
+  // late final _scheduleEvent = ScheduleEvent(
+  //   loadingDelegate: _loadingDelegate,
+  //   scheduleRepository: _scheduleRepository,
+  //   tokenEvent: _tokenEvent,
+  // );
 
   MockHomeView({super.key});
 
@@ -54,9 +54,6 @@ final class MockHomeView extends StatelessWidget {
         RepositoryProvider.value(value: _addScheduleDelegate),
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _findrouteRepository),
-        RepositoryProvider.value(value: _tokenEvent),
-        RepositoryProvider.value(value: _scheduleEvent),
-        RepositoryProvider.value(value: _subwayScheduleProvider),
       ],
       child: MaterialApp(home: _MockHomeBlocProviderView()),
     );
