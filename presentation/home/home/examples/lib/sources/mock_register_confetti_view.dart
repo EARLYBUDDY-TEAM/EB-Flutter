@@ -7,10 +7,9 @@ final class MockRegisterConfettiView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: WithRegisterConfettiView(
-        homeDelegate: homeDelegate,
-        child: const MockRegisterConfettiContent(),
+        child: MockRegisterConfettiContent(),
       ),
     );
   }
