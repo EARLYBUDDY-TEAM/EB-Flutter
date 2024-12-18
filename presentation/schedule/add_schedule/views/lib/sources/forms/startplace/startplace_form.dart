@@ -73,6 +73,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
       },
       builder: (context, state) {
         final startPlaceState = state.startPlaceState;
+        final scheduleTime = state.schedule.time;
         WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             _isChecked =
@@ -86,6 +87,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
             context: context,
             startPlaceState: startPlaceState,
             endPlace: state.schedule.endPlace,
+            scheduleTime: scheduleTime,
           ),
         );
       },
@@ -102,6 +104,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
     required BuildContext context,
     required SealedStartPlaceState startPlaceState,
     required Place? endPlace,
+    required DateTime scheduleTime,
   }) {
     if (startPlaceState is EmptyStartPlaceState) {
       if (endPlace == null) {
@@ -116,6 +119,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
             onGenerateRoute: _pageStartsearchPlace(
               context: context,
               endPlace: endPlace,
+              scheduleTime: scheduleTime,
             ),
           ),
         );
@@ -134,6 +138,7 @@ extension on _StartPlaceSwitchState {
   MaterialPageRoute _pageStartsearchPlace({
     required BuildContext context,
     required Place endPlace,
+    required DateTime scheduleTime,
   }) {
     return SearchPlaceView.pageStartSearchPlace(
       context: context,
@@ -144,6 +149,7 @@ extension on _StartPlaceSwitchState {
           startPlace: startPlace,
           endPlace: endPlace,
           parentName: "출발장소",
+          scheduleTime: scheduleTime,
         ),
       ),
     );

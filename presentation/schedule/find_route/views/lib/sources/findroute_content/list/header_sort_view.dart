@@ -38,15 +38,21 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
       },
       builder: (context, state) {
         return Row(
-          children: _children(state.contentStatus),
+          children: _children(
+            contentStatus: state.contentStatus,
+            scheduleTime: state.scheduleTime,
+          ),
         );
       },
     );
   }
 
-  List<Widget> _children(SealedFindRouteContentStatus contentStatus) {
+  List<Widget> _children({
+    required SealedFindRouteContentStatus contentStatus,
+    required DateTime scheduleTime,
+  }) {
     List<Widget> content = [
-      _arrivalInfo(minutes: 100),
+      _arrivalInfo(scheduleTime: scheduleTime),
       const Spacer(),
     ];
 
@@ -105,24 +111,27 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
     }
   }
 
-  Widget _arrivalInfo({required int minutes}) {
-    final expectArrivalTime = DateTime.now().add(Duration(minutes: minutes));
-
+  Widget _arrivalInfo({
+    required DateTime scheduleTime,
+  }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _date(expectArrivalTime),
+        _date(scheduleTime),
         const SizedBox(height: 3),
-        _hour(),
+        _hour(scheduleTime),
       ],
     );
   }
 
-  Text _date(DateTime expectArrivalTime) {
-    return const Text(
-      '12월 21일 (토요일)',
-      style: TextStyle(
+  Text _date(DateTime scheduleTime) {
+    final nameOfDay = scheduleTime.getNameOfDay();
+    final dateString =
+        "${scheduleTime.month}월 ${scheduleTime.day}일 ($nameOfDay)";
+    return Text(
+      dateString,
+      style: const TextStyle(
         color: Colors.black54,
         fontFamily: FontFamily.nanumSquareBold,
         fontSize: 15,
@@ -130,10 +139,13 @@ final class _FindRouteHeaderSortContent extends StatelessWidget {
     );
   }
 
-  RichText _hour() {
+  RichText _hour(DateTime scheduleTime) {
+    final scheduleTimeOfDay = EBTime.dateTimeToTimeOfDay(scheduleTime);
+    final scheduleTimeString = EBTime.toHour(scheduleTimeOfDay);
+
     return RichText(
       text: TextSpan(
-        text: '오전 12:20',
+        text: scheduleTimeString,
         style: TextStyle(
           color: EBColors.blue2,
           fontFamily: FontFamily.nanumSquareExtraBold,

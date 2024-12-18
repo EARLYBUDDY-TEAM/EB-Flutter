@@ -6,10 +6,12 @@ final class FindRouteState extends Equatable {
   final BaseStatus updateResult;
   final SealedFindRouteContentStatus contentStatus;
   final SealedFindRouteSetting setting;
+  final DateTime scheduleTime;
 
   FindRouteState({
     required this.searchPlaceInfo,
     required this.setting,
+    required this.scheduleTime,
     this.routeInfo = const RouteInfo(),
     SealedFindRouteContentStatus? contentStatus,
     BaseStatus? updateResult,
@@ -22,12 +24,14 @@ final class FindRouteState extends Equatable {
     RouteInfo? routeInfo,
     SealedFindRouteContentStatus? contentStatus,
     BaseStatus? updateResult,
+    DateTime? scheduleTime,
   }) {
     return FindRouteState(
       searchPlaceInfo: searchPlaceInfo ?? this.searchPlaceInfo,
       routeInfo: routeInfo ?? this.routeInfo,
       contentStatus: contentStatus ?? this.contentStatus,
       updateResult: updateResult ?? this.updateResult,
+      scheduleTime: scheduleTime ?? this.scheduleTime,
       setting: setting,
     );
   }
@@ -64,5 +68,6 @@ final class FindRouteState extends Equatable {
         contentStatus,
         updateResult,
         setting,
+        scheduleTime,
       ];
 }

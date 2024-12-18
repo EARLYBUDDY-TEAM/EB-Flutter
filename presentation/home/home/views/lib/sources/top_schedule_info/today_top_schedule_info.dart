@@ -66,6 +66,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
             startPlace: startPlace,
             endPlace: endPlace,
             path: path,
+            scheduleTime: schedule.time,
           ),
         ),
       ),

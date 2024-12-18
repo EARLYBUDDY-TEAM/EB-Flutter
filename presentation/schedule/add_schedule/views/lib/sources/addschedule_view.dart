@@ -61,6 +61,7 @@ final class AddScheduleView extends StatelessWidget {
     required BuildContext context,
     required Place startPlace,
     required Place endPlace,
+    required DateTime scheduleTime,
     String? parentName,
   }) {
     return FindRouteView.pageWriteFindRoute(
@@ -70,6 +71,7 @@ final class AddScheduleView extends StatelessWidget {
       pageChangeStartPlace: SearchPlaceView.pageChangeStartPlace,
       pageChangeEndPlace: SearchPlaceView.pageChangeEndPlace,
       parentName: parentName,
+      scheduleTime: scheduleTime,
     );
   }
 }
