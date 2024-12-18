@@ -104,21 +104,64 @@ final class _NotifyTransportState extends State<_NotifyTransportSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoSwitch(
-      value: _isNotify,
-      activeColor: EBColors.blue2,
-      onChanged: (bool isNotify) {
-        setState(() {
-          _isNotify = isNotify;
-        });
-        final notifyTransportState =
-            isNotify ? TrueNotifyTransportState() : FalseNotifyTransportState();
-        context.read<AddScheduleBloc>().add(
-              ChangeNotifyTransport(
-                notifyTransportState: notifyTransportState,
-              ),
-            );
+    return BlocSelector<AddScheduleBloc, AddScheduleState,
+        SealedStartPlaceState>(
+      selector: (state) {
+        return state.startPlaceState;
       },
+      builder: (context, startPlaceState) {
+        return CupertinoSwitch(
+          value: _isNotify,
+          activeColor: EBColors.blue2,
+          onChanged: (bool isNotify) {
+            _onChanged(
+              context: context,
+              startPlaceState: startPlaceState,
+              isNotify: isNotify,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _onChanged({
+    required BuildContext context,
+    required SealedStartPlaceState startPlaceState,
+    required bool isNotify,
+  }) {
+    if (startPlaceState is EmptyStartPlaceState) {
+      _showNoPathDataAlert(context: context);
+    } else {
+      setState(() {
+        _isNotify = isNotify;
+      });
+      final notifyTransportState =
+          isNotify ? TrueNotifyTransportState() : FalseNotifyTransportState();
+      context.read<AddScheduleBloc>().add(
+            ChangeNotifyTransport(
+              notifyTransportState: notifyTransportState,
+            ),
+          );
+    }
+  }
+
+  Future<void> _showNoPathDataAlert({
+    required BuildContext context,
+  }) async {
+    await EBAlert.showModalPopup(
+      context: context,
+      title: '경로 데이터가 없습니다.',
+      content: '출발장소(경로)를 먼저 정해주세요.',
+      actions: [
+        EBAlert.makeAction(
+          name: '확인',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          isDefaultAction: true,
+        )
+      ],
     );
   }
 }

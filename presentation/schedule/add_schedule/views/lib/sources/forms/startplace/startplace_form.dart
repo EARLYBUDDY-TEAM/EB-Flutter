@@ -156,8 +156,8 @@ extension on _StartPlaceSwitchState {
   }) {
     EBAlert.showModalPopup(
       context: context,
-      title: '장소(목적지) 데이터가 없습니다.',
-      content: '장소를 먼저 정해주세요.',
+      title: '장소 데이터가 없습니다.',
+      content: '장소(목적지)를 먼저 정해주세요.',
       actions: [
         EBAlert.makeAction(
           name: '확인',
