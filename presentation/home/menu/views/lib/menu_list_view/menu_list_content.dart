@@ -29,7 +29,13 @@ final class _HomeMenuListContent extends StatelessWidget {
         _divider(),
         _row(
           title: '오픈소스 라이선스',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const OpenSourceLicenseView(),
+              ),
+            );
+          },
         ),
         _divider(),
         _row(
@@ -44,7 +50,13 @@ final class _HomeMenuListContent extends StatelessWidget {
         _divider(),
         _row(
           title: '법적 공지 및 정보제공처',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const LegalNoticeView(),
+              ),
+            );
+          },
         ),
       ],
     );

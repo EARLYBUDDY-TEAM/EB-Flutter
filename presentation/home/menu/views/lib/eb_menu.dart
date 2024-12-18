@@ -10,6 +10,7 @@ import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:lottie/lottie.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
+import 'package:eb_menu_interface/oss_licenses.dart';
 
 part 'menu_list_view/menu_list_view.dart';
 part 'menu_list_view/menu_list_content.dart';
@@ -20,3 +21,5 @@ part 'menu_list_view/list_content/change_password/change_password_input.dart';
 part 'menu_list_view/list_content/change_password/change_password_button.dart';
 part 'menu_list_view/list_content/change_password/complete_change_password_view.dart';
 part 'menu_list_view/list_content/remove_user_view.dart';
+part 'menu_list_view/list_content/opensource_license_view.dart';
+part 'menu_list_view/list_content/legal_notice_view.dart';

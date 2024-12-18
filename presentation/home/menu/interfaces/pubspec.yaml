@@ -10,8 +10,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  table_calendar: ^3.1.0
+  intl: ^0.19.0
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
+  dio: ^5.4.2+1
+  modal_bottom_sheet: ^3.0.0
+  kakao_map_plugin: ^0.3.0
+  flutter_dotenv: ^5.1.0
+  stream_transform: ^2.1.0
+  geolocator: ^11.0.0
+  flutter_secure_storage: ^9.2.2
+  rxdart: ^0.28.0
+  introduction_screen: ^3.1.14
+  flutter_native_splash: ^2.4.1
+  shared_preferences: ^2.3.2
+  lottie: ^3.1.2
+  flutter_launcher_icons: ^0.14.1
+  flutter_local_notifications: ^18.0.1
+  firebase_messaging: ^15.1.5
+  firebase_core: ^3.8.0
 
   eb_delegate: any
   eb_repository: any
@@ -23,6 +44,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_oss_licenses: ^3.0.4
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
