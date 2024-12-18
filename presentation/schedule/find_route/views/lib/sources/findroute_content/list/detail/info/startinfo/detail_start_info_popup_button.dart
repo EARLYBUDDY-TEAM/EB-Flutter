@@ -90,8 +90,8 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
         _startInfo(),
         const SizedBox(height: 5),
         _realTimeInfo(
-          arrivalSec1: realTimeInfo?.arrivalSec1,
-          arrivalSec2: realTimeInfo?.arrivalSec2,
+          arrivalSec1: realTimeInfo?.arrivalInfo1.arrivalSec,
+          arrivalSec2: realTimeInfo?.arrivalInfo2.arrivalSec,
         ),
       ],
     );

@@ -20,8 +20,10 @@ final class _RightDisPatchColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arrival1 = convertArrivalIntToString(realTimeInfo?.arrivalSec1);
-    final arrival2 = convertArrivalIntToString(realTimeInfo?.arrivalSec2);
+    final arrival1 =
+        convertArrivalIntToString(realTimeInfo?.arrivalInfo1.arrivalSec);
+    final arrival2 =
+        convertArrivalIntToString(realTimeInfo?.arrivalInfo2.arrivalSec);
 
     return Material(
       color: Colors.white,

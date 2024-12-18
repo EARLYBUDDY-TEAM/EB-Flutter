@@ -2,53 +2,64 @@ part of '../../entity.dart';
 
 typedef StreamRealTimeInfo = Stream<List<RealTimeInfo>>;
 
+final class ArrivalInfo {
+  final String? transportPlate;
+  final int? arrivalSec;
+  final int? leftStation;
+
+  const ArrivalInfo({
+    required this.transportPlate,
+    required this.arrivalSec,
+    required this.leftStation,
+  });
+
+  ArrivalInfo.fromDTO({required ArrivalInfoDTO dto})
+      : transportPlate = dto.transportPlate,
+        arrivalSec = dto.arrivalSec,
+        leftStation = dto.leftStation;
+
+  static ArrivalInfo mock() {
+    const oneHour = 3600;
+    return ArrivalInfo(
+      transportPlate: DefaultValue.String,
+      arrivalSec: EBRandom.nexInt(min: 1, max: oneHour),
+      leftStation: EBRandom.nexInt(min: 1, max: 10),
+    );
+  }
+}
+
 final class RealTimeInfo extends Equatable {
   final String transportName;
-  final int? arrivalSec1;
-  final int? leftStation1;
-  final int? arrivalSec2;
-  final int? leftStation2;
+  final ArrivalInfo arrivalInfo1;
+  final ArrivalInfo arrivalInfo2;
 
   const RealTimeInfo({
     required this.transportName,
-    required this.arrivalSec1,
-    required this.leftStation1,
-    required this.arrivalSec2,
-    required this.leftStation2,
+    required this.arrivalInfo1,
+    required this.arrivalInfo2,
   });
 
   @override
   List<Object?> get props => [
         transportName,
-        arrivalSec1,
-        leftStation1,
-        arrivalSec2,
-        leftStation2,
+        arrivalInfo1,
+        arrivalInfo2,
       ];
 
   RealTimeInfo.fromDTO({required RealTimeInfoDTO dto})
       : transportName = dto.transportNumber,
-        arrivalSec1 = dto.arrivalSec1,
-        arrivalSec2 = dto.arrivalSec2,
-        leftStation1 = dto.leftStation1,
-        leftStation2 = dto.leftStation2;
+        arrivalInfo1 = ArrivalInfo.fromDTO(dto: dto.arrivalInfoDTO1),
+        arrivalInfo2 = ArrivalInfo.fromDTO(dto: dto.arrivalInfoDTO2);
 
   static RealTimeInfo mock({
     String? transportName,
   }) {
-    const oneHour = 3600;
-    final arrivalSec1 = EBRandom.nexInt(min: 1, max: oneHour);
-    final arrivalSec2 = EBRandom.nexInt(min: 1, max: oneHour);
-    final leftStation1 = EBRandom.nexInt(min: 1, max: 10);
-    final leftStation2 = EBRandom.nexInt(min: 1, max: 10);
     final newTransportName = transportName ?? DefaultValue.String;
 
     return RealTimeInfo(
       transportName: newTransportName,
-      arrivalSec1: arrivalSec1,
-      leftStation1: leftStation1,
-      arrivalSec2: arrivalSec2,
-      leftStation2: leftStation2,
+      arrivalInfo1: ArrivalInfo.mock(),
+      arrivalInfo2: ArrivalInfo.mock(),
     );
   }
 
