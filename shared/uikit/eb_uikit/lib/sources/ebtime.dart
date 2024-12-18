@@ -8,13 +8,6 @@ enum EBDay {
   Friday,
   Saturday,
   Sunday,
-
-  // final dateName = DateFormat.EEEE().format(now);
-  //   if (dateName == EBDay.Saturday.name) {
-
-  // static EBDay initWith(DateTime datetime) {
-  //   datetime
-  // }
 }
 
 extension TimeOfDayExtension on TimeOfDay {
@@ -37,6 +30,35 @@ extension TimeOfDayExtension on TimeOfDay {
 }
 
 extension EBTime on DateTime {
+  EBDay getEBDay() {
+    final dateName = DateFormat.EEEE().format(this);
+
+    return EBDay.values.firstWhere((element) => element.name == dateName);
+  }
+
+  String ebDayToNameOfDay(EBDay day) {
+    switch (day) {
+      case EBDay.Monday:
+        return '월요일';
+      case EBDay.Tuesday:
+        return '화요일';
+      case EBDay.Wednesday:
+        return '수요일';
+      case EBDay.Thursday:
+        return '목요일';
+      case EBDay.Friday:
+        return '금요일';
+      case EBDay.Saturday:
+        return '토요일';
+      case EBDay.Sunday:
+        return '일요일';
+    }
+  }
+
+  String getNameOfDay() {
+    return ebDayToNameOfDay(getEBDay());
+  }
+
   DateTime toDate() {
     return DateTime(year, month, day);
   }

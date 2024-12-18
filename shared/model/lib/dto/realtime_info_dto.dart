@@ -19,26 +19,40 @@ final class RealTimeInfoDTOList {
 
 final class RealTimeInfoDTO {
   final String transportNumber;
-  final int? arrivalSec1;
-  final int? arrivalSec2;
-  final int? leftStation1;
-  final int? leftStation2;
+  final ArrivalInfoDTO arrivalInfoDTO1;
+  final ArrivalInfoDTO arrivalInfoDTO2;
 
   RealTimeInfoDTO({
     required this.transportNumber,
-    required this.arrivalSec1,
-    required this.arrivalSec2,
-    required this.leftStation1,
-    required this.leftStation2,
+    required this.arrivalInfoDTO1,
+    required this.arrivalInfoDTO2,
   });
 
   static RealTimeInfoDTO fromJson(Map<String, dynamic> j) {
     return RealTimeInfoDTO(
       transportNumber: j['transport_number'],
-      arrivalSec1: j['arrival_sec1'],
-      arrivalSec2: j['arrival_sec2'],
-      leftStation1: j['left_station1'],
-      leftStation2: j['left_station2'],
+      arrivalInfoDTO1: ArrivalInfoDTO.fromJson(j['arrival_info1']),
+      arrivalInfoDTO2: ArrivalInfoDTO.fromJson(j['arrival_info2']),
+    );
+  }
+}
+
+final class ArrivalInfoDTO {
+  final String? transportPlate;
+  final int? arrivalSec;
+  final int? leftStation;
+
+  ArrivalInfoDTO({
+    required this.transportPlate,
+    required this.arrivalSec,
+    required this.leftStation,
+  });
+
+  static ArrivalInfoDTO fromJson(Map<String, dynamic> j) {
+    return ArrivalInfoDTO(
+      transportPlate: j['transport_plate'],
+      arrivalSec: j['arrival_sec'],
+      leftStation: j['left_station'],
     );
   }
 }

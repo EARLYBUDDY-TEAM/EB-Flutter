@@ -32,7 +32,7 @@ final class NotifyTransportExpanded extends StatelessWidget {
 final class DropdownNotifyBeforeTransportStart extends StatelessWidget {
   final int initialBeforeNotifyMinute;
 
-  final listDropdownValue = [for (var i = 1; i <= 12; i++) i * 10];
+  final listDropdownValue = [for (var i = 1; i <= 60; i++) i];
   Widget createMenuItemChild(dynamic value) {
     return Text("$value분 전");
   }

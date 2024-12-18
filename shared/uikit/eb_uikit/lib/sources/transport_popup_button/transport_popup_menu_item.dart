@@ -4,20 +4,16 @@ final class TransportPopupMenuItemContent extends StatelessWidget {
   final IconData icon;
   final String name;
   final Color color;
-  final int? arrivalSec1;
-  final int? leftStation1;
-  final int? arrivalSec2;
-  final int? leftStation2;
+  final ArrivalInfo? arrivalInfo1;
+  final ArrivalInfo? arrivalInfo2;
 
   const TransportPopupMenuItemContent({
     super.key,
     required this.icon,
     required this.name,
     required this.color,
-    required this.arrivalSec1,
-    required this.arrivalSec2,
-    required this.leftStation1,
-    required this.leftStation2,
+    required this.arrivalInfo1,
+    required this.arrivalInfo2,
   });
 
   @override
@@ -43,10 +39,8 @@ final class TransportPopupMenuItemContent extends StatelessWidget {
       icon: CupertinoIcons.bus,
       name: bus.number,
       color: bus.color(),
-      arrivalSec1: realTimeInfo?.arrivalSec1,
-      arrivalSec2: realTimeInfo?.arrivalSec2,
-      leftStation1: realTimeInfo?.leftStation1,
-      leftStation2: realTimeInfo?.leftStation2,
+      arrivalInfo1: realTimeInfo?.arrivalInfo1,
+      arrivalInfo2: realTimeInfo?.arrivalInfo2,
     );
   }
 
@@ -58,10 +52,8 @@ final class TransportPopupMenuItemContent extends StatelessWidget {
       icon: Icons.subway_outlined,
       name: subway.type,
       color: subway.color(),
-      arrivalSec1: realTimeInfo?.arrivalSec1,
-      arrivalSec2: realTimeInfo?.arrivalSec2,
-      leftStation1: realTimeInfo?.leftStation1,
-      leftStation2: realTimeInfo?.leftStation2,
+      arrivalInfo1: realTimeInfo?.arrivalInfo1,
+      arrivalInfo2: realTimeInfo?.arrivalInfo2,
     );
   }
 }
@@ -102,13 +94,13 @@ extension on TransportPopupMenuItemContent {
 
   Widget _arrivalInfoText() {
     final arrival1 = _arrivalInfoString(
-      arrivalSec: arrivalSec1,
-      leftStation: leftStation1,
+      arrivalSec: arrivalInfo1?.arrivalSec,
+      leftStation: arrivalInfo1?.leftStation,
     );
 
     final arrival2 = _arrivalInfoString(
-      arrivalSec: arrivalSec2,
-      leftStation: leftStation2,
+      arrivalSec: arrivalInfo2?.arrivalSec,
+      leftStation: arrivalInfo2?.leftStation,
     );
     final text = "$arrival1, $arrival2";
 

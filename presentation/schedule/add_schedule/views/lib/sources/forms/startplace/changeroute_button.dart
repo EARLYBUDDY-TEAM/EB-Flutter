@@ -16,6 +16,7 @@ final class ChangeRouteButton extends StatelessWidget {
             state.startPlaceState as SelectedStartPlaceState;
         final startPlace = startPlaceState.pathInfo.startPlace;
         final endPlace = startPlaceState.pathInfo.endPlace;
+        final scheduleTime = state.schedule.time;
 
         return EBRoundedButton(
           text: "경로 변경",
@@ -30,6 +31,7 @@ final class ChangeRouteButton extends StatelessWidget {
                   context: context,
                   startPlace: startPlace,
                   endPlace: endPlace,
+                  scheduleTime: scheduleTime,
                 ),
               ),
             );

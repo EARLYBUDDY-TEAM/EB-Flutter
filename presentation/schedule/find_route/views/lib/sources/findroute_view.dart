@@ -5,6 +5,7 @@ final class FindRouteView extends StatelessWidget {
   final Place? endPlace;
   final SealedFindRouteSetting setting;
   final String? parentName;
+  final DateTime scheduleTime;
 
   const FindRouteView({
     super.key,
@@ -12,6 +13,7 @@ final class FindRouteView extends StatelessWidget {
     required this.startPlace,
     required this.endPlace,
     required this.setting,
+    required this.scheduleTime,
   });
 
   static MaterialPageRoute pageReadFindRoute({
@@ -19,6 +21,7 @@ final class FindRouteView extends StatelessWidget {
     required Place startPlace,
     required Place endPlace,
     required EBPath path,
+    required DateTime scheduleTime,
     String? parentName,
   }) {
     return MaterialPageRoute(
@@ -27,12 +30,14 @@ final class FindRouteView extends StatelessWidget {
         endPlace: endPlace,
         setting: ReadFindRouteSetting(path: path),
         parentName: parentName,
+        scheduleTime: scheduleTime,
       ),
     );
   }
 
   static MaterialPageRoute pageWriteFindRoute({
     required BuildContext context,
+    required DateTime scheduleTime,
     required Place? startPlace,
     required Place? endPlace,
     required MaterialPageRoute Function(BuildContext context)
@@ -45,6 +50,7 @@ final class FindRouteView extends StatelessWidget {
       builder: (context) => FindRouteView(
         startPlace: startPlace,
         endPlace: endPlace,
+        scheduleTime: scheduleTime,
         setting: WriteFindRouteSetting(
           pageChangeStartPlace: pageChangeStartPlace,
           pageChangeEndPlace: pageChangeEndPlace,
@@ -65,10 +71,12 @@ final class FindRouteView extends StatelessWidget {
         pageChangeEndPlace,
     String? parentName,
   }) {
+    final scheduleTime = schedulePath.schedule.time;
     return MaterialPageRoute(
       builder: (context) => FindRouteView(
         startPlace: startPlace,
         endPlace: endPlace,
+        scheduleTime: scheduleTime,
         setting: WriteAndUpdateFindRouteSetting(
           schedulePath: schedulePath,
           pageChangeStartPlace: pageChangeStartPlace,
@@ -97,6 +105,7 @@ final class FindRouteView extends StatelessWidget {
             endPlace: endPlace,
           ),
           setting: setting,
+          scheduleTime: scheduleTime,
         ),
       )..add(SetupFindRouteView(setting: setting)),
       child: FindRouteScaffold(

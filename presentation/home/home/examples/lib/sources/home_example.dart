@@ -30,8 +30,8 @@ final class HomeExample extends StatelessWidget {
   Widget build(BuildContext context) {
     // return MockHomeView();
     // return const MockMiddleTransportView();
-    // return const MockMenuListView();
-    final mockRegisterConfettiView = MockRegisterConfettiView();
-    return mockRegisterConfettiView;
+    return const MockMenuListView();
+    // final mockRegisterConfettiView = MockRegisterConfettiView();
+    // return mockRegisterConfettiView;
   }
 }
