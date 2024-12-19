@@ -12,6 +12,8 @@ command:
     environment:
       sdk: ^3.5.0
       flutter: ">=1.17.0"
+    dev_dependencies:
+      flutter_oss_licenses: ^3.0.4
     dependencies:
       flutter_localizations:
         sdk: flutter
