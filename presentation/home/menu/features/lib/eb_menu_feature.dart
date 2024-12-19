@@ -12,4 +12,5 @@ import 'package:eb_model/eb_model.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
-part 'sources/state.dart';
+part 'sources/state/state.dart';
+part 'sources/state/change_password_state.dart';

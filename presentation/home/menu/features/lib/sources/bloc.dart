@@ -29,6 +29,7 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
     on<SetMenuViewStatus>(_onSetChangePasswordStatus);
     on<PressRemoveUserButton>(_onPressRemoveUserButton);
     on<SetUnAuthenticated>(_onSetUnAuthenticated);
+    on<ToggleNotificationSwitch>(_onToggleNotificationSwitch);
   }
 }
 
@@ -69,17 +70,21 @@ extension on MenuBloc {
     if (passwordString.isEmpty) {
       status = FormStatus.init;
     }
-    final passwordState = state.passwordState.copyWith(
+    final passwordState = state.changePasswordState.passwordState.copyWith(
       password: password,
       status: status,
     );
+    final changePasswordState = state.changePasswordState.copyWith(
+      passwordState: passwordState,
+    );
     emit(
       state.copyWith(
-        passwordState: passwordState,
+        changePasswordState: changePasswordState,
       ),
     );
 
-    final passwordConfirm = state.passwordConfirmState.passwordConfirm;
+    final passwordConfirm =
+        state.changePasswordState.passwordConfirmState.passwordConfirm;
     add(ChangePasswordConfirm(passwordConfirm: passwordConfirm));
 
     _checkAllInputValid(emit);
@@ -88,7 +93,8 @@ extension on MenuBloc {
 
 extension on MenuBloc {
   bool _isValidChangePasswordConfirm(String passwordConfirm) {
-    return passwordConfirm == state.passwordState.password.value;
+    return passwordConfirm ==
+        state.changePasswordState.passwordState.password.value;
   }
 
   void _onChangePasswordConfirm(
@@ -101,14 +107,18 @@ extension on MenuBloc {
     if (passwordConfirm.isEmpty) {
       status = FormStatus.init;
     }
-    final passwordConfirmState = state.passwordConfirmState.copyWith(
+    final passwordConfirmState =
+        state.changePasswordState.passwordConfirmState.copyWith(
       passwordConfirm: passwordConfirm,
       status: status,
+    );
+    final changePasswordState = state.changePasswordState.copyWith(
+      passwordConfirmState: passwordConfirmState,
     );
 
     emit(
       state.copyWith(
-        passwordConfirmState: passwordConfirmState,
+        changePasswordState: changePasswordState,
       ),
     );
 
@@ -120,9 +130,14 @@ extension on MenuBloc {
   void _checkAllInputValid(
     Emitter<MenuState> emit,
   ) {
-    final isInputValid = (state.passwordState.status == FormStatus.complete) &&
-        (state.passwordConfirmState.status == FormStatus.complete);
-    emit(state.copyWith(isInputValid: isInputValid));
+    final isInputValid = (state.changePasswordState.passwordState.status ==
+            FormStatus.complete) &&
+        (state.changePasswordState.passwordConfirmState.status ==
+            FormStatus.complete);
+    final changePasswordState = state.changePasswordState.copyWith(
+      isInputValid: isInputValid,
+    );
+    emit(state.copyWith(changePasswordState: changePasswordState));
   }
 }
 
@@ -145,7 +160,7 @@ extension on MenuBloc {
       return;
     }
 
-    final password = state.passwordState.password.value;
+    final password = state.changePasswordState.passwordState.password.value;
     final result = await _ebAuthRepository.changePassword(
       email: email,
       password: password,
@@ -247,5 +262,14 @@ extension on MenuBloc {
     }
 
     _rootDelegate.authStatus.add(UnAuthenticated());
+  }
+}
+
+extension on MenuBloc {
+  void _onToggleNotificationSwitch(
+    ToggleNotificationSwitch event,
+    Emitter<MenuState> emit,
+  ) {
+    emit(state.copyWith(isNotification: !state.isNotification));
   }
 }
