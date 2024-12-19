@@ -40,12 +40,24 @@ final class _HomeMenuListContent extends StatelessWidget {
         _divider(),
         _row(
           title: '서비스 이용약관',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const TermsOfServiceView(),
+              ),
+            );
+          },
         ),
         _divider(),
         _row(
           title: '개인정보처리방침',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const InformationProtectionView(),
+              ),
+            );
+          },
         ),
         _divider(),
         _row(

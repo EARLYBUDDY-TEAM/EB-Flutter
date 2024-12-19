@@ -23,3 +23,6 @@ part 'menu_list_view/list_content/change_password/complete_change_password_view.
 part 'menu_list_view/list_content/remove_user_view.dart';
 part 'menu_list_view/list_content/opensource_license_view.dart';
 part 'menu_list_view/list_content/legal_notice_view.dart';
+part 'menu_list_view/list_content/long_text_view.dart';
+part 'menu_list_view/list_content/terms_of_service_view.dart';
+part 'menu_list_view/list_content/information_protection_view.dart';
