@@ -14,7 +14,7 @@ final class _HomeMenuListContent extends StatelessWidget {
                 onTap: null,
               ),
             ),
-            const _NotificationToggleButton(),
+            _NotificationToggleButton(),
           ],
         ),
         _divider(),

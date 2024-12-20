@@ -5,7 +5,7 @@ final class _ChangePasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<MenuBloc, MenuState, FormStatus>(
       selector: (state) {
-        return state.passwordState.status;
+        return state.changePasswordState.passwordState.status;
       },
       builder: (context, status) {
         return EBPasswordTextField(
@@ -33,7 +33,7 @@ class _ChangePasswordConfirmInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<MenuBloc, MenuState, FormStatus>(
       selector: (state) {
-        return state.passwordConfirmState.status;
+        return state.changePasswordState.passwordConfirmState.status;
       },
       builder: (context, status) {
         return EBPasswordTextField(

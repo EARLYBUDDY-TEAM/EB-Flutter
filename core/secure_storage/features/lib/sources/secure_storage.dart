@@ -1,7 +1,10 @@
 part of '../eb_secure_storage.dart';
 
+// like swift Actor??
 final class SecureStorage {
   final storage = const FlutterSecureStorage();
+
+  static final shared = SecureStorage();
 
   Future<String> read({
     required SecureStorageKey key,

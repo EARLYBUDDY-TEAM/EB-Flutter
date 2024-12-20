@@ -14,6 +14,7 @@ part 'sources/live/ebauth_repository.dart';
 part 'sources/live/findroute_repository.dart';
 part 'sources/live/schedule_repository.dart';
 part 'sources/live/searchplace_repository.dart';
-part 'sources/live/token_repository.dart';
+part 'sources/live/eb_token_repository.dart';
 part 'sources/live/home_repository.dart';
+part 'sources/live/fcm_token_repository.dart';
 part 'sources/test/test_home_repository.dart';

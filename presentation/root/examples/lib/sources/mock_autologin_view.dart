@@ -2,7 +2,7 @@ part of 'root_example.dart';
 
 final class _MockAutoLoginView extends StatelessWidget {
   final _authRepository = EBAuthRepository();
-  final _tokenRepository = TokenRepository();
+  final _tokenRepository = EBTokenRepository();
   final _homeDelegate = HomeDelegate();
   final _rootDelegate = RootDelegate();
 

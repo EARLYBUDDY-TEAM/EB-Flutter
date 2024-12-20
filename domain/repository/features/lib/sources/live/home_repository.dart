@@ -5,7 +5,7 @@ final class HomeRepository implements HomeRepositoryAB {
 
   HomeRepository({
     NetworkService? networkService,
-  }) : service = networkService ?? NetworkService();
+  }) : service = networkService ?? NetworkService.shared;
 
   @override
   Future<NetworkResponse<List<SchedulePath>>> getAllSchedules({

@@ -65,3 +65,17 @@ final class SetUnAuthenticated extends MenuEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class ToggleNotificationSwitch extends MenuEvent {
+  ToggleNotificationSwitch();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class SetupHomeMenuListView extends MenuEvent {
+  SetupHomeMenuListView();
+
+  @override
+  List<Object?> get props => [];
+}

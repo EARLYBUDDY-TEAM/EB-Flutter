@@ -7,7 +7,7 @@ final class _ChangePasswordButton extends StatelessWidget {
       builder: (context, state) {
         return EBButton(
           name: '변경',
-          onPressed: state.isInputValid
+          onPressed: state.changePasswordState.isInputValid
               ? () {
                   context.read<MenuBloc>().add(PressChangePasswordButton());
                 }

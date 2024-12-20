@@ -5,7 +5,7 @@ final class EBAuthRepository {
 
   EBAuthRepository({
     NetworkService? networkService,
-  }) : _networkService = networkService ?? NetworkService();
+  }) : _networkService = networkService ?? NetworkService.shared;
 
   Future<NetworkResponse<Token>> logIn({
     required String email,

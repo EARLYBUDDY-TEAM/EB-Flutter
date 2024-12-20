@@ -1,10 +1,10 @@
 part of 'request_impl.dart';
 
-final class TokenRequest {
+final class EBTokenRequest {
   static ApiRequest<TokenDTO> init({
     required String refreshToken,
   }) {
-    const path = "/token/recreate";
+    const path = "/token/eb/recreate";
     TokenDTO converter(dynamic responseData) => TokenDTO.fromJson(responseData);
 
     return ApiRequest(

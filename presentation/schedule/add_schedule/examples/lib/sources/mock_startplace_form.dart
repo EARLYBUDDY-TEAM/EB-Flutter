@@ -20,7 +20,7 @@ final class MockAddScheduleBlocView extends StatelessWidget {
               RepositoryProvider.of<AddScheduleDelegate>(context),
           scheduleRepository:
               RepositoryProvider.of<ScheduleRepository>(context),
-          tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+          tokenEvent: RepositoryProvider.of<EBTokenEvent>(context),
           cancelModalViewAction: () => Navigator.of(context).pop(),
           addScheduleState: AddScheduleState(
             startPlaceState: SelectedStartPlaceState(

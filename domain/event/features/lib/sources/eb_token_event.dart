@@ -1,20 +1,20 @@
 part of '../eb_event.dart';
 
-final class TokenEvent {
+final class EBTokenEvent {
   final RootDelegate _rootDelegate;
   final LoginDelegate _loginDelegate;
-  final TokenRepository _tokenRepository;
+  final EBTokenRepository _ebTokenRepository;
   final SecureStorage _secureStorage;
 
-  TokenEvent({
+  EBTokenEvent({
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
-    required TokenRepository tokenRepository,
-    required SecureStorage secureStorage,
+    required EBTokenRepository ebTokenRepository,
+    SecureStorage? secureStorage,
   })  : _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
-        _tokenRepository = tokenRepository,
-        _secureStorage = secureStorage;
+        _ebTokenRepository = ebTokenRepository,
+        _secureStorage = secureStorage ?? SecureStorage.shared;
 
   Future<NetworkResponse<M>> checkExpired<M>({
     required Future<NetworkResponse<M>> Function(String accessToken) withEvent,
@@ -36,7 +36,8 @@ final class TokenEvent {
       case FailureResponse():
         switch (firstResult.statusCode) {
           case (490):
-            final recreateTokenResult = await _tokenRepository.recreateToken();
+            final recreateTokenResult =
+                await _ebTokenRepository.recreateToken();
             switch (recreateTokenResult) {
               case SuccessResponse():
                 final Token token = recreateTokenResult.model;

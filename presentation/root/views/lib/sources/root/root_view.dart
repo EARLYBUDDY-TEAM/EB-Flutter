@@ -2,7 +2,7 @@ part of '../../eb_root.dart';
 
 final class RootAutoLoginView extends StatelessWidget {
   final _authRepository = EBAuthRepository();
-  final _tokenRepository = TokenRepository(
+  final _tokenRepository = EBTokenRepository(
     secureStorage: SecureStorage(),
     networkService: NetworkService(),
   );
@@ -56,20 +56,14 @@ final class RootView extends StatelessWidget {
   final FindRouteRepository _findRouteRepository;
   final ScheduleRepository _scheduleRepository;
   final SearchPlaceRepository _searchPlaceRepository;
-  late final _tokenRepository = TokenRepository(
-    secureStorage: _secureStorage,
-    networkService: _networkService,
-  );
+  final FCMTokenRepository _fcmTokenRepository;
+  final EBTokenRepository _ebTokenRepository;
   final HomeRepositoryAB _homeRepository;
 
-  final SecureStorage _secureStorage;
-  final NetworkService _networkService;
-
-  late final _tokenEvent = TokenEvent(
+  late final _tokenEvent = EBTokenEvent(
     rootDelegate: _rootDelegate,
     loginDelegate: _loginDelegate,
-    tokenRepository: _tokenRepository,
-    secureStorage: _secureStorage,
+    ebTokenRepository: _ebTokenRepository,
   );
   late final _scheduleEvent = ScheduleEvent(
     loadingDelegate: _loadingDelegate,
@@ -91,8 +85,8 @@ final class RootView extends StatelessWidget {
     ScheduleRepository? scheduleRepository,
     SearchPlaceRepository? searchPlaceRepository,
     HomeRepositoryAB? homeRepository,
-    SecureStorage? secureStorage,
-    NetworkService? networkService,
+    FCMTokenRepository? fcmTokenRepository,
+    EBTokenRepository? ebTokenRepository,
   })  : _homeDelegate = homeDelegate ?? HomeDelegate(),
         _loginDelegate = loginDelegate ?? LoginDelegate(),
         _rootDelegate = rootDelegate ?? RootDelegate(),
@@ -105,8 +99,8 @@ final class RootView extends StatelessWidget {
         _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
         _homeRepository = homeRepository ?? HomeRepository(),
-        _secureStorage = secureStorage ?? SecureStorage(),
-        _networkService = networkService ?? NetworkService();
+        _fcmTokenRepository = fcmTokenRepository ?? FCMTokenRepository(),
+        _ebTokenRepository = ebTokenRepository ?? EBTokenRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +116,11 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _findRouteRepository),
         RepositoryProvider.value(value: _scheduleRepository),
         RepositoryProvider.value(value: _searchPlaceRepository),
-        RepositoryProvider.value(value: _tokenRepository),
+        RepositoryProvider.value(value: _ebTokenRepository),
+        RepositoryProvider.value(value: _fcmTokenRepository),
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),
-        RepositoryProvider.value(value: _secureStorage),
       ],
       child: const _RootBlocView(),
     );

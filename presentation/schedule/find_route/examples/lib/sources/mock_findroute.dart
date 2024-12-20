@@ -9,10 +9,10 @@ final class _MockFindRouteView extends StatelessWidget {
   final homeDelegate = HomeDelegate();
   final findRouteRepository = FindRouteRepository();
   final scheduleRepository = ScheduleRepository();
-  late final tokenEvent = TokenEvent(
+  late final tokenEvent = EBTokenEvent(
     loginDelegate: LoginDelegate(),
     rootDelegate: RootDelegate(),
-    tokenRepository: TokenRepository(),
+    ebTokenRepository: EBTokenRepository(),
   );
   late final scheduleEvent = ScheduleEvent(
     loadingDelegate: loadingDelegate,

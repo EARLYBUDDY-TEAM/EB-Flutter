@@ -4,7 +4,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeDelegate _homeDelegate;
   final LoadingDelegate _loadingDelegate;
   final HomeRepositoryAB _homeRepository;
-  final TokenEvent _tokenEvent;
+  final EBTokenEvent _tokenEvent;
   final ScheduleEvent _scheduleEvent;
 
   final Function() _cancelModalViewAction;
@@ -19,7 +19,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required HomeDelegate homeDelegate,
     required HomeRepositoryAB homeRepository,
     required ScheduleEvent scheduleEvent,
-    required TokenEvent tokenEvent,
+    required EBTokenEvent tokenEvent,
     required void Function() cancelModalViewAction,
     HomeState? homeState,
   })  : _homeDelegate = homeDelegate,

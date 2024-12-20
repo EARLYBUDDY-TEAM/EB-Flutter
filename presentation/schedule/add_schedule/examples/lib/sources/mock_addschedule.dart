@@ -8,14 +8,14 @@ final class MockAddSchedule extends StatelessWidget {
   final findRouteDelegate = FindRouteDelegate();
 
   final scheduleRepository = ScheduleRepository();
-  final tokenRepository = TokenRepository();
+  final tokenRepository = EBTokenRepository();
   final searchPlaceRepository = SearchPlaceRepository();
   final findRouteRepository = FindRouteRepository();
 
-  late final tokenEvent = TokenEvent(
+  late final tokenEvent = EBTokenEvent(
     rootDelegate: rootDelegate,
     loginDelegate: loginDelegate,
-    tokenRepository: tokenRepository,
+    ebTokenRepository: tokenRepository,
   );
 
   MockAddSchedule({super.key});
