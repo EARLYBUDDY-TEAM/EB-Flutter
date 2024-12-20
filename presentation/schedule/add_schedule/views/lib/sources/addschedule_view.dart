@@ -86,8 +86,8 @@ final class _AddScheduleContent extends StatelessWidget {
     final bottomSafe = ScreenSize.safeArea.bottom(context);
 
     return BlocConsumer<AddScheduleBloc, AddScheduleState>(
-      listener: (context, state) {
-        showAddScheduleResultAlert(
+      listener: (context, state) async {
+        await showAddScheduleResultAlert(
           context: context,
           result: state.result,
         );
@@ -170,10 +170,10 @@ final class _AddScheduleContent extends StatelessWidget {
     }
   }
 
-  void showAddScheduleResultAlert({
+  Future<void> showAddScheduleResultAlert({
     required BuildContext context,
     required SealedAddScheduleResult result,
-  }) {
+  }) async {
     String title;
     String? content;
     bool popAddScheduleView;
@@ -217,7 +217,7 @@ final class _AddScheduleContent extends StatelessWidget {
         }
     }
 
-    EBAlert.showModalPopup(
+    await EBAlert.showModalPopup(
       context: context,
       title: title,
       content: content,

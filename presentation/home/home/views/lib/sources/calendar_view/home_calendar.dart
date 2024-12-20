@@ -96,7 +96,7 @@ final class _HomeCalendarState extends State<_HomeCalendarStateful> {
   final DateTime _firstDay = DateTime.utc(2020, 01, 01);
   final DateTime _lastDay = DateTime.utc(2030, 01, 01);
 
-  final double _dayFontSize = 16;
+  final double _dayFontSize = 15;
   final double _weekFontSize = 13;
   final double _dayCellPadding = 10;
   final double _selectDayCellBordorWidth = 1.5;
