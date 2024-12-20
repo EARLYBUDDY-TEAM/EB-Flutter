@@ -178,15 +178,8 @@ final class _MyEmailView extends StatelessWidget {
   }
 
   Future<String> _future(BuildContext context) async {
-    final secureStorage = RepositoryProvider.of<SecureStorage>(context);
-
-    try {
-      final email = await secureStorage.read(key: SecureStorageKey.email);
-      return email;
-    } catch (e) {
-      log(e.toString());
-      return '----';
-    }
+    final userEmail = await context.read<MenuBloc>().getUserEmail;
+    return userEmail ?? '----';
   }
 
   Widget _emailText(String email) {

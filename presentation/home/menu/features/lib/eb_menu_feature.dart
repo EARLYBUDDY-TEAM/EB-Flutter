@@ -9,8 +9,11 @@ import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_network/eb_network.dart';
 import 'package:eb_event/eb_event.dart';
 import 'package:eb_model/eb_model.dart';
+import 'package:eb_notification_manager/eb_notification_manager.dart';
 
 part 'sources/bloc.dart';
 part 'sources/event.dart';
 part 'sources/state/state.dart';
 part 'sources/state/change_password_state.dart';
+part 'sources/state/notification_status.dart';
+part 'sources/state/menu_view_status.dart';

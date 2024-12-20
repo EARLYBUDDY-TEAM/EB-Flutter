@@ -1,11 +1,11 @@
 part of '../../eb_repository.dart';
 
 final class FindRouteRepository {
-  final NetworkService service;
+  final NetworkService _networkService;
 
   FindRouteRepository({
     NetworkService? networkService,
-  }) : service = networkService ?? NetworkService.shared;
+  }) : _networkService = networkService ?? NetworkService.shared;
 
   Future<NetworkResponse<EBRoute>> getEBRoute({
     required Place start,
@@ -20,7 +20,7 @@ final class FindRouteRepository {
       endPlace: end.name,
     );
 
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
 
     switch (result) {
       case (SuccessResponse()):

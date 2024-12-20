@@ -2,7 +2,7 @@ part of '../eb_register_feature.dart';
 
 final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final EBAuthRepository _ebAuthRepository;
-  final TokenRepository _tokenRepository;
+  final EBTokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
@@ -10,17 +10,17 @@ final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   RegisterBloc({
     required EBAuthRepository ebAuthRepository,
-    required TokenRepository tokenRepository,
+    required EBTokenRepository tokenRepository,
     required HomeDelegate homeDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
-    required SecureStorage secureStorage,
+    SecureStorage? secureStorage,
   })  : _ebAuthRepository = ebAuthRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
-        _secureStorage = secureStorage,
+        _secureStorage = secureStorage ?? SecureStorage.shared,
         super(const RegisterState()) {
     on<ChangeNickName>(_onChangeNickName);
     on<ChangeEmail>(_onChangeEmail);

@@ -13,7 +13,7 @@ final class RegisterExample extends StatelessWidget {
   final _rootDelegate = RootDelegate();
   final _loadingDelegate = LoadingDelegate();
   final _ebAuthRepository = EBAuthRepository();
-  final _tokenRepository = TokenRepository();
+  final _tokenRepository = EBTokenRepository();
 
   RegisterExample({super.key});
 

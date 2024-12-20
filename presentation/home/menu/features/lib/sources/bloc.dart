@@ -4,23 +4,33 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final LoadingDelegate _loadingDelegate;
   final RootDelegate _rootDelegate;
   final LoginDelegate _loginDelegate;
-  final SecureStorage _secureStorage;
   final EBAuthRepository _ebAuthRepository;
-  final TokenEvent _tokenEvent;
+  final EBTokenEvent _tokenEvent;
+  final FCMTokenRepository _fcmTokenRepository;
+  final SecureStorage _secureStorage;
+  Future<String?> get getUserEmail async {
+    try {
+      return await _secureStorage.read(key: SecureStorageKey.email);
+    } catch (e) {
+      return null;
+    }
+  }
 
   MenuBloc({
     required LoadingDelegate loadingDelegate,
     required RootDelegate rootDelegate,
     required LoginDelegate loginDelegate,
     required EBAuthRepository ebAuthRepository,
-    required TokenEvent tokenEvent,
-    required SecureStorage secureStorage,
+    required EBTokenEvent tokenEvent,
+    required FCMTokenRepository fcmTokenRepository,
+    SecureStorage? secureStorage,
   })  : _loadingDelegate = loadingDelegate,
         _rootDelegate = rootDelegate,
         _loginDelegate = loginDelegate,
         _ebAuthRepository = ebAuthRepository,
         _tokenEvent = tokenEvent,
-        _secureStorage = secureStorage,
+        _secureStorage = secureStorage ?? SecureStorage.shared,
+        _fcmTokenRepository = fcmTokenRepository,
         super(const MenuState()) {
     on<PressLogoutButton>(_onPressLogoutButton);
     on<ChangePassword>(_onChangePassword);
@@ -30,6 +40,7 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
     on<PressRemoveUserButton>(_onPressRemoveUserButton);
     on<SetUnAuthenticated>(_onSetUnAuthenticated);
     on<ToggleNotificationSwitch>(_onToggleNotificationSwitch);
+    on<SetupHomeMenuListView>(_onSetupHomeMenuListView);
   }
 }
 
@@ -266,10 +277,109 @@ extension on MenuBloc {
 }
 
 extension on MenuBloc {
-  void _onToggleNotificationSwitch(
+  Future<void> _onToggleNotificationSwitch(
     ToggleNotificationSwitch event,
     Emitter<MenuState> emit,
-  ) {
-    emit(state.copyWith(isNotification: !state.isNotification));
+  ) async {
+    final curNotiStatus = state.notificationStatus;
+
+    emit(state.copyWith(notificationStatus: NotificationStatus.checking));
+    NetworkResponse<EmptyDTO> result;
+    final userEmail = await getUserEmail;
+    if (userEmail == null) {
+      emit(state.copyWith(notificationStatus: NotificationStatus.disabled));
+      return;
+    }
+
+    switch (curNotiStatus) {
+      case NotificationStatus.enabled:
+        result = await _fcmTokenRepository.disable(
+          userEmail: userEmail,
+        );
+      case NotificationStatus.disabled:
+        final fcmToken = await NotificationManager.getFCMToken();
+        if (fcmToken == null) {
+          emit(state.copyWith(notificationStatus: NotificationStatus.disabled));
+          return;
+        }
+
+        result = await _fcmTokenRepository.enable(
+          userEmail: userEmail,
+          fcmToken: fcmToken,
+        );
+      case NotificationStatus.checking:
+        emit(state.copyWith(notificationStatus: NotificationStatus.disabled));
+        return;
+    }
+
+    switch (curNotiStatus) {
+      case NotificationStatus.enabled:
+        switch (result) {
+          case SuccessResponse():
+            emit(
+              state.copyWith(
+                notificationStatus: NotificationStatus.disabled,
+              ),
+            );
+          case FailureResponse():
+            emit(
+              state.copyWith(
+                notificationStatus: NotificationStatus.disabled,
+              ),
+            );
+        }
+      case NotificationStatus.disabled:
+        switch (result) {
+          case SuccessResponse():
+            emit(
+              state.copyWith(
+                notificationStatus: NotificationStatus.enabled,
+              ),
+            );
+          case FailureResponse():
+            emit(
+              state.copyWith(
+                notificationStatus: NotificationStatus.disabled,
+              ),
+            );
+        }
+      case NotificationStatus.checking:
+        emit(
+          state.copyWith(
+            notificationStatus: NotificationStatus.disabled,
+          ),
+        );
+    }
+  }
+}
+
+extension on MenuBloc {
+  Future<void> _onSetupHomeMenuListView(
+    SetupHomeMenuListView event,
+    Emitter<MenuState> emit,
+  ) async {
+    final userEmail = await getUserEmail;
+    if (userEmail == null) {
+      emit(state.copyWith(notificationStatus: NotificationStatus.disabled));
+      return;
+    }
+    final result = await _fcmTokenRepository.isAuthorized(userEmail: userEmail);
+
+    switch (result) {
+      case SuccessResponse():
+        final isAuthorized = result.model;
+        final notificationStatus = isAuthorized
+            ? NotificationStatus.enabled
+            : NotificationStatus.disabled;
+
+        emit(
+          state.copyWith(
+            notificationStatus: notificationStatus,
+          ),
+        );
+      case FailureResponse():
+        emit(state.copyWith(notificationStatus: NotificationStatus.disabled));
+        return;
+    }
   }
 }

@@ -14,13 +14,14 @@ final class _RootBlocView extends StatelessWidget {
         ),
         BlocProvider<MenuBloc>(
           create: (context) => MenuBloc(
-            tokenEvent: RepositoryProvider.of<TokenEvent>(context),
+            tokenEvent: RepositoryProvider.of<EBTokenEvent>(context),
             loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
             rootDelegate: RepositoryProvider.of<RootDelegate>(context),
             loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
             ebAuthRepository: RepositoryProvider.of<EBAuthRepository>(context),
-            secureStorage: RepositoryProvider.of<SecureStorage>(context),
-          ),
+            fcmTokenRepository:
+                RepositoryProvider.of<FCMTokenRepository>(context),
+          )..add(SetupHomeMenuListView()),
         ),
       ],
       child: _RootNaviView(),

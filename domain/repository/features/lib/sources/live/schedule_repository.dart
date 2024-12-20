@@ -1,11 +1,11 @@
 part of '../../eb_repository.dart';
 
 final class ScheduleRepository {
-  final NetworkService service;
+  final NetworkService _networkService;
 
   ScheduleRepository({
     NetworkService? networkService,
-  }) : service = networkService ?? NetworkService();
+  }) : _networkService = networkService ?? NetworkService.shared;
 
   Future<NetworkResponse<EmptyDTO>> create({
     required String accessToken,
@@ -22,7 +22,7 @@ final class ScheduleRepository {
       scheduleMap: scheduleMap,
       pathMap: pathMap,
     );
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
 
     switch (result) {
       case (SuccessResponse()):
@@ -49,7 +49,7 @@ final class ScheduleRepository {
       scheduleMap: scheduleMap,
       pathMap: pathMap,
     );
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
 
     switch (result) {
       case (SuccessResponse()):
@@ -70,7 +70,7 @@ final class ScheduleRepository {
       scheduleID: scheduleID,
     );
 
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
 
     switch (result) {
       case (SuccessResponse()):

@@ -72,3 +72,10 @@ final class ToggleNotificationSwitch extends MenuEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class SetupHomeMenuListView extends MenuEvent {
+  SetupHomeMenuListView();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -14,7 +14,7 @@ part 'mock_loginview.dart';
 
 final class LoginExample extends StatelessWidget {
   final _ebAuthRepository = EBAuthRepository();
-  final _tokenRepository = TokenRepository();
+  final _tokenRepository = EBTokenRepository();
   final _homeDelegate = HomeDelegate();
   final _loginDelegate = LoginDelegate();
   final _rootDelegate = RootDelegate();

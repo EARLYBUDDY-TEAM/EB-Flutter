@@ -3,12 +3,12 @@ part of '../eb_event.dart';
 final class ScheduleEvent {
   final LoadingDelegate _loadingDelegate;
   final ScheduleRepository _scheduleRepository;
-  final TokenEvent _tokenEvent;
+  final EBTokenEvent _tokenEvent;
 
   ScheduleEvent({
     required LoadingDelegate loadingDelegate,
     required ScheduleRepository scheduleRepository,
-    required TokenEvent tokenEvent,
+    required EBTokenEvent tokenEvent,
   })  : _loadingDelegate = loadingDelegate,
         _scheduleRepository = scheduleRepository,
         _tokenEvent = tokenEvent;

@@ -2,7 +2,7 @@ part of '../eb_login_feature.dart';
 
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final EBAuthRepository _authRepository;
-  final TokenRepository _tokenRepository;
+  final EBTokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
@@ -13,18 +13,18 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc({
     required EBAuthRepository authRepository,
-    required TokenRepository tokenRepository,
+    required EBTokenRepository tokenRepository,
     required HomeDelegate homeDelegate,
     required LoginDelegate loginDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
-    required SecureStorage secureStorage,
+    SecureStorage? secureStorage,
   })  : _authRepository = authRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
-        _secureStorage = secureStorage,
+        _secureStorage = secureStorage ?? SecureStorage.shared,
         super(const LoginState()) {
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);

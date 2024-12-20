@@ -16,6 +16,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'sources/token_event.dart';
+part 'sources/eb_token_event.dart';
 part 'sources/schedule_event.dart';
 part 'sources/realtimeinfo_event/realtimeinfo_event.dart';

@@ -1,25 +1,25 @@
 part of '../../eb_repository.dart';
 
 final class SearchPlaceRepository {
-  final NetworkService service;
-  final LocationProvider locationProvider;
+  final NetworkService _networkService;
+  final LocationProvider _locationProvider;
 
   SearchPlaceRepository({
     NetworkService? networkService,
     LocationProvider? locationProvider,
-  })  : service = networkService ?? NetworkService.shared,
-        locationProvider = locationProvider ?? LocationProvider.shared;
+  })  : _networkService = networkService ?? NetworkService.shared,
+        _locationProvider = locationProvider ?? LocationProvider.shared;
 
   Future<NetworkResponse<List<Place>>> getPlaces({
     required String searchText,
   }) async {
-    final Coordi coordi = await locationProvider.getCurrentLocation();
+    final Coordi coordi = await _locationProvider.getCurrentLocation();
     final request = SearchPlaceRequest.init(
       searchText: searchText,
       longitudeX: coordi.x,
       latitudeY: coordi.y,
     );
-    final result = await service.request(request);
+    final result = await _networkService.request(request);
 
     switch (result) {
       case (SuccessResponse()):
