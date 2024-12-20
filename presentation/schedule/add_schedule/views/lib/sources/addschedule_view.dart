@@ -106,6 +106,7 @@ final class _AddScheduleContent extends StatelessWidget {
               scheduleTitle: state.schedule.title,
             ),
           ),
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Stack(
               alignment: Alignment.bottomCenter,
