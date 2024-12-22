@@ -88,14 +88,16 @@ final class _EndInfoOther extends StatelessWidget {
           fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
-        Text(
-          endName,
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            fontSize: fontSize,
-            color: EBColors.text,
+        Flexible(
+          child: Text(
+            endName,
+            style: TextStyle(
+              fontFamily: FontFamily.nanumSquareBold,
+              fontSize: fontSize,
+              color: EBColors.text,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
-          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
