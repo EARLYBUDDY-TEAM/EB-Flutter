@@ -96,7 +96,8 @@ final class _MockFindRouteListItemContent extends StatelessWidget {
   }
 
   EBSubPath _mockSubPath() {
-    return EBSubPath.mockGasanToSuwon();
+    return EBSubPath.mockWalk();
+    // return EBSubPath.mockGasanToSuwon();
     // return EBSubPath.mockDongToGwang();
   }
 }

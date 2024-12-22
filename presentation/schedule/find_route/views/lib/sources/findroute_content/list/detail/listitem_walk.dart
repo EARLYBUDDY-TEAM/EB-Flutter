@@ -31,11 +31,9 @@ final class _ListItemWalk extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: _StartInfo(
-                        setting: setting,
-                        ebSubPath: ebSubPath,
-                      ),
+                    _StartInfo(
+                      setting: setting,
+                      ebSubPath: ebSubPath,
                     ),
                     _LaneInfo(ebSubPath: ebSubPath),
                     _EndInfo(ebSubPath: ebSubPath),

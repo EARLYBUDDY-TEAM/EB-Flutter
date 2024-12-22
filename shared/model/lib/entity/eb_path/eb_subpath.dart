@@ -138,17 +138,20 @@ final class EBSubPath<T extends Transport> extends Equatable {
   }
 
   static EBSubPath mockWalk() {
-    return const EBSubPath(
+    final testStartName = '수서역' * 10;
+    final testEndName = '스타벅스 수서역 R점' * 10;
+
+    return EBSubPath(
       type: 3,
       time: 3,
-      startName: '수서역',
+      startName: testStartName,
       startCoordi: null,
       startStationID: null,
       wayCode: null,
-      endName: '스타벅스 수서역 R점',
+      endName: testEndName,
       distance: 365,
-      transportList: [],
-      stationList: [],
+      transportList: const [],
+      stationList: const [],
     );
   }
 

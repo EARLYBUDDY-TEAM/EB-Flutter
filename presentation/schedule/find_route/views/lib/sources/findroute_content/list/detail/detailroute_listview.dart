@@ -31,6 +31,10 @@ final class _DetailRouteListView extends StatelessWidget {
     required List<EBSubPath> subPaths,
     required SealedFindRouteSetting setting,
   }) {
+    final safeBottom = ScreenSize.safeArea.bottom(context);
+    const double dist = 20;
+    final bottomPadding = safeBottom + 50 + dist;
+
     return List.generate(subPaths.length + 1, (index) {
       if (index != subPaths.length) {
         return Column(
@@ -43,7 +47,13 @@ final class _DetailRouteListView extends StatelessWidget {
           ],
         );
       } else {
-        return _OdsayImage();
+        return Column(
+          children: [
+            const SizedBox(height: dist),
+            _OdsayImage(),
+            SizedBox(height: bottomPadding),
+          ],
+        );
       }
     });
   }
