@@ -16,9 +16,7 @@ final class DetailShowMapButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EBRoundedButton(
-      text: '지도보기',
-      height: 25,
+    return DetailShowMapButtonContent(
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -47,5 +45,23 @@ final class DetailShowMapButton extends StatelessWidget {
             homeDelegate.cancelModalView.add(());
           }
         : null;
+  }
+}
+
+final class DetailShowMapButtonContent extends StatelessWidget {
+  final Function()? onPressed;
+
+  const DetailShowMapButtonContent({
+    super.key,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return EBRoundedButton(
+      text: '지도보기',
+      height: 25,
+      onPressed: onPressed,
+    );
   }
 }

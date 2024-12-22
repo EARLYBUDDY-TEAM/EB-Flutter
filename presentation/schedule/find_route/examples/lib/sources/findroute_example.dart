@@ -12,16 +12,21 @@ import 'package:eb_state/eb_state.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:eb_event/eb_event.dart';
+import 'package:eb_repository_interface/eb_repository_interface.dart';
+import 'package:eb_resource/eb_resource.dart';
 
 part 'mock_findroute.dart';
 part 'helper/mock_findroute_helper.dart';
+part 'mock_findroute_listitem/mock_findroute_listitem.dart';
+part 'mock_findroute_listitem/mock_findroute_startinfo.dart';
 
 final class FindRouteExample extends StatelessWidget {
   const FindRouteExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _MockFindRouteView.empty(context);
+    // return _MockFindRouteView.empty(context);
     // return _MockFindRouteView.read(context);
+    return _MockFindRouteListItem();
   }
 }

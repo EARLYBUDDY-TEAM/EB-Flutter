@@ -4,11 +4,12 @@ final class _MockFindRouteView extends StatelessWidget {
   final MaterialPageRoute mockFindRouteView;
 
   final loadingDelegate = LoadingDelegate();
-  final findRouteDelegate = FindRouteDelegate();
   final addScheduleDelegate = AddScheduleDelegate();
   final homeDelegate = HomeDelegate();
+  final findRouteDelegate = FindRouteDelegate();
   final findRouteRepository = FindRouteRepository();
   final scheduleRepository = ScheduleRepository();
+  final homeRepository = HomeRepository();
   late final tokenEvent = EBTokenEvent(
     loginDelegate: LoginDelegate(),
     rootDelegate: RootDelegate(),
@@ -20,7 +21,10 @@ final class _MockFindRouteView extends StatelessWidget {
     tokenEvent: tokenEvent,
   );
 
-  _MockFindRouteView({super.key, required this.mockFindRouteView});
+  _MockFindRouteView({
+    super.key,
+    required this.mockFindRouteView,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,8 @@ final class _MockFindRouteView extends StatelessWidget {
         RepositoryProvider.value(value: homeDelegate),
         RepositoryProvider.value(value: findRouteDelegate),
         RepositoryProvider.value(value: findRouteRepository),
+        RepositoryProvider.value(value: scheduleEvent),
+        RepositoryProvider.value(value: homeRepository),
       ],
       child: MockModalBottomSheetButton(modalView: mockFindRouteView),
     );
@@ -49,9 +55,9 @@ final class _MockFindRouteView extends StatelessWidget {
 
   static _MockFindRouteView read(BuildContext context) {
     final view = _MockFindRouteBlocView(
-      setting: makeReadSetting(context: context, subPaths: mockSubPaths),
+      setting: makeReadSetting(context: context, path: EBPath.mock()),
       contentStatus:
-          DetailFindRouteStatus(selectedIndex: 0, subPaths: mockSubPaths),
+          DetailFindRouteStatus(selectedIndex: 0, path: EBPath.mock()),
     );
 
     final route = makeRoute(view: view);
@@ -76,7 +82,44 @@ final class _MockFindRouteBlocView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return MultiBlocProvider(
+      providers: [
+        _makeFindRouteBlocProvider(),
+        _makeDetailRouteBlocProvider(),
+      ],
+      child: FindRouteScaffold(
+        parentName: parentName,
+      ),
+    );
+
+    // return BlocProvider(
+    //   create: (context) => FindRouteBloc(
+    //     scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
+    //     loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+    //     findRouteDelegate: RepositoryProvider.of<FindRouteDelegate>(context),
+    //     addScheduleDelegate:
+    //         RepositoryProvider.of<AddScheduleDelegate>(context),
+    //     homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
+    //     findRouteRepository:
+    //         RepositoryProvider.of<FindRouteRepository>(context),
+    //     findRouteState: FindRouteState(
+    //       scheduleTime: DateTime.now(),
+    //       searchPlaceInfo: SearchPlaceInfo(
+    //         startPlace: startPlace,
+    //         endPlace: endPlace,
+    //       ),
+    //       setting: setting,
+    //     ),
+    //   )..add(SetupFindRouteView(setting: setting)),
+    //   // )..add(SetFindRouteContentStatus(contentStatus: contentStatus)),
+    //   child: FindRouteScaffold(
+    //     parentName: parentName,
+    //   ),
+    // );
+  }
+
+  BlocProvider<FindRouteBloc> _makeFindRouteBlocProvider() {
+    return BlocProvider<FindRouteBloc>(
       create: (context) => FindRouteBloc(
         scheduleEvent: RepositoryProvider.of<ScheduleEvent>(context),
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
@@ -87,6 +130,7 @@ final class _MockFindRouteBlocView extends StatelessWidget {
         findRouteRepository:
             RepositoryProvider.of<FindRouteRepository>(context),
         findRouteState: FindRouteState(
+          scheduleTime: DateTime.now(),
           searchPlaceInfo: SearchPlaceInfo(
             startPlace: startPlace,
             endPlace: endPlace,
@@ -95,8 +139,13 @@ final class _MockFindRouteBlocView extends StatelessWidget {
         ),
       )..add(SetupFindRouteView(setting: setting)),
       // )..add(SetFindRouteContentStatus(contentStatus: contentStatus)),
-      child: FindRouteScaffold(
-        parentName: parentName,
+    );
+  }
+
+  BlocProvider<DetailRouteBloc> _makeDetailRouteBlocProvider() {
+    return BlocProvider<DetailRouteBloc>(
+      create: (context) => DetailRouteBloc(
+        realTimeInfoEvent: RepositoryProvider.of<RealTimeInfoEvent>(context),
       ),
     );
   }

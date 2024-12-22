@@ -10,23 +10,35 @@ final class _DetailRouteListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _list(
-        context: context,
-        subPaths: subPaths,
-      ),
+    return BlocSelector<FindRouteBloc, FindRouteState, SealedFindRouteSetting>(
+      selector: (state) {
+        return state.setting;
+      },
+      builder: (context, setting) {
+        return Column(
+          children: _list(
+            context: context,
+            subPaths: subPaths,
+            setting: setting,
+          ),
+        );
+      },
     );
   }
 
   List<Widget> _list({
     required BuildContext context,
     required List<EBSubPath> subPaths,
+    required SealedFindRouteSetting setting,
   }) {
     return List.generate(subPaths.length + 1, (index) {
       if (index != subPaths.length) {
         return Column(
           children: [
-            DetailRouteListItem(subPath: subPaths[index]),
+            DetailRouteListItem(
+              subPath: subPaths[index],
+              setting: setting,
+            ),
             _ListDivider(),
           ],
         );

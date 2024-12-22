@@ -2,12 +2,13 @@ part of '../../../../eb_find_route.dart';
 
 final class _ListItemWalk extends StatelessWidget {
   final EBSubPath ebSubPath;
+  final SealedFindRouteSetting setting;
   final double contentInset;
   final double rowSpace;
 
   const _ListItemWalk({
-    super.key,
     required this.ebSubPath,
+    required this.setting,
     required this.contentInset,
     required this.rowSpace,
   });
@@ -30,7 +31,12 @@ final class _ListItemWalk extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _StartInfo(ebSubPath: ebSubPath),
+                    Expanded(
+                      child: _StartInfo(
+                        setting: setting,
+                        ebSubPath: ebSubPath,
+                      ),
+                    ),
                     _LaneInfo(ebSubPath: ebSubPath),
                     _EndInfo(ebSubPath: ebSubPath),
                   ],

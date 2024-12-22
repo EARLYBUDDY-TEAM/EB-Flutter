@@ -5,12 +5,14 @@ final class _ListItemOther extends StatelessWidget {
   final double contentInset;
   final double rowSpace;
   final double colSpace = 10;
+  final SealedFindRouteSetting setting;
 
   const _ListItemOther({
     super.key,
     required this.ebSubPath,
     required this.contentInset,
     required this.rowSpace,
+    required this.setting,
   });
 
   @override
@@ -30,7 +32,12 @@ final class _ListItemOther extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _StartInfo(ebSubPath: ebSubPath),
+                    Expanded(
+                      child: _StartInfo(
+                        setting: setting,
+                        ebSubPath: ebSubPath,
+                      ),
+                    ),
                     SizedBox(height: colSpace),
                     _LaneInfo(ebSubPath: ebSubPath),
                     SizedBox(height: colSpace),
