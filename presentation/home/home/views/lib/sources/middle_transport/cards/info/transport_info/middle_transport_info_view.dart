@@ -89,7 +89,7 @@ final class MiddleTransportInfoView extends StatelessWidget {
           (currentIndex == index) ? streamRealTimeInfo : null;
       final cardState = cardStateList[index];
 
-      return _MiddleTransportInfoCard(
+      return MiddleTransportInfoCard(
         myIndex: index,
         cardWidth: cardWidth,
         cardState: cardState,

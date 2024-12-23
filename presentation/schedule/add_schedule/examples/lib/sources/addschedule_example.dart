@@ -9,14 +9,14 @@ import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_model/entity.dart';
 
-part 'mock_addschedule.dart';
-part 'mock_startplace_form.dart';
+part 'mock_addschedule_view.dart';
+part 'mock_schedule_name_form.dart';
 
 final class AddScheduleExample extends StatelessWidget {
   const AddScheduleExample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MockAddSchedule();
+    return MockAddScheduleView();
   }
 }

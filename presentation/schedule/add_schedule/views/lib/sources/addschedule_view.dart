@@ -53,7 +53,7 @@ final class AddScheduleView extends StatelessWidget {
           cancelModalViewAction: () => Navigator.of(context).pop(),
         )..add(SetupAddScheduleView(setting: setting));
       },
-      child: const _AddScheduleContent(),
+      child: const AddScheduleContent(),
     );
   }
 
@@ -76,10 +76,10 @@ final class AddScheduleView extends StatelessWidget {
   }
 }
 
-final class _AddScheduleContent extends StatelessWidget {
+final class AddScheduleContent extends StatelessWidget {
   final double fontSize = 17;
 
-  const _AddScheduleContent();
+  const AddScheduleContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +96,8 @@ final class _AddScheduleContent extends StatelessWidget {
         return previous.setting != current.setting;
       },
       builder: (context, state) {
+        log("AddScheduleContent, state: $state");
+
         return Scaffold(
           appBar: _AddScheduleAppBar(
             titleString: _titleString(state.setting),

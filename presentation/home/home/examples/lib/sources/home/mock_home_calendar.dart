@@ -1,4 +1,4 @@
-part of 'home_example.dart';
+part of '../home_example.dart';
 
 final class MockHomeCalendar extends StatelessWidget {
   const MockHomeCalendar({super.key});

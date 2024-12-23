@@ -27,7 +27,7 @@ final class _PlaceForm extends StatelessWidget {
                 expand: true,
                 context: context,
                 backgroundColor: Colors.white,
-                builder: builderModalBottomSheet(
+                builder: builderModalBottomSheetWithRoute(
                   context: context,
                   onGenerateRoute: SearchPlaceView.pageEndSearchPlace(context),
                 ),

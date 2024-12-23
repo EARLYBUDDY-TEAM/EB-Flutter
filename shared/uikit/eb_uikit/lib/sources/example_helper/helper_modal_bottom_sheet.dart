@@ -1,6 +1,6 @@
 part of '../../eb_uikit.dart';
 
-WidgetBuilder builderModalBottomSheet({
+WidgetBuilder builderModalBottomSheetWithRoute({
   required BuildContext context,
   required MaterialPageRoute onGenerateRoute,
 }) {
@@ -11,12 +11,31 @@ WidgetBuilder builderModalBottomSheet({
       );
 }
 
+Widget Function(BuildContext) builderModalBottomSheet({
+  required BuildContext context,
+  required Widget child,
+}) {
+  return (context) => child;
+
+  // return MaterialPageRoute(
+  //   builder: (context) => child,
+  // );
+
+  // return (context) => Material(
+  //       child: Navigator(
+  //         onGenerateRoute: (context) => MaterialPageRoute(
+  //           builder: (context) => child,
+  //         ),
+  //       ),
+  //     );
+}
+
 final class MockModalBottomSheetButton extends StatelessWidget {
-  final MaterialPageRoute modalView;
+  final Widget child;
 
   const MockModalBottomSheetButton({
     super.key,
-    required this.modalView,
+    required this.child,
   });
 
   @override
@@ -33,21 +52,17 @@ final class MockModalBottomSheetButton extends StatelessWidget {
       body: Center(
         child: TextButton(
             onPressed: () {
-              _modal(context);
+              showCupertinoModalBottomSheet(
+                expand: true,
+                context: context,
+                backgroundColor: Colors.white,
+                builder: builderModalBottomSheet(
+                  context: context,
+                  child: child,
+                ),
+              );
             },
             child: const Text("Modal Bottom Sheet")),
-      ),
-    );
-  }
-
-  void _modal(BuildContext context) {
-    showCupertinoModalBottomSheet(
-      expand: true,
-      context: context,
-      backgroundColor: Colors.white,
-      builder: builderModalBottomSheet(
-        context: context,
-        onGenerateRoute: modalView,
       ),
     );
   }

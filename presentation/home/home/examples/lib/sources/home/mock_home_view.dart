@@ -1,4 +1,4 @@
-part of 'home_example.dart';
+part of '../home_example.dart';
 
 final mockSchedulePathList = mockSchedulePath();
 List<String> getTransportNameList() {

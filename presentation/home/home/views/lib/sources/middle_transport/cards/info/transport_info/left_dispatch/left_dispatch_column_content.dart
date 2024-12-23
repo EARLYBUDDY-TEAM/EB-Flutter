@@ -33,7 +33,9 @@ extension on _LeftDispatchColumnContent {
       children: [
         _transportNameContainer(),
         const SizedBox(width: 8),
-        _stationNameText(),
+        Flexible(
+          child: _stationNameText(),
+        ),
       ],
     );
   }
@@ -93,11 +95,11 @@ extension on _LeftDispatchColumnContent {
   Widget _stationNameText() {
     return Text(
       _stationName,
-      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontFamily: FontFamily.nanumSquareRegular,
         color: Colors.black87,
         fontSize: 13,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

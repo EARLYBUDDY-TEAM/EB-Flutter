@@ -114,7 +114,7 @@ final class _StartPlaceSwitchState extends State<_StartPlaceSwitch> {
           context: context,
           expand: true,
           backgroundColor: Colors.white,
-          builder: builderModalBottomSheet(
+          builder: builderModalBottomSheetWithRoute(
             context: context,
             onGenerateRoute: _pageStartsearchPlace(
               context: context,

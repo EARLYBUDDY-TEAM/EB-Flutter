@@ -16,7 +16,7 @@ final class _AddScheduleForms extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _ScheduleNameForm(fontSize: fontSize),
+            ScheduleNameForm(fontSize: fontSize),
             const SizedBox(height: 20),
             _TimeForm(fontSize: fontSize),
             const SizedBox(height: 20),
