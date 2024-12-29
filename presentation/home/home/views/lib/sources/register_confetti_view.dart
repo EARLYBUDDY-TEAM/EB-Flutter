@@ -49,7 +49,7 @@ final class RegisterConfettiBackgroundView extends StatelessWidget {
         alignment: AlignmentDirectional.center,
         children: [
           Container(
-            color: Colors.black12.withOpacity(.6),
+            color: Colors.black12.withOpacity(.7),
           ),
           SizedBox(
             width: double.infinity,
