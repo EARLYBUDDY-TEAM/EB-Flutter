@@ -124,6 +124,7 @@ final class _HomeCalendarState extends State<_HomeCalendarStateful> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      availableGestures: AvailableGestures.horizontalSwipe,
       rowHeight: 60,
       daysOfWeekHeight: 40,
       headerVisible: false,

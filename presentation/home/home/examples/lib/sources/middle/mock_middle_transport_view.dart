@@ -32,7 +32,8 @@ final class MockMiddleTransportBlocView extends StatelessWidget {
         );
       },
       child: const MockMiddleTransportApp(
-        child: MockMiddleTransportInfoCard(),
+        // child: MockMiddleTransportInfoCard(),
+        child: MockMiddleTransportArrivalCard(),
       ),
     );
   }
@@ -48,13 +49,13 @@ final class MockMiddleTransportApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MockMiddleTransportInfoCard(),
+              child,
             ],
           ),
         ),
