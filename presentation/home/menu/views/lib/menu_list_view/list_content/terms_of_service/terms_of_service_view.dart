@@ -1,4 +1,4 @@
-part of '../../../eb_menu.dart';
+part of '../../../../eb_menu.dart';
 
 const _termsOfServiceText = '''
 얼리버디 이용약관

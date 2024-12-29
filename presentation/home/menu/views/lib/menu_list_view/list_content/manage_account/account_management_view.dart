@@ -1,4 +1,4 @@
-part of '../../../eb_menu.dart';
+part of '../../../../eb_menu.dart';
 
 final class _AccountManagementView extends StatelessWidget {
   static const routeName = '_AccountManagementView';

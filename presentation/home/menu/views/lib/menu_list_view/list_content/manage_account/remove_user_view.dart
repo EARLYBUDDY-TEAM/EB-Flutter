@@ -1,4 +1,4 @@
-part of '../../../eb_menu.dart';
+part of '../../../../eb_menu.dart';
 
 final class _RemoveUserView extends StatelessWidget {
   static MaterialPageRoute route(BuildContext context) {

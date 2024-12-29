@@ -1,4 +1,4 @@
-part of '../../../eb_menu.dart';
+part of '../../../../eb_menu.dart';
 
 const _informationProtectionText = '''
 개인정보 처리방침

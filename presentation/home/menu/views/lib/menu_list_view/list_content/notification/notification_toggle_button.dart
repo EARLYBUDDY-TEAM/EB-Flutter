@@ -1,4 +1,4 @@
-part of '../../../eb_menu.dart';
+part of '../../../../eb_menu.dart';
 
 final class _NotificationToggleButton extends StatelessWidget {
   var previousStatus = NotificationStatus.disabled;

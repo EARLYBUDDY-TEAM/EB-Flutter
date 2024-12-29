@@ -1,4 +1,4 @@
-part of '../../../../eb_menu.dart';
+part of '../../../../../eb_menu.dart';
 
 final class CompleteChangePasswordView extends StatelessWidget {
   const CompleteChangePasswordView({super.key});

@@ -1,4 +1,4 @@
-part of '../../../eb_menu.dart';
+part of '../../../../eb_menu.dart';
 
 const _legalNoticeText = '''
 얼리버디 사용에 대한 책임 및 한계

@@ -1,4 +1,4 @@
-part of '../../../../eb_menu.dart';
+part of '../../../../../eb_menu.dart';
 
 final class _ChangePasswordView extends StatelessWidget {
   static MaterialPageRoute route(BuildContext context) {
