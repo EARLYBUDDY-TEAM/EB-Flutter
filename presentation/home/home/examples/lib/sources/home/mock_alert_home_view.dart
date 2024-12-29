@@ -1,7 +1,5 @@
 part of '../home_example.dart';
 
-final homeDelegate = HomeDelegate();
-
 final class _MockAlertHomeView extends StatelessWidget {
   final _loadingDelegate = LoadingDelegate();
   final _homeRepository = HomeRepository();

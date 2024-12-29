@@ -28,11 +28,10 @@ final class HomeExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MockMiddleTransportView();
+    // return MockMiddleTransportView();
     // return const Text('');
     // return MockHomeView();
     // return const MockMiddleTransportView();
-    // final mockRegisterConfettiView = MockRegisterConfettiView();
-    // return mockRegisterConfettiView;
+    return MockHomeView();
   }
 }

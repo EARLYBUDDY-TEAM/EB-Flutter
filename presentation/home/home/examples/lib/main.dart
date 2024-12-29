@@ -33,6 +33,13 @@ void main() async {
 
   // await Future<void>.delayed(const Duration(seconds: 2));
   // homeDelegate.loginStatus.add(BaseStatus.success);
+  addConfetti();
+}
+
+void addConfetti() {
+  final nickName = "마이얼리버디" * 20;
+  // const nickName = "de";
+  homeDelegate.registerStatus.add(nickName);
 }
 
 Future<void> prepareAccessToken() async {
