@@ -25,7 +25,7 @@ final class WithRegisterConfettiView extends StatelessWidget {
     return (nickName != null)
         ? [
             child,
-            RegisterConfettiView(
+            RegisterConfettiBackgroundView(
               nickName: nickName,
             ),
           ]
@@ -33,54 +33,130 @@ final class WithRegisterConfettiView extends StatelessWidget {
   }
 }
 
-final class RegisterConfettiView extends StatelessWidget {
-  final String _nickName;
+final class RegisterConfettiBackgroundView extends StatelessWidget {
+  final String nickName;
 
-  RegisterConfettiView({
+  const RegisterConfettiBackgroundView({
     super.key,
-    required String nickName,
-  }) : _nickName = nickName.isEmpty ? '----' : nickName;
+    required this.nickName,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.center,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Container(
+            color: Colors.black12.withOpacity(.7),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Assets.lotties.confetti.lottie(
+              repeat: false,
+              frameRate: FrameRate.max,
+              fit: BoxFit.cover,
+            ),
+          ),
+          RegisterConfettiContent(
+            nickName: nickName,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final class RegisterConfettiContent extends StatelessWidget {
+  final String nickName;
+
+  RegisterConfettiContent({
+    super.key,
+    required String nickName,
+  }) : nickName = nickName.isEmpty ? '----' : nickName;
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      style: const TextStyle(
+        fontFamily: FontFamily.gmarketSansRegular,
+        color: Colors.white,
+        fontSize: 40,
+        overflow: TextOverflow.ellipsis,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _nickNameText(),
+            const SizedBox(height: 50),
+            _celebrationText(),
+            const SizedBox(height: 50),
+            _okButton(
+              onPressed: () {
+                context.read<HomeBloc>().add(PressRegisterConfirmButton());
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _nickNameText() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          color: Colors.black12.withOpacity(.3),
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: Assets.lotties.confetti.lottie(
-            repeat: false,
-            frameRate: FrameRate.max,
-            fit: BoxFit.cover,
+        Flexible(
+          child: Text(
+            nickName,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _nickName,
-                style: const TextStyle(
-                  fontFamily: FontFamily.nanumSquareBold,
-                  color: Colors.white,
-                  fontSize: 30,
-                ),
-              ),
-              EBButton(
-                name: '확인',
-                onPressed: () {
-                  context.read<HomeBloc>().add(PressRegisterConfirmButton());
-                },
-              ),
-            ],
-          ),
-        ),
+        const Text("님"),
       ],
+    );
+  }
+
+  Widget _celebrationText() {
+    return const DefaultTextStyle(
+      style: TextStyle(
+        fontFamily: FontFamily.gmarketSansLight,
+        color: Colors.white,
+        fontSize: 30,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("얼리버디 회원이"),
+          SizedBox(height: 10),
+          Text("되신걸 축하합니다! 🎉"),
+        ],
+      ),
+    );
+  }
+
+  Widget _okButton({
+    required Function()? onPressed,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        backgroundColor: EBColors.blue3,
+        foregroundColor: Colors.white,
+        textStyle: const TextStyle(
+          fontFamily: FontFamily.nanumSquareBold,
+          fontSize: 25,
+        ),
+      ),
+      child: const Text("확인"),
     );
   }
 }

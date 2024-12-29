@@ -16,31 +16,26 @@ List<String> getTransportNameList() {
   ).toList();
 }
 
+final homeDelegate = HomeDelegate();
+
 final class MockHomeView extends StatelessWidget {
   final _loadingDelegate = LoadingDelegate();
-  final _homeDelegate = HomeDelegate();
-  final _findrouteDelegate = FindRouteDelegate();
-  final _addScheduleDelegate = AddScheduleDelegate();
-  late final HomeRepositoryAB _homeRepository = TestHomeRepository(
-    schedulePathList: mockSchedulePathList,
-    transportNameList: getTransportNameList(),
-  );
-
-  // final HomeRepositoryAB _homeRepository = HomeRepository();
+  final HomeRepositoryAB _homeRepository = HomeRepository();
+  final _rootDelegate = RootDelegate();
+  final _ebTokenRepository = EBTokenRepository();
+  final _loginDelegate = LoginDelegate();
   final _scheduleRepository = ScheduleRepository();
-  final _findrouteRepository = FindRouteRepository();
-  // final _subwayScheduleProvider = SubwayScheduleProvider();
 
-  // late final _tokenEvent = TokenEvent(
-  //   rootDelegate: RootDelegate(),
-  //   loginDelegate: LoginDelegate(),
-  //   tokenRepository: TokenRepository(),
-  // );
-  // late final _scheduleEvent = ScheduleEvent(
-  //   loadingDelegate: _loadingDelegate,
-  //   scheduleRepository: _scheduleRepository,
-  //   tokenEvent: _tokenEvent,
-  // );
+  late final _tokenEvent = EBTokenEvent(
+    ebTokenRepository: _ebTokenRepository,
+    rootDelegate: _rootDelegate,
+    loginDelegate: _loginDelegate,
+  );
+  late final _scheduleEvent = ScheduleEvent(
+    loadingDelegate: _loadingDelegate,
+    scheduleRepository: _scheduleRepository,
+    tokenEvent: _tokenEvent,
+  );
 
   MockHomeView({super.key});
 
@@ -48,19 +43,20 @@ final class MockHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider.value(value: homeDelegate),
         RepositoryProvider.value(value: _loadingDelegate),
-        RepositoryProvider.value(value: _homeDelegate),
-        RepositoryProvider.value(value: _findrouteDelegate),
-        RepositoryProvider.value(value: _addScheduleDelegate),
         RepositoryProvider.value(value: _homeRepository),
-        RepositoryProvider.value(value: _findrouteRepository),
+        RepositoryProvider.value(value: _scheduleEvent),
+        RepositoryProvider.value(value: _tokenEvent),
       ],
-      child: MaterialApp(home: _MockHomeBlocProviderView()),
+      child: const MockHomeBlocView(),
     );
   }
 }
 
-final class _MockHomeBlocProviderView extends StatelessWidget {
+final class MockHomeBlocView extends StatelessWidget {
+  const MockHomeBlocView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -74,19 +70,33 @@ final class _MockHomeBlocProviderView extends StatelessWidget {
           cancelModalViewAction: () {
             Navigator.of(context).pop();
           },
-        )..add(OnAppearHomeView());
+          // )..add(OnAppearHomeView());
+        );
 
         return bloc;
       },
-      child: _MockHomeAppView(),
-      // child: const MockMiddleTransportView(),
+      // child: MockHomeAppView(
+      //   child: MockMiddleTransportView(),
+      // ),
+      child: const MockRegisterConfettiApp(),
     );
   }
 }
 
-final class _MockHomeAppView extends StatelessWidget {
+final class MockHomeAppView extends StatelessWidget {
+  final Widget child;
+
+  const MockHomeAppView({
+    super.key,
+    required this.child,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return const EBHomeView();
+    return const MaterialApp(
+      home: WithRegisterConfettiView(
+        child: MockHomeBlocView(),
+      ),
+    );
   }
 }

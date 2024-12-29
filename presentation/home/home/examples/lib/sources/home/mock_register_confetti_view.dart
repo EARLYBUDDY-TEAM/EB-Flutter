@@ -1,45 +1,45 @@
 part of '../home_example.dart';
 
-final class MockRegisterConfettiView extends StatelessWidget {
-  final homeDelegate = HomeDelegate();
-
-  MockRegisterConfettiView({super.key});
+final class MockRegisterConfettiApp extends StatelessWidget {
+  const MockRegisterConfettiApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: WithRegisterConfettiView(
-        child: MockRegisterConfettiContent(),
+        child: MockRegisterConfettiBackground(),
       ),
     );
   }
-
-  void addConfetti() {
-    homeDelegate.registerStatus.add("테스트 닉네임");
-  }
 }
 
-final class MockRegisterConfettiContent extends StatelessWidget {
-  const MockRegisterConfettiContent({super.key});
+final class MockRegisterConfettiBackground extends StatelessWidget {
+  const MockRegisterConfettiBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            _randomColorBox(),
-            _randomColorBox(),
-            // _randomColorBox(),
-            // _randomColorBox(),
-            // _randomColorBox(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              randomColorBox(),
+              randomColorBox(),
+              randomColorBox(),
+              randomColorBox(),
+              randomColorBox(),
+              randomColorBox(),
+              randomColorBox(),
+              // _randomColorBox(),
+              // _randomColorBox(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _randomColorBox() {
+  Widget randomColorBox() {
     return Container(
       color: EBColors.random,
       width: 300,
