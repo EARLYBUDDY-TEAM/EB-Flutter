@@ -19,7 +19,10 @@ final class _AddScheduleButton extends StatelessWidget {
           padding: EdgeInsets.only(
             left: 20,
             right: 20,
-            bottom: bottomPadding,
+            bottom: _calBottomPadding(
+              context: context,
+              bottomPadding: bottomPadding,
+            ),
           ),
           child: EBButton(
             name: _name(state.setting),
@@ -31,6 +34,15 @@ final class _AddScheduleButton extends StatelessWidget {
         );
       },
     );
+  }
+
+  double _calBottomPadding({
+    required BuildContext context,
+    required double bottomPadding,
+  }) {
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final newBottomPadding = keyboardHeight + 20;
+    return newBottomPadding;
   }
 
   String _name(SealedAddScheduleSetting setting) {

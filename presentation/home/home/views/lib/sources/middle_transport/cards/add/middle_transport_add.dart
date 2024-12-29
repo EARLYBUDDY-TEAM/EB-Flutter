@@ -19,7 +19,7 @@ final class MiddleTransportAddRouteCard extends StatelessWidget {
           expand: true,
           context: context,
           backgroundColor: Colors.white,
-          builder: builderModalBottomSheet(
+          builder: builderModalBottomSheetWithRoute(
             context: context,
             onGenerateRoute: FindRouteView.pageWriteAndUpdateFindRoute(
               context: context,

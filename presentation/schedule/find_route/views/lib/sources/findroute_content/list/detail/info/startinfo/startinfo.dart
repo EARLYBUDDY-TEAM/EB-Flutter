@@ -1,11 +1,12 @@
 part of '../../../../../../eb_find_route.dart';
 
 final class _StartInfo extends StatelessWidget {
+  final SealedFindRouteSetting setting;
   final EBSubPath ebSubPath;
   final double fontSize = 20;
 
   const _StartInfo({
-    super.key,
+    required this.setting,
     required this.ebSubPath,
   });
 
@@ -21,7 +22,8 @@ final class _StartInfo extends StatelessWidget {
     );
 
     if (transportList.isNotEmpty) {
-      content = _StartInfoOther(
+      content = StartInfoOther(
+        setting: setting,
         startName: startName,
         fontSize: fontSize,
         startCoordi: startCoordi,
@@ -45,26 +47,34 @@ final class _StartInfoWalk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      startName,
-      style: TextStyle(
-        fontFamily: FontFamily.nanumSquareBold,
-        fontSize: fontSize,
-        color: EBColors.text,
-      ),
-      overflow: TextOverflow.ellipsis,
+    return Row(
+      children: [
+        Flexible(
+          child: Text(
+            startName,
+            style: TextStyle(
+              fontFamily: FontFamily.nanumSquareBold,
+              fontSize: fontSize,
+              color: EBColors.text,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 }
 
-final class _StartInfoOther extends StatelessWidget {
+final class StartInfoOther extends StatelessWidget {
+  final SealedFindRouteSetting setting;
   final List<Transport> transportList;
   final String startName;
   final Coordi? startCoordi;
   final double fontSize;
 
-  const _StartInfoOther({
+  const StartInfoOther({
     super.key,
+    required this.setting,
     required this.startName,
     required this.fontSize,
     required this.startCoordi,
@@ -73,24 +83,15 @@ final class _StartInfoOther extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FindRouteBloc, FindRouteState, SealedFindRouteSetting>(
-      selector: (state) {
-        return state.setting;
-      },
-      builder: (context, setting) {
-        final parentViewName =
-            (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
+    final parentViewName = (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _children(
-            context: context,
-            parentViewName: parentViewName,
-            setting: setting,
-            startCoordi: startCoordi,
-          ),
-        );
-      },
+    return Row(
+      children: _children(
+        context: context,
+        parentViewName: parentViewName,
+        setting: setting,
+        startCoordi: startCoordi,
+      ),
     );
   }
 
@@ -103,10 +104,12 @@ final class _StartInfoOther extends StatelessWidget {
     final transportMap = createTransportMap(transportList);
 
     final List<Widget> widgetList = [
-      _DetailStartInfoPopupButton(
-        transportMap: transportMap,
-        startName: startName,
-        fontSize: fontSize,
+      Expanded(
+        child: _DetailStartInfoPopupButton(
+          transportMap: transportMap,
+          startName: startName,
+          fontSize: fontSize,
+        ),
       ),
     ];
 

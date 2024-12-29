@@ -8,6 +8,7 @@ final class EBAlert {
     List<Widget>? actions,
   }) async {
     return await showCupertinoModalPopup(
+      barrierDismissible: false,
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: titleWidget(title),

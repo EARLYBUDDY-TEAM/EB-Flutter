@@ -50,7 +50,7 @@ final class _DetailStartInfoPopupButton extends StatelessWidget {
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-      child: _DetailStartInfoPopupButtonContent(
+      child: DetailStartInfoPopupButtonContent(
         selectedTransport: selectedTransport,
         realTimeInfo: realTimeInfo,
         startName: startName,
@@ -68,13 +68,51 @@ final class _DetailStartInfoPopupButton extends StatelessWidget {
   }
 }
 
-final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
+final class DetailStartInfoText extends StatelessWidget {
+  final Transport? selectedTransport;
+  final String startName;
+  final double fontSize;
+
+  const DetailStartInfoText({
+    super.key,
+    required this.selectedTransport,
+    required this.startName,
+    required this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        StartTransportNumber(
+          transport: selectedTransport,
+          fontSize: fontSize - 2,
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            startName,
+            maxLines: 1,
+            style: TextStyle(
+              fontFamily: FontFamily.nanumSquareBold,
+              fontSize: fontSize,
+              color: EBColors.text,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+final class DetailStartInfoPopupButtonContent extends StatelessWidget {
   final Transport? selectedTransport;
   final RealTimeInfo? realTimeInfo;
   final String startName;
   final double fontSize;
 
-  const _DetailStartInfoPopupButtonContent({
+  const DetailStartInfoPopupButtonContent({
     super.key,
     required this.selectedTransport,
     required this.startName,
@@ -87,35 +125,15 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _startInfo(),
+        DetailStartInfoText(
+          selectedTransport: selectedTransport,
+          startName: startName,
+          fontSize: fontSize,
+        ),
         const SizedBox(height: 5),
         _realTimeInfo(
           arrivalSec1: realTimeInfo?.arrivalInfo1.arrivalSec,
           arrivalSec2: realTimeInfo?.arrivalInfo2.arrivalSec,
-        ),
-      ],
-    );
-  }
-
-  Widget _startInfo() {
-    return Row(
-      children: [
-        _StartTransportNumber(
-          transport: selectedTransport,
-          fontSize: fontSize - 2,
-        ),
-        const SizedBox(width: 8),
-        SizedBox(
-          width: 150,
-          child: Text(
-            startName,
-            style: TextStyle(
-              fontFamily: FontFamily.nanumSquareBold,
-              fontSize: fontSize,
-              color: EBColors.text,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
         ),
       ],
     );
@@ -146,11 +164,11 @@ final class _DetailStartInfoPopupButtonContent extends StatelessWidget {
   }
 }
 
-final class _StartTransportNumber extends StatelessWidget {
+final class StartTransportNumber extends StatelessWidget {
   final Transport? transport;
   final double fontSize;
 
-  const _StartTransportNumber({
+  const StartTransportNumber({
     super.key,
     required this.transport,
     required this.fontSize,

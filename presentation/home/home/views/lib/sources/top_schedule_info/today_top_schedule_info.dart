@@ -59,7 +59,7 @@ final class _TodayTopScheduleInfoView extends StatelessWidget {
         expand: true,
         context: context,
         backgroundColor: Colors.white,
-        builder: builderModalBottomSheet(
+        builder: builderModalBottomSheetWithRoute(
           context: context,
           onGenerateRoute: FindRouteView.pageReadFindRoute(
             context: context,

@@ -16,9 +16,9 @@ WriteFindRouteSetting makeWriteSetting(BuildContext context) {
 
 ReadFindRouteSetting makeReadSetting({
   required BuildContext context,
-  List<EBSubPath>? subPaths,
+  EBPath? path,
 }) {
-  return ReadFindRouteSetting(subPaths: subPaths ?? []);
+  return ReadFindRouteSetting(path: path ?? EBPath.mock());
 }
 
 MaterialPageRoute Function(BuildContext) makeTextRoute({

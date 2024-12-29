@@ -88,8 +88,7 @@ final class _EndInfoOther extends StatelessWidget {
           fontSize: fontSize - 2,
         ),
         const SizedBox(width: 8),
-        SizedBox(
-          width: 150,
+        Flexible(
           child: Text(
             endName,
             style: TextStyle(

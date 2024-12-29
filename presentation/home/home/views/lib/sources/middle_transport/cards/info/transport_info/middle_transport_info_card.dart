@@ -1,12 +1,12 @@
 part of '../../../../../eb_home.dart';
 
-final class _MiddleTransportInfoCard extends StatelessWidget {
+final class MiddleTransportInfoCard extends StatelessWidget {
   final int myIndex;
   final double cardWidth;
   final InfoMiddleTransportCardState cardState;
   final StreamRealTimeInfo? streamBusRealTimeInfo;
 
-  const _MiddleTransportInfoCard({
+  const MiddleTransportInfoCard({
     super.key,
     required this.myIndex,
     required this.cardWidth,

@@ -1,4 +1,4 @@
-part of 'home_example.dart';
+part of '../home_example.dart';
 
 final class MockRegisterConfettiView extends StatelessWidget {
   final homeDelegate = HomeDelegate();

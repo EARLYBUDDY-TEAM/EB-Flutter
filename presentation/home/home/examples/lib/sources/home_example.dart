@@ -13,14 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'mock_alert_home_view.dart';
-part 'mock_bottom_schedulecardview.dart';
-part 'mock_home_view.dart';
-part 'mock_home_calendar.dart';
-part 'mock_middle_transport_view.dart';
-part 'mock_data.dart';
-part 'mock_menu_list_view.dart';
-part 'mock_register_confetti_view.dart';
+part 'home/mock_alert_home_view.dart';
+part 'home/mock_bottom_schedulecardview.dart';
+part 'home/mock_home_view.dart';
+part 'home/mock_home_calendar.dart';
+part 'middle/mock_middle_transport_info_card.dart';
+part 'middle/mock_middle_transport_view.dart';
+part 'helper/mock_data.dart';
+part 'home/mock_register_confetti_view.dart';
 part 'helper/mock_schedule_path.dart';
 
 final class HomeExample extends StatelessWidget {
@@ -28,9 +28,10 @@ final class HomeExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return MockMiddleTransportView();
+    // return const Text('');
     // return MockHomeView();
     // return const MockMiddleTransportView();
-    return const MockMenuListView();
     // final mockRegisterConfettiView = MockRegisterConfettiView();
     // return mockRegisterConfettiView;
   }

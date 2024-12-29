@@ -1,14 +1,17 @@
 part of '../../eb_model_helper.dart';
 
+final _testStartName = "가산디지털단지" * 10;
+final _testEndName = "수원" * 10;
+
 final dummySubPathGasanToSuwonMap = {
   "type": 1,
   "time": 38,
-  "startName": "가산디지털단지",
+  "startName": _testStartName,
   "startX": "126.882549",
   "startY": "37.481629",
   "start_station_id": 172,
   "way_code": 2,
-  "endName": "수원",
+  "endName": _testEndName,
   "distance": 27400,
   "transports": [
     {"subwayType": "1호선", "busNumber": null, "busType": null}

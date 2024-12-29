@@ -53,7 +53,7 @@ final class AddScheduleView extends StatelessWidget {
           cancelModalViewAction: () => Navigator.of(context).pop(),
         )..add(SetupAddScheduleView(setting: setting));
       },
-      child: const _AddScheduleContent(),
+      child: const AddScheduleContent(),
     );
   }
 
@@ -76,18 +76,18 @@ final class AddScheduleView extends StatelessWidget {
   }
 }
 
-final class _AddScheduleContent extends StatelessWidget {
+final class AddScheduleContent extends StatelessWidget {
   final double fontSize = 17;
 
-  const _AddScheduleContent();
+  const AddScheduleContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     final bottomSafe = ScreenSize.safeArea.bottom(context);
 
     return BlocConsumer<AddScheduleBloc, AddScheduleState>(
-      listener: (context, state) {
-        showAddScheduleResultAlert(
+      listener: (context, state) async {
+        await showAddScheduleResultAlert(
           context: context,
           result: state.result,
         );
@@ -96,6 +96,8 @@ final class _AddScheduleContent extends StatelessWidget {
         return previous.setting != current.setting;
       },
       builder: (context, state) {
+        log("AddScheduleContent, state: $state");
+
         return Scaffold(
           appBar: _AddScheduleAppBar(
             titleString: _titleString(state.setting),
@@ -106,6 +108,7 @@ final class _AddScheduleContent extends StatelessWidget {
               scheduleTitle: state.schedule.title,
             ),
           ),
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Stack(
               alignment: Alignment.bottomCenter,
@@ -170,10 +173,10 @@ final class _AddScheduleContent extends StatelessWidget {
     }
   }
 
-  void showAddScheduleResultAlert({
+  Future<void> showAddScheduleResultAlert({
     required BuildContext context,
     required SealedAddScheduleResult result,
-  }) {
+  }) async {
     String title;
     String? content;
     bool popAddScheduleView;
@@ -217,7 +220,7 @@ final class _AddScheduleContent extends StatelessWidget {
         }
     }
 
-    EBAlert.showModalPopup(
+    await EBAlert.showModalPopup(
       context: context,
       title: title,
       content: content,
