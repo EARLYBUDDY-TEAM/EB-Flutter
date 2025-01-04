@@ -93,6 +93,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "EarlyBuddy"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
