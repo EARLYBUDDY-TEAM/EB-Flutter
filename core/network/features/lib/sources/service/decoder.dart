@@ -22,8 +22,8 @@ class JsonDecoder implements NetworkDecoderAB {
     }
 
     try {
-      Map<String, dynamic> jsonData = data;
-      final model = converter(jsonData);
+      // Map<String, dynamic> jsonData = data;
+      final model = converter(data);
       return model;
     } catch (e) {
       throw NetworkError.jsonDecode;

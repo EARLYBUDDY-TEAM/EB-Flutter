@@ -5,10 +5,25 @@ final class _RootBlocView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RootBloc(
-        rootDelegate: RepositoryProvider.of<RootDelegate>(context),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RootBloc>(
+          create: (context) => RootBloc(
+            rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+          ),
+        ),
+        BlocProvider<MenuBloc>(
+          create: (context) => MenuBloc(
+            tokenEvent: RepositoryProvider.of<EBTokenEvent>(context),
+            loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
+            rootDelegate: RepositoryProvider.of<RootDelegate>(context),
+            loginDelegate: RepositoryProvider.of<LoginDelegate>(context),
+            ebAuthRepository: RepositoryProvider.of<EBAuthRepository>(context),
+            fcmTokenRepository:
+                RepositoryProvider.of<FCMTokenRepository>(context),
+          )..add(SetupHomeMenuListView()),
+        ),
+      ],
       child: _RootNaviView(),
     );
   }
@@ -27,12 +42,16 @@ final class _RootNaviState extends State<_RootNaviView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       supportedLocales: const [
         Locale('en'),
         Locale('ko'),
       ],
-      theme: EBTheme.light(),
+      theme: EBTheme().light(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return WithLoadingView(
@@ -43,12 +62,12 @@ final class _RootNaviState extends State<_RootNaviView> {
               switch (status) {
                 case Authenticated():
                   _navigator.pushAndRemoveUntil(
-                    HomeView.route(),
+                    HomeView.route(context),
                     (route) => false,
                   );
                 case UnAuthenticated():
                   _navigator.pushAndRemoveUntil(
-                    LoginView.route(),
+                    LoginView.route(context),
                     (route) => false,
                   );
               }
@@ -57,7 +76,7 @@ final class _RootNaviState extends State<_RootNaviView> {
           ),
         );
       },
-      onGenerateRoute: (_) => LoginView.route(),
+      onGenerateRoute: (_) => LoginView.route(context),
     );
   }
 }

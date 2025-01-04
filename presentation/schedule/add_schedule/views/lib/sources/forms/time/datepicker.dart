@@ -1,12 +1,37 @@
 part of '../../../eb_add_schedule.dart';
 
 final class _DatePicker extends StatefulWidget {
+  final DateTime initialDate;
+
+  const _DatePicker({
+    super.key,
+    required this.initialDate,
+  });
+
   @override
   State<StatefulWidget> createState() => _DatePickerState();
 }
 
 final class _DatePickerState extends State<_DatePicker> {
-  var selectedDate = DateTime.now();
+  late DateTime _selectedDate;
+
+  void _setInitialDate() {
+    _selectedDate = widget.initialDate;
+  }
+
+  @override
+  void didUpdateWidget(covariant _DatePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialDate != widget.initialDate) {
+      _setInitialDate();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setInitialDate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +46,14 @@ final class _DatePickerState extends State<_DatePicker> {
           context: context,
           firstDate: DateTime(2000),
           lastDate: DateTime(3000),
-          initialDate: selectedDate,
+          initialDate: _selectedDate,
           locale: const Locale('ko'),
         );
 
         if (date != null) {
+          context.read<AddScheduleBloc>().add(ChangeDate(date: date));
           setState(() {
-            selectedDate = date;
+            _selectedDate = date;
           });
         }
       },
@@ -43,14 +69,14 @@ final class _DatePickerState extends State<_DatePicker> {
   }
 
   String get dateString {
-    String year = '${selectedDate.year}년';
-    final m = selectedDate.month;
+    String year = '${_selectedDate.year}년';
+    final m = _selectedDate.month;
     String month = m < 10 ? '0$m' : '$m';
     month += '월';
-    final d = selectedDate.day;
+    final d = _selectedDate.day;
     String day = d < 10 ? '0$d' : '$d';
     day += '일';
-    String weekday = '(${_toWeekDay[selectedDate.weekday]})';
+    String weekday = '(${_toWeekDay[_selectedDate.weekday]})';
     return '$year $month $day $weekday';
   }
 

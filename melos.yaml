@@ -12,6 +12,8 @@ command:
     environment:
       sdk: ^3.5.0
       flutter: ">=1.17.0"
+    dev_dependencies:
+      flutter_oss_licenses: ^3.0.4
     dependencies:
       flutter_localizations:
         sdk: flutter
@@ -32,6 +34,10 @@ command:
       flutter_native_splash: ^2.4.1
       shared_preferences: ^2.3.2
       lottie: ^3.1.2
+      flutter_launcher_icons: ^0.14.1
+      flutter_local_notifications: ^18.0.1
+      firebase_messaging: ^15.1.5
+      firebase_core: ^3.8.0
 
 scripts:
   test_all:

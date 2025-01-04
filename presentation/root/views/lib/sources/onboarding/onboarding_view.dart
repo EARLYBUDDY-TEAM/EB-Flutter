@@ -6,6 +6,7 @@ final class OnboardingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: EBTheme().light(),
       home: OnboardingContent(),
     );
   }
@@ -20,14 +21,18 @@ final class OnboardingContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height * 0.8;
-    final double bottomPadding = MediaQuery.of(context).padding.bottom;
+    final screenHeight = ScreenSize.height(context);
+    final imageHeight = screenHeight * 0.8;
+    final restHeight = screenHeight - imageHeight;
+    final safeAreaBottom = ScreenSize.safeArea.bottom(context);
+    final bottomIndicatorHeight = restHeight + safeAreaBottom;
+    final bottomPadding = bottomIndicatorHeight / 3;
 
     return IntroductionScreen(
       pages: [
-        _onboardingImage(image: images.onboarding1, height: height),
-        _onboardingImage(image: images.onboarding2, height: height),
-        _onboardingImage(image: images.onboarding3, height: height),
+        _onboardingImage(image: images.onboarding1, height: imageHeight),
+        _onboardingImage(image: images.onboarding2, height: imageHeight),
+        _onboardingImage(image: images.onboarding3, height: imageHeight),
       ],
       done: Text("완료", style: _textStyle()),
       onDone: () {
@@ -72,7 +77,9 @@ final class OnboardingContent extends StatelessWidget {
         alignment: Alignment.center,
         fit: BoxFit.cover,
       ),
-      decoration: const PageDecoration(fullScreen: true, safeArea: 100),
+      decoration: const PageDecoration(
+        fullScreen: true,
+      ),
     );
   }
 

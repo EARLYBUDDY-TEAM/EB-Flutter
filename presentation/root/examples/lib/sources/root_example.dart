@@ -6,6 +6,7 @@ import 'package:eb_model/eb_model.dart';
 import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_state/eb_state.dart';
+import 'package:eb_env/eb_env.dart';
 
 import 'package:flutter/material.dart';
 

@@ -1,50 +1,54 @@
 part of '../eb_register_feature.dart';
 
 final class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final EBAuthRepository _authRepository;
-  final TokenRepository _tokenRepository;
+  final EBAuthRepository _ebAuthRepository;
+  final EBTokenRepository _tokenRepository;
   final HomeDelegate _homeDelegate;
   final RootDelegate _rootDelegate;
   final LoadingDelegate _loadingDelegate;
+  final SecureStorage _secureStorage;
 
   RegisterBloc({
-    required EBAuthRepository authRepository,
-    required TokenRepository tokenRepository,
+    required EBAuthRepository ebAuthRepository,
+    required EBTokenRepository tokenRepository,
     required HomeDelegate homeDelegate,
     required RootDelegate rootDelegate,
     required LoadingDelegate loadingDelegate,
-  })  : _authRepository = authRepository,
+    SecureStorage? secureStorage,
+  })  : _ebAuthRepository = ebAuthRepository,
         _tokenRepository = tokenRepository,
         _homeDelegate = homeDelegate,
         _rootDelegate = rootDelegate,
         _loadingDelegate = loadingDelegate,
+        _secureStorage = secureStorage ?? SecureStorage.shared,
         super(const RegisterState()) {
-    on<ChangeName>(_onChangeName);
+    on<ChangeNickName>(_onChangeNickName);
     on<ChangeEmail>(_onChangeEmail);
     on<ChangePassword>(_onChangePassword);
     on<ChangePasswordConfirm>(_onChangePasswordConfirm);
     on<PressRegisterButton>(_onPressRegisterButton);
     on<PressAlertOkButton>(_onPressAlertOkButton);
+    on<PressRecommendNickNameButton>(_onPressRecommendNickNameButton);
   }
 }
 
 extension on RegisterBloc {
-  void _onChangeName(
-    ChangeName event,
+  void _onChangeNickName(
+    ChangeNickName event,
     Emitter<RegisterState> emit,
   ) {
-    final name = NameFormz(value: event.name);
+    final name = NickNameFormz(value: event.nickName);
     TextFieldStatus status;
     if (name.value.isEmpty) {
       status = TextFieldStatus.initial;
     } else {
       status = name.isValid ? TextFieldStatus.typing : TextFieldStatus.onError;
     }
-    final nameState = state.nameState.copyWith(
-      name: name,
+    final nameState = state.nickNameState.copyWith(
+      nickName: name,
       status: status,
     );
-    emit(state.copyWith(nameState: nameState));
+    emit(state.copyWith(nickNameState: nameState));
   }
 }
 
@@ -137,42 +141,72 @@ extension on RegisterBloc {
 }
 
 extension on RegisterBloc {
-  void _onPressRegisterButton(
+  Future<void> _writeLoginInfoInSecureStorage({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _secureStorage.write(
+        key: SecureStorageKey.email,
+        value: email,
+      );
+
+      await _secureStorage.write(
+        key: SecureStorageKey.password,
+        value: password,
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _onPressRegisterButton(
     PressRegisterButton event,
     Emitter<RegisterState> emit,
   ) async {
     if (state.inputIsValid) {
       _loadingDelegate.set();
       emit(state.copyWith(status: RegisterStatus.inProgress));
+      final email = state.emailState.email.value;
+      final password = state.passwordState.password.value;
 
-      final compressedName = compressName(state.nameState.name.value);
-      final Result registerResult = await _authRepository.register(
-        name: compressedName,
-        email: state.emailState.email.value,
-        password: state.passwordState.password.value,
+      final compressedNickName =
+          compressName(state.nickNameState.nickName.value);
+      final NetworkResponse<EmptyDTO> registerResult =
+          await _ebAuthRepository.register(
+        nickName: compressedNickName,
+        email: email,
+        password: password,
       );
 
       switch (registerResult) {
-        case Success():
-          final Result loginResult = await _authRepository.logIn(
-            email: state.emailState.email.value,
-            password: state.passwordState.password.value,
+        case SuccessResponse():
+          final NetworkResponse<Token> loginResult =
+              await _ebAuthRepository.logIn(
+            email: email,
+            password: password,
           );
           switch (loginResult) {
-            case Success():
+            case SuccessResponse():
               emit(state.copyWith(status: RegisterStatus.initial));
-              Token token = loginResult.success.model;
+              await _writeLoginInfoInSecureStorage(
+                email: email,
+                password: password,
+              );
+              final Token token = loginResult.model;
               await _tokenRepository.saveToken(token);
+
               _loadingDelegate.dismiss();
+
               _rootDelegate.authStatus.add(Authenticated());
-              _homeDelegate.registerStatus.add(BaseStatus.success);
-            case Failure():
+              _homeDelegate.registerStatus.add(compressedNickName);
+            case FailureResponse():
               _loadingDelegate.dismiss();
               emit(state.copyWith(status: RegisterStatus.onErrorLogin));
           }
-        case Failure():
+        case FailureResponse():
           _loadingDelegate.dismiss();
-          switch (registerResult.failure.statusCode) {
+          switch (registerResult.statusCode) {
             case (400):
               emit(
                   state.copyWith(status: RegisterStatus.onErrorNotCorrectUser));
@@ -201,5 +235,15 @@ extension on RegisterBloc {
     Emitter<RegisterState> emit,
   ) {
     emit(state.copyWith(status: RegisterStatus.initial));
+  }
+}
+
+extension on RegisterBloc {
+  void _onPressRecommendNickNameButton(
+    PressRecommendNickNameButton event,
+    Emitter<RegisterState> emit,
+  ) {
+    final String recommendName = NameGenerator.random();
+    add(ChangeNickName(recommendName));
   }
 }

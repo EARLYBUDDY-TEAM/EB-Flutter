@@ -1,23 +1,24 @@
 part of '../eb_uikit.dart';
 
 final class EBAlert {
-  static void showModalPopup({
+  static Future<bool?> showModalPopup({
     required BuildContext context,
     String? title,
     String? content,
     List<Widget>? actions,
-  }) {
-    showCupertinoModalPopup(
+  }) async {
+    return await showCupertinoModalPopup(
+      barrierDismissible: false,
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        title: _titleWidget(title),
-        content: _contentWidget(content),
+        title: titleWidget(title),
+        content: contentWidget(content),
         actions: actions ?? [],
       ),
     );
   }
 
-  static Widget? _titleWidget(String? title) {
+  static Widget? titleWidget(String? title) {
     return title == null
         ? null
         : Text(
@@ -29,7 +30,7 @@ final class EBAlert {
           );
   }
 
-  static Widget? _contentWidget(String? content) {
+  static Widget? contentWidget(String? content) {
     return content == null
         ? null
         : Text(
@@ -53,7 +54,9 @@ final class EBAlert {
       onPressed: onPressed,
       textStyle: TextStyle(
         fontFamily: FontFamily.nanumSquareBold,
-        color: EBColors.blue1,
+        color: ((isDestructiveAction != null) && isDestructiveAction == true)
+            ? Colors.red
+            : EBColors.blue1,
       ),
       child: Text(name),
     );

@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:eb_model/dto.dart';
-import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_env/eb_env.dart';
-import 'package:eb_network_interface/network_ab.dart';
+import 'package:eb_network_interface/eb_network_interface.dart';
 
 part 'client.dart';
 part 'request.dart';
 part 'decoder.dart';
 part 'response.dart';
+part 'network_error.dart';
 
 final class NetworkService {
   final NetworkClientAB _client;
@@ -21,55 +21,47 @@ final class NetworkService {
   })  : _client = client ?? NetworkClient(),
         _decoder = decoder ?? JsonDecoder();
 
-  Future<Result> request<P>(NetworkRequestAB<P> request) async {
+  Future<NetworkResponse<P>> request<P>(NetworkRequestAB<P> request) async {
     Response response;
 
     try {
       response = await _client.request(request);
     } on DioException catch (dioException) {
       final statusCode = dioException.response?.statusCode;
-      final failure = checkStatusCode(statusCode);
-      return failure;
+      final FailureResponse<P> failureResponse = checkStatusCode(statusCode);
+      return failureResponse;
     }
 
     if (P == EmptyDTO && response.data == null) {
       var empty = EmptyDTO() as P;
-      return Success(
-        success: SuccessResponse(
-          statusCode: response.statusCode ?? 200,
-          model: empty,
-        ),
+      return SuccessResponse(
+        statusCode: response.statusCode ?? 200,
+        model: empty,
       );
     }
 
     if (response.data == null) {
-      return Failure(
-        failure: FailureResponse(
-          error: NetworkError.noResponseData,
-          statusCode: response.statusCode ?? 599,
-        ),
+      return FailureResponse(
+        error: NetworkError.noResponseData,
+        statusCode: response.statusCode ?? 599,
       );
     }
 
     try {
       P model = _decoder.decode(response.data!, request.converter);
-      return Success(
-        success: SuccessResponse(
-          model: model,
-          statusCode: response.statusCode ?? 200,
-        ),
+      return SuccessResponse(
+        model: model,
+        statusCode: response.statusCode ?? 200,
       );
     } on NetworkError catch (error) {
-      return Failure(
-        failure: FailureResponse(
-          error: error,
-          statusCode: response.statusCode ?? 499,
-        ),
+      return FailureResponse(
+        error: error,
+        statusCode: response.statusCode ?? 499,
       );
     }
   }
 
-  Failure checkStatusCode(int? statusCode) {
+  FailureResponse<P> checkStatusCode<P>(int? statusCode) {
     var error = NetworkError.unknown;
     if (statusCode != null) {
       switch (statusCode) {
@@ -82,11 +74,11 @@ final class NetworkService {
       }
     }
 
-    final response = FailureResponse(
+    final failureResponse = FailureResponse<P>(
       statusCode: statusCode ?? 100,
       error: error,
     );
 
-    return Failure(failure: response);
+    return failureResponse;
   }
 }

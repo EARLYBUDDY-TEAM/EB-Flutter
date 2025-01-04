@@ -30,6 +30,7 @@ build/
 
 
 # env file
-.kakao_api_example
-.server_example
-.test_user_example
+.kakao_api
+.server_dev
+.server_main
+.test_user

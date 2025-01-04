@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_repository/eb_repository.dart';
+import 'package:eb_repository_interface/eb_repository_interface.dart';
 import 'package:eb_uikit/eb_uikit.dart';
 import 'package:eb_home/eb_home.dart';
 import 'package:eb_login/eb_login.dart';
@@ -10,6 +13,10 @@ import 'package:eb_location/eb_location.dart';
 import 'package:eb_search_place/eb_search_place.dart';
 import 'package:eb_state/eb_state.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
+import 'package:eb_event/eb_event.dart';
+import 'package:eb_model/eb_model.dart';
+import 'package:eb_menu_feature/eb_menu_feature.dart';
+import 'package:eb_network/eb_network.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,6 +52,9 @@ final class PrepareRoot {
     final List<SecureStorageKey> keysToEliminate = [
       SecureStorageKey.accessToken,
       SecureStorageKey.refreshToken,
+      SecureStorageKey.isAutoLogin,
+      SecureStorageKey.email,
+      SecureStorageKey.password,
     ];
 
     final prefs = await SharedPreferences.getInstance();

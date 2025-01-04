@@ -1,7 +1,10 @@
 part of '../eb_secure_storage.dart';
 
+// like swift Actor??
 final class SecureStorage {
   final storage = const FlutterSecureStorage();
+
+  static final shared = SecureStorage();
 
   Future<String> read({
     required SecureStorageKey key,
@@ -35,6 +38,7 @@ final class SecureStorage {
   }) async {
     try {
       await storage.write(key: key.name, value: value);
+      log('SecureStorage write Success, key : $key, value : $value');
     } catch (e) {
       log(e.toString());
       throw SecureStorageError.write;

@@ -7,8 +7,8 @@ final class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RegisterBloc(
-        authRepository: RepositoryProvider.of<EBAuthRepository>(context),
-        tokenRepository: RepositoryProvider.of<TokenRepository>(context),
+        ebAuthRepository: RepositoryProvider.of<EBAuthRepository>(context),
+        tokenRepository: RepositoryProvider.of<EBTokenRepository>(context),
         rootDelegate: RepositoryProvider.of<RootDelegate>(context),
         homeDelegate: RepositoryProvider.of<HomeDelegate>(context),
         loadingDelegate: RepositoryProvider.of<LoadingDelegate>(context),
