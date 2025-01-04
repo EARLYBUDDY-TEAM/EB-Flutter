@@ -12,6 +12,39 @@ final class LongTextView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LongTextScaffold(
+      title: title,
+      child: Container(
+        child: Row(
+          children: [
+            Flexible(
+              child: Text(
+                longText,
+                style: const TextStyle(
+                  fontFamily: FontFamily.nanumSquareLight,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+final class LongTextScaffold extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const LongTextScaffold({
+    super.key,
+    required this.title,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
       body: Center(
@@ -22,30 +55,12 @@ final class LongTextView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _longText(),
+                  child,
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _longText() {
-    return Container(
-      child: Row(
-        children: [
-          Flexible(
-            child: Text(
-              longText,
-              style: const TextStyle(
-                fontFamily: FontFamily.nanumSquareLight,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

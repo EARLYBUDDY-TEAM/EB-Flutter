@@ -10,7 +10,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   widgetsBinding = await PrepareRoot.setup(
     widgetsBinding: widgetsBinding,
-    dev: true,
+    dev: false,
   );
   await NotificationManager.initialize(
     firebaseOptions: DefaultFirebaseOptions.currentPlatform,
