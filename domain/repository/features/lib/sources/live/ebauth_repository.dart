@@ -10,8 +10,8 @@ final class EBAuthRepository {
   Future<NetworkResponse<Token>> logIn({
     required String email,
     required String password,
+    required String fcmToken,
   }) async {
-    final fcmToken = await NotificationManager.getFCMToken() ?? '';
     final request = AuthRequest.login(
       email: email,
       password: password,

@@ -12,10 +12,12 @@ void main() async {
     widgetsBinding: widgetsBinding,
     dev: false,
   );
+
   await NotificationManager.initialize(
     firebaseOptions: DefaultFirebaseOptions.currentPlatform,
     androidDefaultIcon: 'icon_notification',
   );
+
   final isFirstLaunch = await PrepareRoot.checkFirstLaunch();
   FlutterNativeSplash.remove();
 

@@ -26,9 +26,11 @@ final class RootAutoLoginView extends StatelessWidget {
     final email = ENV_TESTUSER.email;
     final password = ENV_TESTUSER.password;
 
+    final fcmToken = await NotificationManager.getFCMToken() ?? '';
     final NetworkResponse<Token> result = await _authRepository.logIn(
       email: email,
       password: password,
+      fcmToken: fcmToken,
     );
 
     switch (result) {

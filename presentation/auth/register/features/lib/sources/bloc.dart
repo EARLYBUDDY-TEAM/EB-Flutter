@@ -181,10 +181,13 @@ extension on RegisterBloc {
 
       switch (registerResult) {
         case SuccessResponse():
+          final fcmToken = await NotificationManager.getFCMToken() ?? '';
+
           final NetworkResponse<Token> loginResult =
               await _ebAuthRepository.logIn(
             email: email,
             password: password,
+            fcmToken: fcmToken,
           );
           switch (loginResult) {
             case SuccessResponse():
