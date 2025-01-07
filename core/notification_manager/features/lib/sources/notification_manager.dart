@@ -23,11 +23,21 @@ final class NotificationManager {
     required FirebaseOptions firebaseOptions,
     required String androidDefaultIcon,
   }) async {
-    final self = NotificationManager(
-      firebaseOptions: firebaseOptions,
-      androidDefaultIcon: androidDefaultIcon,
-    );
-    await self._init();
+    try {
+      final result = await InternetAddress.lookup('www.naver.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        log('network connected');
+
+        final self = NotificationManager(
+          firebaseOptions: firebaseOptions,
+          androidDefaultIcon: androidDefaultIcon,
+        );
+
+        await self._init();
+      }
+    } on SocketException catch (_) {
+      log('network not connected');
+    }
   }
 
   Future<void> _init() async {
@@ -37,9 +47,20 @@ final class NotificationManager {
   }
 
   static Future<String?> getFCMToken() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    log("Call getFCMToken: $fcmToken");
-    return fcmToken;
+    try {
+      final result = await InternetAddress.lookup('www.naver.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        log('network connected');
+
+        final fcmToken = await FirebaseMessaging.instance.getToken();
+        log("Call getFCMToken: $fcmToken");
+        return fcmToken;
+      }
+    } on SocketException catch (_) {
+      log('network not connected');
+      return null;
+    }
+    return null;
   }
 }
 

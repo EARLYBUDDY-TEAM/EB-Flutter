@@ -8,6 +8,7 @@ class NetworkClient implements NetworkClientAB {
     final baseUrl = ENV_SERVER.url;
     _dio.options = BaseOptions(
       baseUrl: baseUrl,
+      sendTimeout: const Duration(seconds: 10),
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     );

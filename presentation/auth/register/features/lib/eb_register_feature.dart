@@ -9,6 +9,7 @@ import 'package:eb_state/eb_state.dart';
 import 'package:eb_network/eb_network.dart';
 import 'package:eb_model/dto.dart';
 import 'package:eb_secure_storage/eb_secure_storage.dart';
+import 'package:eb_notification_manager/eb_notification_manager.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

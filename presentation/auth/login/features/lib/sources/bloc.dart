@@ -101,9 +101,12 @@ extension on LoginBloc {
     _loadingDelegate.set();
     emit(state.copyWith(loginStatus: LoginStatus.inProgress));
 
+    final fcmToken = await NotificationManager.getFCMToken() ?? '';
+
     final NetworkResponse<Token> result = await _authRepository.logIn(
       email: loginInfo.email,
       password: loginInfo.password,
+      fcmToken: fcmToken,
     );
 
     switch (result) {
