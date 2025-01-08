@@ -105,7 +105,7 @@ extension on _SelectRouteItemInfo {
           children: [
             Text('환승 $transitCount회'),
             const SizedBox(width: 20),
-            Text(walkTime),
+            Text('도보 $walkTime'),
             const SizedBox(width: 20),
             Text('$payment원'),
           ],

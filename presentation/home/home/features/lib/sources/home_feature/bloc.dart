@@ -14,6 +14,8 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<void> _getAllSchedulesSubscription;
   late StreamSubscription<void> _cancelModalViewSubscription;
 
+  late HomeScheduler _homeScheduler;
+
   HomeBloc({
     required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
@@ -21,6 +23,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required ScheduleEvent scheduleEvent,
     required EBTokenEvent tokenEvent,
     required void Function() cancelModalViewAction,
+    HomeScheduler? homeScheduler,
     HomeState? homeState,
   })  : _homeDelegate = homeDelegate,
         _loadingDelegate = loadingDelegate,
@@ -50,6 +53,9 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _cancelModalViewSubscription = homeDelegate.cancelModalView.listen(
       (_) => _cancelModalViewAction(),
     );
+
+    _homeScheduler = homeScheduler ?? HomeScheduler(action: _schedulerAction)
+      ..start();
   }
 
   @override
@@ -247,5 +253,12 @@ extension on HomeBloc {
         status: state.status.copyWith(register: () => null),
       ),
     );
+  }
+}
+
+extension on HomeBloc {
+  void _schedulerAction() {
+    final now = DateTime.now();
+    log('schedulerAction, now: $now');
   }
 }
