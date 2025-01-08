@@ -10,6 +10,12 @@ final class HomeScheduler {
     required this.action,
   });
 
+  Future<void> tearDown() async {
+    await _timerSubscription?.cancel().then((_) {
+      _timerSubscription = null;
+    });
+  }
+
   void start() {
     _timerSubscription =
         // Stream.periodic(Duration(minutes: reloadLoopMin)).listen((_) {

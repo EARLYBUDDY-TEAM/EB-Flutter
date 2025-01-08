@@ -37,6 +37,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
     on<PressRegisterConfirmButton>(_onPressRegisterConfirmButton);
+    on<HomeSchedulerAction>(_onHomeSchedulerAction);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -54,7 +55,12 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (_) => _cancelModalViewAction(),
     );
 
-    _homeScheduler = homeScheduler ?? HomeScheduler(action: _schedulerAction)
+    _homeScheduler = homeScheduler ??
+        HomeScheduler(
+          action: () {
+            add(HomeSchedulerAction());
+          },
+        )
       ..start();
   }
 
@@ -257,8 +263,33 @@ extension on HomeBloc {
 }
 
 extension on HomeBloc {
-  void _schedulerAction() {
+  void _onHomeSchedulerAction(
+    HomeSchedulerAction event,
+    Emitter<HomeState> emit,
+  ) {
     final now = DateTime.now();
     log('schedulerAction, now: $now');
+
+    final daySchedule = state.daySchedule;
+    final topScheduleInfoState = SealedTopScheduleState.init(
+      daySchedule: daySchedule,
+    );
+    emit(state.copyWith(topScheduleInfoState: topScheduleInfoState));
+
+    final todayCloseSchedulePath = daySchedule.closeTodaySchedulePath;
+    final originTodayCloseSchedulePath =
+        state.middleTransportInfoState.todayCloseSchedulePath;
+
+    if (todayCloseSchedulePath != originTodayCloseSchedulePath) {
+      final middleTransportInfoState = MiddleTransportInfoState(
+        todayCloseSchedulePath: todayCloseSchedulePath,
+      );
+
+      emit(
+        state.copyWith(
+          middleTransportInfoState: middleTransportInfoState,
+        ),
+      );
+    }
   }
 }
