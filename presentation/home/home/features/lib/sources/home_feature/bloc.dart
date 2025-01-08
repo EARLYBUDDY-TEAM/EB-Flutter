@@ -14,7 +14,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<void> _getAllSchedulesSubscription;
   late StreamSubscription<void> _cancelModalViewSubscription;
 
-  late HomeScheduler _homeScheduler;
+  final HomeScheduler _homeScheduler;
 
   HomeBloc({
     required LoadingDelegate loadingDelegate,
@@ -31,6 +31,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _scheduleEvent = scheduleEvent,
         _tokenEvent = tokenEvent,
         _cancelModalViewAction = cancelModalViewAction,
+        _homeScheduler = homeScheduler ?? HomeScheduler(),
         super(homeState ?? HomeState()) {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
@@ -54,14 +55,6 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _cancelModalViewSubscription = homeDelegate.cancelModalView.listen(
       (_) => _cancelModalViewAction(),
     );
-
-    _homeScheduler = homeScheduler ??
-        HomeScheduler(
-          action: () {
-            add(HomeSchedulerAction());
-          },
-        )
-      ..start();
   }
 
   @override
@@ -101,6 +94,8 @@ extension on HomeBloc {
     OnAppearHomeView event,
     Emitter<HomeState> emit,
   ) async {
+    await _homeScheduler.tearDown();
+
     _loadingDelegate.set();
 
     Future<NetworkResponse<List<SchedulePath>>> getAllScheduleCardsEvent(
@@ -148,6 +143,12 @@ extension on HomeBloc {
             middleTransportInfoState: middleTransportInfoState,
             bottomScheduleListState: bottomScheduleListState,
           ),
+        );
+
+        _homeScheduler.start(
+          action: () {
+            add(HomeSchedulerAction());
+          },
         );
       case FailureResponse():
         _tokenEvent.failureAction(

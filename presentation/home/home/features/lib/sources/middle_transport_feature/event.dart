@@ -55,3 +55,8 @@ final class OnTapMiddleTransportImminentCard extends MiddleTransportEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class MiddleTransportSchedulerAction extends MiddleTransportEvent {
+  @override
+  List<Object?> get props => [];
+}

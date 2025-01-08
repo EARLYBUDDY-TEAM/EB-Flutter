@@ -3,10 +3,14 @@ part of '../../middle_transport_feature.dart';
 final class MiddleTranportBloc
     extends Bloc<MiddleTransportEvent, MiddleTransportState> {
   final RealTimeInfoEvent _realTimeInfoEvent;
+  final MiddleTransportScheduler _middleTransportScheduler;
 
   MiddleTranportBloc({
     required RealTimeInfoEvent realTimeInfoEvent,
+    MiddleTransportScheduler? middleTransportScheduler,
   })  : _realTimeInfoEvent = realTimeInfoEvent,
+        _middleTransportScheduler =
+            middleTransportScheduler ?? MiddleTransportScheduler(),
         super(MiddleTransportState()) {
     on<SetupMiddleTransport>(_onSetupMiddleTransport);
     on<SelectTransport>(_onSelectTransport);
@@ -20,6 +24,9 @@ final class MiddleTranportBloc
     );
     on<OnTapMiddleTransportImminentCard>(
       _onOnTapMiddleTransportImminentCard,
+    );
+    on<MiddleTransportSchedulerAction>(
+      _onMiddleTransportSchedulerAction,
     );
   }
 }
@@ -121,6 +128,19 @@ extension on MiddleTranportBloc {
     );
   }
 
+  Future<void> _setupMiddleTransportScheduler({
+    required SealedMiddleTransportViewState viewState,
+  }) async {
+    await _middleTransportScheduler.tearDown();
+    if (viewState is InfoMiddleTransportViewState) {
+      _middleTransportScheduler.start(
+        action: () {
+          add(MiddleTransportSchedulerAction());
+        },
+      );
+    }
+  }
+
   Future<void> _onSetupMiddleTransport(
     SetupMiddleTransport event,
     Emitter<MiddleTransportState> emit,
@@ -129,6 +149,7 @@ extension on MiddleTranportBloc {
     final viewState =
         await initMiddleTransportViewState(schedulePath: schedulePath);
     emit(state.copyWith(viewState: viewState));
+    await _setupMiddleTransportScheduler(viewState: viewState);
   }
 }
 
@@ -238,9 +259,20 @@ extension on MiddleTranportBloc {
       return;
     }
 
+    final newImminentCardState = viewState.imminentCardState.copyWith(
+      onTapImminentCard: !viewState.imminentCardState.onTapImminentCard,
+    );
+
     final newViewState = viewState.copyWith(
-      onTapImminentCard: !viewState.onTapImminentCard,
+      imminentCardState: newImminentCardState,
     );
     emit(state.copyWith(viewState: newViewState));
   }
+}
+
+extension on MiddleTranportBloc {
+  void _onMiddleTransportSchedulerAction(
+    MiddleTransportSchedulerAction event,
+    Emitter<MiddleTransportState> emit,
+  ) {}
 }

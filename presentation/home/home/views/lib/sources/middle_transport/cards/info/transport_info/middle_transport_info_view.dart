@@ -54,7 +54,8 @@ final class MiddleTransportInfoView extends StatelessWidget {
           controller.moveTo(index: 0);
           return false;
         }
-        if (preViewState.onTapImminentCard != curViewState.onTapImminentCard) {
+        if (preViewState.imminentCardState.onTapImminentCard !=
+            curViewState.imminentCardState.onTapImminentCard) {
           controller.moveTo(index: 0);
           return false;
         }
@@ -81,7 +82,7 @@ final class MiddleTransportInfoView extends StatelessWidget {
         return _MiddleTransportCardWithScale(
           cardWidth: cardWidth,
           scaleTrigger: (currentIndex == index),
-          child: const MiddleTransportArrivalCard(),
+          child: const MiddleTransportImminentCard(),
         );
       }
 

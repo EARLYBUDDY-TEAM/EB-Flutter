@@ -1,6 +1,6 @@
-part of '../../home_feature.dart';
+part of '../../middle_transport_feature.dart';
 
-final class HomeScheduler {
+final class MiddleTransportScheduler {
   StreamSubscription<dynamic>? _timerSubscription;
   final int reloadLoopMin = 1;
 
