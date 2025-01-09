@@ -15,3 +15,5 @@ part 'sources/middle_transport_feature/state.dart';
 part 'sources/middle_transport_feature/event.dart';
 part 'sources/middle_transport_feature/middle_transport_state/middle_transport_view_state.dart';
 part 'sources/middle_transport_feature/middle_transport_state/info_middle_transport_card_state.dart';
+part 'sources/middle_transport_feature/middle_scheduler.dart';
+part 'sources/middle_transport_feature/middle_transport_state/imminent_card_state.dart';

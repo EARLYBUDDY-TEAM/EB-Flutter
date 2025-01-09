@@ -14,6 +14,8 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<void> _getAllSchedulesSubscription;
   late StreamSubscription<void> _cancelModalViewSubscription;
 
+  final HomeScheduler _homeScheduler;
+
   HomeBloc({
     required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
@@ -21,6 +23,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required ScheduleEvent scheduleEvent,
     required EBTokenEvent tokenEvent,
     required void Function() cancelModalViewAction,
+    HomeScheduler? homeScheduler,
     HomeState? homeState,
   })  : _homeDelegate = homeDelegate,
         _loadingDelegate = loadingDelegate,
@@ -28,12 +31,14 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _scheduleEvent = scheduleEvent,
         _tokenEvent = tokenEvent,
         _cancelModalViewAction = cancelModalViewAction,
+        _homeScheduler = homeScheduler ?? HomeScheduler(),
         super(homeState ?? HomeState()) {
     on<SetHomeStatus>(_onSetHomeStatus);
     on<OnAppearHomeView>(_onOnAppearHomeView);
     on<DeleteScheduleCard>(_onDeleteScheduleCard);
     on<SetCalendarState>(_onSetCalendarState);
     on<PressRegisterConfirmButton>(_onPressRegisterConfirmButton);
+    on<HomeSchedulerAction>(_onHomeSchedulerAction);
 
     _loginStatusSubscription = homeDelegate.loginStatus.listen(
       (status) => add(SetHomeStatus(login: status)),
@@ -89,6 +94,8 @@ extension on HomeBloc {
     OnAppearHomeView event,
     Emitter<HomeState> emit,
   ) async {
+    await _homeScheduler.tearDown();
+
     _loadingDelegate.set();
 
     Future<NetworkResponse<List<SchedulePath>>> getAllScheduleCardsEvent(
@@ -136,6 +143,12 @@ extension on HomeBloc {
             middleTransportInfoState: middleTransportInfoState,
             bottomScheduleListState: bottomScheduleListState,
           ),
+        );
+
+        _homeScheduler.start(
+          action: () {
+            add(HomeSchedulerAction());
+          },
         );
       case FailureResponse():
         _tokenEvent.failureAction(
@@ -247,5 +260,44 @@ extension on HomeBloc {
         status: state.status.copyWith(register: () => null),
       ),
     );
+  }
+}
+
+extension on HomeBloc {
+  void _onHomeSchedulerAction(
+    HomeSchedulerAction event,
+    Emitter<HomeState> emit,
+  ) {
+    final now = DateTime.now();
+    log('schedulerAction, now: $now');
+
+    final tmpDaySchedule = state.daySchedule;
+
+    final closeTodaySchedulePath =
+        DaySchedule.getCloseTodaySchedulePath(tmpDaySchedule.data);
+    final daySchedule = tmpDaySchedule.copyWith(
+      closeTodaySchedulePath: () => closeTodaySchedulePath,
+    );
+
+    final topScheduleInfoState = SealedTopScheduleState.init(
+      daySchedule: daySchedule,
+    );
+    emit(state.copyWith(topScheduleInfoState: topScheduleInfoState));
+
+    final todayCloseSchedulePath = daySchedule.closeTodaySchedulePath;
+    final originTodayCloseSchedulePath =
+        state.middleTransportInfoState.todayCloseSchedulePath;
+
+    if (todayCloseSchedulePath != originTodayCloseSchedulePath) {
+      final middleTransportInfoState = MiddleTransportInfoState(
+        todayCloseSchedulePath: todayCloseSchedulePath,
+      );
+
+      emit(
+        state.copyWith(
+          middleTransportInfoState: middleTransportInfoState,
+        ),
+      );
+    }
   }
 }

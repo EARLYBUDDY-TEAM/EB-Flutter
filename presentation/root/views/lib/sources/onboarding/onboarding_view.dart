@@ -59,8 +59,8 @@ final class OnboardingContent extends StatelessWidget {
       ),
       globalBackgroundColor: Colors.white,
       controlsPadding: EdgeInsets.only(bottom: bottomPadding),
-      autoScrollDuration: 3000,
-      infiniteAutoScroll: true,
+      autoScrollDuration: 3500,
+      infiniteAutoScroll: false,
     );
   }
 

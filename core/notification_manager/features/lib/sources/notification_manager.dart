@@ -48,7 +48,7 @@ final class NotificationManager {
 
   static Future<String?> getFCMToken() async {
     try {
-      final result = await InternetAddress.lookup('www.naver.com');
+      final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         log('network connected');
 

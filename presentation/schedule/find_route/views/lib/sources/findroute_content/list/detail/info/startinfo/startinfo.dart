@@ -86,6 +86,7 @@ final class StartInfoOther extends StatelessWidget {
     final parentViewName = (setting is ReadFindRouteSetting) ? '경로보기' : '경로선택';
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: _children(
         context: context,
         parentViewName: parentViewName,
@@ -115,11 +116,14 @@ final class StartInfoOther extends StatelessWidget {
 
     if (startCoordi != null) {
       widgetList.add(
-        DetailShowMapButton(
-          parentViewName: parentViewName,
-          startCoordi: startCoordi,
-          setting: setting,
-          startName: startName,
+        Padding(
+          padding: const EdgeInsets.only(top: 5, right: 5),
+          child: DetailShowMapButton(
+            parentViewName: parentViewName,
+            startCoordi: startCoordi,
+            setting: setting,
+            startName: startName,
+          ),
         ),
       );
     }

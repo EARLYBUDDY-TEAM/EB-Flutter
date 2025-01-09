@@ -38,7 +38,8 @@ final class _MockFindRouteView extends StatelessWidget {
         RepositoryProvider.value(value: scheduleEvent),
         RepositoryProvider.value(value: homeRepository),
       ],
-      child: MockModalBottomSheetButton(modalView: mockFindRouteView),
+      // child: MockModalBottomSheetButton(modalView: mockFindRouteView),
+      child: const Text(''),
     );
   }
 

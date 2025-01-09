@@ -1,6 +1,7 @@
 part of '../../eb_model_helper.dart';
 
-final _testStartName = "가산디지털단지" * 10;
+// final _testStartName = "가산디지털단지" * 10;
+const _testStartName = "가산";
 final _testEndName = "수원" * 10;
 
 final dummySubPathGasanToSuwonMap = {

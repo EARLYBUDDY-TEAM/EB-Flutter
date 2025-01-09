@@ -12,6 +12,7 @@ final class _MockFindRouteListItem extends StatelessWidget {
         RepositoryProvider.value(value: homeRepository),
       ],
       child: _MockFindRouteListItemApp(
+        // _MockFindRouteListItemContent
         child: _MockFindRouteListItemContent(),
         // child: _MockDetailStartInfoText(),
         // child: _MockDetailStartInfo(),
@@ -96,8 +97,8 @@ final class _MockFindRouteListItemContent extends StatelessWidget {
   }
 
   EBSubPath _mockSubPath() {
-    return EBSubPath.mockWalk();
-    // return EBSubPath.mockGasanToSuwon();
+    // return EBSubPath.mockWalk();
+    return EBSubPath.mockGasanToSuwon();
     // return EBSubPath.mockDongToGwang();
   }
 }

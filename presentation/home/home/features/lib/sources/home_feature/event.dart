@@ -57,3 +57,10 @@ final class PressRegisterConfirmButton extends HomeEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class HomeSchedulerAction extends HomeEvent {
+  HomeSchedulerAction();
+
+  @override
+  List<Object?> get props => [];
+}
