@@ -14,7 +14,7 @@ final class InfoMiddleTransportViewState
     required this.currentIndex,
     required this.cardStateList,
     required this.streamRealTimeInfo,
-    this.imminentCardState = const ImminentCardState(),
+    required this.imminentCardState,
     this.reloadTrigger = false,
   });
 
@@ -26,13 +26,14 @@ final class InfoMiddleTransportViewState
     ImminentCardState? imminentCardState,
   }) {
     return InfoMiddleTransportViewState(
-        currentIndex: currentIndex ?? this.currentIndex,
-        cardStateList: cardStateList ?? this.cardStateList,
-        streamRealTimeInfo: streamRealTimeInfo != null
-            ? streamRealTimeInfo()
-            : this.streamRealTimeInfo,
-        reloadTrigger: reloadTrigger ?? this.reloadTrigger,
-        imminentCardState: imminentCardState ?? this.imminentCardState);
+      currentIndex: currentIndex ?? this.currentIndex,
+      cardStateList: cardStateList ?? this.cardStateList,
+      streamRealTimeInfo: streamRealTimeInfo != null
+          ? streamRealTimeInfo()
+          : this.streamRealTimeInfo,
+      reloadTrigger: reloadTrigger ?? this.reloadTrigger,
+      imminentCardState: imminentCardState ?? this.imminentCardState,
+    );
   }
 
   @override

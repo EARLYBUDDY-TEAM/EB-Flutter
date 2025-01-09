@@ -271,7 +271,14 @@ extension on HomeBloc {
     final now = DateTime.now();
     log('schedulerAction, now: $now');
 
-    final daySchedule = state.daySchedule;
+    final tmpDaySchedule = state.daySchedule;
+
+    final closeTodaySchedulePath =
+        DaySchedule.getCloseTodaySchedulePath(tmpDaySchedule.data);
+    final daySchedule = tmpDaySchedule.copyWith(
+      closeTodaySchedulePath: () => closeTodaySchedulePath,
+    );
+
     final topScheduleInfoState = SealedTopScheduleState.init(
       daySchedule: daySchedule,
     );

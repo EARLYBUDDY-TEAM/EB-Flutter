@@ -5,17 +5,17 @@ final class MiddleTransportImminentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<MiddleTranportBloc, MiddleTransportState, bool>(
+    return BlocSelector<MiddleTranportBloc, MiddleTransportState,
+        ImminentState>(
       selector: (state) {
         final viewState = state.viewState;
         if (viewState is InfoMiddleTransportViewState) {
-          return viewState.imminentCardState.isImminent;
+          return viewState.imminentCardState.imminentState;
         }
-
-        return true;
+        return ImminentState.notImminent;
       },
-      builder: (context, isImminent) {
-        final title = _getTitle(isImminent);
+      builder: (context, imminentState) {
+        final title = _getTitle(imminentState);
 
         return MiddleTransportCardForm(
           horizontalPadding: 10,
@@ -33,8 +33,15 @@ final class MiddleTransportImminentCard extends StatelessWidget {
     );
   }
 
-  String _getTitle(bool isImminent) {
-    return isImminent ? '곧 도착이에요! 즐거운 시간 되세요 😀' : '늦지 않게 출발하셨나요?';
+  String _getTitle(ImminentState imminentState) {
+    switch (imminentState) {
+      case ImminentState.notImminent:
+        return '일정이 다가오고 있어요';
+      case ImminentState.imminent:
+        return '곧 도착이에요! 즐거운 시간 되세요 😀';
+      case ImminentState.overSchedule:
+        return '늦지 않게 출발하셨나요?';
+    }
   }
 }
 

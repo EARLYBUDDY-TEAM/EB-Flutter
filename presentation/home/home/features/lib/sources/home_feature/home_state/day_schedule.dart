@@ -36,7 +36,7 @@ final class DaySchedule extends Equatable {
   }) {
     var dayScheduleMap = _getDayScheduleMap(allSchedules);
     dayScheduleMap = _orderTodayDaySchedule(dayScheduleMap);
-    final closeTodaySchedulePath = _getCloseTodaySchedulePath(dayScheduleMap);
+    final closeTodaySchedulePath = getCloseTodaySchedulePath(dayScheduleMap);
 
     return DaySchedule(
       data: dayScheduleMap,
@@ -129,7 +129,7 @@ final class DaySchedule extends Equatable {
     return data.containsKey(key);
   }
 
-  static SchedulePath? _getCloseTodaySchedulePath(
+  static SchedulePath? getCloseTodaySchedulePath(
     DayScheduleMap dayScheduleMap,
   ) {
     final today = DateTime.now().toDate();
@@ -142,8 +142,12 @@ final class DaySchedule extends Equatable {
 
     final now = DateTime.now();
     for (var schedulePath in todaySchedulePathList) {
-      final compareResult =
-          EBTime.compare(left: now, right: schedulePath.schedule.time);
+      final compareResult = EBTime.compare(
+        left: now,
+        right: schedulePath.schedule.time.add(
+          const Duration(minutes: 10),
+        ),
+      );
       if (compareResult != CompareDateResult.left) {
         closeSchedulePath = schedulePath;
         break;
