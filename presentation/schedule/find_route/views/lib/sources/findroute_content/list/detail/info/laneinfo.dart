@@ -81,8 +81,8 @@ final class _LaneInfoOtherState extends State<_LaneInfoOther> {
           ),
           Icon(
             isShowStationList
-                ? Icons.keyboard_arrow_down
-                : Icons.keyboard_arrow_up,
+                ? Icons.keyboard_arrow_up
+                : Icons.keyboard_arrow_down,
           )
         ],
       ),
