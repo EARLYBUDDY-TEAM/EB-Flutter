@@ -1,7 +1,7 @@
 part of 'request_impl.dart';
 
 final class AuthRequest {
-  static ApiRequest<TokenDTO> login({
+  static ApiRequest<LoginResultDTO> login({
     required String email,
     required String password,
     required String fcmToken,
@@ -12,7 +12,8 @@ final class AuthRequest {
       'password': password,
       'fcm_token': fcmToken,
     };
-    TokenDTO converter(dynamic responseData) => TokenDTO.fromJson(responseData);
+    LoginResultDTO converter(dynamic responseData) =>
+        LoginResultDTO.fromJson(responseData);
     final header = {'application': 'x-www-form-urlencoded'};
 
     return ApiRequest(

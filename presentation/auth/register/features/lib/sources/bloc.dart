@@ -183,21 +183,25 @@ extension on RegisterBloc {
         case SuccessResponse():
           final fcmToken = await NotificationManager.getFCMToken() ?? '';
 
-          final NetworkResponse<Token> loginResult =
+          final NetworkResponse<LoginResult> loginResponse =
               await _ebAuthRepository.logIn(
             email: email,
             password: password,
             fcmToken: fcmToken,
           );
-          switch (loginResult) {
+          switch (loginResponse) {
             case SuccessResponse():
               emit(state.copyWith(status: RegisterStatus.initial));
               await _writeLoginInfoInSecureStorage(
                 email: email,
                 password: password,
               );
-              final Token token = loginResult.model;
-              await _tokenRepository.saveToken(token);
+              final LoginResult loginResult = loginResponse.model;
+              await _tokenRepository.saveToken(loginResult.token);
+              await _secureStorage.write(
+                key: SecureStorageKey.nickName,
+                value: loginResult.nickName,
+              );
 
               _loadingDelegate.dismiss();
 

@@ -6,6 +6,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepositoryAB _homeRepository;
   final EBTokenEvent _tokenEvent;
   final ScheduleEvent _scheduleEvent;
+  final SecureStorage _secureStorage;
 
   final Function() _cancelModalViewAction;
 
@@ -16,6 +17,14 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final HomeScheduler _homeScheduler;
 
+  Future<String?> get getUserNickName async {
+    try {
+      return await _secureStorage.read(key: SecureStorageKey.nickName);
+    } catch (e) {
+      return null;
+    }
+  }
+
   HomeBloc({
     required LoadingDelegate loadingDelegate,
     required HomeDelegate homeDelegate,
@@ -23,6 +32,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required ScheduleEvent scheduleEvent,
     required EBTokenEvent tokenEvent,
     required void Function() cancelModalViewAction,
+    SecureStorage? secureStorage,
     HomeScheduler? homeScheduler,
     HomeState? homeState,
   })  : _homeDelegate = homeDelegate,
@@ -30,6 +40,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _homeRepository = homeRepository,
         _scheduleEvent = scheduleEvent,
         _tokenEvent = tokenEvent,
+        _secureStorage = secureStorage ?? SecureStorage.shared,
         _cancelModalViewAction = cancelModalViewAction,
         _homeScheduler = homeScheduler ?? HomeScheduler(),
         super(homeState ?? HomeState()) {
