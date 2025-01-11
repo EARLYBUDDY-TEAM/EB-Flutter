@@ -107,9 +107,38 @@ extension on EBHomeView {
     BuildContext context,
   ) async {
     await Future<void>.delayed(const Duration(seconds: 1));
+    final userNickName =
+        await context.read<HomeBloc>().getUserNickName ?? '----';
 
-    final snackBar = EBSnackBar(text: '로그인에 성공했습니다.');
+    final snackBar = _makeLoginSnackBar(userNickName);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  SnackBar _makeLoginSnackBar(String userNickName) {
+    return SnackBar(
+      backgroundColor: EBColors.blue3,
+      content: DefaultTextStyle(
+        style: const TextStyle(
+          fontFamily: FontFamily.nanumSquareExtraBold,
+          fontSize: 20,
+          color: Colors.white,
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Text(
+                  userNickName,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const Text('님 환영합니다.'),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

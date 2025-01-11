@@ -13,6 +13,7 @@ part 'entity/common/schedule_path.dart';
 part 'entity/common/realtime_info.dart';
 part 'entity/common/subway_schedule.dart';
 part 'entity/auth/token.dart';
+part 'entity/auth/login_result.dart';
 part 'entity/eb_path/eb_route.dart';
 part 'entity/eb_path/eb_path.dart';
 part 'entity/eb_path/eb_subpath.dart';

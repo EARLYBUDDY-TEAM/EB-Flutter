@@ -7,7 +7,7 @@ final class EBAuthRepository {
     NetworkService? networkService,
   }) : _networkService = networkService ?? NetworkService.shared;
 
-  Future<NetworkResponse<Token>> logIn({
+  Future<NetworkResponse<LoginResult>> logIn({
     required String email,
     required String password,
     required String fcmToken,
@@ -20,12 +20,12 @@ final class EBAuthRepository {
     final result = await _networkService.request(request);
     switch (result) {
       case (SuccessResponse()):
-        final Token token = Token.fromDTO(tokenDTO: result.model);
-        return result.copyWith<Token>(model: token);
+        final LoginResult loginResult = LoginResult.fromDTO(dto: result.model);
+        return result.copyWith<LoginResult>(model: loginResult);
       case (FailureResponse()):
         log(result.error.toString());
         log(result.statusCode.toString());
-        return result.copyWith<Token>();
+        return result.copyWith<LoginResult>();
     }
   }
 

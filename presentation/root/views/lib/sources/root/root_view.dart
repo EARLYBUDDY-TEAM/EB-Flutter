@@ -2,8 +2,9 @@ part of '../../eb_root.dart';
 
 final class RootAutoLoginView extends StatelessWidget {
   final _authRepository = EBAuthRepository();
-  final _tokenRepository = EBTokenRepository(
-    secureStorage: SecureStorage(),
+  final _secureStorage = SecureStorage();
+  late final _tokenRepository = EBTokenRepository(
+    secureStorage: _secureStorage,
     networkService: NetworkService(),
   );
   final _homeDelegate = HomeDelegate();
@@ -27,7 +28,7 @@ final class RootAutoLoginView extends StatelessWidget {
     final password = ENV_TESTUSER.password;
 
     final fcmToken = await NotificationManager.getFCMToken() ?? '';
-    final NetworkResponse<Token> result = await _authRepository.logIn(
+    final NetworkResponse<LoginResult> result = await _authRepository.logIn(
       email: email,
       password: password,
       fcmToken: fcmToken,
@@ -35,8 +36,13 @@ final class RootAutoLoginView extends StatelessWidget {
 
     switch (result) {
       case SuccessResponse():
-        final Token token = result.model;
+        final Token token = result.model.token;
         await _tokenRepository.saveToken(token);
+        await _secureStorage.write(
+          key: SecureStorageKey.nickName,
+          value: result.model.nickName,
+        );
+
         _homeDelegate.loginStatus.add(BaseStatus.success);
         _rootDelegate.authStatus.add(Authenticated());
       case FailureResponse():

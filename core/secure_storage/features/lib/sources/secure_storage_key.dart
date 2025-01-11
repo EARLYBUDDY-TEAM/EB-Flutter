@@ -6,4 +6,5 @@ enum SecureStorageKey {
   isAutoLogin,
   email,
   password,
+  nickName,
 }

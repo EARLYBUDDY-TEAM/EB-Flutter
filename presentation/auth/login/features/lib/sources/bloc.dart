@@ -103,7 +103,7 @@ extension on LoginBloc {
 
     final fcmToken = await NotificationManager.getFCMToken() ?? '';
 
-    final NetworkResponse<Token> result = await _authRepository.logIn(
+    final NetworkResponse<LoginResult> result = await _authRepository.logIn(
       email: loginInfo.email,
       password: loginInfo.password,
       fcmToken: fcmToken,
@@ -117,8 +117,12 @@ extension on LoginBloc {
           await successAction();
         }
 
-        final Token token = result.model;
-        await _tokenRepository.saveToken(token);
+        final LoginResult loginResult = result.model;
+        await _tokenRepository.saveToken(loginResult.token);
+        await _secureStorage.write(
+          key: SecureStorageKey.nickName,
+          value: loginResult.nickName,
+        );
 
         _loadingDelegate.dismiss();
         _homeDelegate.loginStatus.add(BaseStatus.success);
