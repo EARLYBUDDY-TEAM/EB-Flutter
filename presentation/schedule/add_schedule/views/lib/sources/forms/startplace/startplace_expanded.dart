@@ -18,6 +18,7 @@ final class StartPlaceExpanded extends StatelessWidget {
         final pathTime = pathInfo.ebPath.time;
         final pathType = pathInfo.ebPath.type;
         final lineOfPath = pathInfo.transportLineOfPath;
+        final scheduleTime = selectedStartPlaceState.scheduleTime;
         final address = pathInfo.startPlace.address;
 
         return Column(
@@ -28,7 +29,10 @@ final class StartPlaceExpanded extends StatelessWidget {
             _requiredTime(pathTime: pathTime, pathType: pathType),
             const SizedBox(height: 10),
             _transportLine(lineOfPath: lineOfPath, pathTime: pathTime),
-            _expectStartTime(),
+            _expectStartTime(
+              scheduleTime: scheduleTime,
+              pathTime: pathTime,
+            ),
             const SizedBox(height: 10),
             _endPlaceInfo(address: address),
           ],
@@ -100,10 +104,19 @@ extension on StartPlaceExpanded {
 }
 
 extension on StartPlaceExpanded {
-  Widget _expectStartTime() {
-    return const Row(
+  Widget _expectStartTime({
+    required DateTime scheduleTime,
+    required int pathTime,
+  }) {
+    final expectStartTime = scheduleTime.subtract(
+      Duration(
+        minutes: pathTime,
+      ),
+    );
+
+    return Row(
       children: [
-        Text(
+        const Text(
           "출발예정 : ",
           style: TextStyle(
             fontFamily: FontFamily.nanumSquareRegular,
@@ -112,8 +125,8 @@ extension on StartPlaceExpanded {
           ),
         ),
         Text(
-          "약 10시 50분",
-          style: TextStyle(
+          "약 ${expectStartTime.hour}:${expectStartTime.minute}",
+          style: const TextStyle(
             fontFamily: FontFamily.nanumSquareBold,
             fontSize: 16,
             color: Colors.black87,

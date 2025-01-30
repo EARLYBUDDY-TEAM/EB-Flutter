@@ -310,7 +310,10 @@ extension on AddScheduleBloc {
       endPlace: () => endPlace,
     );
 
-    final startPlaceState = SelectedStartPlaceState(pathInfo: event.pathInfo);
+    final startPlaceState = SelectedStartPlaceState(
+      pathInfo: event.pathInfo,
+      scheduleTime: schedule.time,
+    );
     final status = _checkFormStatus(state.schedule);
     emit(
       state.copyWith(
@@ -419,6 +422,7 @@ extension on AddScheduleBloc {
 
     return SelectedStartPlaceState(
       pathInfo: pathInfo,
+      scheduleTime: schedule.time,
     );
   }
 }
