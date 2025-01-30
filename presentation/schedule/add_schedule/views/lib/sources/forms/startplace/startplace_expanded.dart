@@ -18,7 +18,6 @@ final class StartPlaceExpanded extends StatelessWidget {
         final pathTime = pathInfo.ebPath.time;
         final pathType = pathInfo.ebPath.type;
         final lineOfPath = pathInfo.transportLineOfPath;
-        final scheduleTime = selectedStartPlaceState.scheduleTime;
         final address = pathInfo.startPlace.address;
 
         return Column(
@@ -29,10 +28,7 @@ final class StartPlaceExpanded extends StatelessWidget {
             _requiredTime(pathTime: pathTime, pathType: pathType),
             const SizedBox(height: 10),
             _transportLine(lineOfPath: lineOfPath, pathTime: pathTime),
-            _expectStartTime(
-              scheduleTime: scheduleTime,
-              pathTime: pathTime,
-            ),
+            ExpectStartTimeOfStartPlaceExpanded(pathTime: pathTime),
             const SizedBox(height: 10),
             _endPlaceInfo(address: address),
           ],
@@ -103,36 +99,48 @@ extension on StartPlaceExpanded {
   }
 }
 
-extension on StartPlaceExpanded {
-  Widget _expectStartTime({
-    required DateTime scheduleTime,
-    required int pathTime,
-  }) {
-    final expectStartTime = scheduleTime.subtract(
-      Duration(
-        minutes: pathTime,
-      ),
-    );
+final class ExpectStartTimeOfStartPlaceExpanded extends StatelessWidget {
+  final int pathTime;
 
-    return Row(
-      children: [
-        const Text(
-          "출발예정 : ",
-          style: TextStyle(
-            fontFamily: FontFamily.nanumSquareRegular,
-            fontSize: 13,
-            color: Colors.black45,
+  const ExpectStartTimeOfStartPlaceExpanded({
+    super.key,
+    required this.pathTime,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<AddScheduleBloc, AddScheduleState, DateTime>(
+      selector: (state) {
+        return state.schedule.time;
+      },
+      builder: (context, scheduleTime) {
+        final expectStartTime = scheduleTime.subtract(
+          Duration(
+            minutes: pathTime,
           ),
-        ),
-        Text(
-          "약 ${expectStartTime.hour}:${expectStartTime.minute}",
-          style: const TextStyle(
-            fontFamily: FontFamily.nanumSquareBold,
-            fontSize: 16,
-            color: Colors.black87,
-          ),
-        ),
-      ],
+        );
+
+        return Row(
+          children: [
+            const Text(
+              "출발예정 : ",
+              style: TextStyle(
+                fontFamily: FontFamily.nanumSquareRegular,
+                fontSize: 13,
+                color: Colors.black45,
+              ),
+            ),
+            Text(
+              "약 ${expectStartTime.hour}:${expectStartTime.minute}",
+              style: const TextStyle(
+                fontFamily: FontFamily.nanumSquareBold,
+                fontSize: 16,
+                color: Colors.black87,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

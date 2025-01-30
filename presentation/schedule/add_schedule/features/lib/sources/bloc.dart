@@ -312,7 +312,6 @@ extension on AddScheduleBloc {
 
     final startPlaceState = SelectedStartPlaceState(
       pathInfo: event.pathInfo,
-      scheduleTime: schedule.time,
     );
     final status = _checkFormStatus(state.schedule);
     emit(
@@ -422,7 +421,6 @@ extension on AddScheduleBloc {
 
     return SelectedStartPlaceState(
       pathInfo: pathInfo,
-      scheduleTime: schedule.time,
     );
   }
 }
