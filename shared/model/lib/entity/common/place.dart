@@ -27,14 +27,36 @@ final class Place extends Equatable {
         coordi,
       ];
 
-  Place.fromDTO({
+  static String convertDistance(String distance) {
+    if (distance.trim().isEmpty) {
+      return '-';
+    }
+
+    try {
+      final doubleDistance = double.parse(distance);
+      return (doubleDistance < 0)
+          ? '-'
+          : (doubleDistance / 1000).toStringAsFixed(1);
+    } catch (e) {
+      log('convertDistance error : $e');
+      return '-';
+    }
+  }
+
+  static Place fromDTO({
     required PlaceDTO placeDTO,
-  })  : id = placeDTO.id,
-        name = placeDTO.name,
-        address = placeDTO.address,
-        category = placeDTO.category,
-        distance = (double.parse(placeDTO.distance) / 1000).toStringAsFixed(1),
-        coordi = Coordi.fromDTO(coordiDTO: placeDTO.coordi);
+  }) {
+    final distance = convertDistance(placeDTO.distance);
+
+    return Place(
+      id: placeDTO.id,
+      name: placeDTO.name,
+      address: placeDTO.address,
+      category: placeDTO.category,
+      distance: distance,
+      coordi: Coordi.fromDTO(coordiDTO: placeDTO.coordi),
+    );
+  }
 
   PlaceDTO toDTO() {
     return PlaceDTO(
@@ -42,13 +64,13 @@ final class Place extends Equatable {
       name: name,
       address: address,
       category: category,
-      distance: distance,
+      distance: distance == '-' ? '' : distance,
       coordi: coordi.toDTO(),
     );
   }
 
   static Place mockView() {
-    final random = Random().nextBool();
+    final random = math.Random().nextBool();
     final name = random ? '테스트장소이름' : '테스트 장소이름 테스트장소 이름테스트장 소이름';
     final address =
         random ? '테스트도로명주소' : '테스트 도로명주 소 테 스 트    도로명  주소테스    트도  로명주소';

@@ -176,7 +176,7 @@ final class Bus extends Transport {
   List<Object?> get props => [number, type];
 
   static Bus mock() {
-    final random = Random();
+    final random = math.Random();
     final int num = 100 + random.nextInt(999 - 100);
     return Bus(number: "$num", type: '지선');
   }
