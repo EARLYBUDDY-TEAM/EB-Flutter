@@ -1,4 +1,3 @@
-import 'package:eb_find_route/eb_find_route.dart';
 import 'package:eb_delegate/eb_delegate.dart';
 import 'package:eb_repository/eb_repository.dart';
 import 'package:eb_model/entity.dart';
@@ -18,12 +17,12 @@ final class SearchPlaceExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return _MockModalSearchPlaceView();
+    return _MockModalSearchPlaceView();
     // return _EmptyView();
     // return _MockSearchPlace();
     // return _MockModalSearchPlaceForRoute();
     // return _MockEBKakaoMapView();
-    return _MockEBKakaoContentView();
+    // return _MockEBKakaoContentView();
   }
 }
 

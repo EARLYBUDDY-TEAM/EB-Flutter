@@ -1,6 +1,7 @@
 import 'package:eb_model/entity.dart';
 import 'package:eb_search_place_feature/eb_search_place_feature.dart';
 import 'package:eb_resource/eb_resource.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
