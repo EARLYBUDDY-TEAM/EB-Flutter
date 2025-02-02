@@ -37,6 +37,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>위치정보는 대중교통 길찾기 기능에서 정확한 장소검색을 위해 사용됩니다.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>위치정보는 대중교통 길찾기 기능에서 정확한 장소검색을 위해 사용됩니다.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
