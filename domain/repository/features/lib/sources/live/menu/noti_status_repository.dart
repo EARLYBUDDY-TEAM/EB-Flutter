@@ -1,16 +1,16 @@
-part of '../../eb_repository.dart';
+part of '../../../eb_repository.dart';
 
-final class FCMTokenRepository {
+final class NotiStatusRepository {
   final NetworkService _networkService;
 
-  FCMTokenRepository({
+  NotiStatusRepository({
     NetworkService? networkService,
   }) : _networkService = networkService ?? NetworkService.shared;
 
-  Future<NetworkResponse<bool>> isAuthorized({
+  Future<NetworkResponse<bool>> get({
     required String userEmail,
   }) async {
-    final request = FCMTokenRequest.isAuthorized(userEmail: userEmail);
+    final request = NotiStatusRequest.get(userEmail: userEmail);
     final result = await _networkService.request(request);
 
     switch (result) {
@@ -27,7 +27,7 @@ final class FCMTokenRepository {
     required String userEmail,
     required String fcmToken,
   }) async {
-    final request = FCMTokenRequest.enable(
+    final request = NotiStatusRequest.enable(
       userEmail: userEmail,
       fcmToken: fcmToken,
     );
@@ -46,7 +46,7 @@ final class FCMTokenRepository {
   Future<NetworkResponse<EmptyDTO>> disable({
     required String userEmail,
   }) async {
-    final request = FCMTokenRequest.disable(userEmail: userEmail);
+    final request = NotiStatusRequest.disable(userEmail: userEmail);
     final result = await _networkService.request(request);
 
     switch (result) {
