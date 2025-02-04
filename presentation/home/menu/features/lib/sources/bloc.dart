@@ -6,7 +6,7 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final LoginDelegate _loginDelegate;
   final EBAuthRepository _ebAuthRepository;
   final EBTokenEvent _tokenEvent;
-  final FCMTokenRepository _fcmTokenRepository;
+  final NotiStatusRepository _notiStatusRepository;
   final SecureStorage _secureStorage;
   Future<String?> get getUserEmail async {
     try {
@@ -22,7 +22,7 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
     required LoginDelegate loginDelegate,
     required EBAuthRepository ebAuthRepository,
     required EBTokenEvent tokenEvent,
-    required FCMTokenRepository fcmTokenRepository,
+    required NotiStatusRepository notiStatusRepository,
     SecureStorage? secureStorage,
   })  : _loadingDelegate = loadingDelegate,
         _rootDelegate = rootDelegate,
@@ -30,7 +30,7 @@ final class MenuBloc extends Bloc<MenuEvent, MenuState> {
         _ebAuthRepository = ebAuthRepository,
         _tokenEvent = tokenEvent,
         _secureStorage = secureStorage ?? SecureStorage.shared,
-        _fcmTokenRepository = fcmTokenRepository,
+        _notiStatusRepository = notiStatusRepository,
         super(const MenuState()) {
     on<PressLogoutButton>(_onPressLogoutButton);
     on<ChangePassword>(_onChangePassword);
@@ -293,7 +293,7 @@ extension on MenuBloc {
 
     switch (curNotiStatus) {
       case NotificationStatus.enabled:
-        result = await _fcmTokenRepository.disable(
+        result = await _notiStatusRepository.disable(
           userEmail: userEmail,
         );
       case NotificationStatus.disabled:
@@ -303,7 +303,7 @@ extension on MenuBloc {
           return;
         }
 
-        result = await _fcmTokenRepository.enable(
+        result = await _notiStatusRepository.enable(
           userEmail: userEmail,
           fcmToken: fcmToken,
         );
@@ -363,7 +363,7 @@ extension on MenuBloc {
       emit(state.copyWith(notificationStatus: NotificationStatus.disabled));
       return;
     }
-    final result = await _fcmTokenRepository.isAuthorized(userEmail: userEmail);
+    final result = await _notiStatusRepository.get(userEmail: userEmail);
 
     switch (result) {
       case SuccessResponse():

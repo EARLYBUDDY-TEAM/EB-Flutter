@@ -16,5 +16,5 @@ part 'sources/live/schedule_repository.dart';
 part 'sources/live/searchplace_repository.dart';
 part 'sources/live/eb_token_repository.dart';
 part 'sources/live/home_repository.dart';
-part 'sources/live/fcm_token_repository.dart';
+part 'sources/live/menu/noti_status_repository.dart';
 part 'sources/test/test_home_repository.dart';

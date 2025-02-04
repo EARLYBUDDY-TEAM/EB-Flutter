@@ -64,7 +64,7 @@ final class RootView extends StatelessWidget {
   final FindRouteRepository _findRouteRepository;
   final ScheduleRepository _scheduleRepository;
   final SearchPlaceRepository _searchPlaceRepository;
-  final FCMTokenRepository _fcmTokenRepository;
+  final NotiStatusRepository _notiStatusRepository;
   final EBTokenRepository _ebTokenRepository;
   final HomeRepositoryAB _homeRepository;
 
@@ -93,7 +93,7 @@ final class RootView extends StatelessWidget {
     ScheduleRepository? scheduleRepository,
     SearchPlaceRepository? searchPlaceRepository,
     HomeRepositoryAB? homeRepository,
-    FCMTokenRepository? fcmTokenRepository,
+    NotiStatusRepository? notiStatusRepository,
     EBTokenRepository? ebTokenRepository,
   })  : _homeDelegate = homeDelegate ?? HomeDelegate(),
         _loginDelegate = loginDelegate ?? LoginDelegate(),
@@ -107,7 +107,7 @@ final class RootView extends StatelessWidget {
         _searchPlaceRepository =
             searchPlaceRepository ?? SearchPlaceRepository(),
         _homeRepository = homeRepository ?? HomeRepository(),
-        _fcmTokenRepository = fcmTokenRepository ?? FCMTokenRepository(),
+        _notiStatusRepository = notiStatusRepository ?? NotiStatusRepository(),
         _ebTokenRepository = ebTokenRepository ?? EBTokenRepository();
 
   @override
@@ -125,7 +125,7 @@ final class RootView extends StatelessWidget {
         RepositoryProvider.value(value: _scheduleRepository),
         RepositoryProvider.value(value: _searchPlaceRepository),
         RepositoryProvider.value(value: _ebTokenRepository),
-        RepositoryProvider.value(value: _fcmTokenRepository),
+        RepositoryProvider.value(value: _notiStatusRepository),
         RepositoryProvider.value(value: _homeRepository),
         RepositoryProvider.value(value: _tokenEvent),
         RepositoryProvider.value(value: _scheduleEvent),

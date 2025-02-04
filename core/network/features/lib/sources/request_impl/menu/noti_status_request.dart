@@ -1,12 +1,12 @@
-part of 'request_impl.dart';
+part of '../request_impl.dart';
 
-final class FCMTokenRequest {
-  static const prefixPath = "/token/fcm";
+final class NotiStatusRequest {
+  static const prefixPath = "/menu/noti_status";
 
-  static ApiRequest<bool> isAuthorized({
+  static ApiRequest<bool> get({
     required String userEmail,
   }) {
-    const path = "$prefixPath/is_authorized";
+    const path = "$prefixPath/get";
     final query = {"user_email": userEmail};
     bool converter(dynamic responseData) {
       final converted = responseData as bool;
