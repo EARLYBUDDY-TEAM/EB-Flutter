@@ -14,7 +14,7 @@ final class AddScheduleRequest {
     return ApiRequest(
       path: '/schedule/create',
       method: HTTPMethod.post,
-      headers: {"access_token": accessToken},
+      headers: {"access-token": accessToken},
       requestData: requrestData,
     );
   }
@@ -27,7 +27,7 @@ final class AddScheduleRequest {
     return ApiRequest(
       path: '/schedule/update',
       method: HTTPMethod.patch,
-      headers: {"access_token": accessToken},
+      headers: {"access-token": accessToken},
       requestData: {
         "scheduleInfo": scheduleMap,
         "pathInfo": pathMap,
@@ -41,7 +41,7 @@ final class AddScheduleRequest {
   }) {
     final Map<String, String> query = {"schedule_id": scheduleID};
     const path = '/schedule/delete';
-    final header = {"access_token": accessToken};
+    final header = {"access-token": accessToken};
 
     return ApiRequest(
       path: path,

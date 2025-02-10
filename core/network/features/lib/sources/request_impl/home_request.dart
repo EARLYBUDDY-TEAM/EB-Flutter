@@ -7,7 +7,7 @@ final class HomeRequest {
     const path = "/home/get_all_schedules";
     SchedulePathListDTO converter(dynamic responseData) =>
         SchedulePathListDTO.fromJson(responseData);
-    final header = {"access_token": accessToken};
+    final header = {"access-token": accessToken};
 
     return ApiRequest(
       path: path,

@@ -27,7 +27,7 @@ final class NotiStatusRequest {
   }) {
     const path = "$prefixPath/enable";
     final query = {"user_email": userEmail};
-    final header = {"fcm_token": fcmToken};
+    final header = {"fcm-token": fcmToken};
 
     return ApiRequest(
       path: path,
