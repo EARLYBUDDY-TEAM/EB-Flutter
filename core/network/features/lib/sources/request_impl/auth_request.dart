@@ -65,7 +65,7 @@ final class AuthRequest {
     required String accessToken,
   }) {
     const path = '/auth/delete_user';
-    final headers = {'access_token': accessToken};
+    final headers = {'access-token': accessToken};
 
     return ApiRequest<EmptyDTO>(
       path: path,

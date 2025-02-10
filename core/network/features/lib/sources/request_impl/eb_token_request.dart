@@ -10,7 +10,7 @@ final class EBTokenRequest {
     return ApiRequest(
       path: path,
       method: HTTPMethod.get,
-      headers: {"refresh_token": refreshToken},
+      headers: {"refresh-token": refreshToken},
       converter: converter,
     );
   }

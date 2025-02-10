@@ -10,7 +10,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   widgetsBinding = await PrepareRoot.setup(
     widgetsBinding: widgetsBinding,
-    dev: false,
+    dev: true,
   );
 
   await NotificationManager.initialize(
